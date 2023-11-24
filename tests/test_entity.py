@@ -1,21 +1,29 @@
+import pytest
+import python_accounting.models as models
 from sqlalchemy.orm import Session
-from sqlalchemy import select
-from database.engine import engine
-from models.entity import Entity
-from models.currency import Currency
+from sqlalchemy import select, create_engine
 
 
-def test_entity_reporting_currency():
+@pytest.fixture
+def engine():
+    engine = create_engine(f"sqlite://", echo=True)
+    models.Base.metadata.create_all(engine)
+    return engine
+
+
+def test_entity_reporting_currency(engine):
     """Tests the relationship between an entity and its reporting currency"""
 
     with Session(engine) as session:
-        currency = Currency(name="US Dollars", code="USD")
+        currency = models.Currency(name="US Dollars", code="USD")
         session.add(currency)
         session.flush()
-        entity = Entity(name="Test Entity", currency_id=currency.id)
+        entity = models.Entity(name="Test Entity", currency_id=currency.id)
         session.add(entity)
         session.commit()
-        entity = session.scalar(select(Entity).where(Entity.id == entity.id))
+        entity = session.scalar(
+            select(models.Entity).where(models.Entity.id == entity.id)
+        )
         assert entity.name == "Test Entity"
         assert entity.currency.name == "US Dollars"
         assert entity.currency.code == "USD"

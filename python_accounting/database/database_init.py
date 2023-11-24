@@ -1,5 +1,5 @@
 from .engine import engine
-import models
+import python_accounting.models as models
 
 
 def database_init():

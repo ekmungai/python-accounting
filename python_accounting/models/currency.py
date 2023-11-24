@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import String
 from .base import Base
 
 # from .entity import Entity
@@ -13,6 +13,5 @@ class Currency(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(300))
     code: Mapped[str] = mapped_column(String(3))
-    # entity_id: Mapped[int] = mapped_column(ForeignKey("entity.id"))
 
     entity: Mapped["Entity"] = relationship(back_populates="currency")
