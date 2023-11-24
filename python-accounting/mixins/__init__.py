@@ -1,0 +1,1 @@
+from recycling import RecyclingMixin
