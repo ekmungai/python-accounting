@@ -1,14 +1,7 @@
 class RecyclingMixin:
-    """This class grants recycling capability to the database models"""
+    """This class enables recycling for models"""
 
-    def delete(self):
-        """Override the database model delete method to enable recycling"""
-        pass
-
-    def restore(self):
-        """Override the database model delete method to enable recycling"""
-        pass
-
-    def destroy(self):
-        """Override the database model delete method to enable recycling"""
-        pass
+    @property
+    def is_deleted(self):
+        """Check if the model has been deleted"""
+        return self.deleted_at or self.destroyed_at

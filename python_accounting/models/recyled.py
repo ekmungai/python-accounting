@@ -1,17 +1,14 @@
-import peewee
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String
+from python_accounting.mixins import IsolatingMixin
+from .base import Base
 
-from . import BaseModel
-from . import Entity
 
+class Recycled(IsolatingMixin, Base):
+    """Represents an accounting object that has been recycled"""
 
-class RecycledModel(BaseModel):
-    """This is the python (peewee) representation of the recycled table"""
+    recycled_type: Mapped[str] = mapped_column(String(300))
+    recycled_id: Mapped[int] = mapped_column()
 
-    id = peewee.AutoField()
-    name = peewee.CharField()
-    code = peewee.CharField(max_length=3)
-
-    entity = peewee.ForeignKeyField(Entity, backref="entity")
-
-    class Meta:
-        table_name = "currency"
+    def __repr__(self) -> str:
+        return f"{self.name} <{self.email}>"
