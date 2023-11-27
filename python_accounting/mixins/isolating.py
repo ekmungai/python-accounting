@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 class IsolatingMixin:
     """This class enables isolating by Entity for models"""
 
-    entity_id: Mapped[int] = mapped_column(ForeignKey("entity.id"))
+    entity_id: Mapped[int] = mapped_column(ForeignKey("entity.id", use_alter=True))
 
     @declared_attr
     def entity(self) -> Mapped["Entity"]:

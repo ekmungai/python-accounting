@@ -1,8 +1,8 @@
-from sqlalchemy import select, and_
+from sqlalchemy import select
 from sqlalchemy.orm import Mapped
 from datetime import datetime
 
-from python_accounting.models import Recycled, Recyclable
+from python_accounting.models import Recycled, Entity
 from python_accounting.exceptions import SessionEntityError
 
 
@@ -20,7 +20,7 @@ class SessionOverridesMixin:
     def delete(self, instance) -> bool:
         """Override the delete method to enable model recycling"""
 
-        if instance.id == self.entity.id:
+        if isinstance(instance, Entity) and instance.id == self.entity.id:
             raise SessionEntityError
         instance.deleted_at = instance.updated_at = datetime.now()
 
@@ -43,13 +43,12 @@ class SessionOverridesMixin:
         instance.deleted_at = None
         instance.updated_at = recycled.restored_at = datetime.now()
         self.commit()
+        return True
 
     def destroy(self, instance) -> bool:
-        """Destroy (permanently delete) an instance"""
-
-        if instance.destroyed_at is not None:
-            return False  # destroyed models cannot be restored
+        """Destroy (<kind of> permanently delete) an instance"""
 
         instance.destroyed_at = instance.updated_at = datetime.now()
 
         self.commit()
+        return True

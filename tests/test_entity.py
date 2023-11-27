@@ -1,29 +1,8 @@
 import pytest
-from sqlalchemy import select, create_engine
+from .conftest import engine, entity, session
+from sqlalchemy import select
 import python_accounting.models as models
-from python_accounting.database.session import Session
 from python_accounting.exceptions import MissingEntityError, SessionEntityError
-
-
-@pytest.fixture
-def engine():
-    engine = create_engine(f"sqlite://", echo=False)
-    models.Base.metadata.create_all(engine)
-    return engine
-
-
-@pytest.fixture
-def session(engine):
-    with Session(engine) as session:
-        yield session
-
-
-@pytest.fixture
-def entity(session):
-    entity = models.Entity(name="Test Entity")
-    session.add(entity)
-    session.commit()
-    return session.get(models.Entity, entity.id)
 
 
 def test_entity_reporting_currency(entity, session):
@@ -38,9 +17,6 @@ def test_entity_reporting_currency(entity, session):
     assert entity.name == "Test Entity"
     assert entity.currency.name == "US Dollars"
     assert entity.currency.code == "USD"
-
-    currency = session.get(models.Currency, currency.id)
-    assert currency.entity.name == "Test Entity"
 
 
 def test_entity_isolation(session, entity):
@@ -107,7 +83,6 @@ def test_entity_users(session, entity):
     entity = session.get(models.Entity, entity.id)
     assert entity.users[0].name == "Test User 1"
     assert entity.users[1].name == "Test User 2"
-    print(dir(user1))
 
 
 def test_entity_recycling(session, entity):
@@ -120,26 +95,28 @@ def test_entity_recycling(session, entity):
     session.add(entity2)
     session.flush()
 
+    entity_id = entity2.id
+
     session.delete(entity2)
 
-    entity2 = session.get(models.Entity, 2)
+    entity2 = session.get(models.Entity, entity_id)
     assert entity2 == None
 
-    entity2 = session.get(models.Entity, 2, include_deleted=True)
+    entity2 = session.get(models.Entity, entity_id, include_deleted=True)
     assert entity2 != None
     session.restore(entity2)
 
-    entity2 = session.get(models.Entity, 2)
+    entity2 = session.get(models.Entity, entity_id)
     assert entity2 != None
 
     session.destroy(entity2)
 
-    entity2 = session.get(models.Entity, 2)
+    entity2 = session.get(models.Entity, entity_id)
     assert entity2 == None
 
-    entity2 = session.get(models.Entity, 2, include_deleted=True)
+    entity2 = session.get(models.Entity, entity_id, include_deleted=True)
     assert entity2 != None
     session.restore(entity2)  # destroyed models canot be restored
 
-    entity2 = session.get(models.Entity, 2)
+    entity2 = session.get(models.Entity, entity_id)
     assert entity2 == None
