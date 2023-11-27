@@ -1,10 +1,11 @@
 from sqlalchemy.orm.session import Session
-from sqlalchemy import event, orm, true
-from datetime import datetime
+from sqlalchemy import event, orm, and_
 
-from python_accounting.models import Recycled, Entity
-from python_accounting.mixins import RecyclingMixin, IsolatingMixin
+from python_accounting.models import Entity, Recyclable
+from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import MissingEntityError
+
+from .session_overrides import SessionOverridesMixin
 
 
 def _filter_options(execute_state, option):
@@ -17,7 +18,7 @@ def _filter_options(execute_state, option):
     )
 
 
-class AccountingSession(Session):
+class AccountingSession(SessionOverridesMixin, Session):
     entity: Entity
 
     def __init__(self, bind=None, info=None):
@@ -45,8 +46,8 @@ class AccountingSession(Session):
         if _filter_options(execute_state, "include_deleted"):
             execute_state.statement = execute_state.statement.options(
                 orm.with_loader_criteria(
-                    RecyclingMixin,
-                    lambda cls: cls.is_deleted != true(),
+                    Recyclable,
+                    lambda cls: and_(cls.deleted_at == None, cls.destroyed_at == None),
                     include_aliases=True,
                 )
             )
@@ -64,20 +65,6 @@ class AccountingSession(Session):
                     include_aliases=True,
                 )
             )
-
-    def delete(self, instance):
-        """Override the delete method to enable recycling"""
-
-        if instance.id == self.entity.id:
-            print("watchudoin mayn!!")
-        # instance.deleted_at = datetime.now()
-        # self.add(
-        #     Recycled(
-        #         recycled_type=str(instance.__class__),
-        #         recycled_id=instance.id,
-        #         entity_id=instance.entity_id,
-        #     )
-        # )
 
 
 def Session(engine):

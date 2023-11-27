@@ -2,7 +2,7 @@ import pytest
 from sqlalchemy import select, create_engine
 import python_accounting.models as models
 from python_accounting.database.session import Session
-from python_accounting.exceptions import MissingEntityError
+from python_accounting.exceptions import MissingEntityError, SessionEntityError
 
 
 @pytest.fixture
@@ -70,24 +70,26 @@ def test_entity_isolation(session, entity):
     )
     session.commit()
 
-    users = list(session.scalars(select(models.User)))
+    users = session.scalars(select(models.User)).all()
 
     assert len(users) == 1
-    assert users[0].name == "Test User 2"  # From the creation of entity 2 above
+    assert (
+        users[0].name == "Test User 2"
+    )  # From the creation of entity 2 above, when session.entity was None
     assert users[0].entity.name == "Test Entity Two"
 
     user1 = session.get(models.User, 1)
     assert user1 == None
 
     session.entity = entity
-    users = list(session.scalars(select(models.User)))
+    users = session.scalars(select(models.User)).all()
 
     assert len(users) == 1
     assert users[0].name == "Test User 1"
     assert users[0].entity.name == "Test Entity"
 
-    user1 = session.get(models.User, 2)
-    assert user1 == None
+    user2 = session.get(models.User, 2)
+    assert user2 == None
 
 
 def test_entity_users(session, entity):
@@ -105,10 +107,39 @@ def test_entity_users(session, entity):
     entity = session.get(models.Entity, entity.id)
     assert entity.users[0].name == "Test User 1"
     assert entity.users[1].name == "Test User 2"
+    print(dir(user1))
 
 
 def test_entity_recycling(session, entity):
     """Tests the deleting, restoring and destroying functions of the entity model"""
 
-    session.delete(entity)
+    with pytest.raises(SessionEntityError):
+        session.delete(entity)
+
+    entity2 = models.Entity(name="Test Entity Two")
+    session.add(entity2)
     session.flush()
+
+    session.delete(entity2)
+
+    entity2 = session.get(models.Entity, 2)
+    assert entity2 == None
+
+    entity2 = session.get(models.Entity, 2, include_deleted=True)
+    assert entity2 != None
+    session.restore(entity2)
+
+    entity2 = session.get(models.Entity, 2)
+    assert entity2 != None
+
+    session.destroy(entity2)
+
+    entity2 = session.get(models.Entity, 2)
+    assert entity2 == None
+
+    entity2 = session.get(models.Entity, 2, include_deleted=True)
+    assert entity2 != None
+    session.restore(entity2)  # destroyed models canot be restored
+
+    entity2 = session.get(models.Entity, 2)
+    assert entity2 == None

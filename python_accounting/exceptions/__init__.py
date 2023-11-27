@@ -1,2 +1,2 @@
 from .missing_entity import MissingEntityError
-from .last_entity import LastEntityError
+from .session_entity import SessionEntityError
