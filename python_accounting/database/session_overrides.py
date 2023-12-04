@@ -7,7 +7,7 @@ from python_accounting.exceptions import SessionEntityError
 
 
 class SessionOverridesMixin:
-    """This class overrides some of sqlalchemy's in built methods to
+    """This class overrides some of sqlalchemy session's in built methods to
     provide accounting specific behavior. It also provides custom methods
     specific to accounting"""
 
@@ -52,3 +52,8 @@ class SessionOverridesMixin:
 
         self.commit()
         return True
+
+    def erase(self, instance) -> None:
+        """Completely remove an instance from the database. Should never be called in production"""
+
+        self.delete(instance)

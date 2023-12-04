@@ -1,5 +1,6 @@
 import pytest
 from .conftest import engine, entity, session
+from datetime import datetime
 from sqlalchemy import select
 import python_accounting.models as models
 from python_accounting.exceptions import MissingEntityError, SessionEntityError
@@ -17,6 +18,25 @@ def test_entity_reporting_currency(entity, session):
     assert entity.name == "Test Entity"
     assert entity.currency.name == "US Dollars"
     assert entity.currency.code == "USD"
+
+
+def test_entity_reporting_period(entity, session):
+    """Tests the relationship between an entity and its current reporting period"""
+    year = datetime.today().year
+    assert entity.reporting_period.calendar_year == year
+    assert entity.reporting_period.period_count == 1
+
+    entity.reporting_period.calendar_year = year - 1
+    session.flush()
+
+    assert entity.reporting_period.calendar_year == year - 1
+    session.flush()
+
+    session.add(
+        models.User(name="Test User 1", email="one@microbooks.io", entity_id=entity.id)
+    )
+    entity = session.get(models.Entity, entity.id)
+    assert entity.reporting_period.period_count == 2
 
 
 def test_entity_isolation(session, entity):

@@ -2,10 +2,9 @@ import pytest
 from .conftest import engine, entity, session
 from sqlalchemy import select
 import python_accounting.models as models
-from python_accounting.exceptions import SessionEntityError
 
 
-def test_currency_reporting_entity(entity, session):
+def test_currency_entity(entity, session):
     """Tests the relationship between a currency and its associated entity"""
 
     currency = models.Currency(name="US Dollars", code="USD", entity_id=entity.id)

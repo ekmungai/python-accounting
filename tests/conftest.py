@@ -1,5 +1,5 @@
 import pytest
-from sqlalchemy import select, create_engine
+from sqlalchemy import create_engine
 import python_accounting.models as models
 from python_accounting.database.session import Session
 
