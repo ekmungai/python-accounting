@@ -1,0 +1,42 @@
+[accounts.types] # KEY: [account_type, account_code (start)]
+
+# Balance Sheet: Asset Accounts
+NON_CURRENT_ASSET = ["Non Current Asset", "0"] # 0 - 999
+CONTRA_ASSET = ["Contra Asset", "1000"] # 1000 - 1999
+INVENTORY = ["Inventory", "2000"] # 2000 - 2999
+BANK = ["Bank", "3000"] # 3000 - 3999
+CURRENT_ASSET = ["Current Asset", "4000"] # 4000 - 4999
+RECEIVABLE = ["Receivable", "50000"] # 50000 - 99999
+
+# Balance Sheet: Liabilities Accounts
+NON_CURRENT_LIABILITY = ["Non Current Liability", "5000"] # 5000 - 5999
+CONTROL = ["Control", "6000"] # 6000 - 6999
+CURRENT_LIABILITY = ["Current Liability", "7000"] # 7000 - 7999
+PAYABLE = ["Payable", "20000"] # 20000 - 49999
+RECONCILIATION = ["Reconciliation", "8000"] # 8000 - 8999
+
+# Balance Sheet: Equity Accounts
+EQUITY = ["Equity", "9000"] # 9000 - 9999
+
+# Income Statement: Operations Accounts
+OPERATING_REVENUE = ["Operating Revenue", "11000"] # 11000 - 11999
+OPERATING_EXPENSE = ["Operating Expense", "12000"] # 12000 - 12999
+
+# Income Statement: Non Operations Accounts
+NON_OPERATING_REVENUE = ["Non Operating Revenue", "13000"] # 13000 - 13999
+DIRECT_EXPENSE = ["Direct Expense", "14000"] # 14000 - 14999
+OVERHEAD_EXPENSE = ["Overhead Expense", "15000"] # 15000 - 15999
+OTHER_EXPENSE = ["Other Expense", "16000"] # 16000 - 16999
+
+[accounts.purchasables]
+types = ["OPERATING_EXPENSE", "DIRECT_EXPENSE", "OVERHEAD_EXPENSE", "OTHER_EXPENSE", "NON_CURRENT_ASSET", "CURRENT_ASSET", "INVENTORY"]
+
+[testing.database]
+url = "sqlite://"
+echo = false
+
+[database]
+url = "sqlite://"
+echo = false
+include_deleted = false
+ignore_isolation = false

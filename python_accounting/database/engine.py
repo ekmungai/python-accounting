@@ -1,8 +1,9 @@
-import os
 from sqlalchemy import create_engine
+from python_accounting.config import config
 
-directory, _ = os.path.split(os.path.realpath(__file__))
-database = os.path.join(directory, "accounting.sqlite")
-engine = create_engine(f"sqlite:///{database}", echo=True).execution_options(
-    include_deleted=False, ignore_isolation=False
+
+database = config["database"]
+engine = create_engine(database["url"], echo=database["echo"]).execution_options(
+    include_deleted=database["include_deleted"],
+    ignore_isolation=database["ignore_isolation"],
 )

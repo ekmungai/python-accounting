@@ -116,12 +116,6 @@ def test_category_recycling(session, entity):
     assert category == None
 
 
-# def test_account_balances(session, entity): TODO
-#     """Tests the aggregation of account balances by category"""
-
-#     with pytest.raises(MissingCategoryError):
-#         Category.get_period(
-#             datetime.strptime("2025-03-03", "%Y-%m-%d"), entity, session
-#         )
-
-#     Category.get_period(datetime.today(), entity, session) == entity.category
+def test_account_balances(session, entity):  # TODO
+    """Tests the aggregation of account balances by category"""
+    pass

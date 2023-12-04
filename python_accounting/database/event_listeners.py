@@ -67,9 +67,9 @@ class EventListenersMixin:
                 )
             )
 
-    @event.listens_for(Session, "before_attach")
-    def _validate_model(session, object_):
+    @event.listens_for(Session, "before_flush")
+    def _validate_model(session, flush_context, instances):
         """Run validation logic against the model instance if any"""
-
-        if hasattr(object_, "validate"):
-            object_.validate(session)
+        for model in list(session.new) + list(session.dirty):
+            if hasattr(model, "validate"):
+                model.validate(session)

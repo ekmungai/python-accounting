@@ -90,5 +90,5 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
             .with_entities(func.count())
             .execution_options(ignore_isolation=True)
             .scalar()
-        ) > 0:
+        ) > 0 and self.id is None:
             raise DuplicateReportingPeriodError
