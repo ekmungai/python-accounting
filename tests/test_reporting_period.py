@@ -12,7 +12,10 @@ from python_accounting.exceptions import (
 def test_reporting_period_entity(entity, session):
     """Tests the relationship between a reporting period and its associated entity"""
     reporting_period = ReportingPeriod(
-        calendar_year=datetime.today().year + 1, period_count=2, entity_id=entity.id
+        calendar_year=datetime.today().year + 1,
+        period_count=2,
+        status=ReportingPeriod.Status.ADJUSTING,
+        entity_id=entity.id,
     )
     session.add(reporting_period)
     session.commit()
@@ -43,7 +46,10 @@ def test_reporting_period_isolation(session, entity):
     session.add_all(
         [
             ReportingPeriod(
-                calendar_year=year - 1, period_count=1, entity_id=entity.id
+                calendar_year=year - 1,
+                period_count=1,
+                entity_id=entity.id,
+                status=ReportingPeriod.Status.ADJUSTING,
             ),
             ReportingPeriod(
                 calendar_year=year,
@@ -80,7 +86,10 @@ def test_reporting_period_recycling(session, entity):
     """Tests the deleting, restoring and destroying functions of the reporting_period model"""
 
     reporting_period = ReportingPeriod(
-        calendar_year=datetime.today().year - 1, period_count=1, entity_id=entity.id
+        calendar_year=datetime.today().year - 1,
+        status=ReportingPeriod.Status.ADJUSTING,
+        period_count=1,
+        entity_id=entity.id,
     )
     session.add(reporting_period)
     session.flush()

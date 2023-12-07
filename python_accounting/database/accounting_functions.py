@@ -24,6 +24,17 @@ class AccountingFunctionsMixin:
         if existing:
             session.entity.reporting_period_id = existing.id
         else:
+            # transission the previous period to adjusting status if one exists
+
+            previous_period = session._year_period(year - 1)
+            if (
+                previous_period
+                and previous_period.status == ReportingPeriod.Status.OPEN
+            ):
+                previous_period.status = ReportingPeriod.Status.ADJUSTING
+                session.add(previous_period)
+                session.flush()
+
             past_periods = (
                 session.query(ReportingPeriod)
                 .filter(ReportingPeriod.entity_id == session.entity.id)

@@ -7,6 +7,7 @@ from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import (
     DuplicateReportingPeriodError,
     MissingReportingPeriodError,
+    MultipleOpenPeriodsError,
 )
 from .recyclable import Recyclable
 
@@ -65,15 +66,26 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
     def validate(self, session):
         """Validate the reporting period properties"""
 
-        if (
-            session.query(ReportingPeriod)
-            .filter(ReportingPeriod.entity_id == self.entity_id)
-            .filter(ReportingPeriod.calendar_year == self.calendar_year)
-            .with_entities(func.count())
-            .execution_options(ignore_isolation=True)
-            .scalar()
-        ) > 0 and self.id is None:
-            raise DuplicateReportingPeriodError
+        if self.id is None:
+            if (
+                session.query(ReportingPeriod)
+                .filter(ReportingPeriod.entity_id == self.entity_id)
+                .filter(ReportingPeriod.calendar_year == self.calendar_year)
+                .with_entities(func.count())
+                .execution_options(ignore_isolation=True)
+                .scalar()
+            ) > 0:
+                raise DuplicateReportingPeriodError
+
+            if (
+                session.query(ReportingPeriod)
+                .filter(ReportingPeriod.entity_id == self.entity_id)
+                .filter(ReportingPeriod.status == ReportingPeriod.Status.OPEN)
+                .with_entities(func.count())
+                .execution_options(ignore_isolation=True)
+                .scalar()
+            ) > 0 and self.status == ReportingPeriod.Status.OPEN:
+                raise MultipleOpenPeriodsError
 
     def period_span(self, date: datetime = None) -> dict:
         """Returns the start and end dates of the reporting period for the given date"""
