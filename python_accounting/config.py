@@ -6,6 +6,7 @@ class Config:
 
     testing = {}
     accounts = {}
+    transactions = {}
     database = {}
 
     def __init__(self, config_file="config.toml") -> None:
@@ -14,6 +15,7 @@ class Config:
             self.testing = config["testing"]
             self.accounts = config["accounts"]
             self.database = config["database"]
+            self.transactions = config["transactions"]
 
 
 config = Config()

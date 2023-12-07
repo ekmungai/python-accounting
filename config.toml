@@ -1,3 +1,13 @@
+[database]
+url = "sqlite://"
+echo = false
+include_deleted = false
+ignore_isolation = false
+
+[testing.database]
+url = "sqlite://"
+echo = false
+
 [accounts.types] # KEY: [account_type, account_code (start)]
 
 # Balance Sheet: Asset Accounts
@@ -31,12 +41,19 @@ OTHER_EXPENSE = ["Other Expense", "16000"] # 16000 - 16999
 [accounts.purchasables]
 types = ["OPERATING_EXPENSE", "DIRECT_EXPENSE", "OVERHEAD_EXPENSE", "OTHER_EXPENSE", "NON_CURRENT_ASSET", "CURRENT_ASSET", "INVENTORY"]
 
-[testing.database]
-url = "sqlite://"
-echo = false
+[transactions.types] 
+# Client Transactions
+CASH_SALE = "Cash Sale"
+CLIENT_INVOICE = "Client Invoice"
+CREDIT_NOTE = "Credit Note"
+CLIENT_RECEIPT = "Client Receipt"
 
-[database]
-url = "sqlite://"
-echo = false
-include_deleted = false
-ignore_isolation = false
+# Supplier Transactions
+CASH_PURCHASE = "Cash Purchase"
+SUPPLIER_BILL = "Supplier Bill"
+DEBIT_NOTE = "Debit Note"
+SUPPLIER_PAYMENT = "Supplier Payment"
+
+# Internal Transactions
+CONTRA_ENTRY = "Contra Entry"
+JOURNAL_ENTRY = "Journal Entry"

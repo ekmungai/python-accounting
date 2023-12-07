@@ -11,7 +11,7 @@ class Entity(Recyclable):
     __mapper_args__ = {"polymorphic_identity": "Entity"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
-    name: Mapped[str] = mapped_column(String(300))
+    name: Mapped[str] = mapped_column(String(255))
     multi_currency: Mapped[bool] = mapped_column(Boolean, default=False)
     mid_year_balances: Mapped[bool] = mapped_column(Boolean, default=False)
     year_start: Mapped[int] = mapped_column(default=1)

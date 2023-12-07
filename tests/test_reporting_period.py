@@ -125,8 +125,8 @@ def test_reporting_period_dates(entity):
         == 2025
     )
 
-    period_span = ReportingPeriod.period_span(
-        datetime.strptime("2025-06-03", "%Y-%m-%d"), entity
+    period_span = entity.reporting_period.period_span(
+        datetime.strptime("2025-06-03", "%Y-%m-%d")
     )
     assert period_span["period_start"] == datetime(2025, 1, 1, 0, 0, 0)
     assert period_span["period_end"] == datetime(2025, 12, 31, 23, 59, 59)
@@ -137,8 +137,8 @@ def test_reporting_period_dates(entity):
         ReportingPeriod.date_year(datetime.strptime("2025-03-03", "%Y-%m-%d"), entity)
         == 2024
     )
-    period_span = ReportingPeriod.period_span(
-        datetime.strptime("2025-03-03", "%Y-%m-%d"), entity
+    period_span = entity.reporting_period.period_span(
+        datetime.strptime("2025-03-03", "%Y-%m-%d")
     )
     assert period_span["period_start"] == datetime(2024, 4, 1, 0, 0, 0)
     assert period_span["period_end"] == datetime(2025, 3, 31, 23, 59, 59)

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum, func, inspect
+from sqlalchemy import String, ForeignKey, Enum, func, inspect, Text
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
 from python_accounting.exceptions import InvalidCategoryAccountTypeError
@@ -21,8 +21,8 @@ class Account(IsolatingMixin, Recyclable):
     __mapper_args__ = {"polymorphic_identity": "Account"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
-    name: Mapped[str] = mapped_column(String(300))
-    description: Mapped[str] = mapped_column(String(1000), nullable=True)
+    name: Mapped[str] = mapped_column(String(255))
+    description: Mapped[str] = mapped_column(Text(1000), nullable=True)
     account_code: Mapped[int] = mapped_column()
     account_type: Mapped[StrEnum] = mapped_column(Enum(AccountType))
     currency_id: Mapped[int] = mapped_column(ForeignKey("currency.id"))

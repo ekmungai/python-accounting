@@ -11,7 +11,7 @@ class Recyclable(Base):
 
     deleted_at: Mapped[datetime] = mapped_column(nullable=True)
     destroyed_at: Mapped[datetime] = mapped_column(nullable=True)
-    recycled_type: Mapped[str] = mapped_column(String(300))
+    recycled_type: Mapped[str] = mapped_column(String(255))
 
     # relationships
     history: Mapped[List["Recycled"]] = relationship()

@@ -10,7 +10,7 @@ class Currency(IsolatingMixin, Recyclable):
     __mapper_args__ = {"polymorphic_identity": "Currency"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
-    name: Mapped[str] = mapped_column(String(300))
+    name: Mapped[str] = mapped_column(String(255))
     code: Mapped[str] = mapped_column(String(3))
 
     def __repr__(self) -> str:

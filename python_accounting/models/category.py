@@ -14,7 +14,7 @@ class Category(IsolatingMixin, Recyclable):
     __mapper_args__ = {"polymorphic_identity": "Category"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
-    name: Mapped[str] = mapped_column(String(300))
+    name: Mapped[str] = mapped_column(String(255))
     category_account_type: Mapped[StrEnum] = mapped_column(Enum(Account.AccountType))
 
     # relationships

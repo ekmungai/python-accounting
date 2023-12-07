@@ -46,24 +46,6 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         return year if month >= entity.year_start else year - 1
 
     @classmethod
-    def period_span(cls, date: datetime = None, entity=None) -> dict:
-        """Returns the start and end dates of the reporting period for the given date"""
-        today = datetime.today()
-
-        start = (
-            datetime(
-                ReportingPeriod.date_year(date, entity), entity.year_start, 1, 0, 0, 0
-            )
-            if entity
-            else datetime(today.year, 1, 1, 0, 0, 0)
-        )
-
-        return dict(
-            period_start=start,
-            period_end=start + relativedelta(years=1) - relativedelta(seconds=1),
-        )
-
-    @classmethod
     def get_period(cls, date: datetime, entity, session) -> int:
         """Returns the reporting period for the given date"""
 
@@ -92,3 +74,20 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
             .scalar()
         ) > 0 and self.id is None:
             raise DuplicateReportingPeriodError
+
+    def period_span(self, date: datetime = None) -> dict:
+        """Returns the start and end dates of the reporting period for the given date"""
+
+        start = datetime(
+            ReportingPeriod.date_year(date, self.entity),
+            self.entity.year_start,
+            1,
+            0,
+            0,
+            0,
+        )
+
+        return dict(
+            period_start=start,
+            period_end=start + relativedelta(years=1) - relativedelta(seconds=1),
+        )
