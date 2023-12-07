@@ -63,7 +63,6 @@ class Balance(IsolatingMixin, Recyclable):
 
         reporting_period = session.entity.reporting_period
         account = session.get(Account, self.account_id)
-        self.account_id = account.id
         self.currency_id = account.currency_id
         self.reporting_period_id = reporting_period.id
 

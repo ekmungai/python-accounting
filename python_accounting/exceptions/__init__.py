@@ -9,3 +9,5 @@ from .invalid_balance_transaction import InvalidBalanceTransactionError
 from .negative_amount import NegativeAmountError
 from .invalid_balance_date import InvalidBalanceDateError
 from .multiple_open_periods import MultipleOpenPeriodsError
+from .missing_tax_account import MissingTaxAccountError
+from .invalid_tax_account import InvalidTaxAccountError

@@ -8,7 +8,6 @@ from python_accounting.models import (
     Entity,
     Transaction,
     Account,
-    ReportingPeriod,
 )
 from python_accounting.exceptions import (
     InvalidBalanceAccountError,
