@@ -10,3 +10,4 @@ from .category import Category
 from .transaction import Transaction
 from .balance import Balance
 from .tax import Tax
+from .line_item import LineItem

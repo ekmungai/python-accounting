@@ -1,12 +1,9 @@
 import pytest
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from .conftest import engine, entity, session
 from sqlalchemy import select
 from python_accounting.models import (
     Tax,
     Entity,
-    Transaction,
     Account,
 )
 from python_accounting.exceptions import (

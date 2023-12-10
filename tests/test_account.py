@@ -79,8 +79,10 @@ def test_account_validation(session, entity, currency):
     account.category_id = category.id
     session.add(account)
 
-    with pytest.raises(InvalidCategoryAccountTypeError):
+    with pytest.raises(InvalidCategoryAccountTypeError) as e:
         session.commit()
+
+    assert str(e.value) == "Cannot assign Receivable Account to Bank Category"
 
 
 def test_account_isolation(session, entity, currency):

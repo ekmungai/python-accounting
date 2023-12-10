@@ -67,8 +67,12 @@ def test_balance_validation(session, entity, currency):
         entity_id=entity.id,
     )
     session.add(balance)
-    with pytest.raises(InvalidBalanceDateError):
+    with pytest.raises(InvalidBalanceDateError) as e:
         session.commit()
+    assert (
+        str(e.value)
+        == "Transaction date must be earlier than the first day of the Balance's Reporting Period"
+    )
 
     balance.transaction_date = datetime.now() - relativedelta(years=1)
     session.add(balance)
@@ -76,8 +80,9 @@ def test_balance_validation(session, entity, currency):
     account.account_type = Account.AccountType.OPERATING_REVENUE
     session.add(account)
 
-    with pytest.raises(InvalidBalanceAccountError):
+    with pytest.raises(InvalidBalanceAccountError) as e:
         session.commit()
+    assert str(e.value) == "Income Statement Accounts cannot have an opening balance"
 
     account.account_type = Account.AccountType.RECEIVABLE
     session.add(account)
@@ -85,15 +90,21 @@ def test_balance_validation(session, entity, currency):
 
     balance.transaction_type = Transaction.TransactionType.CREDIT_NOTE
     session.add(balance)
-    with pytest.raises(InvalidBalanceTransactionError):
+
+    with pytest.raises(InvalidBalanceTransactionError) as e:
         session.commit()
+    assert (
+        str(e.value)
+        == "Balance Transaction must be one of Client Invoice, Supplier Bill or Journal Entry"
+    )
 
     balance.transaction_type = Transaction.TransactionType.JOURNAL_ENTRY
     balance.amount = -1
     session.add(balance)
 
-    with pytest.raises(NegativeAmountError):
+    with pytest.raises(NegativeAmountError) as e:
         session.commit()
+    assert str(e.value) == "Balance amount cannot be negative"
 
 
 def test_balance_isolation(session, entity, currency):

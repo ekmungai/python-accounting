@@ -22,7 +22,7 @@ def test_category_entity(entity, session):
 
 def test_category_validation(session, entity):
     """Tests the validation of category objects"""
-    with pytest.raises(InvalidAccountTypeError):
+    with pytest.raises(InvalidAccountTypeError) as e:
         session.add(
             Category(
                 name="Test Category",
@@ -30,6 +30,10 @@ def test_category_validation(session, entity):
                 entity_id=entity.id,
             )
         )
+    assert (
+        str(e.value)
+        == "Property category_account_type must be one of: Non Current Asset, Contra Asset, Inventory, Bank, Current Asset, Receivable, Non Current Liability, Control, Current Liability, Payable, Reconciliation, Equity, Operating Revenue, Operating Expense, Non Operating Revenue, Direct Expense, Overhead Expense, Other Expense"
+    )
 
 
 def test_category_isolation(session, entity):

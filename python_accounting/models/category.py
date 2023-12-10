@@ -23,7 +23,7 @@ class Category(IsolatingMixin, Recyclable):
     )
 
     def __repr__(self) -> str:
-        return f"{self.name} <{self.code}>"
+        return f"{self.name} <{self.category_account_type}>"
 
     def validate(self, session):
         """Validate the category properties"""
