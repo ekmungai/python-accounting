@@ -1,5 +1,4 @@
 import pytest
-from .conftest import engine, entity, session
 from sqlalchemy import select
 from python_accounting.models import (
     LineItem,
@@ -82,7 +81,6 @@ def test_line_item_isolation(session, entity, currency):
     )
 
     session.add(account)
-    session.flush()
 
     entity2 = Entity(name="Test Entity Two")
     session.add(entity2)

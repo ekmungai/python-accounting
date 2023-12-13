@@ -16,14 +16,17 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
     """Represents a financial year for the Reporting Entity"""
 
     __tablename__ = "reporting_period"
-    __table_args__ = (UniqueConstraint("calendar_year", "entity_id"),)
+    __table_args__ = (
+        UniqueConstraint("calendar_year", "entity_id"),
+        UniqueConstraint("period_count", "entity_id"),
+    )
 
     class Status(Enum):
         """Reporting Period status"""
 
         OPEN = 0
         ADJUSTING = 1
-        CLSOED = 2
+        CLOSED = 2
 
     __mapper_args__ = {"polymorphic_identity": "ReportingPeriod"}
 
@@ -47,21 +50,21 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         return year if month >= entity.year_start else year - 1
 
     @classmethod
-    def get_period(cls, date: datetime, entity, session) -> int:
+    def get_period(cls, date: datetime, session) -> int:
         """Returns the reporting period for the given date"""
 
-        year = ReportingPeriod.date_year(date, entity)
+        year = ReportingPeriod.date_year(date, session.entity)
 
-        period = session.scalars(
+        periods = session.scalars(
             select(ReportingPeriod)
             .where(ReportingPeriod.calendar_year == year)
-            .where(ReportingPeriod.entity_id == entity.id)
+            .where(ReportingPeriod.entity_id == session.entity.id)
         )
 
         try:
-            return next(period)
+            return next(periods)
         except StopIteration:
-            raise MissingReportingPeriodError(entity, year)
+            raise MissingReportingPeriodError(session.entity, year)
 
     def validate(self, session):
         """Validate the reporting period properties"""
@@ -87,11 +90,13 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
             ) > 0 and self.status == ReportingPeriod.Status.OPEN:
                 raise MultipleOpenPeriodsError
 
-    def period_span(self, date: datetime = None) -> dict:
-        """Returns the start and end dates of the reporting period for the given date"""
-
+    def interval(self, date: datetime = None) -> dict:
+        """Returns the start and end dates of the reporting period"""
+        year = (
+            ReportingPeriod.date_year(date, self.entity) if date else self.calendar_year
+        )
         start = datetime(
-            ReportingPeriod.date_year(date, self.entity),
+            year,
             self.entity.year_start,
             1,
             0,
@@ -100,6 +105,6 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         )
 
         return dict(
-            period_start=start,
-            period_end=start + relativedelta(years=1) - relativedelta(seconds=1),
+            start=start,
+            end=start + relativedelta(years=1) - relativedelta(seconds=1),
         )

@@ -1,6 +1,5 @@
 import pytest
 from datetime import datetime
-from .conftest import engine, entity, session
 from sqlalchemy import select
 from python_accounting.models import Account, Currency, Category, Entity
 from python_accounting.exceptions import InvalidCategoryAccountTypeError

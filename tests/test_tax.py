@@ -1,5 +1,4 @@
 import pytest
-from .conftest import engine, entity, session
 from sqlalchemy import select
 from python_accounting.models import (
     Tax,

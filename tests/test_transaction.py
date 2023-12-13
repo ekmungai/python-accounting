@@ -1,0 +1,451 @@
+import pytest
+from datetime import datetime
+from decimal import Decimal
+from dateutil.relativedelta import relativedelta
+from sqlalchemy import select
+from python_accounting.models import (
+    Account,
+    Transaction,
+    Entity,
+    ReportingPeriod,
+    LineItem,
+    Tax,
+)
+from python_accounting.exceptions import (
+    InvalidTransactionDateError,
+    ClosedReportingPeriodError,
+    AdjustingReportingPeriodError,
+    RedundantTransactionError,
+)
+
+
+def test_transaction_entity(entity, session, currency):
+    """Tests the relationship between a transaction and its associated entity"""
+
+    account = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add(account)
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=datetime.now(),
+        account_id=account.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.commit()
+
+    transaction = session.get(Transaction, transaction.id)
+
+    assert transaction.entity.name == "Test Entity"
+    assert transaction.account.name == "Test Transaction Account"
+    assert transaction.transaction_no == "JN01/0001"
+    assert transaction.currency_id == account.currency_id
+
+
+def test_transaction_validation(session, entity, currency):
+    """Tests the validation of transaction objects"""
+    today = datetime.today()
+
+    account = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    previous_period = ReportingPeriod(
+        calendar_year=today.year - 1,
+        period_count=2,
+        entity_id=entity.id,
+        status=ReportingPeriod.Status.CLOSED,
+    )
+    session.add_all([previous_period, account])
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=entity.reporting_period.interval()["start"],
+        account_id=account.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+
+    with pytest.raises(InvalidTransactionDateError) as e:
+        session.commit()
+    assert (
+        str(e.value)
+        == "The Transaction date cannot be at the exact beginning of the Reporting Period. Use a Balance object instead"
+    )
+
+    transaction.transaction_date = today - relativedelta(years=1)
+    session.add(transaction)
+    with pytest.raises(ClosedReportingPeriodError) as e:
+        session.commit()
+    assert (
+        str(e.value)
+        == "Transaction cannot be recorded because Reporting Period: 2022 <Period 2> is Closed"
+    )
+
+    transaction.transaction_type = Transaction.TransactionType.CLIENT_INVOICE
+    previous_period.status = ReportingPeriod.Status.ADJUSTING
+
+    session.add_all([previous_period, transaction])
+
+    with pytest.raises(AdjustingReportingPeriodError) as e:
+        session.commit()
+    assert (
+        str(e.value)
+        == "Only Journal Entry Transactions can be recorded for Reporting Period: 2022 <Period 2> which has the Adjusting Status"
+    )
+
+    # PostedTransactionError #TODO
+
+
+def test_transaction_isolation(session, entity, currency):
+    """Tests the isolation of transaction objects by entity"""
+
+    account = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add(account)
+
+    entity2 = Entity(name="Test Entity Two")
+    session.add(entity2)
+    session.flush()
+    entity2 = session.get(Entity, entity2.id)
+
+    session.add_all(
+        [
+            Transaction(
+                narration="Test transaction one",
+                transaction_date=datetime.now(),
+                account_id=account.id,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                entity_id=entity.id,
+            ),
+            Transaction(
+                narration="Test transaction two",
+                transaction_date=datetime.now(),
+                account_id=account.id,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                entity_id=entity2.id,
+            ),
+        ]
+    )
+    session.commit()
+
+    transactions = session.scalars(select(Transaction)).all()
+
+    assert len(transactions) == 1
+    assert transactions[0].narration == "Test transaction one"
+    assert transactions[0].transaction_type == Transaction.TransactionType.JOURNAL_ENTRY
+    assert transactions[0].entity.name == "Test Entity"
+
+    transaction2 = session.get(Transaction, 2)
+    assert transaction2 == None
+
+    session.entity = entity2
+    transactions = session.scalars(select(Transaction)).all()
+
+    assert len(transactions) == 1
+    assert transactions[0].narration == "Test transaction two"
+    assert (
+        transactions[0].transaction_type == Transaction.TransactionType.CLIENT_INVOICE
+    )
+    assert transactions[0].entity.name == "Test Entity Two"
+
+    transaction1 = session.get(Transaction, 1)
+    assert transaction1 == None
+
+
+def test_transaction_recycling(session, entity, currency):
+    """Tests the deleting, restoring and destroying functions of the transaction model"""
+
+    account = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add(account)
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    transaction_id = transaction.id
+
+    session.delete(transaction)
+
+    transaction = session.get(Transaction, transaction_id)
+    assert transaction == None
+
+    transaction = session.get(Transaction, transaction_id, include_deleted=True)
+    assert transaction != None
+    session.restore(transaction)
+
+    transaction = session.get(Transaction, transaction_id)
+    assert transaction != None
+
+    session.destroy(transaction)
+
+    transaction = session.get(Transaction, transaction_id)
+    assert transaction == None
+
+    transaction = session.get(Transaction, transaction_id, include_deleted=True)
+    assert transaction != None
+    session.restore(transaction)  # destroyed models canot be restored
+
+    transaction = session.get(Transaction, transaction_id)
+    assert transaction == None
+
+    # HangingTransactionsError #TODO
+    # PostedTransactionError #TODO
+
+
+def test_transaction_numbers(session, entity, currency):
+    """Tests the auto genearted transaction numbers"""
+
+    account = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add(account)
+
+    session.add_all(
+        [
+            Transaction(
+                narration="Test transaction one",
+                transaction_date=datetime.now(),
+                account_id=account.id,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                entity_id=entity.id,
+            ),
+            Transaction(
+                narration="Test transaction two",
+                transaction_date=datetime.now(),
+                account_id=account.id,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                entity_id=entity.id,
+            ),
+            Transaction(
+                narration="Test transaction three",
+                transaction_date=datetime.now(),
+                account_id=account.id,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    session.commit()
+
+    transactions = session.scalars(select(Transaction)).all()
+
+    assert transactions[0].narration == "Test transaction one"
+    assert transactions[0].transaction_type == Transaction.TransactionType.JOURNAL_ENTRY
+    assert transactions[0].transaction_no == "JN01/0001"
+
+    assert transactions[1].narration == "Test transaction two"
+    assert (
+        transactions[1].transaction_type == Transaction.TransactionType.CLIENT_INVOICE
+    )
+    assert transactions[1].transaction_no == "IN01/0001"
+
+    assert transactions[2].narration == "Test transaction three"
+    assert (
+        transactions[2].transaction_type == Transaction.TransactionType.CLIENT_INVOICE
+    )
+    assert transactions[2].transaction_no == "IN01/0002"
+
+
+def test_transaction_line_items(session, entity, currency):
+    """Tests the adding and removal of line items to the transaction transaction"""
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2])
+
+    transaction = Transaction(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+
+    assert list(transaction.line_items) == []
+
+    session.flush()
+
+    assert list(transaction.line_items) == []
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=10,
+        entity_id=entity.id,
+    )
+    transaction.line_items.add(line_item1)
+    transaction.line_items.add(line_item1)
+
+    assert list(transaction.line_items) == [line_item1]
+
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    assert list(transaction.line_items) == [line_item1]
+
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=account2.id,
+        amount=20,
+        entity_id=entity.id,
+    )
+
+    transaction.line_items.add(line_item2)
+    transaction.line_items.remove(line_item1)
+
+    assert list(transaction.line_items) == [line_item2]
+
+    transaction.line_items.remove(line_item2)
+    assert list(transaction.line_items) == []
+
+    line_item1.account_id = account1.id
+    transaction.line_items.add(line_item1)
+
+    with pytest.raises(RedundantTransactionError) as e:
+        session.commit()
+    assert (
+        str(e.value)
+        == "Line Item <Test Transaction Account <Debit>: 10> Account is the same as the Transaction Account"
+    )
+
+
+def test_transaction_tax(session, entity, currency):
+    """Tests a transactions tax property"""
+
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item account",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account3 = Account(
+        name="test taxation account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2, account3])
+    session.flush()
+
+    tax1 = Tax(
+        name="Output Vat one",
+        code="OTPT1",
+        account_id=account3.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    tax2 = Tax(
+        name="Output Vat two",
+        code="OTPT2",
+        account_id=account3.id,
+        rate=15,
+        entity_id=entity.id,
+    )
+    session.add_all([tax1, tax2])
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=100,
+        tax_id=tax1.id,
+        entity_id=entity.id,
+    )
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=account2.id,
+        amount=200,
+        tax_id=tax2.id,
+        entity_id=entity.id,
+    )
+    transaction.line_items.add(line_item1)
+    transaction.line_items.add(line_item2)
+
+    session.add(transaction)
+    session.commit()
+
+    assert transaction.tax["total"] == Decimal(40)
+    assert transaction.tax["taxes"] == {
+        "OTPT1": dict(
+            name="Output Vat one",
+            rate="10.00%",
+            amount=Decimal(10),
+        ),
+        "OTPT2": dict(
+            name="Output Vat two",
+            rate="15.00%",
+            amount=Decimal(30),
+        ),
+    }
+
+
+def test_transaction_posting(session, entity):  # TODO
+    """Tests validation for changes allowed before and after posting a transaction"""
+    pass
+
+
+def test_transaction_assignment(session, entity):  # TODO
+    """Tests assignment of clearable to assignable transactions"""
+    pass

@@ -1,5 +1,4 @@
 import pytest
-from .conftest import engine, entity, session
 from datetime import datetime
 from sqlalchemy import select
 from python_accounting.models import Entity, Currency, User

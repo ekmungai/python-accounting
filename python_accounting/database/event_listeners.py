@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.orm.session import Session
 from sqlalchemy import event, orm, and_
 
-from python_accounting.models import Entity, Recyclable
+from python_accounting.models import Entity, Recyclable, Transaction
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import MissingEntityError
 
@@ -20,24 +20,6 @@ def _filter_options(execute_state, option):
 
 class EventListenersMixin:
     """This class provides logic for handling events in sqlalchemy's orm lifecycle"""
-
-    @event.listens_for(Session, "transient_to_pending")
-    def _set_session_entity(session, object_):
-        """Make sure that all objects have an associated Entity"""
-
-        if not hasattr(session, "entity") or session.entity is None:
-            if isinstance(object_, Entity):
-                session.entity = object_
-            elif object_.entity_id is None:
-                raise MissingEntityError
-            else:
-                session.entity = session.get(Entity, object_.entity_id)
-
-        if (
-            session.entity.reporting_period is None
-            or session.entity.reporting_period.calendar_year != datetime.today().year
-        ):
-            session._set_reporting_period()
 
     @event.listens_for(Session, "do_orm_execute")
     def _add_filtering_criteria(execute_state):
@@ -65,6 +47,38 @@ class EventListenersMixin:
                     lambda cls: cls.entity_id == session_entity_id,
                     include_aliases=True,
                 )
+            )
+
+    @event.listens_for(Session, "transient_to_pending")
+    def _set_session_entity(session, object_):
+        """Make sure that all objects have an associated Entity"""
+
+        if not hasattr(session, "entity") or session.entity is None:
+            if isinstance(object_, Entity):
+                session.entity = object_
+            elif object_.entity_id is None:
+                raise MissingEntityError
+            else:
+                session.entity = session.get(Entity, object_.entity_id)
+
+        if (
+            session.entity.reporting_period is None
+            or session.entity.reporting_period.calendar_year != datetime.today().year
+        ):
+            session._set_reporting_period()
+
+    @event.listens_for(Session, "transient_to_pending")
+    def _get_transaction_index(session, object_):
+        """Transaction objects need to keep track of how many are being added to calculate thier transaction numbers"""
+
+        if isinstance(object_, Transaction) and object_.id is None:
+            object_.prefix_index = len(
+                [
+                    t
+                    for t in session.new
+                    if isinstance(t, Transaction)
+                    and t.transaction_type == object_.transaction_type
+                ]
             )
 
     @event.listens_for(Session, "before_flush")

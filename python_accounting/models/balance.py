@@ -82,7 +82,7 @@ class Balance(IsolatingMixin, Recyclable):
             raise InvalidBalanceTransactionError
 
         if (
-            reporting_period.period_span()["period_start"] < self.transaction_date
+            reporting_period.interval()["start"] < self.transaction_date
             and not session.entity.mid_year_balances
         ):
             raise InvalidBalanceDateError

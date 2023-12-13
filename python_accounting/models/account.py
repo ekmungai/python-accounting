@@ -36,10 +36,8 @@ class Account(IsolatingMixin, Recyclable):
         """Get the auto generated account code for the instance"""
         current_count = (
             session.query(Account)
-            .filter(Account.entity_id == self.entity_id)
             .filter(Account.account_type == self.account_type)
             .with_entities(func.count())
-            .execution_options(ignore_isolation=True)
             .scalar()
         )
         return (

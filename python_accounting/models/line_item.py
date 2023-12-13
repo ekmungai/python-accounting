@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Any
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Text, Boolean
 from sqlalchemy.types import DECIMAL
@@ -11,6 +12,8 @@ from python_accounting.exceptions import (
 
 class LineItem(IsolatingMixin, Recyclable):
     """Represents a Line Item representing the other side of the double entry of a Transaction"""
+
+    __tablename__ = "line_item"
 
     __mapper_args__ = {"polymorphic_identity": "LineItem"}
 
@@ -31,8 +34,12 @@ class LineItem(IsolatingMixin, Recyclable):
     tax: Mapped["Tax"] = relationship(foreign_keys=[tax_id])
     transaction: Mapped["Transaction"] = relationship(foreign_keys=[transaction_id])
 
+    def __init__(self, **kw: Any):
+        self.quantity = 1
+        super().__init__(**kw)
+
     def __repr__(self) -> str:
-        return f"{self.account.name} <{'Credit' if self.credited else 'Debit'}>: {self.amount * self.quantity}"
+        return f"{self.account.name if self.account else ''} <{'Credit' if self.credited else 'Debit'}>: {self.amount * self.quantity}"
 
     def validate(self, session):
         """Validate the Line Item properties"""

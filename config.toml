@@ -41,19 +41,19 @@ OTHER_EXPENSE = ["Other Expense", "16000"] # 16000 - 16999
 [accounts.purchasables]
 types = ["OPERATING_EXPENSE", "DIRECT_EXPENSE", "OVERHEAD_EXPENSE", "OTHER_EXPENSE", "NON_CURRENT_ASSET", "CURRENT_ASSET", "INVENTORY"]
 
-[transactions.types] 
+[transactions.types] # KEY: [transaction_type, transaction_prefix]
 # Client Transactions
-CASH_SALE = "Cash Sale"
-CLIENT_INVOICE = "Client Invoice"
-CREDIT_NOTE = "Credit Note"
-CLIENT_RECEIPT = "Client Receipt"
+CASH_SALE = ["Cash Sale", "CS"]
+CLIENT_INVOICE = ["Client Invoice", "IN"]
+CREDIT_NOTE = ["Credit Note", "CN"]
+CLIENT_RECEIPT = ["Client Receipt", "RC"]
 
 # Supplier Transactions
-CASH_PURCHASE = "Cash Purchase"
-SUPPLIER_BILL = "Supplier Bill"
-DEBIT_NOTE = "Debit Note"
-SUPPLIER_PAYMENT = "Supplier Payment"
+CASH_PURCHASE = ["Cash Purchase", "CP"]
+SUPPLIER_BILL = ["Supplier Bill", "BL"]
+DEBIT_NOTE = ["Debit Note", "DN"]
+SUPPLIER_PAYMENT = ["Supplier Payment", "PY"]
 
 # Internal Transactions
-CONTRA_ENTRY = "Contra Entry"
-JOURNAL_ENTRY = "Journal Entry"
+CONTRA_ENTRY = ["Contra Entry", "CE"]
+JOURNAL_ENTRY = ["Journal Entry", "JN"]
