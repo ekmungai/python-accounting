@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.orm.session import Session
 from sqlalchemy import event, orm, and_
 
-from python_accounting.models import Entity, Recyclable, Transaction
+from python_accounting.models import Entity, Recyclable, Transaction, Account
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import MissingEntityError
 
@@ -68,17 +68,30 @@ class EventListenersMixin:
             session._set_reporting_period()
 
     @event.listens_for(Session, "transient_to_pending")
-    def _set_transaction_index(session, object_) -> None:
-        """Transaction objects need to keep track of how many are being added to calculate thier transaction numbers"""
+    def _set_object_index(session, object_) -> None:
+        """Transaction and Account objects need to keep track of how many are being added to calculate their transaction number/account codes"""
 
-        if isinstance(object_, Transaction) and object_.id is None:
-            object_.prefix_index = len(
-                [
-                    t
-                    for t in session.new
-                    if isinstance(t, Transaction)
-                    and t.transaction_type == object_.transaction_type
-                ]
+        if (
+            isinstance(object_, Transaction) or isinstance(object_, Account)
+        ) and object_.id is None:
+            object_.session_index = (
+                len(
+                    [
+                        t
+                        for t in session.new
+                        if isinstance(t, Transaction)
+                        and t.transaction_type == object_.transaction_type
+                    ]
+                )
+                if isinstance(object_, Transaction)
+                else len(
+                    [
+                        a
+                        for a in session.new
+                        if isinstance(a, Account)
+                        and a.account_type == object_.account_type
+                    ]
+                )
             )
 
     @event.listens_for(Session, "before_flush")

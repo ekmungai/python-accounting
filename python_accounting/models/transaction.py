@@ -34,14 +34,16 @@ from .line_item import LineItem
 class Transaction(IsolatingMixin, Recyclable):
     """Represents a Transaction in the sense of an original source document"""
 
-    __table_args__ = (UniqueConstraint("transaction_no", "entity_id"),)
-
     # Transaction types
     TransactionType = StrEnum(
         "TransactionType", {k: v[0] for k, v in config.transactions["types"].items()}
     )
 
-    __mapper_args__ = {"polymorphic_identity": "Transaction"}
+    __table_args__ = (UniqueConstraint("transaction_no", "entity_id"),)
+    __tablename__ = "transaction"
+    __mapper_args__ = {
+        "polymorphic_identity": "Transaction",
+    }
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
     transaction_date: Mapped[datetime] = mapped_column()
@@ -71,6 +73,9 @@ class Transaction(IsolatingMixin, Recyclable):
 
     @validates("line_items", include_removes=True)
     def validate_line_items(self, key, line_item, is_remove):
+        if hasattr(self, "_validate_subclass_line_items"):
+            self._validate_subclass_line_items(line_item)
+
         if self.is_posted:
             raise PostedTransactionError(
                 f"Cannot {'Remove' if is_remove else 'Add'} Line Items from a Posted Transaction"
@@ -80,6 +85,9 @@ class Transaction(IsolatingMixin, Recyclable):
             raise ValueError(
                 "Line Item must be persisted to be added to the Transaction"
             )
+
+        if not self.compound:
+            line_item.credited = not self.credited
         return line_item
 
     @validates("ledgers", include_removes=True)
@@ -134,6 +142,13 @@ class Transaction(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.account} <{self.transaction_no}>: {self.amount}"
 
+    def _get_main_account(self, session, account_id: int) -> Account:
+        """Retrieve the main account of the tranaction from the database"""
+        account = session.get(Account, self.account_id)
+        if not account:
+            raise ValueError("The main Account is required")
+        return account
+
     def _transaction_no(self, session, transaction_type, reporting_period) -> str:
         """Get the next auto-generated transaction number"""
         next_id = (
@@ -143,7 +158,7 @@ class Transaction(IsolatingMixin, Recyclable):
             .with_entities(func.count())
             .execution_options(include_deleted=True)
             .scalar()
-        ) + self.prefix_index
+        ) + getattr(self, "session_index", 0)
 
         prefix = config.transactions["types"][transaction_type.name][1]
         return f"{prefix}{reporting_period.period_count:02}/{next_id:04}"
@@ -183,7 +198,8 @@ class Transaction(IsolatingMixin, Recyclable):
         if self.is_posted:
             raise PostedTransactionError(f"A Posted Transaction cannot be modified")
 
-        account = session.get(Account, self.account_id)
+        account = self._get_main_account(session, self.account_id)
+
         reporting_period = ReportingPeriod.get_period(
             session,
             self.transaction_date,

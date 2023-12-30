@@ -10,7 +10,9 @@ from python_accounting.models import (
     Transaction,
     ReportingPeriod,
     LineItem,
+    Tax,
 )
+from python_accounting.transactions import ClientInvoice
 from python_accounting.exceptions import InvalidCategoryAccountTypeError
 
 
@@ -44,14 +46,14 @@ def test_account_validation(session, entity, currency):
     session.flush()
 
     account = session.get(Account, account.id)
-    assert account.account_code == 3001
+    assert account.account_code == 3000
 
     account.name = "new test account"
     session.add(account)
     session.flush()
 
     account = session.get(Account, account.id)
-    assert account.account_code == 3001
+    assert account.account_code == 3000
     assert (
         account.name == "New Test Account"
     )  # changes other than account type do not affect the account code
@@ -61,7 +63,7 @@ def test_account_validation(session, entity, currency):
     session.flush()
 
     account = session.get(Account, account.id)
-    assert account.account_code == 50001
+    assert account.account_code == 50000
 
     account = Account(
         name="test account three",
@@ -253,7 +255,7 @@ def test_account_opening_balance(session, entity, currency):
     assert account2.opening_balance(session, date.year) == 0
 
 
-def test_account_closing_balance(session, entity, currency):  # TODO
+def test_account_closing_balance(session, entity, currency):
     """Tests an account's closing balance method"""
     account1 = Account(
         name="test account one",
@@ -334,14 +336,146 @@ def test_account_closing_balance(session, entity, currency):  # TODO
     )
 
 
-def test_account_section_balances(entity, currency):  # TODO
+def test_account_section_balances(session, entity, currency):
     """Tests accounts' balances aggregation by section"""
-    pass
 
+    category1 = Category(
+        name="Test Category One",
+        category_account_type=Account.AccountType.RECEIVABLE,
+        entity_id=entity.id,
+    )
+    category2 = Category(
+        name="Test Category Two",
+        category_account_type=Account.AccountType.RECEIVABLE,
+        entity_id=entity.id,
+    )
+    category3 = Category(
+        name="Test Category Three",
+        category_account_type=Account.AccountType.OPERATING_REVENUE,
+        entity_id=entity.id,
+    )
+    category4 = Category(
+        name="Test Category Four",
+        category_account_type=Account.AccountType.CONTROL,
+        entity_id=entity.id,
+    )
+    session.add_all([category1, category2, category3, category4])
+    session.flush()
 
-def test_account_section_balance_movement(entity, currency):  # TODO
-    """Tests changes in accounts' balances aggregation by section"""
-    pass
+    account1 = Account(
+        name="test account one",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        category_id=category1.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test account two",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        category_id=category2.id,
+        entity_id=entity.id,
+    )
+    account3 = Account(
+        name="test account three",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        category_id=category3.id,
+        entity_id=entity.id,
+    )
+    account4 = Account(
+        name="test account four",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        category_id=category4.id,
+        entity_id=entity.id,
+    )
+    session.add_all([account1, account2, account3, account4])
+    session.flush()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                amount=150,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=80,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    transaction = ClientInvoice(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account2.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.commit()
+
+    tax = Tax(
+        name="Output Vat",
+        code="OTPT",
+        account_id=account4.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    session.add(tax)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account3.id,
+        amount=100,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    receivables_balances = Account.section_balances(
+        session, [Account.AccountType.RECEIVABLE]
+    )
+    assert receivables_balances["opening"] == 70
+    assert receivables_balances["movement"] == -110
+    assert receivables_balances["closing"] == 180
+    assert len(receivables_balances["categories"]) == 2
+    assert receivables_balances["categories"][category1.name]["total"] == 70
+    assert receivables_balances["categories"][category1.name]["accounts"] == [account1]
+
+    revenues_balances = Account.section_balances(
+        session, [Account.AccountType.OPERATING_REVENUE]
+    )
+    assert revenues_balances["opening"] == 0
+    assert revenues_balances["movement"] == 100
+    assert revenues_balances["closing"] == -100
+    assert len(revenues_balances["categories"]) == 1
+    assert revenues_balances["categories"][category3.name]["total"] == -100
+    assert revenues_balances["categories"][category3.name]["accounts"] == [account3]
+
+    control_balances = Account.section_balances(session, [Account.AccountType.CONTROL])
+    assert control_balances["opening"] == 0
+    assert control_balances["movement"] == 10
+    assert control_balances["closing"] == -10
+    assert len(control_balances["categories"]) == 1
+    assert control_balances["categories"][category4.name]["total"] == -10
+    assert control_balances["categories"][category4.name]["accounts"] == [account4]
 
 
 def test_account_transactions(entity, currency):  # TODO

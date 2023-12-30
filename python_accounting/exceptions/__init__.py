@@ -17,3 +17,5 @@ from .adjusting_reporting_period import AdjustingReportingPeriodError
 from .redundant_transaction import RedundantTransactionError
 from .missing_line_item import MissingLineItemError
 from .posted_transaction import PostedTransactionError
+from .invalid_main_account import InvalidMainAccountError
+from .invalid_line_item_account import InvalidLineItemAccountError
