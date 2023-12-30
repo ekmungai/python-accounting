@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum
+from sqlalchemy import String, ForeignKey, Enum, select
 from sqlalchemy.types import DECIMAL
 from strenum import StrEnum
 from .recyclable import Recyclable
@@ -58,7 +58,23 @@ class Balance(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.account} {self.reporting_period}: {self.amount}"
 
-    def validate(self, session):
+    @staticmethod
+    def opening_trial_balance(session, year: int = None) -> dict:
+        """Get the total opening balances for the entity's accounts for the given year"""
+        balances = dict(debits=0, credits=0, accounts=[])
+        year = session.entity.reporting_period.calendar_year if not year else year
+
+        for account in session.scalars(select(Account)).all():
+            balance = account.opening_balance(session, year)
+            if balance != 0:
+                balances["accounts"].append(account)
+                if balance > 0:
+                    balances["debits"] += balance
+                else:
+                    balances["credits"] += balance
+        return balances
+
+    def validate(self, session) -> None:
         """Validate the Balance properties"""
 
         reporting_period = session.entity.reporting_period

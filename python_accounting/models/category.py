@@ -25,7 +25,7 @@ class Category(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.name} <{self.category_account_type}>"
 
-    def validate(self, session):
+    def validate(self, session) -> None:
         """Validate the category properties"""
 
         if self.category_account_type not in Account.AccountType:

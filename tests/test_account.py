@@ -1,11 +1,20 @@
 import pytest
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
-from python_accounting.models import Account, Currency, Category, Entity
+from python_accounting.models import (
+    Account,
+    Category,
+    Entity,
+    Balance,
+    Transaction,
+    ReportingPeriod,
+    LineItem,
+)
 from python_accounting.exceptions import InvalidCategoryAccountTypeError
 
 
-def test_account_entity(entity, session, currency):
+def test_account_entity(session, entity, currency):
     """Tests the relationship between an account and its associated entity"""
 
     account = Account(
@@ -171,15 +180,158 @@ def test_account_recycling(session, entity, currency):
     account = session.get(Account, account_id)
     assert account == None
 
-
-def test_account_opening_balance(entity, currency):  # TODO
-    """Tests an account's opening balance property"""
-    pass
+    # HangingTransactionsError #TODO
 
 
-def test_account_closing_balance_method(entity, currency):  # TODO
-    """Tests an account's opening balance property"""
-    pass
+def test_account_opening_balance(session, entity, currency):
+    """Tests an account's opening balance"""
+
+    account1 = Account(
+        name="test account one",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test account two",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([account1, account2])
+    session.flush()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                amount=100,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=25,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.SUPPLIER_BILL,
+                amount=50,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account2.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=15,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    assert account1.opening_balance(session) == 90
+    assert account2.opening_balance(session) == -50
+
+    date -= relativedelta(years=1)
+    new_reporting_period = ReportingPeriod(
+        calendar_year=date.year,
+        period_count=2,
+        entity_id=entity.id,
+    )
+    session.add(new_reporting_period)
+    session.commit()
+    assert account1.opening_balance(session, date.year) == 0
+    assert account2.opening_balance(session, date.year) == 0
+
+
+def test_account_closing_balance(session, entity, currency):  # TODO
+    """Tests an account's closing balance method"""
+    account1 = Account(
+        name="test account one",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test account two",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([account1, account2])
+    session.flush()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                amount=100,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=25,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=15,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    transaction = Transaction(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=25,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    assert account1.closing_balance(session) == 90
+    assert transaction.is_posted == False
+
+    transaction.post(session)
+
+    assert account1.closing_balance(session) == 65
+    assert transaction.is_posted == True
+    assert (
+        account1.closing_balance(session, datetime.now() - relativedelta(weeks=2)) == 90
+    )
 
 
 def test_account_section_balances(entity, currency):  # TODO
@@ -194,9 +346,4 @@ def test_account_section_balance_movement(entity, currency):  # TODO
 
 def test_account_transactions(entity, currency):  # TODO
     """Tests an account's Transactions"""
-    pass
-
-
-def test_opening_trial_balance(entity, currency):  # TODO
-    """Tests the Chart of Accounts Opening Trial Balance"""
     pass

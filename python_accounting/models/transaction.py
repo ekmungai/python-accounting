@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy import (
     String,
     ForeignKey,
@@ -20,6 +20,8 @@ from python_accounting.exceptions import (
     ClosedReportingPeriodError,
     AdjustingReportingPeriodError,
     RedundantTransactionError,
+    MissingLineItemError,
+    PostedTransactionError,
 )
 from strenum import StrEnum
 from typing import List, Set
@@ -62,9 +64,32 @@ class Transaction(IsolatingMixin, Recyclable):
         back_populates="transaction",
         primaryjoin="Transaction.id==LineItem.transaction_id",
     )
+    ledgers: Mapped[List["Ledger"]] = relationship(
+        back_populates="transaction",
+        primaryjoin="Transaction.id==Ledger.transaction_id",
+    )
+
+    @validates("line_items", include_removes=True)
+    def validate_line_items(self, key, line_item, is_remove):
+        if self.is_posted:
+            raise PostedTransactionError(
+                f"Cannot {'Remove' if is_remove else 'Add'} Line Items from a Posted Transaction"
+            )
+
+        if line_item.id is None:
+            raise ValueError(
+                "Line Item must be persisted to be added to the Transaction"
+            )
+        return line_item
+
+    @validates("ledgers", include_removes=True)
+    def validate_ledgers(self, key, ledger, is_remove):
+        raise ValueError(
+            f"Transaction ledgers cannot be {'Removed' if is_remove else 'Added'} manually"
+        )
 
     @property
-    def tax(self):
+    def tax(self) -> dict:
         """The taxes that have been applied to the transaction"""
         taxes = dict()
         total = 0
@@ -89,14 +114,27 @@ class Transaction(IsolatingMixin, Recyclable):
         return dict(total=total, taxes=taxes)
 
     @property
-    def amount(self):
+    def is_posted(self) -> Decimal:
+        """Check if the Transaction has been posted to the ledger"""
+        return len(self.ledgers) > 0
+
+    @property
+    def amount(self) -> Decimal:
         """The amount of the transaction"""
-        return 0
+
+        return sum(
+            [
+                l.amount * l.quantity
+                + ((l.amount * l.quantity * l.tax.rate / 100) if l.tax_id else 0)
+                for l in iter(self.line_items)
+                if l.credited != self.credited
+            ]
+        )
 
     def __repr__(self) -> str:
         return f"{self.account} <{self.transaction_no}>: {self.amount}"
 
-    def _transaction_no(self, transaction_type, session, reporting_period):
+    def _transaction_no(self, session, transaction_type, reporting_period) -> str:
         """Get the next auto-generated transaction number"""
         next_id = (
             session.query(Transaction)
@@ -110,11 +148,46 @@ class Transaction(IsolatingMixin, Recyclable):
         prefix = config.transactions["types"][transaction_type.name][1]
         return f"{prefix}{reporting_period.period_count:02}/{next_id:04}"
 
-    def validate(self, session):
+    def post(self, session) -> None:
+        """Post the Transaction to the Ledger"""
+        from .ledger import Ledger
+
+        if not self.line_items:
+            raise MissingLineItemError
+
+        session.flush()
+        Ledger.post(session, self)
+
+    def contribution(self, session, account: Account) -> Decimal:
+        """Get the amount contributed by the account to the transaction total"""
+        from .balance import Balance
+        from .ledger import Ledger
+
+        query = (
+            session.query(func.sum(Ledger.amount).label("amount"))
+            .filter(Ledger.entity_id == self.entity_id)
+            .filter(Ledger.transaction_id == self.id)
+            .filter(Ledger.currency_id == self.currency_id)
+            .filter(Ledger.post_account_id == account.id)
+        )
+        return (
+            query.filter(Ledger.entry_type == Balance.BalanceType.DEBIT).scalar()
+            or 0
+            - query.filter(Ledger.entry_type == Balance.BalanceType.CREDIT).scalar()
+            or 0
+        )
+
+    def validate(self, session) -> None:
         """Validate the Transaction properties"""
 
+        if self.is_posted:
+            raise PostedTransactionError(f"A Posted Transaction cannot be modified")
+
         account = session.get(Account, self.account_id)
-        reporting_period = ReportingPeriod.get_period(self.transaction_date, session)
+        reporting_period = ReportingPeriod.get_period(
+            session,
+            self.transaction_date,
+        )
         self.currency_id = account.currency_id
 
         if reporting_period.status == ReportingPeriod.Status.CLOSED:
@@ -138,7 +211,7 @@ class Transaction(IsolatingMixin, Recyclable):
 
         if not self.transaction_no:
             self.transaction_no = self._transaction_no(
-                self.transaction_type, session, reporting_period
+                session, self.transaction_type, reporting_period
             )
 
         for line_item in self.line_items:

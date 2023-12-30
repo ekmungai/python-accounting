@@ -4,7 +4,7 @@ from python_accounting.models import Account, Category, Entity
 from python_accounting.exceptions import InvalidAccountTypeError
 
 
-def test_category_entity(entity, session):
+def test_category_entity(session, entity):
     """Tests the relationship between a category and its associated entity"""
     category = Category(
         name="Test Category",

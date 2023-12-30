@@ -5,7 +5,7 @@ from python_accounting.models import Entity, Currency, User
 from python_accounting.exceptions import MissingEntityError, SessionEntityError
 
 
-def test_entity_reporting_currency(entity, session):
+def test_entity_reporting_currency(session, entity):
     """Tests the relationship between an entity and its reporting currency"""
 
     currency = Currency(name="US Dollars", code="USD", entity_id=entity.id)
@@ -19,7 +19,7 @@ def test_entity_reporting_currency(entity, session):
     assert entity.currency.code == "USD"
 
 
-def test_entity_reporting_period(entity, session):
+def test_entity_reporting_period(session, entity):
     """Tests the relationship between an entity and its current reporting period"""
     year = datetime.today().year
     assert entity.reporting_period.calendar_year == year

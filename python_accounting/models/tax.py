@@ -29,7 +29,7 @@ class Tax(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.name} <{self.code}>: {self.rate}"
 
-    def validate(self, session):
+    def validate(self, session) -> None:
         """Validate the Tax properties"""
 
         if self.rate == 0:

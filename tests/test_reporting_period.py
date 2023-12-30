@@ -8,7 +8,7 @@ from python_accounting.exceptions import (
 )
 
 
-def test_reporting_period_entity(entity, session):
+def test_reporting_period_entity(session, entity):
     """Tests the relationship between a reporting period and its associated entity"""
     reporting_period = ReportingPeriod(
         calendar_year=datetime.today().year + 1,
@@ -124,7 +124,7 @@ def test_reporting_period_recycling(session, entity):
     assert reporting_period == None
 
 
-def test_reporting_period_dates(entity, session):
+def test_reporting_period_dates(session, entity):
     """Tests the calculation of reporting_period start and end dates"""
 
     assert ReportingPeriod.date_year() == datetime.today().year
@@ -164,10 +164,10 @@ def test_reporting_period_from_date(session, entity):
     """Tests the retrieval of the reporting_period for a given date"""
 
     assert (
-        ReportingPeriod.get_period(datetime.today(), session) == entity.reporting_period
+        ReportingPeriod.get_period(session, datetime.today()) == entity.reporting_period
     )
     with pytest.raises(MissingReportingPeriodError):
-        ReportingPeriod.get_period(datetime.strptime("2025-03-03", "%Y-%m-%d"), session)
+        ReportingPeriod.get_period(session, datetime.strptime("2025-03-03", "%Y-%m-%d"))
 
     new_reporting_period = ReportingPeriod(
         calendar_year=2025,
@@ -178,6 +178,6 @@ def test_reporting_period_from_date(session, entity):
     session.commit()
 
     assert (
-        ReportingPeriod.get_period(datetime.strptime("2025-03-03", "%Y-%m-%d"), session)
+        ReportingPeriod.get_period(session, datetime.strptime("2025-03-03", "%Y-%m-%d"))
         == new_reporting_period
     )

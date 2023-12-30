@@ -16,7 +16,7 @@ from python_accounting.exceptions import (
 )
 
 
-def test_balance_entity(entity, session, currency):
+def test_balance_entity(session, entity, currency):
     """Tests the relationship between a balance and its associated entity"""
     account = Account(
         name="test account",
@@ -217,3 +217,72 @@ def test_balance_recycling(session, entity, currency):
 
     balance = session.get(Balance, balance_id)
     assert balance == None
+
+
+def test_opening_trial_balance(session, entity, currency):  # TODO
+    """Tests the Chart of Accounts Opening Trial Balance"""
+    account1 = Account(
+        name="test account one",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test account two",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([account1, account2])
+    session.flush()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                amount=100,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=25,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.SUPPLIER_BILL,
+                amount=50,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account2.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=15,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=account1.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=40,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=account2.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    opening_trial_balance = Balance.opening_trial_balance(session)
+
+    assert opening_trial_balance["debits"] == 90
+    assert opening_trial_balance["credits"] == -90
+    assert opening_trial_balance["accounts"] == [account1, account2]

@@ -38,8 +38,8 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.calendar_year} <Period {self.period_count}>"
 
-    @classmethod
-    def date_year(cls, date: datetime = None, entity=None) -> int:
+    @staticmethod
+    def date_year(date: datetime = None, entity=None) -> int:
         """Returns the calendar year for the given date"""
 
         today = datetime.today()
@@ -49,8 +49,8 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         month, year = (date.month, date.year) if date else (today.month, today.year)
         return year if month >= entity.year_start else year - 1
 
-    @classmethod
-    def get_period(cls, date: datetime, session) -> int:
+    @staticmethod
+    def get_period(session, date: datetime):
         """Returns the reporting period for the given date"""
 
         year = ReportingPeriod.date_year(date, session.entity)
@@ -66,7 +66,7 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         except StopIteration:
             raise MissingReportingPeriodError(session.entity, year)
 
-    def validate(self, session):
+    def validate(self, session) -> None:
         """Validate the reporting period properties"""
 
         if self.id is None:

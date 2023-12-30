@@ -2,7 +2,7 @@ from sqlalchemy import select
 from python_accounting.models import Currency, Entity
 
 
-def test_currency_entity(entity, session):
+def test_currency_entity(session, entity):
     """Tests the relationship between a currency and its associated entity"""
 
     currency = Currency(name="US Dollars", code="USD", entity_id=entity.id)

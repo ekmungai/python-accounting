@@ -11,11 +11,11 @@ class AccountingSession(
 ):
     entity: Entity
 
-    def __init__(self, bind=None, info=None):
+    def __init__(self, bind=None, info=None) -> None:
         super(AccountingSession, self).__init__(bind=bind, info=info)
 
 
-def Session(engine):
+def Session(engine) -> Session:
     """Construct the accounting session"""
     return AccountingSession(
         bind=engine,

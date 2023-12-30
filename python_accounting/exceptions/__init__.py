@@ -15,3 +15,5 @@ from .invalid_transaction_date import InvalidTransactionDateError
 from .closed_reporting_period import ClosedReportingPeriodError
 from .adjusting_reporting_period import AdjustingReportingPeriodError
 from .redundant_transaction import RedundantTransactionError
+from .missing_line_item import MissingLineItemError
+from .posted_transaction import PostedTransactionError

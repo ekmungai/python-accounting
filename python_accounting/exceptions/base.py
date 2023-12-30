@@ -6,5 +6,5 @@ class AccountingExeption(Exception):
 
     message: str
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.message}"

@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 from decimal import Decimal
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import select
+from sqlalchemy import select, func
 from python_accounting.models import (
     Account,
     Transaction,
@@ -10,16 +10,20 @@ from python_accounting.models import (
     ReportingPeriod,
     LineItem,
     Tax,
+    Ledger,
+    Balance,
 )
 from python_accounting.exceptions import (
     InvalidTransactionDateError,
     ClosedReportingPeriodError,
     AdjustingReportingPeriodError,
     RedundantTransactionError,
+    MissingLineItemError,
+    PostedTransactionError,
 )
 
 
-def test_transaction_entity(entity, session, currency):
+def test_transaction_entity(session, entity, currency):
     """Tests the relationship between a transaction and its associated entity"""
 
     account = Account(
@@ -282,7 +286,7 @@ def test_transaction_numbers(session, entity, currency):
 
 
 def test_transaction_line_items(session, entity, currency):
-    """Tests the adding and removal of line items to the transaction transaction"""
+    """Tests the adding and removal of line items to the transaction"""
     account1 = Account(
         name="test transaction account",
         account_type=Account.AccountType.CONTROL,
@@ -319,14 +323,17 @@ def test_transaction_line_items(session, entity, currency):
         amount=10,
         entity_id=entity.id,
     )
-    transaction.line_items.add(line_item1)
-    transaction.line_items.add(line_item1)
 
-    assert list(transaction.line_items) == [line_item1]
+    with pytest.raises(ValueError) as e:
+        transaction.line_items.add(line_item1)
+    assert str(e.value) == "Line Item must be persisted to be added to the Transaction"
 
+    session.add(line_item1)
     session.flush()
 
     transaction.line_items.add(line_item1)
+    transaction.line_items.add(line_item1)
+
     assert list(transaction.line_items) == [line_item1]
 
     line_item2 = LineItem(
@@ -336,6 +343,8 @@ def test_transaction_line_items(session, entity, currency):
         entity_id=entity.id,
     )
 
+    session.add(line_item2)
+    session.flush()
     transaction.line_items.add(line_item2)
     transaction.line_items.remove(line_item1)
 
@@ -353,6 +362,100 @@ def test_transaction_line_items(session, entity, currency):
         str(e.value)
         == "Line Item <Test Transaction Account <Debit>: 10> Account is the same as the Transaction Account"
     )
+
+    line_item1.account_id = account2.id
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    with pytest.raises(PostedTransactionError) as e:
+        transaction.line_items.add(line_item2)
+    assert str(e.value) == "Cannot Add Line Items from a Posted Transaction"
+
+    with pytest.raises(PostedTransactionError) as e:
+        transaction.line_items.remove(line_item1)
+    assert str(e.value) == "Cannot Remove Line Items from a Posted Transaction"
+
+    with pytest.raises(ValueError) as e:
+        transaction.ledgers.remove(transaction.ledgers[0])
+    assert str(e.value) == "Transaction ledgers cannot be Removed manually"
+
+    with pytest.raises(ValueError) as e:
+        transaction.ledgers.append(transaction.ledgers[0])
+    assert str(e.value) == "Transaction ledgers cannot be Added manually"
+
+
+def test_transaction_amount(session, entity, currency):
+    """Tests a transactions tax property"""
+
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item account",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account3 = Account(
+        name="test taxation account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2, account3])
+    session.flush()
+
+    tax1 = Tax(
+        name="Output Vat one",
+        code="OTPT1",
+        account_id=account3.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    session.add(tax1)
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=100,
+        tax_id=tax1.id,
+        entity_id=entity.id,
+    )
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=account2.id,
+        amount=100,
+        quantity=2,
+        entity_id=entity.id,
+    )
+
+    session.add_all([line_item1, line_item2])
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    transaction.line_items.add(line_item2)
+
+    session.add(transaction)
+    session.commit()
+
+    assert transaction.amount == Decimal(310)
 
 
 def test_transaction_tax(session, entity, currency):
@@ -420,6 +523,10 @@ def test_transaction_tax(session, entity, currency):
         tax_id=tax2.id,
         entity_id=entity.id,
     )
+
+    session.add_all([line_item1, line_item2])
+    session.flush()
+
     transaction.line_items.add(line_item1)
     transaction.line_items.add(line_item2)
 
@@ -441,9 +548,156 @@ def test_transaction_tax(session, entity, currency):
     }
 
 
-def test_transaction_posting(session, entity):  # TODO
+def test_transaction_posting(session, entity, currency):
     """Tests validation for changes allowed before and after posting a transaction"""
-    pass
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.OPERATING_EXPENSE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item one account",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    account3 = Account(
+        name="test taxation account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2, account3])
+    session.flush()
+
+    tax1 = Tax(
+        name="Output Vat one",
+        code="OTPT1",
+        account_id=account3.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    session.add(tax1)
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    assert transaction.amount == Decimal(0)
+
+    with pytest.raises(MissingLineItemError) as e:
+        transaction.post(session)
+    assert str(e.value) == "A Transaction must have at least one Line Item to be posted"
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=75,
+        tax_id=tax1.id,
+        entity_id=entity.id,
+    )
+
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    assert transaction.amount == Decimal(82.5)
+
+    transaction.post(session)
+
+    assert transaction.amount == Decimal(82.5)
+    assert (
+        session.query(func.sum(Ledger.amount).label("amount"))
+        .filter(Ledger.entity_id == transaction.entity_id)
+        .filter(Ledger.transaction_id == transaction.id)
+        .filter(Ledger.currency_id == transaction.currency_id)
+        .filter(
+            Ledger.entry_type == Balance.BalanceType.CREDIT
+            if transaction.credited
+            else Balance.BalanceType.DEBIT
+        )
+        .scalar()
+        == 82.5
+    )
+    transaction.narration = "new narration"
+    session.add(transaction)
+
+    with pytest.raises(PostedTransactionError) as e:
+        session.commit()
+    assert str(e.value) == "A Posted Transaction cannot be modified"
+
+
+def test_transaction_account_contribution(session, entity, currency):
+    """Tests the contribution of each line item account to the transaction total"""
+
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.OPERATING_EXPENSE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item one account",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account3 = Account(
+        name="test line item two account",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2, account3])
+
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=75,
+        entity_id=entity.id,
+    )
+
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=account3.id,
+        amount=120,
+        entity_id=entity.id,
+    )
+    session.add_all([line_item1, line_item2])
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    transaction.line_items.add(line_item2)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    assert transaction.amount == Decimal(195)
+    assert transaction.contribution(session, account1) == Decimal(-195)
+    assert transaction.contribution(session, account2) == Decimal(75)
+    assert transaction.contribution(session, account3) == Decimal(120)
 
 
 def test_transaction_assignment(session, entity):  # TODO

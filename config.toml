@@ -8,6 +8,10 @@ ignore_isolation = false
 url = "sqlite://"
 echo = false
 
+[hashing]
+salt = "hashing salt"
+algorithm = "sha256"
+
 [accounts.types] # KEY: [account_type, account_code (start)]
 
 # Balance Sheet: Asset Accounts

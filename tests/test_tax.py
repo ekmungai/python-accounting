@@ -12,7 +12,7 @@ from python_accounting.exceptions import (
 )
 
 
-def test_tax_entity(entity, session, currency):
+def test_tax_entity(session, entity, currency):
     """Tests the relationship between a tax and its associated entity"""
 
     account = Account(

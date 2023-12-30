@@ -8,7 +8,7 @@ from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import MissingEntityError
 
 
-def _filter_options(execute_state, option):
+def _filter_options(execute_state, option) -> bool:
     """Valiadate if filter should be applied"""
     return (
         not execute_state.is_column_load
@@ -22,7 +22,7 @@ class EventListenersMixin:
     """This class provides logic for handling events in sqlalchemy's orm lifecycle"""
 
     @event.listens_for(Session, "do_orm_execute")
-    def _add_filtering_criteria(execute_state):
+    def _add_filtering_criteria(execute_state) -> None:
         """Intercept all ORM queries to filter objects by delete status and entity id"""
 
         # Recycling filter
@@ -50,7 +50,7 @@ class EventListenersMixin:
             )
 
     @event.listens_for(Session, "transient_to_pending")
-    def _set_session_entity(session, object_):
+    def _set_session_entity(session, object_) -> None:
         """Make sure that all objects have an associated Entity"""
 
         if not hasattr(session, "entity") or session.entity is None:
@@ -68,7 +68,7 @@ class EventListenersMixin:
             session._set_reporting_period()
 
     @event.listens_for(Session, "transient_to_pending")
-    def _get_transaction_index(session, object_):
+    def _set_transaction_index(session, object_) -> None:
         """Transaction objects need to keep track of how many are being added to calculate thier transaction numbers"""
 
         if isinstance(object_, Transaction) and object_.id is None:
@@ -82,7 +82,7 @@ class EventListenersMixin:
             )
 
     @event.listens_for(Session, "before_flush")
-    def _validate_model(session, flush_context, instances):
+    def _validate_model(session, flush_context, instances) -> None:
         """Run validation logic against the model instance if any"""
         for model in list(session.new) + list(session.dirty):
             if hasattr(model, "validate"):

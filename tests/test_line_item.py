@@ -1,16 +1,13 @@
 import pytest
+from datetime import datetime
 from sqlalchemy import select
-from python_accounting.models import (
-    LineItem,
-    Entity,
-    Account,
-)
+from python_accounting.models import LineItem, Entity, Account, Transaction
 from python_accounting.exceptions import (
     NegativeAmountError,
 )
 
 
-def test_line_item_entity(entity, session, currency):
+def test_line_item_entity(session, entity, currency):
     """Tests the relationship between a line item and its associated entity"""
 
     account = Account(
@@ -174,6 +171,57 @@ def test_line_item_recycling(session, entity, currency):
 
     line_item = session.get(LineItem, line_item_id)
     assert line_item == None
+
+
+def test_line_item_ledgers(session, entity, currency):
+    """Tests the adding and removal of ledgers to line items"""
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item account",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2])
+    session.flush()
+
+    transaction = Transaction(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=10,
+        entity_id=entity.id,
+    )
+
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+
+    transaction.post(session)
+
+    with pytest.raises(ValueError) as e:
+        line_item1.ledgers.remove(line_item1.ledgers[0])
+    assert str(e.value) == "Line Item ledgers cannot be Removed manually"
+
+    with pytest.raises(ValueError) as e:
+        line_item1.ledgers.append(line_item1.ledgers[0])
+    assert str(e.value) == "Line Item ledgers cannot be Added manually"
 
 
 def test_tax_inclusive_amount(session, entity):  # TODO
