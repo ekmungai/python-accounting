@@ -43,7 +43,7 @@ OVERHEAD_EXPENSE = ["Overhead Expense", "15000"] # 15000 - 15999
 OTHER_EXPENSE = ["Other Expense", "16000"] # 16000 - 16999
 
 [accounts.purchasables]
-types = ["OPERATING_EXPENSE", "DIRECT_EXPENSE", "OVERHEAD_EXPENSE", "OTHER_EXPENSE", "NON_CURRENT_ASSET", "CURRENT_ASSET", "INVENTORY"]
+types = ["Operating Expense", "Direct Expense", "Overhead Expense", "Expense", "Non Current Asset", "Current Asset", "Inventory"]
 
 [transactions.types] # KEY: [transaction_type, transaction_prefix]
 # Client Transactions

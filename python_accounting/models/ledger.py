@@ -69,7 +69,7 @@ class Ledger(IsolatingMixin, Recyclable):
         return post, folio
 
     @staticmethod
-    def _post_compound(session, transaction: Transaction) -> None:
+    def _post_compound(session, transaction: Transaction) -> None:  # TODO
         """Post a compound transaction to the ledger"""
         pass
 
