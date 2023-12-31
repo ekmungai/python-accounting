@@ -1,6 +1,7 @@
 from python_accounting.exceptions import (
     InvalidMainAccountError,
     InvalidLineItemAccountError,
+    InvalidTaxChargeError,
 )
 
 
@@ -12,6 +13,8 @@ class TradingMixin:
             raise InvalidLineItemAccountError(
                 self.__class__.__name__, self.line_item_types
             )
+        if getattr(self, "no_tax", False) and line_item.tax_id:
+            raise InvalidTaxChargeError
         return line_item
 
     def validate(self, session) -> None:

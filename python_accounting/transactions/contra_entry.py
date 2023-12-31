@@ -3,23 +3,24 @@ from python_accounting.mixins.trading import TradingMixin
 from typing import Any
 
 
-class SupplierPayment(TradingMixin, Transaction):
-    """Class for the Supplier Payment Transaction"""
+class ContraEntry(TradingMixin, Transaction):
+    """Class for the Contra Entry Transaction"""
 
     __tablename__ = None
     __mapper_args__ = {
-        "polymorphic_identity": Transaction.TransactionType.SUPPLIER_PAYMENT,
+        "polymorphic_identity": Transaction.TransactionType.CONTRA_ENTRY,
     }
 
     def __init__(self, **kw: Any) -> None:
         from python_accounting.models import Account
 
         self.line_item_types: list = [Account.AccountType.BANK]
-        self.main_account_types: list = [Account.AccountType.PAYABLE]
+        self.main_account_types: list = [Account.AccountType.BANK]
         self.account_type_map: dict = {
-            "SupplierPayment": Account.AccountType.PAYABLE,
+            "ContraEntry": Account.AccountType.BANK,
         }
 
         self.credited = False
-        self.transaction_type = Transaction.TransactionType.SUPPLIER_PAYMENT
+        self.transaction_type = Transaction.TransactionType.CONTRA_ENTRY
+        self.no_tax = True
         super().__init__(**kw)

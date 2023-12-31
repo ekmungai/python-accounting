@@ -6,3 +6,4 @@ from .client_receipt import ClientReceipt
 from .credit_note import CreditNote
 from .supplier_payment import SupplierPayment
 from .debit_note import DebitNote
+from .contra_entry import ContraEntry

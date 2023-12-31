@@ -19,3 +19,4 @@ from .missing_line_item import MissingLineItemError
 from .posted_transaction import PostedTransactionError
 from .invalid_main_account import InvalidMainAccountError
 from .invalid_line_item_account import InvalidLineItemAccountError
+from .invalid_tax_charge import InvalidTaxChargeError
