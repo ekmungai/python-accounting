@@ -1,37 +1,25 @@
-from python_accounting.exceptions import (
-    InvalidMainAccountError,
-    InvalidLineItemAccountError,
-)
+from python_accounting.mixins.trading import TradingMixin
+from typing import Any
 
 
-class BuyingMixin:
+class BuyingMixin(TradingMixin):
     """This class provides validation for transaction's that buy goods and services for an entity's"""
 
-    def _validate_subclass_line_items(self, line_item):
+    line_item_types: list
+    main_account_types: list
+    account_type_map: dict
+
+    def __init__(self, **kw: Any) -> None:
         from python_accounting.models import Account
 
-        if line_item.account.account_type not in Account.purchasables:
-            raise InvalidLineItemAccountError(
-                self.__class__.__name__, Account.purchasables
-            )
-        return line_item
-
-    def validate(self, session) -> None:
-        """Validate the buying Transaction properties"""
-        from python_accounting.models import Account
-
-        AccountTypeMap = {
-            "SupplierBill": Account.AccountType.PAYABLE,
-            "CashPurchase": Account.AccountType.BANK,
-        }
-
-        account = self._get_main_account(session, self.account_id)
-
-        if account.account_type not in [
+        self.line_item_types: list = Account.purchasables
+        self.main_account_types: list = [
             Account.AccountType.PAYABLE,
             Account.AccountType.BANK,
-        ]:
-            raise InvalidMainAccountError(
-                self.__class__.__name__, AccountTypeMap[self.__class__.__name__]
-            )
-        super().validate(session)
+        ]
+        self.account_type_map: dict = {
+            "SupplierBill": Account.AccountType.PAYABLE,
+            "DebitNote": Account.AccountType.PAYABLE,
+            "CashPurchase": Account.AccountType.BANK,
+        }
+        super().__init__(**kw)
