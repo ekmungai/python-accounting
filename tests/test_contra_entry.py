@@ -127,4 +127,4 @@ def test_contra_entry_validation(session, entity, currency):
 
     with pytest.raises(InvalidTaxChargeError) as e:
         transaction.line_items.add(line_item1)
-    assert str(e.value) == "A Contra Entry Transaction cannot be charged Tax"
+    assert str(e.value) == "ContraEntry Transactions cannot be charged Tax"

@@ -37,7 +37,7 @@ class Ledger(IsolatingMixin, Recyclable):
         ForeignKey("account.id", ondelete="RESTRICT")
     )
     line_item_id: Mapped[int] = mapped_column(
-        ForeignKey("line_item.id", ondelete="RESTRICT")
+        ForeignKey("line_item.id", ondelete="RESTRICT"), nullable=True
     )
     tax_id: Mapped[int] = mapped_column(
         ForeignKey("tax.id", ondelete="RESTRICT"), nullable=True
@@ -49,6 +49,76 @@ class Ledger(IsolatingMixin, Recyclable):
     post_account: Mapped["Account"] = relationship(foreign_keys=[post_account_id])
     folio_account: Mapped["Account"] = relationship(foreign_keys=[folio_account_id])
     line_item: Mapped["LineItem"] = relationship(foreign_keys=[line_item_id])
+
+    def __repr__(self) -> str:
+        return f"Post {self.post_account.name}, Folio {self.folio_account.name} <{self.entry_type}> : {self.amount}"
+
+    @staticmethod
+    def _allocate_amount(
+        session, post, amount, posts, folios, transaction, entry_type
+    ) -> None:
+        if amount == 0:
+            posts.pop(0)
+            return Ledger._make_compound_ledgers(
+                session, posts, folios, transaction, entry_type
+            )
+        folio, folio_amount = folios[0]
+        ledger = Ledger(
+            transaction_id=transaction.id,
+            currency_id=transaction.currency_id,
+            transaction_date=transaction.transaction_date,
+            entity_id=transaction.entity_id,
+            entry_type=entry_type,
+            post_account_id=post,
+            folio_account_id=folio,
+        )
+
+        if folio_amount > amount:
+            ledger.amount = amount
+            folios[0][1] -= amount
+            amount = 0
+        else:
+            ledger.amount = folio_amount
+            amount -= folio_amount
+            folios.pop(0)
+
+        session.add(ledger)
+        session.commit()
+
+        return Ledger._allocate_amount(
+            session, post, amount, posts, folios, transaction, entry_type
+        )
+
+    @staticmethod
+    def _make_compound_ledgers(
+        session,
+        posts: list,
+        folios: list,
+        transaction: Transaction,
+        entry_type: Balance.BalanceType,
+    ) -> None:
+        if posts == []:
+            return
+        post, post_amount = posts[0]
+        return Ledger._allocate_amount(
+            session, post, post_amount, posts, folios, transaction, entry_type
+        )
+
+    @staticmethod
+    def _post_compound(session, transaction: Transaction) -> None:
+        """Post a compound transaction to the ledger"""
+
+        # Debit amounts ledgers
+        debits, credits = transaction.get_compound_entries()
+        Ledger._make_compound_ledgers(
+            session, debits, credits, transaction, Balance.BalanceType.DEBIT
+        )
+
+        # Credit amounts ledgers
+        debits, credits = transaction.get_compound_entries()
+        Ledger._make_compound_ledgers(
+            session, credits, debits, transaction, Balance.BalanceType.CREDIT
+        )
 
     @staticmethod
     def _transaction_ledgers(transaction: Transaction) -> tuple:
@@ -67,11 +137,6 @@ class Ledger(IsolatingMixin, Recyclable):
             )
         )
         return post, folio
-
-    @staticmethod
-    def _post_compound(session, transaction: Transaction) -> None:  # TODO
-        """Post a compound transaction to the ledger"""
-        pass
 
     @staticmethod
     def _post_simple(session, transaction: Transaction) -> None:

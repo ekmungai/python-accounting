@@ -6,7 +6,7 @@ from python_accounting.exceptions import (
 
 
 class TradingMixin:
-    """This class provides validation for transaction's that trade goods and services for an entity's"""
+    """This class provides validation for transactions that trade goods and services for an entity"""
 
     def _validate_subclass_line_items(self, line_item):
         if line_item.account.account_type not in self.line_item_types:
@@ -14,7 +14,7 @@ class TradingMixin:
                 self.__class__.__name__, self.line_item_types
             )
         if getattr(self, "no_tax", False) and line_item.tax_id:
-            raise InvalidTaxChargeError
+            raise InvalidTaxChargeError(self.__class__.__name__)
         return line_item
 
     def validate(self, session) -> None:

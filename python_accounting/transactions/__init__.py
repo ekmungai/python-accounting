@@ -7,3 +7,4 @@ from .credit_note import CreditNote
 from .supplier_payment import SupplierPayment
 from .debit_note import DebitNote
 from .contra_entry import ContraEntry
+from .journal_entry import JournalEntry
