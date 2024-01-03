@@ -1,9 +1,10 @@
 from python_accounting.models import Transaction
+from python_accounting.mixins import AssigningMixin
 from python_accounting.mixins.trading import TradingMixin
 from typing import Any
 
 
-class ClientReceipt(TradingMixin, Transaction):
+class ClientReceipt(TradingMixin, AssigningMixin, Transaction):
     """Class for the Client Receipt Transaction"""
 
     __tablename__ = None

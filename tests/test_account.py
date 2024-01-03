@@ -332,7 +332,7 @@ def test_account_closing_balance(session, entity, currency):
     assert account1.closing_balance(session) == 65
     assert transaction.is_posted == True
     assert (
-        account1.closing_balance(session, datetime.now() - relativedelta(weeks=2)) == 90
+        account1.closing_balance(session, datetime.now() - relativedelta(days=1)) == 90
     )
 
 

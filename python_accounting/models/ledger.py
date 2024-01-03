@@ -154,7 +154,11 @@ class Ledger(IsolatingMixin, Recyclable):
 
             if line_item.tax_id:
                 tax_post, tax_folio = deepcopy(post), deepcopy(folio)
-                tax_post.amount = tax_folio.amount = amount * line_item.tax.rate / 100
+                tax_post.amount = tax_folio.amount = (
+                    amount - (amount / (1 + line_item.tax.rate / 100))
+                    if line_item.tax_inclusive
+                    else amount * line_item.tax.rate / 100
+                )
                 tax_post.post_account_id = tax_folio.folio_account_id = (
                     line_item.account_id
                     if line_item.tax_inclusive

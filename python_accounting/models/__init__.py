@@ -12,3 +12,4 @@ from .balance import Balance
 from .tax import Tax
 from .line_item import LineItem
 from .ledger import Ledger
+from .assignment import Assignment

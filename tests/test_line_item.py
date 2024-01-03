@@ -1,10 +1,19 @@
 import pytest
 from datetime import datetime
+from decimal import Decimal
 from sqlalchemy import select
-from python_accounting.models import LineItem, Entity, Account, Transaction
+from python_accounting.models import (
+    LineItem,
+    Entity,
+    Account,
+    Transaction,
+    Tax,
+    Balance,
+)
 from python_accounting.exceptions import (
     NegativeAmountError,
 )
+from python_accounting.transactions import ClientInvoice
 
 
 def test_line_item_entity(session, entity, currency):
@@ -224,6 +233,66 @@ def test_line_item_ledgers(session, entity, currency):
     assert str(e.value) == "Line Item ledgers cannot be Added manually"
 
 
-def test_tax_inclusive_amount(session, entity):  # TODO
-    """Tests that line item tax inclusive amounts are properly calculated"""
-    pass
+def test_tax_inclusive_amount(session, entity, currency):
+    """Tests that line item tax inclusive amounts are properly posted"""
+    account1 = Account(
+        name="test account one",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test account two",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account3 = Account(
+        name="test account three",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([account1, account2, account3])
+    session.flush()
+
+    transaction = ClientInvoice(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.commit()
+
+    tax = Tax(
+        name="Output Vat",
+        code="OTPT",
+        account_id=account3.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    session.add(tax)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=100,
+        tax_inclusive=True,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    assert transaction.amount == 100
+    assert account1.closing_balance(session) == 100
+    assert account2.closing_balance(session) == Decimal("-90.9091")
+    assert account3.closing_balance(session) == Decimal("-9.0909")

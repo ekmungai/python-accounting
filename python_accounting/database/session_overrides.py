@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Mapped
 from datetime import datetime
 
-from python_accounting.models import Recycled, Entity
+from python_accounting.models import Recycled, Entity, Assignment
 from python_accounting.exceptions import SessionEntityError
 
 
@@ -19,6 +19,9 @@ class SessionOverridesMixin:
 
     def delete(self, instance) -> bool:
         """Override the delete method to enable model recycling"""
+
+        if isinstance(instance, Assignment):
+            return self.erase(instance)
 
         if isinstance(instance, Entity) and instance.id == self.entity.id:
             raise SessionEntityError
@@ -54,6 +57,5 @@ class SessionOverridesMixin:
         return True
 
     def erase(self, instance) -> None:
-        """Completely remove an instance from the database. Should never be called in production"""
-
-        self.delete(instance)
+        """Completely remove an instance from the database"""
+        super().delete(instance)

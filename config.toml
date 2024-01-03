@@ -61,3 +61,10 @@ SUPPLIER_PAYMENT = ["Supplier Payment", "PY"]
 # Internal Transactions
 CONTRA_ENTRY = ["Contra Entry", "CE"]
 JOURNAL_ENTRY = ["Journal Entry", "JN"]
+
+[transactions.clearables]
+types = ["Client Invoice", "Supplier Bill", "Journal Entry"]
+
+[transactions.assignables]
+types = ["Client Receipt", "Supplier Payment", "Credit Note", "Credit Note", "Debit Note", "Journal Entry"]
+

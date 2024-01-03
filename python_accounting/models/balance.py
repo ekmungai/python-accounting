@@ -58,6 +58,16 @@ class Balance(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.account} {self.reporting_period}: {self.amount}"
 
+    @property
+    def is_posted(self) -> bool:
+        """is_posted analog for the assignment model"""
+        return True
+
+    @property
+    def credited(self) -> bool:
+        """credited analog for the assignment model"""
+        return self.balance_type == Balance.BalanceType.CREDIT
+
     @staticmethod
     def opening_trial_balance(session, year: int = None) -> dict:
         """Get the total opening balances for the entity's accounts for the given year"""

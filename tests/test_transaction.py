@@ -91,11 +91,12 @@ def test_transaction_validation(session, entity, currency):
 
     transaction.transaction_date = today - relativedelta(years=1)
     session.add(transaction)
+    last_year = datetime.today().year - 1
     with pytest.raises(ClosedReportingPeriodError) as e:
         session.commit()
     assert (
         str(e.value)
-        == "Transaction cannot be recorded because Reporting Period: 2022 <Period 2> is Closed"
+        == f"Transaction cannot be recorded because Reporting Period: {last_year} <Period 2> is Closed"
     )
 
     transaction.transaction_type = Transaction.TransactionType.CLIENT_INVOICE
@@ -107,7 +108,7 @@ def test_transaction_validation(session, entity, currency):
         session.commit()
     assert (
         str(e.value)
-        == "Only Journal Entry Transactions can be recorded for Reporting Period: 2022 <Period 2> which has the Adjusting Status"
+        == f"Only Journal Entry Transactions can be recorded for Reporting Period: {last_year} <Period 2> which has the Adjusting Status"
     )
 
     # PostedTransactionError #TODO

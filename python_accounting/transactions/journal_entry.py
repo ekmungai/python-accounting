@@ -1,4 +1,5 @@
 from python_accounting.models import Transaction
+from python_accounting.mixins import AssigningMixin, ClearingMixin
 from python_accounting.exceptions import (
     MissingMainAccountAmountError,
     UnbalancedTransactionError,
@@ -7,7 +8,7 @@ from python_accounting.exceptions import (
 from typing import Any
 
 
-class JournalEntry(Transaction):
+class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
     """Class for the Journal Entry Transaction"""
 
     __tablename__ = None
@@ -22,13 +23,12 @@ class JournalEntry(Transaction):
     def _validate_subclass_line_items(self, line_item):
         if self.compound and line_item.tax_id:
             raise InvalidTaxChargeError(f"Compound {self.__class__.__name__}")
-        return line_item
 
     def get_compound_entries(self) -> tuple:
         """Prepare the compound entries for the Transaction"""
 
         if not self.compound:
-            return {}
+            return ()
 
         compound_entries = dict(Debit=[], Credit=[])
         compound_entries["Credit" if self.credited else "Debit"].append(

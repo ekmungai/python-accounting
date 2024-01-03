@@ -86,7 +86,7 @@ class Transaction(IsolatingMixin, Recyclable):
                 "Line Item must be persisted to be added to the Transaction"
             )
 
-        if not self.compound:
+        if not self.compound and line_item.credited == self.credited:
             line_item.credited = not self.credited
         return line_item
 
@@ -133,7 +133,11 @@ class Transaction(IsolatingMixin, Recyclable):
         return sum(
             [
                 l.amount * l.quantity
-                + ((l.amount * l.quantity * l.tax.rate / 100) if l.tax_id else 0)
+                + (
+                    (l.amount * l.quantity * l.tax.rate / 100)
+                    if l.tax_id and not l.tax_inclusive
+                    else 0
+                )
                 for l in iter(self.line_items)
                 if l.credited != self.credited
             ]
@@ -158,7 +162,7 @@ class Transaction(IsolatingMixin, Recyclable):
             .with_entities(func.count())
             .execution_options(include_deleted=True)
             .scalar()
-        ) + getattr(self, "session_index", 0)
+        ) + getattr(self, "session_index", 1)
 
         prefix = config.transactions["types"][transaction_type.name][1]
         return f"{prefix}{reporting_period.period_count:02}/{next_id:04}"

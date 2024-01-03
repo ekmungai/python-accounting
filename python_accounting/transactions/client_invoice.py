@@ -1,9 +1,9 @@
 from python_accounting.models import Transaction
-from python_accounting.mixins import SellingMixin
+from python_accounting.mixins import SellingMixin, ClearingMixin
 from typing import Any
 
 
-class ClientInvoice(SellingMixin, Transaction):
+class ClientInvoice(SellingMixin, ClearingMixin, Transaction):
     """Class for the Client Invoice Transaction"""
 
     __tablename__ = None
