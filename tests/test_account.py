@@ -12,7 +12,18 @@ from python_accounting.models import (
     LineItem,
     Tax,
 )
-from python_accounting.transactions import ClientInvoice
+from python_accounting.transactions import (
+    ClientInvoice,
+    CashSale,
+    ContraEntry,
+    ClientReceipt,
+    CashPurchase,
+    SupplierPayment,
+    CreditNote,
+    JournalEntry,
+    SupplierBill,
+    DebitNote,
+)
 from python_accounting.exceptions import InvalidCategoryAccountTypeError
 
 
@@ -46,14 +57,14 @@ def test_account_validation(session, entity, currency):
     session.flush()
 
     account = session.get(Account, account.id)
-    assert account.account_code == 3000
+    assert account.account_code == 3001
 
     account.name = "new test account"
     session.add(account)
     session.flush()
 
     account = session.get(Account, account.id)
-    assert account.account_code == 3000
+    assert account.account_code == 3001
     assert (
         account.name == "New Test Account"
     )  # changes other than account type do not affect the account code
@@ -63,7 +74,7 @@ def test_account_validation(session, entity, currency):
     session.flush()
 
     account = session.get(Account, account.id)
-    assert account.account_code == 50000
+    assert account.account_code == 50001
 
     account = Account(
         name="test account three",
@@ -478,6 +489,678 @@ def test_account_section_balances(session, entity, currency):
     assert control_balances["categories"][category4.name]["accounts"] == [account4]
 
 
-def test_account_transactions(entity, currency):  # TODO
-    """Tests an account's Transactions"""
-    pass
+def test_bank_account_statement(session, entity, currency):
+    """Tests a bank account's statement"""
+
+    bank_account = Account(
+        name="test account one",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    revenue = Account(
+        name="test account two",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    control = Account(
+        name="test account three",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    bank_account2 = Account(
+        name="test account four",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    client = Account(
+        name="test account five",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    expense = Account(
+        name="test account six",
+        account_type=Account.AccountType.DIRECT_EXPENSE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    supplier = Account(
+        name="test account seven",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all(
+        [bank_account, revenue, control, bank_account2, client, expense, supplier]
+    )
+    session.commit()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=150,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=bank_account.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=80,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=bank_account.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    session.flush()
+
+    # cash sale
+    transaction1 = CashSale(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=bank_account.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction1)
+    session.commit()
+
+    tax = Tax(
+        name="Output Vat",
+        code="OTPT",
+        account_id=control.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    session.add(tax)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=revenue.id,
+        amount=100,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction1.line_items.add(line_item1)
+    session.add(transaction1)
+    session.flush()
+
+    transaction1.post(session)
+
+    # credit contra entry
+    transaction2 = ContraEntry(
+        narration="Test transaction two",
+        transaction_date=datetime.now(),
+        account_id=bank_account2.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction2)
+    session.commit()
+
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=bank_account.id,
+        amount=50,
+        entity_id=entity.id,
+    )
+    session.add(line_item2)
+    session.flush()
+
+    transaction2.line_items.add(line_item2)
+    session.add(transaction2)
+    session.flush()
+
+    transaction2.post(session)
+
+    # debit contra entry
+    transaction3 = ContraEntry(
+        narration="Test transaction three",
+        transaction_date=datetime.now(),
+        account_id=bank_account.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction3)
+    session.commit()
+
+    line_item3 = LineItem(
+        narration="Test line item three",
+        account_id=bank_account2.id,
+        amount=50,
+        entity_id=entity.id,
+    )
+    session.add(line_item3)
+    session.flush()
+
+    transaction3.line_items.add(line_item3)
+    session.add(transaction3)
+    session.flush()
+
+    transaction3.post(session)
+
+    # client receipt
+    transaction4 = ClientReceipt(
+        narration="Test transaction four",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction4)
+    session.commit()
+
+    line_item4 = LineItem(
+        narration="Test line item four",
+        account_id=bank_account.id,
+        amount=25,
+        entity_id=entity.id,
+    )
+    session.add(line_item4)
+    session.flush()
+
+    transaction4.line_items.add(line_item4)
+    session.add(transaction4)
+    session.flush()
+
+    transaction4.post(session)
+
+    # cash purchase
+    transaction5 = CashPurchase(
+        narration="Test transaction five",
+        transaction_date=datetime.now(),
+        account_id=bank_account.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction5)
+    session.commit()
+
+    tax2 = Tax(
+        name="Input Vat",
+        code="INPT",
+        account_id=control.id,
+        rate=5,
+        entity_id=entity.id,
+    )
+    session.add(tax2)
+    session.flush()
+
+    line_item5 = LineItem(
+        narration="Test line item five",
+        account_id=expense.id,
+        amount=60,
+        tax_id=tax2.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item5)
+    session.flush()
+
+    transaction5.line_items.add(line_item5)
+    session.add(transaction5)
+    session.flush()
+
+    transaction5.post(session)
+
+    # supplier payment
+    transaction6 = SupplierPayment(
+        narration="Test transaction six",
+        transaction_date=datetime.now(),
+        account_id=supplier.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction6)
+    session.commit()
+
+    line_item6 = LineItem(
+        narration="Test line item six",
+        account_id=bank_account.id,
+        amount=22,
+        entity_id=entity.id,
+    )
+    session.add(line_item6)
+    session.flush()
+
+    transaction6.line_items.add(line_item6)
+    session.add(transaction6)
+    session.flush()
+
+    transaction6.post(session)
+
+    statement = bank_account.statement(session)
+
+    assert statement["opening_balance"] == 70
+
+    assert statement["transactions"][0].debit == 110
+    assert statement["transactions"][0].credit == 0
+    assert statement["transactions"][0].balance == 180
+
+    assert statement["transactions"][1].debit == 0
+    assert statement["transactions"][1].credit == 50
+    assert statement["transactions"][1].balance == 130
+
+    assert statement["transactions"][2].debit == 50
+    assert statement["transactions"][2].credit == 0
+    assert statement["transactions"][2].balance == 180
+
+    assert statement["transactions"][3].debit == 25
+    assert statement["transactions"][3].credit == 0
+    assert statement["transactions"][3].balance == 205
+
+    assert statement["transactions"][4].debit == 0
+    assert statement["transactions"][4].credit == 63
+    assert statement["transactions"][4].balance == 142
+
+    assert statement["transactions"][5].debit == 0
+    assert statement["transactions"][5].credit == 22
+    assert statement["transactions"][5].balance == 120
+
+    assert statement["closing_balance"] == 120
+
+
+def test_receivable_account_statement(session, entity, currency):
+    """Tests a receivable account's statement"""
+
+    client = Account(
+        name="test account one",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    revenue = Account(
+        name="test account two",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    control = Account(
+        name="test account three",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    bank_account2 = Account(
+        name="test account four",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    client = Account(
+        name="test account five",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([client, revenue, control, bank_account2, client])
+    session.commit()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+                amount=45,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=client.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=70,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=client.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    session.flush()
+
+    transaction = ClientInvoice(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.commit()
+
+    tax = Tax(
+        name="Output Vat",
+        code="OTPT",
+        account_id=control.id,
+        rate=10,
+        entity_id=entity.id,
+    )
+    session.add(tax)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=revenue.id,
+        amount=100,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    # client receipt
+    transaction2 = ClientReceipt(
+        narration="Test transaction two",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction2)
+    session.commit()
+
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=bank_account2.id,
+        amount=25,
+        entity_id=entity.id,
+    )
+    session.add(line_item2)
+    session.flush()
+
+    transaction2.line_items.add(line_item2)
+    session.add(transaction2)
+    session.flush()
+
+    transaction2.post(session)
+
+    transaction3 = CreditNote(
+        narration="Test transaction three",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction3)
+    session.commit()
+
+    tax = Tax(
+        name="Output Vat",
+        code="OTPT",
+        account_id=control.id,
+        rate=7,
+        entity_id=entity.id,
+    )
+    session.add(tax)
+    session.flush()
+
+    line_item3 = LineItem(
+        narration="Test line item three",
+        account_id=revenue.id,
+        amount=100,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item3)
+    session.flush()
+
+    transaction3.line_items.add(line_item3)
+    session.add(transaction3)
+    session.flush()
+
+    transaction3.post(session)
+
+    # credit journal entry
+    transaction4 = JournalEntry(
+        narration="Test transaction four",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction4)
+    session.commit()
+
+    line_item4 = LineItem(
+        narration="Test line item four",
+        account_id=revenue.id,
+        amount=53,
+        entity_id=entity.id,
+    )
+    session.add(line_item4)
+    session.flush()
+
+    transaction4.line_items.add(line_item4)
+    session.add(transaction4)
+    session.flush()
+
+    transaction4.post(session)
+
+    statement = client.statement(session)
+
+    assert statement["opening_balance"] == -25
+
+    assert statement["transactions"][0].debit == 110
+    assert statement["transactions"][0].credit == 0
+    assert statement["transactions"][0].balance == 85
+
+    assert statement["transactions"][1].debit == 0
+    assert statement["transactions"][1].credit == 25
+    assert statement["transactions"][1].balance == 60
+
+    assert statement["transactions"][2].debit == 0
+    assert statement["transactions"][2].credit == 107
+    assert statement["transactions"][2].balance == -47
+
+    assert statement["transactions"][3].debit == 0
+    assert statement["transactions"][3].credit == 53
+    assert statement["transactions"][3].balance == -100
+
+    assert statement["closing_balance"] == -100
+
+
+def test_supplier_account_statement(session, entity, currency):
+    """Tests a supplier account's statement"""
+
+    control = Account(
+        name="test account three",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    bank_account = Account(
+        name="test account four",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    expense = Account(
+        name="test account six",
+        account_type=Account.AccountType.DIRECT_EXPENSE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    supplier = Account(
+        name="test account seven",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([bank_account, control, expense, supplier])
+    session.commit()
+
+    date = datetime.now() - relativedelta(years=1)
+    session.add_all(
+        [
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=68,
+                balance_type=Balance.BalanceType.DEBIT,
+                account_id=supplier.id,
+                entity_id=entity.id,
+            ),
+            Balance(
+                transaction_date=date,
+                transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+                amount=73,
+                balance_type=Balance.BalanceType.CREDIT,
+                account_id=supplier.id,
+                entity_id=entity.id,
+            ),
+        ]
+    )
+    session.flush()
+
+    # supplier bill
+    transaction = SupplierBill(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=supplier.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.commit()
+
+    tax = Tax(
+        name="Input Vat",
+        code="INPT",
+        account_id=control.id,
+        rate=8,
+        entity_id=entity.id,
+    )
+    session.add(tax)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=expense.id,
+        amount=100,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    # debit note
+    transaction2 = DebitNote(
+        narration="Test transaction two",
+        transaction_date=datetime.now(),
+        account_id=supplier.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction2)
+    session.commit()
+
+    session.add(tax)
+    session.flush()
+
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=expense.id,
+        amount=75,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item2)
+    session.flush()
+
+    transaction2.line_items.add(line_item2)
+    session.add(transaction2)
+    session.flush()
+
+    transaction2.post(session)
+
+    # supplier payment
+    transaction3 = SupplierPayment(
+        narration="Test transaction three",
+        transaction_date=datetime.now(),
+        account_id=supplier.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction3)
+    session.commit()
+
+    line_item3 = LineItem(
+        narration="Test line item three",
+        account_id=bank_account.id,
+        amount=63,
+        entity_id=entity.id,
+    )
+    session.add(line_item3)
+    session.flush()
+
+    transaction3.line_items.add(line_item3)
+    session.add(transaction3)
+    session.flush()
+
+    transaction3.post(session)
+
+    # debit journal entry
+    transaction4 = JournalEntry(
+        narration="Test transaction four",
+        transaction_date=datetime.now(),
+        account_id=supplier.id,
+        entity_id=entity.id,
+        credited=False,
+    )
+    session.add(transaction4)
+    session.commit()
+
+    line_item4 = LineItem(
+        narration="Test line item four",
+        account_id=expense.id,
+        amount=53,
+        entity_id=entity.id,
+    )
+    session.add(line_item4)
+    session.flush()
+
+    transaction4.line_items.add(line_item4)
+    session.add(transaction4)
+    session.flush()
+
+    transaction4.post(session)
+
+    statement = supplier.statement(session)
+
+    assert statement["opening_balance"] == -5
+
+    print(
+        [
+            statement["transactions"][3].debit,
+            statement["transactions"][3].credit,
+            statement["transactions"][3].balance,
+        ]
+    )
+    assert statement["transactions"][0].debit == 0
+    assert statement["transactions"][0].credit == 108
+    assert statement["transactions"][0].balance == -113
+
+    assert statement["transactions"][1].debit == 81
+    assert statement["transactions"][1].credit == 0
+    assert statement["transactions"][1].balance == -32
+
+    assert statement["transactions"][2].debit == 63
+    assert statement["transactions"][2].credit == 0
+    assert statement["transactions"][2].balance == 31
+
+    assert statement["transactions"][3].debit == 53
+    assert statement["transactions"][3].credit == 0
+    assert statement["transactions"][3].balance == 84
+
+    assert statement["closing_balance"] == 84

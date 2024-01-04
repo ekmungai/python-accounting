@@ -13,10 +13,7 @@ class BuyingMixin(TradingMixin):
         from python_accounting.models import Account
 
         self.line_item_types: list = Account.purchasables
-        self.main_account_types: list = [
-            Account.AccountType.PAYABLE,
-            Account.AccountType.BANK,
-        ]
+
         self.account_type_map: dict = {
             "SupplierBill": Account.AccountType.PAYABLE,
             "DebitNote": Account.AccountType.PAYABLE,

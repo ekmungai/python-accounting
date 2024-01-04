@@ -13,10 +13,7 @@ class SellingMixin(TradingMixin):
         from python_accounting.models import Account
 
         self.line_item_types: list = [Account.AccountType.OPERATING_REVENUE]
-        self.main_account_types: list = [
-            Account.AccountType.RECEIVABLE,
-            Account.AccountType.BANK,
-        ]
+
         self.account_type_map: dict = {
             "ClientInvoice": Account.AccountType.RECEIVABLE,
             "CreditNote": Account.AccountType.RECEIVABLE,

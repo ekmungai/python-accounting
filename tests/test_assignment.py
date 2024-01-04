@@ -347,7 +347,6 @@ def test_assignment_validation(session, entity, currency):
     )
 
     session.expunge(assignment)
-    transaction5.credited = True
     transaction5.compound = True
     with pytest.raises(CompoundTransactionAssignmentError) as e:
         session.add(assignment)

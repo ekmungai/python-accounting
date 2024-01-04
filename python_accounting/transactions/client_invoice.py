@@ -12,6 +12,11 @@ class ClientInvoice(SellingMixin, ClearingMixin, Transaction):
     }
 
     def __init__(self, **kw: Any) -> None:
+        from python_accounting.models import Account
+
+        self.main_account_types: list = [
+            Account.AccountType.RECEIVABLE,
+        ]
         self.credited = False
         self.transaction_type = Transaction.TransactionType.CLIENT_INVOICE
         super().__init__(**kw)

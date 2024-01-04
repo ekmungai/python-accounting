@@ -18,6 +18,7 @@ class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
 
     def __init__(self, **kw: Any) -> None:
         self.transaction_type = Transaction.TransactionType.JOURNAL_ENTRY
+        self.credited = True
         super().__init__(**kw)
 
     def _validate_subclass_line_items(self, line_item):

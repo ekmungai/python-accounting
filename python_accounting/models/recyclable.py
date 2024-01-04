@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import List
 from sqlalchemy import String
 from .base import Base
-from python_accounting.mixins import IsolatingMixin
 
 
 class Recyclable(Base):

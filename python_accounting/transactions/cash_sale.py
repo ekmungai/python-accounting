@@ -12,6 +12,11 @@ class CashSale(SellingMixin, Transaction):
     }
 
     def __init__(self, **kw: Any) -> None:
+        from python_accounting.models import Account
+
+        self.main_account_types: list = [
+            Account.AccountType.BANK,
+        ]
         self.credited = False
         self.transaction_type = Transaction.TransactionType.CASH_SALE
         super().__init__(**kw)

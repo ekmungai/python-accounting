@@ -12,6 +12,11 @@ class SupplierBill(BuyingMixin, Transaction):
     }
 
     def __init__(self, **kw: Any) -> None:
+        from python_accounting.models import Account
+
+        self.main_account_types: list = [
+            Account.AccountType.PAYABLE,
+        ]
         self.credited = True
         self.transaction_type = Transaction.TransactionType.SUPPLIER_BILL
         super().__init__(**kw)

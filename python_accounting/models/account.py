@@ -1,9 +1,11 @@
+import warnings
 from datetime import datetime
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum, func, inspect, Text, select
+from sqlalchemy.orm import Mapped, mapped_column, relationship, aliased
+from sqlalchemy import String, ForeignKey, Enum, func, inspect, Text, select, or_, exc
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
 from python_accounting.exceptions import InvalidCategoryAccountTypeError
+from python_accounting.utils.dates import get_dates
 from strenum import StrEnum
 from .recyclable import Recyclable
 from .reporting_period import ReportingPeriod
@@ -42,10 +44,11 @@ class Account(IsolatingMixin, Recyclable):
             .with_entities(func.count())
             .scalar()
         )
+
         return (
             int(config.accounts["types"][self.account_type.name][1])
             + current_count
-            + getattr(self, "session_index", 0)
+            + getattr(self, "session_index", 1)
         )
 
     def __repr__(self) -> str:
@@ -58,10 +61,7 @@ class Account(IsolatingMixin, Recyclable):
         from .balance import Balance
         from .ledger import Ledger
 
-        end_date = datetime.today() if not end_date else end_date
-        start_date = ReportingPeriod.get_period(
-            session, datetime(end_date.year, session.entity.year_start, 1, 0, 0, 0)
-        ).interval()["start"]
+        start_date, end_date, _ = get_dates(session, start_date, end_date)
 
         query = (
             session.query(func.sum(Ledger.amount).label("amount"))
@@ -87,11 +87,7 @@ class Account(IsolatingMixin, Recyclable):
         """Get the opening, movement and closing balances of the accounts of the given section (account types), organized by category"""
         balances = dict(opening=0, movement=0, closing=0, categories={})
 
-        end_date = datetime.today() if not end_date else end_date
-        period_start = ReportingPeriod.get_period(
-            session, datetime(end_date.year, session.entity.year_start, 1, 0, 0, 0)
-        ).interval()["start"]
-        start_date = period_start if not start_date else start_date
+        start_date, end_date, period_start = get_dates(session, start_date, end_date)
 
         for account in session.scalars(
             select(Account).filter(Account.account_type.in_(account_types))
@@ -154,14 +150,58 @@ class Account(IsolatingMixin, Recyclable):
     def closing_balance(self, session, end_date: datetime = None) -> dict:
         """Get the account balance as at the given date"""
 
-        end_date = datetime.today() if not end_date else end_date
-        start_date = ReportingPeriod.get_period(
-            session, datetime(end_date.year, session.entity.year_start, 1, 0, 0, 0)
-        ).interval()["start"]
+        start_date, end_date, _ = get_dates(session, None, end_date)
 
         return self.opening_balance(session, end_date.year) + self._balance_movement(
             session, start_date, end_date
         )
+
+    def statement(
+        self, session, start_date: datetime = None, end_date: datetime = None
+    ) -> dict:
+        """Get a chronological listing of the transactions posted to the account between the dates given"""
+        from .transaction import Transaction
+        from .ledger import Ledger
+        from .balance import Balance
+
+        start_date, end_date, _ = get_dates(session, start_date, end_date)
+
+        statement = dict(
+            opening_balance=self.opening_balance(session, end_date.year),
+            transactions=[],
+            closing_balance=0,
+        )
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore", "SELECT statement has a cartesian product.*", exc.SAWarning
+            )
+            ledger = aliased(Ledger, flat=True)
+            balance = statement["opening_balance"]
+            for transaction in (
+                session.query(Transaction)
+                .join(ledger, ledger.transaction_id == Transaction.id)
+                .filter(Transaction.currency_id == self.currency_id)
+                .filter(
+                    or_(
+                        ledger.post_account_id == self.id,
+                        ledger.folio_account_id == self.id,
+                    )
+                )
+                .order_by(Transaction.transaction_date)
+                .distinct()
+            ):
+                contribution = transaction.contribution(session, self)
+                balance += contribution
+                transaction.balance = balance
+
+                transaction.debit, transaction.credit = (
+                    (0, abs(contribution)) if contribution < 0 else (contribution, 0)
+                )
+                statement["transactions"].append(transaction)
+                statement["closing_balance"] = balance
+
+        return statement
 
     def validate(self, session) -> None:
         """Validate the reporting period properties"""

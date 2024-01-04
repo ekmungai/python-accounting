@@ -119,7 +119,8 @@ def test_cash_sale_validation(session, entity, currency):
     with pytest.raises(InvalidMainAccountError) as e:
         session.commit()
     assert str(e.value) == "CashSale Transaction main Account be of type Bank"
-    account1.account_type = Account.AccountType.RECEIVABLE
+
+    account1.account_type = Account.AccountType.BANK
     line_item1 = LineItem(
         narration="Test line item one",
         account_id=account2.id,
