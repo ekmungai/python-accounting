@@ -1,9 +1,10 @@
 from python_accounting.models import Transaction
 from python_accounting.mixins.trading import TradingMixin
+from python_accounting.mixins import AssigningMixin
 from typing import Any
 
 
-class SupplierPayment(TradingMixin, Transaction):
+class SupplierPayment(TradingMixin, AssigningMixin, Transaction):
     """Class for the Supplier Payment Transaction"""
 
     __tablename__ = None

@@ -1,9 +1,9 @@
 from python_accounting.models import Transaction
-from python_accounting.mixins import BuyingMixin
+from python_accounting.mixins import BuyingMixin, ClearingMixin
 from typing import Any
 
 
-class SupplierBill(BuyingMixin, Transaction):
+class SupplierBill(BuyingMixin, ClearingMixin, Transaction):
     """Class for the Supplier Bill Transaction"""
 
     __tablename__ = None

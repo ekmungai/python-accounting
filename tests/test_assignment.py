@@ -1,8 +1,8 @@
 import pytest
 from datetime import datetime
-from sqlalchemy import select, func
+from dateutil.relativedelta import relativedelta
 from python_accounting.transactions import ClientReceipt, ClientInvoice, JournalEntry
-from python_accounting.models import Account, Assignment, Entity, LineItem, Transaction
+from python_accounting.models import Account, Assignment, Balance, LineItem, Transaction
 from python_accounting.exceptions import (
     UnassignableTransactionError,
     UnclearableTransactionError,
@@ -42,29 +42,16 @@ def test_assignment_entity(session, entity, currency):
     session.add_all([account1, account2, account3])
     session.flush()
 
-    transaction1 = ClientInvoice(
-        narration="Test transaction one",
-        transaction_date=datetime.now(),
+    balance = Balance(
+        transaction_date=datetime.now() - relativedelta(years=1),
+        transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
+        amount=100,
+        balance_type=Balance.BalanceType.DEBIT,
         account_id=account1.id,
         entity_id=entity.id,
     )
-    session.add(transaction1)
+    session.add(balance)
     session.commit()
-
-    line_item1 = LineItem(
-        narration="Test line item one",
-        account_id=account2.id,
-        amount=100,
-        entity_id=entity.id,
-    )
-    session.add(line_item1)
-    session.flush()
-
-    transaction1.line_items.add(line_item1)
-    session.add(transaction1)
-    session.flush()
-
-    transaction1.post(session)
 
     transaction2 = ClientReceipt(
         narration="Test transaction one",
@@ -93,8 +80,8 @@ def test_assignment_entity(session, entity, currency):
     assignment = Assignment(
         assignment_date=datetime.now(),
         transaction_id=transaction2.id,
-        assigned_id=transaction1.id,
-        assigned_type=transaction1.__class__.__name__,
+        assigned_id=balance.id,
+        assigned_type=balance.__class__.__name__,
         entity_id=entity.id,
         amount=15,
     )
@@ -104,23 +91,23 @@ def test_assignment_entity(session, entity, currency):
     assignment = session.get(Assignment, assignment.id)
     assert assignment.entity.name == "Test Entity"
 
-    assert assignment.assigned(session) == transaction1
-    assert transaction1.cleared(session) == 15
-    assert transaction1.clearances(session)[0] == assignment
+    assert assignment.assigned(session) == balance
+    assert balance.cleared(session) == 15
+    assert balance.clearances(session)[0] == assignment
     assert transaction2.balance(session) == 35
     assert transaction2.assignments(session)[0] == assignment
 
-    transaction1.unclear(session)
-    assert transaction1.clearances(session) == []
+    balance.unclear(session)
+    assert balance.clearances(session) == []
     assert transaction2.assignments(session) == []
 
     session.rollback()
 
-    assert transaction1.clearances(session)[0] == assignment
+    assert balance.clearances(session)[0] == assignment
     assert transaction2.assignments(session)[0] == assignment
 
     transaction2.unassign(session)
-    assert transaction1.clearances(session) == []
+    assert balance.clearances(session) == []
     assert transaction2.assignments(session) == []
 
 
@@ -442,7 +429,6 @@ def test_assignment_validation(session, entity, currency):
     session.add(assignment)
     session.commit()
 
-    print(assignment)
     line_item8 = LineItem(
         narration="Test line item eight",
         account_id=account3.id,

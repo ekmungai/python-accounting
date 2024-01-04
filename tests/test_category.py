@@ -30,7 +30,7 @@ def test_category_validation(session, entity):
         )
     assert (
         str(e.value)
-        == "Property category_account_type must be one of: Non Current Asset, Contra Asset, Inventory, Bank, Current Asset, Receivable, Non Current Liability, Control, Current Liability, Payable, Reconciliation, Equity, Operating Revenue, Operating Expense, Non Operating Revenue, Direct Expense, Overhead Expense, Other Expense"
+        == "category_account_type must be one of: Non Current Asset, Contra Asset, Inventory, Bank, Current Asset, Receivable, Non Current Liability, Control, Current Liability, Payable, Reconciliation, Equity, Operating Revenue, Operating Expense, Non Operating Revenue, Direct Expense, Overhead Expense, Other Expense"
     )
 
 

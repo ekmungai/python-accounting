@@ -1,9 +1,9 @@
 from python_accounting.models import Transaction
-from python_accounting.mixins import BuyingMixin
+from python_accounting.mixins import BuyingMixin, AssigningMixin
 from typing import Any
 
 
-class DebitNote(BuyingMixin, Transaction):
+class DebitNote(BuyingMixin, AssigningMixin, Transaction):
     """Class for the Debit Note Transaction"""
 
     __tablename__ = None

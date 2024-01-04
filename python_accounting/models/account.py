@@ -4,7 +4,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship, aliased
 from sqlalchemy import String, ForeignKey, Enum, func, inspect, Text, select, or_, exc
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
-from python_accounting.exceptions import InvalidCategoryAccountTypeError
+from python_accounting.exceptions import (
+    InvalidCategoryAccountTypeError,
+    InvalidAccountTypeError,
+)
 from python_accounting.utils.dates import get_dates
 from strenum import StrEnum
 from .recyclable import Recyclable
@@ -61,7 +64,7 @@ class Account(IsolatingMixin, Recyclable):
         from .balance import Balance
         from .ledger import Ledger
 
-        start_date, end_date, _ = get_dates(session, start_date, end_date)
+        start_date, end_date, _, _ = get_dates(session, start_date, end_date)
 
         query = (
             session.query(func.sum(Ledger.amount).label("amount"))
@@ -87,7 +90,7 @@ class Account(IsolatingMixin, Recyclable):
         """Get the opening, movement and closing balances of the accounts of the given section (account types), organized by category"""
         balances = dict(opening=0, movement=0, closing=0, categories={})
 
-        start_date, end_date, period_start = get_dates(session, start_date, end_date)
+        start_date, end_date, period_start, _ = get_dates(session, start_date, end_date)
 
         for account in session.scalars(
             select(Account).filter(Account.account_type.in_(account_types))
@@ -97,7 +100,7 @@ class Account(IsolatingMixin, Recyclable):
             ) + account._balance_movement(session, period_start, start_date)
             movement = account._balance_movement(session, start_date, end_date)
             account.closing = account.opening + movement if full_balance else movement
-            account.movement = movement * -1  # cashflow purposes
+            account.movement = movement * -1  # cashflow statement display
             if account.closing != 0 or account.movement != 0:
                 category_id, category_name = (
                     (0, Account.AccountType[account.account_type.name].value)
@@ -150,56 +153,123 @@ class Account(IsolatingMixin, Recyclable):
     def closing_balance(self, session, end_date: datetime = None) -> dict:
         """Get the account balance as at the given date"""
 
-        start_date, end_date, _ = get_dates(session, None, end_date)
+        start_date, end_date, _, _ = get_dates(session, None, end_date)
 
         return self.opening_balance(session, end_date.year) + self._balance_movement(
             session, start_date, end_date
         )
 
     def statement(
-        self, session, start_date: datetime = None, end_date: datetime = None
+        self,
+        session,
+        start_date: datetime = None,
+        end_date: datetime = None,
+        schedule: bool = False,
     ) -> dict:
         """Get a chronological listing of the transactions posted to the account between the dates given"""
         from .transaction import Transaction
         from .ledger import Ledger
+        from .assignment import Assignment
         from .balance import Balance
 
-        start_date, end_date, _ = get_dates(session, start_date, end_date)
+        if schedule and self.account_type not in [
+            Account.AccountType.RECEIVABLE,
+            Account.AccountType.PAYABLE,
+        ]:
+            raise InvalidAccountTypeError(
+                "Only Receivable and Payable Accounts can have a schedule"
+            )
+        start_date, end_date, _, period_id = get_dates(session, start_date, end_date)
 
-        statement = dict(
-            opening_balance=self.opening_balance(session, end_date.year),
-            transactions=[],
-            closing_balance=0,
+        statement = (
+            dict(
+                transactions=[],
+                amount=0,
+                cleared=0,
+                uncleared=0,
+            )
+            if schedule
+            else dict(
+                opening_balance=self.opening_balance(session, end_date.year),
+                transactions=[],
+                closing_balance=0,
+            )
         )
+        balances = []
 
         with warnings.catch_warnings():
             warnings.filterwarnings(
                 "ignore", "SELECT statement has a cartesian product.*", exc.SAWarning
             )
             ledger = aliased(Ledger, flat=True)
-            balance = statement["opening_balance"]
-            for transaction in (
+            transactions = (
                 session.query(Transaction)
                 .join(ledger, ledger.transaction_id == Transaction.id)
                 .filter(Transaction.currency_id == self.currency_id)
+                .filter(Transaction.transaction_date >= start_date)
+                .filter(Transaction.transaction_date <= end_date)
                 .filter(
                     or_(
                         ledger.post_account_id == self.id,
                         ledger.folio_account_id == self.id,
                     )
                 )
-                .order_by(Transaction.transaction_date)
-                .distinct()
-            ):
-                contribution = transaction.contribution(session, self)
-                balance += contribution
-                transaction.balance = balance
-
-                transaction.debit, transaction.credit = (
-                    (0, abs(contribution)) if contribution < 0 else (contribution, 0)
+            )
+            if schedule:
+                transactions = transactions.filter(
+                    Transaction.transaction_type.in_(Assignment.clearables)
                 )
+
+                balances = (
+                    session.query(Balance)
+                    .filter(Balance.account_id == self.id)
+                    .filter(Balance.reporting_period_id == period_id)
+                    .order_by(Balance.transaction_date)
+                )
+            else:
+                balance = statement["opening_balance"]
+
+            for transaction in list(balances) + list(
+                transactions.order_by(Transaction.transaction_date).distinct()
+            ):
+                if schedule:
+                    # continue
+                    cleared = transaction.cleared(session)
+                    if transaction.amount - cleared == 0 or (
+                        transaction.transaction_type
+                        == Transaction.TransactionType.JOURNAL_ENTRY
+                        and (
+                            (
+                                self.account_type == Account.AccountType.RECEIVABLE
+                                and transaction.credited
+                            )
+                            or (
+                                self.account_type == Account.AccountType.PAYABLE
+                                and not transaction.credited
+                            )
+                        )
+                    ):
+                        continue
+                    transaction.cleared, transaction.uncleared = (
+                        cleared,
+                        transaction.amount - cleared,
+                    )
+                    statement["amount"] += transaction.amount
+                    statement["cleared"] += transaction.cleared
+                    statement["uncleared"] += transaction.uncleared
+                else:
+                    contribution = transaction.contribution(session, self)
+                    balance += contribution
+                    transaction.balance = balance
+
+                    transaction.debit, transaction.credit = (
+                        (0, abs(contribution))
+                        if contribution < 0
+                        else (contribution, 0)
+                    )
+                    statement["closing_balance"] = balance
+
                 statement["transactions"].append(transaction)
-                statement["closing_balance"] = balance
 
         return statement
 

@@ -15,11 +15,11 @@ from python_accounting.exceptions import (
     NegativeAmountError,
     InvalidBalanceDateError,
 )
-from python_accounting.mixins import IsolatingMixin
+from python_accounting.mixins import IsolatingMixin, ClearingMixin
 from python_accounting.reports import IncomeStatement
 
 
-class Balance(IsolatingMixin, Recyclable):
+class Balance(IsolatingMixin, ClearingMixin, Recyclable):
     """Represents a Balance brought down from previous reporting periods"""
 
     BalanceType = StrEnum("BalanceType", {"DEBIT": "Debit", "CREDIT": "Credit"})
@@ -67,6 +67,11 @@ class Balance(IsolatingMixin, Recyclable):
     def credited(self) -> bool:
         """credited analog for the assignment model"""
         return self.balance_type == Balance.BalanceType.CREDIT
+
+    @property
+    def compound(self) -> bool:
+        """compound analog for the assignment model"""
+        return False
 
     @staticmethod
     def opening_trial_balance(session, year: int = None) -> dict:
