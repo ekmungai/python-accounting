@@ -1235,7 +1235,7 @@ def test_receivable_account_schedule(session, entity, currency):
     # client invoice
     transaction = ClientInvoice(
         narration="Test transaction one",
-        transaction_date=datetime.now(),
+        transaction_date=datetime.now() - relativedelta(days=2),
         account_id=client.id,
         entity_id=entity.id,
     )
@@ -1378,17 +1378,21 @@ def test_receivable_account_schedule(session, entity, currency):
     transaction4.post(session)
 
     statement = client.statement(session, None, None, True)
+
     assert statement["transactions"][0].amount == 45
     assert statement["transactions"][0].cleared == 15
     assert statement["transactions"][0].uncleared == 30
+    assert statement["transactions"][0].age == 365
 
     assert statement["transactions"][1].amount == 110
     assert statement["transactions"][1].cleared == Decimal("85.6")
     assert statement["transactions"][1].uncleared == Decimal("24.4")
+    assert statement["transactions"][1].age == 2
 
     assert statement["transactions"][2].amount == 50
     assert statement["transactions"][2].cleared == 0
     assert statement["transactions"][2].uncleared == 50
+    assert statement["transactions"][2].age == 0
 
     assert statement["amount"] == 205
     assert statement["cleared"] == Decimal("100.6")
@@ -1453,7 +1457,7 @@ def test_supplier_account_schedule(session, entity, currency):
     # supplier bill
     transaction = SupplierBill(
         narration="Test transaction one",
-        transaction_date=datetime.now(),
+        transaction_date=datetime.now() - relativedelta(days=4),
         account_id=supplier.id,
         entity_id=entity.id,
     )
@@ -1592,20 +1596,18 @@ def test_supplier_account_schedule(session, entity, currency):
     assert statement["transactions"][0].amount == 73
     assert statement["transactions"][0].cleared == 15
     assert statement["transactions"][0].uncleared == 58
+    assert statement["transactions"][0].age == 365
 
     assert statement["transactions"][1].amount == 108
     assert statement["transactions"][1].cleared == 45
     assert statement["transactions"][1].uncleared == 63
+    assert statement["transactions"][1].age == 4
 
     assert statement["transactions"][2].amount == 53
     assert statement["transactions"][2].cleared == 0
     assert statement["transactions"][2].uncleared == 53
+    assert statement["transactions"][2].age == 0
 
     assert statement["amount"] == 234
     assert statement["cleared"] == 60
     assert statement["uncleared"] == 174
-
-
-def test_account_aging_balances(session, entity):  # TODO
-    """Tests the allocation of account balances into buckets based on the age of their outstanding transactions"""
-    pass

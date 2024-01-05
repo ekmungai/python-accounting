@@ -206,7 +206,6 @@ class Account(IsolatingMixin, Recyclable):
                 session.query(Transaction)
                 .join(ledger, ledger.transaction_id == Transaction.id)
                 .filter(Transaction.currency_id == self.currency_id)
-                .filter(Transaction.transaction_date >= start_date)
                 .filter(Transaction.transaction_date <= end_date)
                 .filter(
                     or_(
@@ -227,13 +226,15 @@ class Account(IsolatingMixin, Recyclable):
                     .order_by(Balance.transaction_date)
                 )
             else:
+                transactions = transactions.filter(
+                    Transaction.transaction_date >= start_date
+                )
                 balance = statement["opening_balance"]
 
             for transaction in list(balances) + list(
                 transactions.order_by(Transaction.transaction_date).distinct()
             ):
                 if schedule:
-                    # continue
                     cleared = transaction.cleared(session)
                     if transaction.amount - cleared == 0 or (
                         transaction.transaction_type
@@ -250,9 +251,10 @@ class Account(IsolatingMixin, Recyclable):
                         )
                     ):
                         continue
-                    transaction.cleared, transaction.uncleared = (
+                    transaction.cleared, transaction.uncleared, transaction.age = (
                         cleared,
                         transaction.amount - cleared,
+                        (end_date - transaction.transaction_date).days,
                     )
                     statement["amount"] += transaction.amount
                     statement["cleared"] += transaction.cleared

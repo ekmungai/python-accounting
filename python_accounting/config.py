@@ -4,11 +4,12 @@ import toml
 class Config:
     """Python Accounting configuration class"""
 
-    testing = {}
-    accounts = {}
-    transactions = {}
-    database = {}
-    hashing = {}
+    testing: dict
+    accounts: dict
+    transactions: dict
+    database: dict
+    hashing: dict
+    reports: dict
 
     def __init__(self, config_file="config.toml") -> None:
         with open(config_file, "r") as f:
