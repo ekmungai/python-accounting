@@ -196,7 +196,7 @@ def test_assignment_validation(session, entity, currency):
         session.add(assignment)
     assert (
         str(e.value)
-        == "ClientInvoice Transaction cannot be assigned. Assignment Transaction type must be one of: Client Receipt, Supplier Payment, Credit Note, Credit Note, Debit Note, Journal Entry"
+        == "ClientInvoice Transaction cannot be assigned. Assignment Transaction type must be one of: Client Receipt, Supplier Payment, Credit Note, Debit Note, Journal Entry"
     )
     session.expunge(assignment)
 

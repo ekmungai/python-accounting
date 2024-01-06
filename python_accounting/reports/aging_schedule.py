@@ -1,5 +1,4 @@
 from datetime import datetime
-from copy import deepcopy
 from python_accounting.models import Account
 from python_accounting.config import config
 from python_accounting.utils.dates import get_dates

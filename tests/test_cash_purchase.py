@@ -133,5 +133,5 @@ def test_cash_purchase_validation(session, entity, currency):
         transaction.line_items.add(line_item1)
     assert (
         str(e.value)
-        == "CashPurchase Transaction Line Item Account type be one of: Operating Expense, Direct Expense, Overhead Expense, Expense, Non Current Asset, Current Asset, Inventory"
+        == "CashPurchase Transaction Line Item Account type be one of: Operating Expense, Direct Expense, Overhead Expense, Other Expense, Non Current Asset, Current Asset, Inventory"
     )

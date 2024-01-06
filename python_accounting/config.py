@@ -10,6 +10,7 @@ class Config:
     database: dict
     hashing: dict
     reports: dict
+    dates: dict
 
     def __init__(self, config_file="config.toml") -> None:
         with open(config_file, "r") as f:

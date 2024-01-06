@@ -36,7 +36,8 @@ class Transaction(IsolatingMixin, Recyclable):
 
     # Transaction types
     TransactionType = StrEnum(
-        "TransactionType", {k: v[0] for k, v in config.transactions["types"].items()}
+        "TransactionType",
+        {k: v["label"] for k, v in config.transactions["types"].items()},
     )
 
     __table_args__ = (UniqueConstraint("transaction_no", "entity_id"),)
@@ -164,7 +165,9 @@ class Transaction(IsolatingMixin, Recyclable):
             .scalar()
         ) + getattr(self, "session_index", 1)
 
-        prefix = config.transactions["types"][transaction_type.name][1]
+        prefix = config.transactions["types"][transaction_type.name][
+            "transaction_no_prefix"
+        ]
         return f"{prefix}{reporting_period.period_count:02}/{next_id:04}"
 
     def post(self, session) -> None:

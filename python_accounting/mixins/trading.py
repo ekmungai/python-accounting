@@ -1,3 +1,4 @@
+from python_accounting.config import config
 from python_accounting.exceptions import (
     InvalidMainAccountError,
     InvalidLineItemAccountError,
@@ -10,8 +11,10 @@ class TradingMixin:
 
     def _validate_subclass_line_items(self, line_item):
         if line_item.account.account_type not in self.line_item_types:
+            print(self.line_item_types)
             raise InvalidLineItemAccountError(
-                self.__class__.__name__, self.line_item_types
+                self.__class__.__name__,
+                [t.value for t in self.line_item_types],
             )
         if getattr(self, "no_tax", False) and line_item.tax_id:
             raise InvalidTaxChargeError(self.__class__.__name__)

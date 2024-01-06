@@ -12,61 +12,113 @@ echo = false
 salt = "hashing salt"
 algorithm = "sha256"
 
-[accounts.types] # KEY: [account_type, account_code (start)]
+[dates]
+short = "%Y-%m-%d"
+long = "%d, %b %Y"
 
+[accounts.types] 
 # Balance Sheet: Asset Accounts
-NON_CURRENT_ASSET = ["Non Current Asset", "0"] # 0 - 999
-CONTRA_ASSET = ["Contra Asset", "1000"] # 1000 - 1999
-INVENTORY = ["Inventory", "2000"] # 2000 - 2999
-BANK = ["Bank", "3000"] # 3000 - 3999
-CURRENT_ASSET = ["Current Asset", "4000"] # 4000 - 4999
-RECEIVABLE = ["Receivable", "50000"] # 50000 - 99999
+NON_CURRENT_ASSET.label = "Non Current Asset"
+NON_CURRENT_ASSET.account_code = 0 # 0 - 999
+
+CONTRA_ASSET.label = "Contra Asset"
+CONTRA_ASSET.account_code = 1000 # 1000 - 1999
+
+INVENTORY.label = "Inventory"
+INVENTORY.account_code = 2000 # 2000 - 2999
+
+BANK.label = "Bank"
+BANK.account_code = 3000 # 3000 - 3999
+
+CURRENT_ASSET.label = "Current Asset"
+CURRENT_ASSET.account_code = 4000 # 4000 - 4999
+
+RECEIVABLE.label = "Receivable"
+RECEIVABLE.account_code = 50000 # 50000 - 99999
+
 
 # Balance Sheet: Liabilities Accounts
-NON_CURRENT_LIABILITY = ["Non Current Liability", "5000"] # 5000 - 5999
-CONTROL = ["Control", "6000"] # 6000 - 6999
-CURRENT_LIABILITY = ["Current Liability", "7000"] # 7000 - 7999
-PAYABLE = ["Payable", "20000"] # 20000 - 49999
-RECONCILIATION = ["Reconciliation", "8000"] # 8000 - 8999
+NON_CURRENT_LIABILITY.label = "Non Current Liability"
+NON_CURRENT_LIABILITY.account_code = 5000 # 5000 - 5999
+
+CONTROL.label = "Control"
+CONTROL.account_code = 6000 # 6000 - 6999
+
+CURRENT_LIABILITY.label = "Current Liability"
+CURRENT_LIABILITY.account_code = 7000 # 7000 - 7999
+
+PAYABLE.label = "Payable"
+PAYABLE.account_code = 20000 # 20000 - 49999
+
+RECONCILIATION.label = "Reconciliation"
+RECONCILIATION.account_code = 8000 # 8000 - 8999
 
 # Balance Sheet: Equity Accounts
-EQUITY = ["Equity", "9000"] # 9000 - 9999
+EQUITY.label = "Equity"
+EQUITY.account_code = 9000 # 9000 - 9999
 
 # Income Statement: Operations Accounts
-OPERATING_REVENUE = ["Operating Revenue", "11000"] # 11000 - 11999
-OPERATING_EXPENSE = ["Operating Expense", "12000"] # 12000 - 12999
+OPERATING_REVENUE.label = "Operating Revenue"
+OPERATING_REVENUE.account_code = 11000 # 11000 - 11999
+
+OPERATING_EXPENSE.label = "Operating Expense"
+OPERATING_EXPENSE.account_code = 12000 # 12000 - 12999
 
 # Income Statement: Non Operations Accounts
-NON_OPERATING_REVENUE = ["Non Operating Revenue", "13000"] # 13000 - 13999
-DIRECT_EXPENSE = ["Direct Expense", "14000"] # 14000 - 14999
-OVERHEAD_EXPENSE = ["Overhead Expense", "15000"] # 15000 - 15999
-OTHER_EXPENSE = ["Other Expense", "16000"] # 16000 - 16999
+NON_OPERATING_REVENUE.label = "Non Operating Revenue"
+NON_OPERATING_REVENUE.account_code = 13000 # 13000 - 13999
+
+DIRECT_EXPENSE.label = "Direct Expense"
+DIRECT_EXPENSE.account_code = 14000 # 14000 - 14999
+
+OVERHEAD_EXPENSE.label = "Overhead Expense"
+OVERHEAD_EXPENSE.account_code = 15000 # 15000 - 15999
+
+OTHER_EXPENSE.label = "Other Expense"
+OTHER_EXPENSE.account_code = 16000 # 16000 - 16999
 
 [accounts.purchasables]
-types = ["Operating Expense", "Direct Expense", "Overhead Expense", "Expense", "Non Current Asset", "Current Asset", "Inventory"]
+types = ["OPERATING_EXPENSE", "DIRECT_EXPENSE", "OVERHEAD_EXPENSE", "OTHER_EXPENSE", "NON_CURRENT_ASSET", "CURRENT_ASSET", "INVENTORY"]
 
-[transactions.types] # KEY: [transaction_type, transaction_prefix]
+[transactions.types]
 # Client Transactions
-CASH_SALE = ["Cash Sale", "CS"]
-CLIENT_INVOICE = ["Client Invoice", "IN"]
-CREDIT_NOTE = ["Credit Note", "CN"]
-CLIENT_RECEIPT = ["Client Receipt", "RC"]
+CASH_SALE.label = "Cash Sale"
+CASH_SALE.transaction_no_prefix = "CS"
+
+CLIENT_INVOICE.label = "Client Invoice"
+CLIENT_INVOICE.transaction_no_prefix = "IN"
+
+CREDIT_NOTE.label = "Credit Note"
+CREDIT_NOTE.transaction_no_prefix = "CN"
+
+CLIENT_RECEIPT.label = "Client Receipt"
+CLIENT_RECEIPT.transaction_no_prefix = "RC"
 
 # Supplier Transactions
-CASH_PURCHASE = ["Cash Purchase", "CP"]
-SUPPLIER_BILL = ["Supplier Bill", "BL"]
-DEBIT_NOTE = ["Debit Note", "DN"]
-SUPPLIER_PAYMENT = ["Supplier Payment", "PY"]
+CASH_PURCHASE.label = "Cash Purchase"
+CASH_PURCHASE.transaction_no_prefix = "CP"
+
+SUPPLIER_BILL.label = "Supplier Bill"
+SUPPLIER_BILL.transaction_no_prefix = "BL"
+
+DEBIT_NOTE.label = "Debit Note"
+DEBIT_NOTE.transaction_no_prefix = "DN"
+
+SUPPLIER_PAYMENT.label = "Supplier Payment"
+SUPPLIER_PAYMENT.transaction_no_prefix = "PY"
 
 # Internal Transactions
-CONTRA_ENTRY = ["Contra Entry", "CE"]
-JOURNAL_ENTRY = ["Journal Entry", "JN"]
+CONTRA_ENTRY.label = "Contra Entry"
+CONTRA_ENTRY.transaction_no_prefix = "CE"
+
+JOURNAL_ENTRY.label = "Journal Entry"
+JOURNAL_ENTRY.transaction_no_prefix = "JN"
 
 [transactions.clearables]
-types = ["Client Invoice", "Supplier Bill", "Journal Entry"]
+types = ["CLIENT_INVOICE", "SUPPLIER_BILL", "JOURNAL_ENTRY"]
 
 [transactions.assignables]
-types = ["Client Receipt", "Supplier Payment", "Credit Note", "Credit Note", "Debit Note", "Journal Entry"]
+types = ["CLIENT_RECEIPT", "SUPPLIER_PAYMENT", "CREDIT_NOTE", "DEBIT_NOTE", "JOURNAL_ENTRY"]
 
 [reports.aging_schedule_brackets] # bracket label = max age 
 "current" = 30
@@ -75,3 +127,27 @@ types = ["Client Receipt", "Supplier Payment", "Credit Note", "Credit Note", "De
 "181 - 270 days" = 270
 "271 - 365 days" = 365
 "365+ (bad debts)" = 1000000000 # (infinity)
+
+[reports] # statement = title
+INCOME_STATEMENT = "Income Statement"
+
+
+
+[reports.income_statement.sections]
+OPERATING_REVENUES.label = "Operating Revenues" 
+OPERATING_REVENUES.account_types = ["OPERATING_REVENUE"]
+
+NON_OPERATING_REVENUES.label = "Non Operating Revenues"
+NON_OPERATING_REVENUES.account_types = ["NON_OPERATING_REVENUE"]
+
+OPERATING_EXPENSES.label = "Operating Expenses"
+OPERATING_EXPENSES.account_types = ["OPERATING_EXPENSE"]
+
+NON_OPERATING_EXPENSES.label = "Non Operating Expenses"
+NON_OPERATING_EXPENSES.account_types = ["DIRECT_EXPENSE", "OVERHEAD_EXPENSE", "OTHER_EXPENSE"]
+
+[reports.income_statement.results]
+TOTAL_REVENUE = "Total Revenue"
+GROSS_PROFIT = "Gross Profit"
+TOTAL_EXPENSES = "Total Expenses"
+NET_PROFIT = "Net Profit"

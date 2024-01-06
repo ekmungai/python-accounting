@@ -106,7 +106,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
         if self.amount < 0:
             raise NegativeAmountError(self.__class__.__name__)
 
-        if account.account_type in IncomeStatement.IncomeStatementAccounts:
+        if account.account_type in IncomeStatement.Accounts:
             raise InvalidBalanceAccountError
 
         if self.transaction_type not in Balance.BalanceTransactions:

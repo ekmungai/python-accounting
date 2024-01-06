@@ -14,16 +14,21 @@ from .recyclable import Recyclable
 from .reporting_period import ReportingPeriod
 
 
+account_type_enum = StrEnum(
+    "AccountType", {k: v["label"] for k, v in config.accounts["types"].items()}
+)
+
+
 class Account(IsolatingMixin, Recyclable):
     """Represents an account which groups related Transactions"""
 
     # Chart of Accounts types
-    AccountType = StrEnum(
-        "AccountType", {k: v[0] for k, v in config.accounts["types"].items()}
-    )
+    AccountType = account_type_enum
 
     # Account Types that can be used in Purchasing Transactions
-    purchasables = config.accounts["purchasables"]["types"]
+    purchasables = [
+        account_type_enum[t] for t in config.accounts["purchasables"]["types"]
+    ]
 
     __mapper_args__ = {"polymorphic_identity": "Account"}
 
@@ -49,7 +54,7 @@ class Account(IsolatingMixin, Recyclable):
         )
 
         return (
-            int(config.accounts["types"][self.account_type.name][1])
+            int(config.accounts["types"][self.account_type.name]["account_code"])
             + current_count
             + getattr(self, "session_index", 1)
         )

@@ -27,10 +27,16 @@ class Assignment(IsolatingMixin, Base):
     """Represents an assigment of an assignable to a clearing transaction"""
 
     # Transaction Types that can be cleared by assignable transactions
-    clearables = config.transactions["clearables"]["types"]
+    clearables = [
+        Transaction.TransactionType[t]
+        for t in config.transactions["clearables"]["types"]
+    ]
 
     # Transaction Types that can have clearbale transactions assigned to them
-    assignables = config.transactions["assignables"]["types"]
+    assignables = [
+        Transaction.TransactionType[t]
+        for t in config.transactions["assignables"]["types"]
+    ]
 
     assignment_date: Mapped[datetime] = mapped_column()
     transaction_id: Mapped[int] = mapped_column(
