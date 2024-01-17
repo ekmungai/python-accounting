@@ -128,9 +128,13 @@ types = ["CLIENT_RECEIPT", "SUPPLIER_PAYMENT", "CREDIT_NOTE", "DEBIT_NOTE", "JOU
 "271 - 365 days" = 365
 "365+ (bad debts)" = 1000000000 # (infinity)
 
-[reports] # statement = title
-INCOME_STATEMENT = "Income Statement"
-
+[reports]
+indent_length = 4
+result_length = 15
+INCOME_STATEMENT.title = "Income Statement"
+INCOME_STATEMENT.config = "income_statement"
+BALANCE_SHEET.title = "Balance Sheet"
+BALANCE_SHEET.config = "balance_sheet"
 
 
 [reports.income_statement.sections]
@@ -151,3 +155,21 @@ TOTAL_REVENUE = "Total Revenue"
 GROSS_PROFIT = "Gross Profit"
 TOTAL_EXPENSES = "Total Expenses"
 NET_PROFIT = "Net Profit"
+
+
+[reports.balance_sheet.sections]
+ASSETS.label = "Assets" 
+ASSETS.account_types = ["NON_CURRENT_ASSET", "CONTRA_ASSET", "INVENTORY", "BANK", "CURRENT_ASSET", "RECEIVABLE"]
+
+LIABILITIES.label = "Liabilities" 
+LIABILITIES.account_types = ["NON_CURRENT_LIABILITY", "CONTROL", "CURRENT_LIABILITY", "PAYABLE"]
+
+EQUITY.label = "Equity" 
+EQUITY.account_types = ["EQUITY"]
+
+RECONCILIATION.label = "Reconciliation" 
+RECONCILIATION.account_types = ["RECONCILIATION"]
+
+[reports.balance_sheet.results]
+NET_ASSETS = "Net Assets"
+TOTAL_EQUITY = "Total Equity"

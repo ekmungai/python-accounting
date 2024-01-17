@@ -9,6 +9,7 @@ from python_accounting.utils.dates import get_dates
 class IncomeStatement(FinancialStatement):
     """This class represents the Income Statement/Profit and Loss of a given Entity"""
 
+    name: str = "INCOME_STATEMENT"
     Accounts = StrEnum(
         "Accounts",
         {
@@ -50,7 +51,8 @@ class IncomeStatement(FinancialStatement):
         self, session, start_date: datetime = None, end_date: datetime = None
     ) -> None:
         self.start_date, self.end_date, _, _ = get_dates(session, start_date, end_date)
-        self.title = config.reports["INCOME_STATEMENT"]
+        self.title = config.reports[self.name]["title"]
+        self.config = config.reports[self.name]["config"]
         super().__init__(session)
 
         self._get_sections(self.start_date, self.end_date, False)
@@ -78,7 +80,7 @@ class IncomeStatement(FinancialStatement):
             - self.totals[IncomeStatement.Sections.NON_OPERATING_EXPENSES.name]
         )
 
-        self.sections = (
+        self.printout = (
             self._print_title(),
             self._print_section(IncomeStatement.Sections.OPERATING_REVENUES, -1),
             self._print_section(IncomeStatement.Sections.OPERATING_EXPENSES),

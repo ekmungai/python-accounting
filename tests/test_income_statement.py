@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from python_accounting.models import (
     Account,
@@ -18,7 +17,7 @@ from python_accounting.reports import IncomeStatement
 
 
 def test_income_statement(session, entity, currency):
-    """Tests the generation of an entity's income statement from cash_sales"""
+    """Tests the generation of an entity's income statement"""
 
     category = Category(
         name="Test Category",
@@ -84,7 +83,7 @@ def test_income_statement(session, entity, currency):
         entity_id=entity.id,
     )
     overhead = Account(
-        name="test account 10",
+        name="test account ten",
         account_type=Account.AccountType.OVERHEAD_EXPENSE,
         currency_id=currency.id,
         entity_id=entity.id,

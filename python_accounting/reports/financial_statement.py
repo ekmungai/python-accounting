@@ -18,17 +18,17 @@ class FinancialStatement:
     # printing
     printout: tuple
     width: str
-    indent: str = " " * 4
-    subtotal: str = "_" * 15
-    grandtotal: str = "=" * 15
+    indent: str = " " * config.reports["indent_length"]
+    subtotal: str = "_" * config.reports["result_length"]
+    grandtotal: str = "=" * config.reports["result_length"]
 
     def __init__(self, session: Session) -> None:
         self.session = session
         self.balances.update({"debit": 0, "credit": 0})
 
     def __str__(self) -> str:
-        template = "{}\n" * len(self.sections)
-        return template.format(*self.sections)
+        template = "{}\n" * len(self.printout)
+        return template.format(*self.printout)
 
     def _get_sections(
         self,
@@ -38,7 +38,7 @@ class FinancialStatement:
     ) -> None:
         """Get the balances of the accounts in the financial statement, aggregated by section"""
 
-        for section, content in config.reports["income_statement"]["sections"].items():
+        for section, content in config.reports[self.config_section]["sections"].items():
             for account_type in content["account_types"]:
                 balances = Account.section_balances(
                     self.session, [account_type], start_date, end_date, full_balance
@@ -57,11 +57,15 @@ class FinancialStatement:
 
         period = (
             f"For the period: {self.start_date.strftime(config.dates["long"])} to {self.end_date.strftime(config.dates["long"])}"
-            if self.start_date
+            if hasattr(self, "start_date")
             else f"As at {self.end_date.strftime(config.dates["long"])}"
         )
-        self.width = len(period)
-        return f"\n{self.session.entity.name.center(self.width)}\n{self.title.center(self.width)}\n{period}"
+        self.width = max(len(period), 45)
+        return "\n{}\n{}\n{}".format(
+            self.session.entity.name.center(self.width), 
+            self.title.center(self.width), 
+            period.center(self.width)
+        )
     
     def _print_section(self, section, factor = 1) -> str:
         """Print the contents of a section of the statement"""
@@ -78,5 +82,16 @@ class FinancialStatement:
             f"{self.subtotal:>{self.width}}", 
             result, 
             f"{self.results[result.name]:>{self.width - len(result)}}", 
+            f"{self.grandtotal:>{self.width}}" if grandtotal else ""
+        )
+    
+
+    def _print_total(self, section, factor = 1, grandtotal = False) -> str:
+        """Print the total of a section of the statement"""
+        label = f"Total {section.value}"
+        return "{}\n{}{}\n{}".format(
+            f"{self.subtotal:>{self.width}}", 
+            label, 
+            f"{self.totals[section.name] * factor:>{self.width - len(label)}}", 
             f"{self.grandtotal:>{self.width}}" if grandtotal else ""
         )
