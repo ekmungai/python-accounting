@@ -219,7 +219,7 @@ def test_balance_recycling(session, entity, currency):
     assert balance == None
 
 
-def test_opening_trial_balance(session, entity, currency):  # TODO
+def test_opening_trial_balance(session, entity, currency):
     """Tests the Chart of Accounts Opening Trial Balance"""
     account1 = Account(
         name="test account one",

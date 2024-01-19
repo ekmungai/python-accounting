@@ -131,10 +131,8 @@ types = ["CLIENT_RECEIPT", "SUPPLIER_PAYMENT", "CREDIT_NOTE", "DEBIT_NOTE", "JOU
 [reports]
 indent_length = 4
 result_length = 15
-INCOME_STATEMENT.title = "Income Statement"
-INCOME_STATEMENT.config = "income_statement"
-BALANCE_SHEET.title = "Balance Sheet"
-BALANCE_SHEET.config = "balance_sheet"
+income_statement.title = "Income Statement"
+balance_sheet.title = "Balance Sheet"
 
 
 [reports.income_statement.sections]
@@ -165,11 +163,46 @@ LIABILITIES.label = "Liabilities"
 LIABILITIES.account_types = ["NON_CURRENT_LIABILITY", "CONTROL", "CURRENT_LIABILITY", "PAYABLE"]
 
 EQUITY.label = "Equity" 
-EQUITY.account_types = ["EQUITY"]
-
-RECONCILIATION.label = "Reconciliation" 
-RECONCILIATION.account_types = ["RECONCILIATION"]
+EQUITY.account_types = ["EQUITY", "RECONCILIATION"]
 
 [reports.balance_sheet.results]
 NET_ASSETS = "Net Assets"
 TOTAL_EQUITY = "Total Equity"
+
+[reports.cashflow_statement.sections]
+PROVISIONS.label = "Provisions" 
+PROVISIONS.account_types = ["CONTRA_ASSET"]
+
+RECEIVABLE.label = "Receivables" 
+RECEIVABLE.account_types = ["RECEIVABLE"]
+
+PAYABLES.label = "Payables" 
+PAYABLES.account_types = ["PAYABLES"]
+
+CURRENT_ASSETS.label = "Current Assets" 
+CURRENT_ASSETS.account_types = ["INVENTORY", "CURRENT_ASSET"]
+
+CURRENT_LIABILITIES.label = "Current Liabilities" 
+CURRENT_LIABILITIES.account_types = ["CURRENT_LIABILITY"]
+
+TAXATION.label = "Taxation" 
+TAXATION.account_types = ["CONTROL"]
+
+NON_CURRENT_ASSETS.label = "Non Current Assets" 
+NON_CURRENT_ASSETS.account_types = ["NON_CURRENT_ASSET"]
+
+NON_CURRENT_LIABILITIES.label = "Non Current Liabilities" 
+NON_CURRENT_LIABILITIES.account_types = ["NON_CURRENT_LIABILITY"]
+
+EQUITY.label = "Equity" 
+EQUITY.account_types = ["EQUITY", "RECONCILIATION"]
+
+NET_CASH_FLOW.label = "Net Cash Flow" 
+NET_CASH_FLOW.account_types = ["NET_CASH_FLOW"]
+
+[reports.cashflow_statement.results]
+OPERATING_CASH_FLOW = "Operating Cash Flow"
+INVESTMENT_CASH_FLOW = "Investment Cash Flow"
+FINANCING_CASH_FLOW = "Financing Cash Flow"
+END_CASH_BALANCE = "Ending Cash Balance"
+CASHBOOK_BALANCE = "Cashbook Balance"

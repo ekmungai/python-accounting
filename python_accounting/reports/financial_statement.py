@@ -1,3 +1,4 @@
+from strenum import StrEnum
 from datetime import datetime
 from sqlalchemy.orm.session import Session
 from python_accounting.config import config
@@ -6,15 +7,7 @@ from python_accounting.models import Account
 
 class FinancialStatement:
     """This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP"""
-
-    balances: dict
-    accounts: dict
-    totals: dict
-    results: dict
-    session: Session
-    start_date: datetime
-    end_date: datetime
-
+    
     # printing
     printout: tuple
     width: str
@@ -24,7 +17,28 @@ class FinancialStatement:
 
     def __init__(self, session: Session) -> None:
         self.session = session
+        self.title = config.reports[self.config]["title"]
+
+        # Financial Statement Sections
+        self.sections = StrEnum(
+            "Sections",
+            {k: v["label"] for k, v in config.reports[self.config]["sections"].items()},
+        )
+
+        # Financial Statement Results
+        self.results = StrEnum(
+            "Results",
+            {k: v for k, v in config.reports[self.config]["results"].items()},
+        )
+
+        self.section_names = [section.name for section in self.sections]
+        self.accounts = {k: {} for k in self.section_names}
+        self.balances = {k: {} for k in self.section_names}
+        self.totals = {k: 0 for k in self.section_names}
+        self.result_amounts = {}
+
         self.balances.update({"debit": 0, "credit": 0})
+        
 
     def __str__(self) -> str:
         template = "{}\n" * len(self.printout)
@@ -38,7 +52,7 @@ class FinancialStatement:
     ) -> None:
         """Get the balances of the accounts in the financial statement, aggregated by section"""
 
-        for section, content in config.reports[self.config_section]["sections"].items():
+        for section, content in config.reports[self.config]["sections"].items():
             for account_type in content["account_types"]:
                 balances = Account.section_balances(
                     self.session, [account_type], start_date, end_date, full_balance
@@ -81,7 +95,7 @@ class FinancialStatement:
         return "{}\n{}{}\n{}".format(
             f"{self.subtotal:>{self.width}}", 
             result, 
-            f"{self.results[result.name]:>{self.width - len(result)}}", 
+            f"{self.result_amounts[result.name]:>{self.width - len(result)}}", 
             f"{self.grandtotal:>{self.width}}" if grandtotal else ""
         )
     

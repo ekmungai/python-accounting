@@ -699,8 +699,3 @@ def test_transaction_account_contribution(session, entity, currency):
     assert transaction.contribution(session, account1) == Decimal(-195)
     assert transaction.contribution(session, account2) == Decimal(75)
     assert transaction.contribution(session, account3) == Decimal(120)
-
-
-def test_transaction_assignment(session, entity):  # TODO
-    """Tests assignment of clearable to assignable transactions"""
-    pass

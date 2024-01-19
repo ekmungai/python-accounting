@@ -318,6 +318,7 @@ def test_income_statement(session, entity, currency):
     assert statement.totals["OPERATING_EXPENSES"] == 100
     assert statement.totals["NON_OPERATING_EXPENSES"] == 105
 
+    # balances
     assert statement.balances["OPERATING_REVENUES"]["Operating Revenue"] == -220
     assert statement.balances["NON_OPERATING_REVENUES"]["Non Operating Revenue"] == -50
     assert statement.balances["OPERATING_EXPENSES"]["Operating Expense"] == 100
@@ -327,8 +328,9 @@ def test_income_statement(session, entity, currency):
     assert statement.balances["debit"] == 205
     assert statement.balances["credit"] == -270
 
-    assert statement.results["TOTAL_REVENUE"] == 170
-    assert statement.results["GROSS_PROFIT"] == 120
-    assert statement.results["NET_PROFIT"] == 65
+    # results
+    assert statement.result_amounts["TOTAL_REVENUE"] == 170
+    assert statement.result_amounts["GROSS_PROFIT"] == 120
+    assert statement.result_amounts["NET_PROFIT"] == 65
 
     print(statement)
