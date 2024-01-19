@@ -1,6 +1,5 @@
 from strenum import StrEnum
 from datetime import datetime
-from python_accounting.config import config
 from python_accounting.utils.dates import get_dates
 from python_accounting.reports.financial_statement import FinancialStatement
 

@@ -133,6 +133,7 @@ indent_length = 4
 result_length = 15
 income_statement.title = "Income Statement"
 balance_sheet.title = "Balance Sheet"
+cashflow_statement.title = "Cashflow Statement"
 
 
 [reports.income_statement.sections]
@@ -169,15 +170,44 @@ EQUITY.account_types = ["EQUITY", "RECONCILIATION"]
 NET_ASSETS = "Net Assets"
 TOTAL_EQUITY = "Total Equity"
 
+
 [reports.cashflow_statement.sections]
+OPERATING_CASH_FLOW.label = "Operating Cash Flow"
+OPERATING_CASH_FLOW.sub_sections = [
+    "NET_PROFIT",
+    "PROVISIONS", 
+    "RECEIVABLES", 
+    "PAYABLES", 
+    "CURRENT_ASSETS", 
+    "CURRENT_LIABILITIES", 
+    "TAXATION", 
+]
+INVESTMENT_CASH_FLOW.label = "Investment Cash Flow"
+INVESTMENT_CASH_FLOW.sub_sections = ["NON_CURRENT_ASSETS"]
+FINANCING_CASH_FLOW.label = "Financing Cash Flow"
+FINANCING_CASH_FLOW.sub_sections = ["NON_CURRENT_LIABILITIES", "EQUITY"]
+NET_CASH_FLOW.label = "Net Cash Flow"
+NET_CASH_FLOW.sub_sections = []
+
+[reports.cashflow_statement.sub_sections]
+NET_PROFIT.label = "Net Profit" 
+NET_PROFIT.account_types = [
+    "OPERATING_REVENUE",
+    "NON_OPERATING_REVENUE",
+    "OPERATING_EXPENSE",
+    "DIRECT_EXPENSE",
+    "OVERHEAD_EXPENSE",
+    "OTHER_EXPENSE",
+]
+
 PROVISIONS.label = "Provisions" 
 PROVISIONS.account_types = ["CONTRA_ASSET"]
 
-RECEIVABLE.label = "Receivables" 
-RECEIVABLE.account_types = ["RECEIVABLE"]
+RECEIVABLES.label = "Receivables" 
+RECEIVABLES.account_types = ["RECEIVABLE"]
 
 PAYABLES.label = "Payables" 
-PAYABLES.account_types = ["PAYABLES"]
+PAYABLES.account_types = ["PAYABLE"]
 
 CURRENT_ASSETS.label = "Current Assets" 
 CURRENT_ASSETS.account_types = ["INVENTORY", "CURRENT_ASSET"]
@@ -197,12 +227,6 @@ NON_CURRENT_LIABILITIES.account_types = ["NON_CURRENT_LIABILITY"]
 EQUITY.label = "Equity" 
 EQUITY.account_types = ["EQUITY", "RECONCILIATION"]
 
-NET_CASH_FLOW.label = "Net Cash Flow" 
-NET_CASH_FLOW.account_types = ["NET_CASH_FLOW"]
-
 [reports.cashflow_statement.results]
-OPERATING_CASH_FLOW = "Operating Cash Flow"
-INVESTMENT_CASH_FLOW = "Investment Cash Flow"
-FINANCING_CASH_FLOW = "Financing Cash Flow"
 END_CASH_BALANCE = "Ending Cash Balance"
 CASHBOOK_BALANCE = "Cashbook Balance"

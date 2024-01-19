@@ -1,7 +1,6 @@
 from strenum import StrEnum
 from decimal import Decimal
 from datetime import datetime
-from python_accounting.config import config
 from python_accounting.models import Account
 from python_accounting.reports.financial_statement import FinancialStatement
 from python_accounting.utils.dates import get_dates

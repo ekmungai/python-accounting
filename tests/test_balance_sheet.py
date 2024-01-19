@@ -6,7 +6,6 @@ from python_accounting.models import (
     Tax,
     LineItem,
     Transaction,
-    Category,
     Balance,
 )
 from python_accounting.transactions import SupplierBill, CashSale, JournalEntry
@@ -69,7 +68,6 @@ def test_balance_sheet(session, entity, currency):
         currency_id=currency.id,
         entity_id=entity.id,
     )
-
     liability = Account(
         name="test account ten",
         account_type=Account.AccountType.CURRENT_LIABILITY,
@@ -77,7 +75,7 @@ def test_balance_sheet(session, entity, currency):
         entity_id=entity.id,
     )
     asset = Account(
-        name="test account ten",
+        name="test account eleven",
         account_type=Account.AccountType.NON_CURRENT_ASSET,
         currency_id=currency.id,
         entity_id=entity.id,
