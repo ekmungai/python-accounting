@@ -134,6 +134,7 @@ result_length = 15
 income_statement.title = "Income Statement"
 balance_sheet.title = "Balance Sheet"
 cashflow_statement.title = "Cashflow Statement"
+trial_balance.title = "Trial Balance"
 
 
 [reports.income_statement.sections]
@@ -230,3 +231,35 @@ EQUITY.account_types = ["EQUITY", "RECONCILIATION"]
 [reports.cashflow_statement.results]
 END_CASH_BALANCE = "Ending Cash Balance"
 CASHBOOK_BALANCE = "Cashbook Balance"
+
+
+[reports.trial_balance.sections]
+INCOME_STATEMENT.label = "Income Statement"
+INCOME_STATEMENT.account_types = [
+    "OPERATING_REVENUE",
+    "NON_OPERATING_REVENUE",
+    "OPERATING_EXPENSE",
+    "DIRECT_EXPENSE",
+    "OVERHEAD_EXPENSE",
+    "OTHER_EXPENSE",
+]
+
+BALANCE_SHEET.label = "Balance Sheet"
+BALANCE_SHEET.account_types = [
+    "NON_CURRENT_ASSET",
+    "CONTRA_ASSET",
+    "INVENTORY",
+    "BANK",
+    "CURRENT_ASSET",
+    "RECEIVABLE",
+    "NON_CURRENT_LIABILITY",
+    "CONTROL",
+    "CURRENT_LIABILITY",
+    "PAYABLE",
+    "EQUITY",
+    "RECONCILIATION",
+]
+
+[reports.trial_balance.results]
+DEBIT = "Total Debits"
+CREDIT = "Total Credits"
