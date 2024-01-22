@@ -49,5 +49,5 @@ class AgingSchedule:
                 for bracket, max_age in self.brackets.items()
                 if transaction.age <= max_age
             ][0]
-            self.balances[bracket] += transaction.uncleared
-            account.balances[bracket] += transaction.uncleared
+            self.balances[bracket] += transaction.uncleared_amount
+            account.balances[bracket] += transaction.uncleared_amount

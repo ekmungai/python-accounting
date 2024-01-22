@@ -22,6 +22,7 @@ from python_accounting.exceptions import (
     RedundantTransactionError,
     MissingLineItemError,
     PostedTransactionError,
+    InvalidTransactionTypeError,
 )
 from strenum import StrEnum
 from typing import List, Set
@@ -228,9 +229,8 @@ class Transaction(IsolatingMixin, Recyclable):
         ):
             raise InvalidTransactionDateError
 
-        # if self.id and len(inspect(self).attrs.transaction_type.history.deleted) > 0:
-        #     raise InvalidTransactionTypeError
-        # TODO
+        if self.id and len(inspect(self).attrs.transaction_type.history.deleted) > 0:
+            raise InvalidTransactionTypeError
 
         if not self.transaction_no:
             self.transaction_no = self._transaction_no(

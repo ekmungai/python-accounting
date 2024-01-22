@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum
 from typing import List
+from datetime import datetime
+from python_accounting.utils.dates import get_dates
 from strenum import StrEnum
 from python_accounting.mixins import IsolatingMixin
 from .recyclable import Recyclable
@@ -32,3 +34,19 @@ class Category(IsolatingMixin, Recyclable):
             raise InvalidAccountTypeError(
                 f"category_account_type must be one of: {', '.join(list(Account.AccountType))}",
             )
+
+    def account_balances(self, session, end_date: datetime = None) -> dict:
+        """Returns the accounts belonging to the category and their balances"""
+
+        _, end_date, _, _ = get_dates(session, None, end_date)
+
+        balances = dict(total=0, accounts=[])
+
+        for account in self.accounts:
+            account.balance = account.closing_balance(session, end_date)
+
+            if account.balance != 0:
+                balances["total"] += account.balance
+                balances["accounts"].append(account)
+
+        return balances

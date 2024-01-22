@@ -50,7 +50,6 @@ def test_supplier_payment_ledgers(session, entity, currency):
 
     transaction.post(session)
 
-    # TODO: Witholding Tax
     # Line Item entries
     assert transaction.ledgers[0].post_account_id == account1.id
     assert transaction.ledgers[0].folio_account_id == account2.id

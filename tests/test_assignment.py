@@ -330,7 +330,7 @@ def test_assignment_validation(session, entity, currency):
         session.add(assignment)
     assert (
         str(e.value)
-        == "Transaction True entry increases the outstaning balance on the account instead of reducing it"
+        == "Transaction Credit entry increases the outstaning balance on the account instead of reducing it"
     )
 
     session.expunge(assignment)
@@ -404,30 +404,33 @@ def test_assignment_validation(session, entity, currency):
     session.add(transaction7)
     transaction7.post(session)
 
-    assignment = Assignment(
-        assignment_date=datetime.now(),
-        transaction_id=transaction3.id,
-        assigned_id=transaction7.id,
-        assigned_type=transaction7.__class__.__name__,
-        entity_id=entity.id,
-        amount=5,
+    session.add(
+        Assignment(
+            assignment_date=datetime.now(),
+            transaction_id=transaction3.id,
+            assigned_id=transaction7.id,
+            assigned_type=transaction7.__class__.__name__,
+            entity_id=entity.id,
+            amount=5,
+        )
     )
+    session.flush()
 
-    with pytest.raises(MixedAssignmentError) as e:
-        session.add(assignment)
-    assert str(e.value) == "A Transaction that has been Cleared cannot be Assigned"
-
-    session.expunge(assignment)
     assignment = Assignment(
         assignment_date=datetime.now(),
-        transaction_id=transaction5.id,
-        assigned_id=transaction7.id,
-        assigned_type=transaction5.__class__.__name__,
+        transaction_id=transaction7.id,
+        assigned_id=transaction3.id,
+        assigned_type=transaction3.__class__.__name__,
         entity_id=entity.id,
         amount=5,
     )
     session.add(assignment)
-    session.commit()
+
+    with pytest.raises(MixedAssignmentError) as e:
+        session.flush()
+    assert str(e.value) == "A Transaction that has been Cleared cannot be Assigned"
+
+    session.expunge(assignment)
 
     line_item8 = LineItem(
         narration="Test line item eight",
@@ -448,11 +451,44 @@ def test_assignment_validation(session, entity, currency):
     session.add(transaction8)
     transaction8.post(session)
 
+    session.add(
+        Assignment(
+            assignment_date=datetime.now(),
+            transaction_id=transaction8.id,
+            assigned_id=transaction7.id,
+            assigned_type=transaction5.__class__.__name__,
+            entity_id=entity.id,
+            amount=5,
+        )
+    )
+
+    session.commit()
+
+    line_item9 = LineItem(
+        narration="Test line item nine",
+        account_id=account3.id,
+        amount=50,
+        entity_id=entity.id,
+    )
+    session.add(line_item9)
+    session.flush()
+
+    transaction9 = JournalEntry(
+        narration="Test transaction nine",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        entity_id=entity.id,
+        credited=False,
+    )
+    transaction9.line_items.add(line_item9)
+    session.add(transaction9)
+    transaction9.post(session)
+
     assignment = Assignment(
         assignment_date=datetime.now(),
-        transaction_id=transaction8.id,
-        assigned_id=transaction7.id,
-        assigned_type=transaction5.__class__.__name__,
+        transaction_id=transaction9.id,
+        assigned_id=transaction8.id,
+        assigned_type=transaction8.__class__.__name__,
         entity_id=entity.id,
         amount=5,
     )
@@ -462,6 +498,95 @@ def test_assignment_validation(session, entity, currency):
     assert str(e.value) == "A Transaction that has been Assigned cannot be Cleared"
 
 
-def test_bulk_assignment(entity, currency):  # TODO
-    """Tests an account's Transactions"""
-    pass
+def test_bulk_assignment(session, entity, currency):
+    """Tests the bulk assignment of a clearing Transaction"""
+
+    revenue = Account(
+        name="revenue account",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    client = Account(
+        name="client account",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    bank = Account(
+        name="Bank",
+        account_type=Account.AccountType.BANK,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([revenue, client, bank])
+    session.flush()
+
+    balance = Balance(
+        transaction_date=datetime.now() - relativedelta(years=1),
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        amount=75,
+        balance_type=Balance.BalanceType.DEBIT,
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(balance)
+
+    invoice = ClientInvoice(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(invoice)
+    session.commit()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=revenue.id,
+        amount=100,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    invoice.line_items.add(line_item1)
+    session.add(invoice)
+    session.flush()
+
+    invoice.post(session)
+
+    receipt = ClientReceipt(
+        narration="Client Receipt",
+        transaction_date=datetime.now(),
+        account_id=client.id,
+        entity_id=entity.id,
+    )
+    session.add(receipt)
+    session.commit()
+
+    line_item2 = LineItem(
+        narration="Test line item two",
+        account_id=bank.id,
+        amount=100,
+        entity_id=entity.id,
+    )
+    session.add(line_item2)
+    session.flush()
+
+    receipt.line_items.add(line_item2)
+    session.add(receipt)
+    session.flush()
+
+    receipt.post(session)
+
+    receipt.bulk_assign(session)
+
+    assignments = receipt.assignments(session)
+    assert len(assignments) == 2
+    assert assignments[0].amount == 75
+    assert assignments[1].amount == 25
+
+    assert balance.cleared(session) == 75
+    assert invoice.cleared(session) == 25

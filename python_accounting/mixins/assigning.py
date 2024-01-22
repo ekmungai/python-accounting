@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 from sqlalchemy import func, select
 
@@ -32,4 +33,26 @@ class AssigningMixin:
 
     def bulk_assign(self, session) -> None:
         """Assign this transanction to all outstanding transactions for the main account on a FIFO basis"""
-        pass
+        from python_accounting.models import Assignment
+
+        balance = self.balance(session)
+
+        for clearable in self.account.statement(session, None, None, True)[
+            "transactions"
+        ]:
+            assignment = Assignment(
+                assignment_date=datetime.now(),
+                transaction_id=self.id,
+                assigned_id=clearable.id,
+                assigned_type=clearable.__class__.__name__,
+                entity_id=self.entity_id,
+            )
+
+            assignment.amount = (
+                balance
+                if clearable.uncleared_amount > balance
+                else clearable.uncleared_amount
+            )
+            balance -= clearable.uncleared_amount
+            session.add(assignment)
+            session.flush()

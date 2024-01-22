@@ -1380,23 +1380,23 @@ def test_receivable_account_schedule(session, entity, currency):
     statement = client.statement(session, None, None, True)
 
     assert statement["transactions"][0].amount == 45
-    assert statement["transactions"][0].cleared == 15
-    assert statement["transactions"][0].uncleared == 30
+    assert statement["transactions"][0].cleared_amount == 15
+    assert statement["transactions"][0].uncleared_amount == 30
     assert statement["transactions"][0].age == 365
 
     assert statement["transactions"][1].amount == 110
-    assert statement["transactions"][1].cleared == Decimal("85.6")
-    assert statement["transactions"][1].uncleared == Decimal("24.4")
+    assert statement["transactions"][1].cleared_amount == Decimal("85.6")
+    assert statement["transactions"][1].uncleared_amount == Decimal("24.4")
     assert statement["transactions"][1].age == 2
 
     assert statement["transactions"][2].amount == 50
-    assert statement["transactions"][2].cleared == 0
-    assert statement["transactions"][2].uncleared == 50
+    assert statement["transactions"][2].cleared_amount == 0
+    assert statement["transactions"][2].uncleared_amount == 50
     assert statement["transactions"][2].age == 0
 
     assert statement["amount"] == 205
-    assert statement["cleared"] == Decimal("100.6")
-    assert statement["uncleared"] == Decimal("104.4")
+    assert statement["cleared_amount"] == Decimal("100.6")
+    assert statement["uncleared_amount"] == Decimal("104.4")
 
 
 def test_supplier_account_schedule(session, entity, currency):
@@ -1594,20 +1594,20 @@ def test_supplier_account_schedule(session, entity, currency):
     statement = supplier.statement(session, None, None, True)
 
     assert statement["transactions"][0].amount == 73
-    assert statement["transactions"][0].cleared == 15
-    assert statement["transactions"][0].uncleared == 58
+    assert statement["transactions"][0].cleared_amount == 15
+    assert statement["transactions"][0].uncleared_amount == 58
     assert statement["transactions"][0].age == 365
 
     assert statement["transactions"][1].amount == 108
-    assert statement["transactions"][1].cleared == 45
-    assert statement["transactions"][1].uncleared == 63
+    assert statement["transactions"][1].cleared_amount == 45
+    assert statement["transactions"][1].uncleared_amount == 63
     assert statement["transactions"][1].age == 4
 
     assert statement["transactions"][2].amount == 53
-    assert statement["transactions"][2].cleared == 0
-    assert statement["transactions"][2].uncleared == 53
+    assert statement["transactions"][2].cleared_amount == 0
+    assert statement["transactions"][2].uncleared_amount == 53
     assert statement["transactions"][2].age == 0
 
     assert statement["amount"] == 234
-    assert statement["cleared"] == 60
-    assert statement["uncleared"] == 174
+    assert statement["cleared_amount"] == 60
+    assert statement["uncleared_amount"] == 174

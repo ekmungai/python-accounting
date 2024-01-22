@@ -190,8 +190,8 @@ class Account(IsolatingMixin, Recyclable):
             dict(
                 transactions=[],
                 amount=0,
-                cleared=0,
-                uncleared=0,
+                cleared_amount=0,
+                uncleared_amount=0,
             )
             if schedule
             else dict(
@@ -256,14 +256,18 @@ class Account(IsolatingMixin, Recyclable):
                         )
                     ):
                         continue
-                    transaction.cleared, transaction.uncleared, transaction.age = (
+                    (
+                        transaction.cleared_amount,
+                        transaction.uncleared_amount,
+                        transaction.age,
+                    ) = (
                         cleared,
                         transaction.amount - cleared,
                         (end_date - transaction.transaction_date).days,
                     )
                     statement["amount"] += transaction.amount
-                    statement["cleared"] += transaction.cleared
-                    statement["uncleared"] += transaction.uncleared
+                    statement["cleared_amount"] += transaction.cleared_amount
+                    statement["uncleared_amount"] += transaction.uncleared_amount
                 else:
                     contribution = transaction.contribution(session, self)
                     balance += contribution

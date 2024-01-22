@@ -19,6 +19,7 @@ from python_accounting.exceptions import (
     AdjustingReportingPeriodError,
     RedundantTransactionError,
     MissingLineItemError,
+    InvalidTransactionTypeError,
     PostedTransactionError,
 )
 
@@ -111,7 +112,18 @@ def test_transaction_validation(session, entity, currency):
         == f"Only Journal Entry Transactions can be recorded for Reporting Period: {last_year} <Period 2> which has the Adjusting Status"
     )
 
-    # PostedTransactionError #TODO
+    previous_period.status = ReportingPeriod.Status.OPEN
+    session.commit()
+
+    transaction = session.get(Transaction, transaction.id)
+    transaction.transaction_type = Transaction.TransactionType.CASH_SALE
+
+    with pytest.raises(InvalidTransactionTypeError) as e:
+        session.commit()
+    assert (
+        str(e.value)
+        == "The Transaction type cannot be changed as this would bypass subclass validations"
+    )
 
 
 def test_transaction_isolation(session, entity, currency):

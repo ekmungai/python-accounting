@@ -113,17 +113,19 @@ class Assignment(IsolatingMixin, Base):
             raise InvalidAssignmentAccountError
 
         if transaction.credited == assigned.credited:
-            raise InvalidClearanceEntryTypeError(transaction.credited)
+            raise InvalidClearanceEntryTypeError(
+                Balance.BalanceType.CREDIT
+                if transaction.credited
+                else Balance.BalanceType.DEBIT
+            )
 
         query = session.query(func.count(Assignment.id))
-        if query.filter(Assignment.transaction_id == self.transaction_id).scalar() > 0:
+
+        if query.filter(Assignment.assigned_id == self.transaction_id).scalar() > 0:
             raise MixedAssignmentError("Cleared", "Assigned")
 
         if (
-            query.filter(Assignment.assigned_id == self.assigned_id)
-            .filter(Assignment.assigned_type == self.assigned_type)
-            .scalar()
-            > 0
+            query.filter(Assignment.transaction_id == self.assigned_id).scalar() > 0
             and assigned.transaction_type in Assignment.assignables
         ):
             raise MixedAssignmentError(

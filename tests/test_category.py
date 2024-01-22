@@ -1,6 +1,16 @@
 import pytest
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
-from python_accounting.models import Account, Category, Entity
+from python_accounting.models import (
+    Account,
+    Category,
+    Entity,
+    Balance,
+    Transaction,
+    LineItem,
+)
+from python_accounting.transactions import ClientInvoice
 from python_accounting.exceptions import InvalidAccountTypeError
 
 
@@ -118,6 +128,91 @@ def test_category_recycling(session, entity):
     assert category == None
 
 
-def test_account_balances(session, entity):  # TODO
+def test_account_balances(session, entity, currency):
     """Tests the aggregation of account balances by category"""
-    pass
+    revenue_category = Category(
+        name="Revenue Category",
+        category_account_type=Account.AccountType.OPERATING_REVENUE,
+        entity_id=entity.id,
+    )
+    client_category = Category(
+        name="Client Category",
+        category_account_type=Account.AccountType.RECEIVABLE,
+        entity_id=entity.id,
+    )
+    session.add_all([revenue_category, client_category])
+    session.commit()
+
+    revenue = Account(
+        name="revenue account",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        category_id=revenue_category.id,
+        entity_id=entity.id,
+    )
+    client1 = Account(
+        name="client account 1",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        category_id=client_category.id,
+        entity_id=entity.id,
+    )
+    client2 = Account(
+        name="client account two",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        category_id=client_category.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all(
+        [
+            revenue,
+            client1,
+            client2,
+        ]
+    )
+    session.flush()
+
+    session.add(
+        Balance(
+            transaction_date=datetime.now() - relativedelta(years=1),
+            transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+            amount=75,
+            balance_type=Balance.BalanceType.DEBIT,
+            account_id=client1.id,
+            entity_id=entity.id,
+        )
+    )
+
+    invoice = ClientInvoice(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=client2.id,
+        entity_id=entity.id,
+    )
+    session.add(invoice)
+    session.commit()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=revenue.id,
+        amount=100,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    invoice.line_items.add(line_item1)
+    session.add(invoice)
+    session.flush()
+
+    invoice.post(session)
+
+    revenue_accounts = revenue_category.account_balances(session)
+    revenue_accounts["total"] = -100
+    revenue_accounts["accounts"] = [revenue]
+
+    client_accounts = revenue_category.account_balances(session)
+    client_accounts["total"] = 175
+    client_accounts["accounts"] = [client1, client2]

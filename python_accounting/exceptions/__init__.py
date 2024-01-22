@@ -96,9 +96,15 @@ class InvalidTaxChargeError(AccountingExeption):
 
 
 class InvalidTransactionDateError(AccountingExeption):
-    """The Transaction date cannot be the exact beginning of the reporting period"""
+    """The Transaction type cannot be changed as this would bypass subclass validations"""
 
     message = "The Transaction date cannot be at the exact beginning of the Reporting Period. Use a Balance object instead"
+
+
+class InvalidTransactionTypeError(AccountingExeption):
+    """The Transaction date cannot be the exact beginning of the reporting period"""
+
+    message = "The Transaction type cannot be changed as this would bypass subclass validations"
 
 
 class MissingEntityError(AccountingExeption):
