@@ -1,14 +1,13 @@
 import pytest
+from datetime import datetime
 from sqlalchemy import select
-from python_accounting.models import (
-    Tax,
-    Entity,
-    Account,
-)
+from python_accounting.models import Tax, Entity, Account, LineItem
+from python_accounting.transactions import ClientInvoice
 from python_accounting.exceptions import (
     InvalidTaxAccountError,
     NegativeAmountError,
     MissingTaxAccountError,
+    HangingTransactionsError,
 )
 
 
@@ -81,6 +80,64 @@ def test_tax_validation(session, entity, currency):
     session.add(tax)
     with pytest.raises(MissingTaxAccountError):
         session.commit()
+
+    session.expunge(tax)
+    account1 = Account(
+        name="test account one",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test account two",
+        account_type=Account.AccountType.OPERATING_REVENUE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account3 = Account(
+        name="test account three",
+        account_type=Account.AccountType.CONTROL,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add_all([account1, account2, account3])
+    session.flush()
+
+    transaction = ClientInvoice(
+        narration="Test transaction one",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.commit()
+
+    tax.account_id = account3.id
+    session.add(tax)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=100,
+        tax_id=tax.id,
+        entity_id=entity.id,
+    )
+    session.add(line_item1)
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    with pytest.raises(HangingTransactionsError) as e:
+        session.delete(tax)
+    assert (
+        str(e.value)
+        == "The Tax cannot be deleted because it has Transactions in the current reporting period"
+    )
 
 
 def test_tax_isolation(session, entity, currency):

@@ -1,13 +1,11 @@
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
-from sqlalchemy import ForeignKey, Text, Boolean
+from sqlalchemy import ForeignKey, Text, Boolean, func, Text, or_
 from sqlalchemy.types import DECIMAL
 from typing import List, Any
 from python_accounting.mixins import IsolatingMixin
 from .recyclable import Recyclable
-from python_accounting.exceptions import (
-    NegativeAmountError,
-)
+from python_accounting.exceptions import NegativeAmountError, HangingTransactionsError
 
 
 class LineItem(IsolatingMixin, Recyclable):
@@ -59,3 +57,16 @@ class LineItem(IsolatingMixin, Recyclable):
 
         if self.quantity and self.quantity < 0:
             raise NegativeAmountError(self.__class__.__name__, "quantity")
+
+    def validate_delete(self, session) -> None:
+        """Validate if the line item can be deleted"""
+        from python_accounting.models import Ledger
+
+        if (
+            session.query(func.count(Ledger.id))
+            .filter(Ledger.entity_id == self.entity_id)
+            .filter(Ledger.line_item_id == self.id)
+            .scalar()
+            > 0
+        ):
+            raise HangingTransactionsError("LineItem")

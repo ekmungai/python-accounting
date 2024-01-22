@@ -163,6 +163,7 @@ class Transaction(IsolatingMixin, Recyclable):
             .filter(Transaction.transaction_date > reporting_period.interval()["start"])
             .with_entities(func.count())
             .execution_options(include_deleted=True)
+            .filter(Transaction.entity_id == self.entity_id)
             .scalar()
         ) + getattr(self, "session_index", 1)
 
@@ -240,3 +241,9 @@ class Transaction(IsolatingMixin, Recyclable):
         for line_item in self.line_items:
             if line_item.account_id == self.account_id:
                 raise RedundantTransactionError(line_item)
+
+    def validate_delete(self, session) -> None:
+        """Validate if the Transaction can be deleted"""
+
+        if self.is_posted:
+            raise PostedTransactionError(f"A Posted Transaction cannot be deleted")

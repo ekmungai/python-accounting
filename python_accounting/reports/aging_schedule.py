@@ -31,6 +31,7 @@ class AgingSchedule:
             )
             for account in session.query(Account)
             .filter(Account.account_type == account_type)
+            .filter(Account.entity_id == session.entity.id)
             .all()
         ]:
             if transactions:

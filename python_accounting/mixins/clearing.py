@@ -11,6 +11,7 @@ class ClearingMixin:
 
         return (
             session.query(func.sum(Assignment.amount).label("amount"))
+            .filter(Assignment.entity_id == self.entity_id)
             .filter(Assignment.assigned_id == self.id)
             .filter(Assignment.assigned_type == self.__class__.__name__)
         ).scalar() or 0

@@ -23,6 +23,9 @@ class SessionOverridesMixin:
         if isinstance(instance, Assignment):
             return self.erase(instance)
 
+        if hasattr(instance, "validate_delete"):
+            instance.validate_delete(self)
+
         if isinstance(instance, Entity) and instance.id == self.entity.id:
             raise SessionEntityError
         instance.deleted_at = instance.updated_at = datetime.now()

@@ -29,6 +29,7 @@ from python_accounting.transactions import (
 from python_accounting.exceptions import (
     InvalidCategoryAccountTypeError,
     InvalidAccountTypeError,
+    HangingTransactionsError,
 )
 
 
@@ -114,6 +115,46 @@ def test_account_validation(session, entity, currency):
         session.commit()
 
     assert str(e.value) == "Cannot assign Receivable Account to Bank Category"
+
+    session.expunge(account)
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=datetime.now(),
+        account_id=account.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    inventory = Account(
+        name="test line item account",
+        account_type=Account.AccountType.INVENTORY,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add(inventory)
+    session.flush()
+
+    line_item = LineItem(
+        narration="Test line item",
+        account_id=inventory.id,
+        amount=50,
+        entity_id=entity.id,
+    )
+    session.add(line_item)
+    session.flush()
+
+    transaction.line_items.add(line_item)
+    session.add(transaction)
+    transaction.post(session)
+
+    with pytest.raises(HangingTransactionsError) as e:
+        session.delete(account)
+    assert (
+        str(e.value)
+        == "The Account cannot be deleted because it has Transactions in the current reporting period"
+    )
 
 
 def test_account_isolation(session, entity, currency):
@@ -202,8 +243,6 @@ def test_account_recycling(session, entity, currency):
 
     account = session.get(Account, account_id)
     assert account == None
-
-    # HangingTransactionsError #TODO
 
 
 def test_account_opening_balance(session, entity, currency):

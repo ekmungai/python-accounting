@@ -119,7 +119,9 @@ class Assignment(IsolatingMixin, Base):
                 else Balance.BalanceType.DEBIT
             )
 
-        query = session.query(func.count(Assignment.id))
+        query = session.query(func.count(Assignment.id)).filter(
+            Assignment.entity_id == self.entity_id
+        )
 
         if query.filter(Assignment.assigned_id == self.transaction_id).scalar() > 0:
             raise MixedAssignmentError("Cleared", "Assigned")

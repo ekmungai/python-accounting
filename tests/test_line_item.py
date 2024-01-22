@@ -8,11 +8,8 @@ from python_accounting.models import (
     Account,
     Transaction,
     Tax,
-    Balance,
 )
-from python_accounting.exceptions import (
-    NegativeAmountError,
-)
+from python_accounting.exceptions import NegativeAmountError, HangingTransactionsError
 from python_accounting.transactions import ClientInvoice
 
 
@@ -231,6 +228,13 @@ def test_line_item_ledgers(session, entity, currency):
     with pytest.raises(ValueError) as e:
         line_item1.ledgers.append(line_item1.ledgers[0])
     assert str(e.value) == "Line Item ledgers cannot be Added manually"
+
+    with pytest.raises(HangingTransactionsError) as e:
+        session.delete(line_item1)
+    assert (
+        str(e.value)
+        == "The LineItem cannot be deleted because it has Transactions in the current reporting period"
+    )
 
 
 def test_tax_inclusive_amount(session, entity, currency):

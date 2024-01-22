@@ -37,6 +37,14 @@ class InvalidAccountTypeError(AccountingExeption):
         super().__init__()
 
 
+class HangingTransactionsError(AccountingExeption):
+    """The account cannot be deleted because it has Transactions in the current reporting period"""
+
+    def __init__(self, model) -> None:
+        self.message = f"The {model} cannot be deleted because it has Transactions in the current reporting period"
+        super().__init__()
+
+
 class InvalidBalanceAccountError(AccountingExeption):
     """Income Statement Accounts cannot have an opening balance"""
 

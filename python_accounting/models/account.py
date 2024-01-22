@@ -7,6 +7,7 @@ from python_accounting.config import config
 from python_accounting.exceptions import (
     InvalidCategoryAccountTypeError,
     InvalidAccountTypeError,
+    HangingTransactionsError,
 )
 from python_accounting.utils.dates import get_dates
 from strenum import StrEnum
@@ -48,6 +49,7 @@ class Account(IsolatingMixin, Recyclable):
         """Get the auto generated account code for the instance"""
         current_count = (
             session.query(Account)
+            .filter(Account.entity_id == self.entity_id)
             .filter(Account.account_type == self.account_type)
             .with_entities(func.count())
             .scalar()
@@ -77,6 +79,7 @@ class Account(IsolatingMixin, Recyclable):
             .filter(Ledger.transaction_date >= start_date)
             .filter(Ledger.transaction_date <= end_date)
             .filter(Ledger.post_account_id == self.id)
+            .filter(Ledger.entity_id == self.entity_id)
         )
         return (
             query.filter(Ledger.entry_type == Balance.BalanceType.DEBIT).scalar() or 0
@@ -146,6 +149,7 @@ class Account(IsolatingMixin, Recyclable):
             .filter(Balance.currency_id == self.currency_id)
             .filter(Balance.reporting_period_id == period_id)
             .filter(Balance.account_id == self.id)
+            .filter(Balance.entity_id == self.entity_id)
         )
         return (
             query.filter(Balance.balance_type == Balance.BalanceType.DEBIT).scalar()
@@ -218,6 +222,8 @@ class Account(IsolatingMixin, Recyclable):
                         ledger.folio_account_id == self.id,
                     )
                 )
+                .filter(Transaction.entity_id == self.entity_id)
+                .filter(Ledger.entity_id == self.entity_id)
             )
             if schedule:
                 transactions = transactions.filter(
@@ -228,6 +234,7 @@ class Account(IsolatingMixin, Recyclable):
                     session.query(Balance)
                     .filter(Balance.account_id == self.id)
                     .filter(Balance.reporting_period_id == period_id)
+                    .filter(Balance.entity_id == self.entity_id)
                     .order_by(Balance.transaction_date)
                 )
             else:
@@ -301,3 +308,21 @@ class Account(IsolatingMixin, Recyclable):
                 raise InvalidCategoryAccountTypeError(
                     self.account_type.value, category.category_account_type.value
                 )
+
+    def validate_delete(self, session) -> None:
+        """Validate if the account can be deleted"""
+        from python_accounting.models import Ledger
+
+        if (
+            session.query(func.count(Ledger.id))
+            .filter(Ledger.entity_id == self.entity_id)
+            .filter(
+                or_(
+                    Ledger.post_account_id == self.id,
+                    Ledger.folio_account_id == self.id,
+                )
+            )
+            .scalar()
+            > 0
+        ):
+            raise HangingTransactionsError("Account")

@@ -125,6 +125,44 @@ def test_transaction_validation(session, entity, currency):
         == "The Transaction type cannot be changed as this would bypass subclass validations"
     )
 
+    session.expunge(transaction)
+
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=datetime.now(),
+        account_id=account.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    inventory = Account(
+        name="test line item account",
+        account_type=Account.AccountType.INVENTORY,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add(inventory)
+    session.flush()
+
+    line_item = LineItem(
+        narration="Test line item",
+        account_id=inventory.id,
+        amount=50,
+        entity_id=entity.id,
+    )
+    session.add(line_item)
+    session.flush()
+
+    transaction.line_items.add(line_item)
+    session.add(transaction)
+    transaction.post(session)
+
+    with pytest.raises(PostedTransactionError) as e:
+        session.delete(transaction)
+    assert str(e.value) == "A Posted Transaction cannot be deleted"
+
 
 def test_transaction_isolation(session, entity, currency):
     """Tests the isolation of transaction objects by entity"""
@@ -235,9 +273,6 @@ def test_transaction_recycling(session, entity, currency):
 
     transaction = session.get(Transaction, transaction_id)
     assert transaction == None
-
-    # HangingTransactionsError #TODO
-    # PostedTransactionError #TODO
 
 
 def test_transaction_numbers(session, entity, currency):

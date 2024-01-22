@@ -1,6 +1,6 @@
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum
+from sqlalchemy import String, ForeignKey, func
 from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
 from .recyclable import Recyclable
@@ -9,6 +9,7 @@ from python_accounting.exceptions import (
     NegativeAmountError,
     MissingTaxAccountError,
     InvalidTaxAccountError,
+    HangingTransactionsError,
 )
 
 
@@ -46,3 +47,16 @@ class Tax(IsolatingMixin, Recyclable):
             != Account.AccountType.CONTROL
         ):
             raise InvalidTaxAccountError
+
+    def validate_delete(self, session) -> None:
+        """Validate if the tax can be deleted"""
+        from python_accounting.models import Ledger
+
+        if (
+            session.query(func.count(Ledger.id))
+            .filter(Ledger.entity_id == self.entity_id)
+            .filter(Ledger.tax_id == self.id)
+            .scalar()
+            > 0
+        ):
+            raise HangingTransactionsError("Tax")

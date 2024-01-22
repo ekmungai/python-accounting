@@ -12,9 +12,9 @@ class AssigningMixin:
 
         return self.amount - (
             (
-                session.query(func.sum(Assignment.amount).label("amount")).filter(
-                    Assignment.transaction_id == self.id
-                )
+                session.query(func.sum(Assignment.amount).label("amount"))
+                .filter(Assignment.transaction_id == self.id)
+                .filter(Assignment.entity_id == self.entity_id)
             ).scalar()
             or 0
         )
