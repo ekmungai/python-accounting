@@ -1,3 +1,14 @@
+# database/event_listeners.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Provides accounting specific event listeners for the sqlalchemy session.
+
+"""
 from datetime import datetime
 
 from sqlalchemy.orm.session import Session

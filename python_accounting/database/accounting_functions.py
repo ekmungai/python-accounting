@@ -1,13 +1,28 @@
+# database/accounting_functions.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Accounting Specific extentions of the SqlAlchemy Session class.
+
+"""
+
 from datetime import datetime
 from sqlalchemy import event, orm, and_, select, func
 from python_accounting.models import Entity, Recyclable, ReportingPeriod
 
 
 class AccountingFunctionsMixin:
-    """This class provides accounting specific functionality to the generic sqlachemy session"""
+    """
+    A class providing accounting specific functionality to the generic sqlachemy session
 
-    def _year_period(self, year) -> orm.Mapped["ReportingPeriod"] | None:
-        """Get the reporting period for the given year"""
+    """
+
+    def _year_period(self, year: int) -> orm.Mapped["ReportingPeriod"] | None:
+        """Get the reporting period for a given calendar year"""
 
         return self.scalars(
             select(ReportingPeriod)
@@ -18,6 +33,7 @@ class AccountingFunctionsMixin:
 
     def _set_reporting_period(session) -> None:
         """Set the session entity's current reporting period"""
+
         year = datetime.today().year
         existing = session._year_period(year)
 

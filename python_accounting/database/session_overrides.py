@@ -1,3 +1,14 @@
+# database/session_overrides.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Provides accounting specific overrides for some sqlalchemy session methods.
+
+"""
 from sqlalchemy import select
 from sqlalchemy.orm import Mapped
 from datetime import datetime
@@ -11,14 +22,33 @@ class SessionOverridesMixin:
     provide accounting specific behavior. It also provides custom methods
     specific to accounting"""
 
-    def get(self, model, primary_key, **kwargs) -> Mapped["Base"]:
-        """Override the get method to use select thereby ensuring global filters are applied"""
+    def get(self, model, primary_key, **kwargs) -> Mapped["Base"] | None:
+        """Overrides sqlalchemy the get method to use select thereby ensuring global filters are applied.
+
+        Args:
+            model (DeclarativeBase): The model class.
+            primary_key (int): The primary key of the instance being fetched.
+
+        Returns:
+            Mapped["Base"] if found, else None.
+
+        """
         return self.scalar(
             select(model).where(model.id == primary_key).execution_options(**kwargs)
         )
 
     def delete(self, instance) -> bool:
-        """Override the delete method to enable model recycling"""
+        """Overrides the sqlalchemy delete method to enable model recycling.
+
+        Args:
+            instance (DeclarativeBase): The model instance.
+
+        Returns:
+            True if successful, else False.
+
+        Raises:
+            SessionEntityError: If the instance being deleted is the session entity
+        """
 
         if isinstance(instance, Assignment):
             return self.erase(instance)
@@ -40,7 +70,15 @@ class SessionOverridesMixin:
         return True
 
     def restore(self, instance) -> bool:
-        """Restore a deleted instance"""
+        """Restore a deleted/recycled model instance.
+
+        Args:
+            instance (DeclarativeBase): The model instance.
+
+        Returns:
+            True if successful, else False.
+
+        """
 
         if instance.destroyed_at is not None:
             return False  # destroyed models cannot be restored
@@ -52,13 +90,30 @@ class SessionOverridesMixin:
         return True
 
     def destroy(self, instance) -> bool:
-        """Destroy (<kind of> permanently delete) an instance"""
+        """Mark a model instance as destroyed, i.e. permanently delete.
+
+        Args:
+            instance (DeclarativeBase): The model instance.
+
+        Returns:
+            True.
+
+        """
 
         instance.destroyed_at = instance.updated_at = datetime.now()
 
         self.commit()
         return True
 
-    def erase(self, instance) -> None:
-        """Completely remove an instance from the database"""
+    def erase(self, instance) -> bool:
+        """Completely remove an instance from the database.
+
+        Args:
+            instance (DeclarativeBase): The model instance.
+
+        Returns:
+            True.
+
+        """
         super().delete(instance)
+        return True
