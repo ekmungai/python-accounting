@@ -1,3 +1,14 @@
+# config.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the configuration for python accounting.
+
+"""
 import toml
 
 
@@ -13,9 +24,9 @@ class Config:
     dates: dict
 
     def __init__(self, config_file="config.toml") -> None:
-        with open(config_file, "r") as f:
-            config = toml.load(f)
-            for k, v in config.items():
+        with open(config_file, "r", -1, "UTF-8") as f:
+            configuration = toml.load(f)
+            for k, v in configuration.items():
                 setattr(self, k, v)
 
 

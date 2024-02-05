@@ -1,3 +1,14 @@
+# tramsactions/__init__.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Provides model validastion extensions for specific financial Transactions.
+
+"""
 from .client_invoice import ClientInvoice
 from .cash_sale import CashSale
 from .supplier_bill import SupplierBill

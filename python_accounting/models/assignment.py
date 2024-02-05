@@ -1,11 +1,22 @@
+# models/assignment.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents an matching between Transactions that have an opposite effect on an Account.
+
+"""
 import importlib
 from decimal import Decimal
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, select, func
-from sqlalchemy.types import DECIMAL
 from datetime import datetime
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey, func
+from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
-from python_accounting.models import Balance, Transaction
+from python_accounting.models import Balance, Transaction, Base
 from python_accounting.config import config
 from python_accounting.exceptions import (
     UnassignableTransactionError,
@@ -20,11 +31,26 @@ from python_accounting.exceptions import (
     OverclearanceError,
     MixedAssignmentError,
 )
-from .base import Base
 
 
 class Assignment(IsolatingMixin, Base):
-    """Represents an assigment of an assignable to a clearing transaction"""
+    """
+    Represents an assigment of a clearable type to an assignable Transaction.
+
+    Attributes:
+        clearables (:obj:`list` of :obj:`Transaction.TransactionType`): A list of
+            Transaction Types that can be cleared by assignable Transactions.
+        assignables (:obj:`list` of :obj:`Transaction.TransactionType`): A list of
+            Transaction Types that can have cleareable Transactions assigned to them.
+        assignment_date (datetime): The date of the Assignment.
+        transaction_id (int): The id of the assignable Transaction in the Assignment.
+        assigned_id (int): The id of the clearable Transaction|Balance in the Assignment.
+        assigned_type (str): The class name of the clearable Transaction|Balance in the Assignment.
+        assigned_no (str): The Transaction number of the clearable Transaction|Balance
+            in the Assignment.
+        amount (Decimal): The amount of the Assignment.
+
+    """
 
     # Transaction Types that can be cleared by assignable transactions
     clearables = [
@@ -51,10 +77,22 @@ class Assignment(IsolatingMixin, Base):
     transaction: Mapped["Transaction"] = relationship(foreign_keys=[transaction_id])
 
     def __repr__(self) -> str:
-        return f"Assigning {self.assigned_no} to {self.transaction.transaction_no} on {self.assignment_date} for {self.amount}"
+        return f"""Assigning {self.assigned_no}
+        to {self.transaction.transaction_no}
+        on {self.assignment_date}
+        for {self.amount}"""
 
     def assigned(self, session) -> Transaction | Balance:
-        """Get the assignable assigned to this assigment's transaction"""
+        """
+        Get the clearable Transaction|Balance assigned to this assigment's transaction.
+
+        Args:
+            session (Session): The accounting session to which the Assignment belongs.
+
+        Returns:
+            Transaction|Balance: The model cleared by this assignment.
+
+        """
         module = (
             importlib.import_module("python_accounting.models")
             if self.assigned_type in [Transaction.__name__, Balance.__name__]
@@ -63,7 +101,37 @@ class Assignment(IsolatingMixin, Base):
         return session.get(getattr(module, self.assigned_type), self.assigned_id)
 
     def validate(self, session) -> None:
-        """Validate the assignment properties"""
+        """
+        Validates the Assignment properties.
+
+        Args:
+            session (Session): The accounting session to which the Assignment belongs.
+
+        Raises:
+            ValueError: If the assignable Transaction or clearable Transaction|Balance
+                could not be found.
+            UnassignableTransactionError: If the assignable Transaction type is not one
+                of the assignable types.
+            UnclearableTransactionError: If the clearable Transaction type is not one
+                of the clearable types.
+            UnpostedAssignmentError: If either the assignable or clearable Transaction
+                 is not posted.
+            InsufficientBalanceError: If the remaining balance in the assignable
+                Transaction is less than the Assignment amount.
+            OverclearanceError: If the Assignment amount is greater than the clearable
+                Transaction|Balance uncleared amount.
+            CompoundTransactionAssignmentError: If either the assignable or clearable
+                 Journal Entry is a compound Transaction.
+            SelfClearanceError: If the assignable and clearable Transaction of the
+                 Assignment is the same.
+            InvalidAssignmentAccountError: If the assignable Transaction and clearable
+                 Transaction|Balance main Accounts are not the same.
+            MixedAssignmentError: If either an already Transaction is being cleared or
+                 an already cleared Transaction is being assigned.
+
+        Returns:
+            None
+        """
 
         if self.amount < 0:
             raise NegativeAmountError(self.__class__.__name__)
@@ -119,9 +187,9 @@ class Assignment(IsolatingMixin, Base):
                 else Balance.BalanceType.DEBIT
             )
 
-        query = session.query(func.count(Assignment.id)).filter(
-            Assignment.entity_id == self.entity_id
-        )
+        query = session.query(
+            func.count(Assignment.id)  # pylint: disable=not-callable
+        ).filter(Assignment.entity_id == self.entity_id)
 
         if query.filter(Assignment.assigned_id == self.transaction_id).scalar() > 0:
             raise MixedAssignmentError("Cleared", "Assigned")

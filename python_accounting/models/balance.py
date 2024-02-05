@@ -1,14 +1,27 @@
+# models/balance.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the amount outstanding on a Transaction from a previous Reporting Period.
+
+"""
 from datetime import datetime
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum, select
 from sqlalchemy.types import DECIMAL
 from strenum import StrEnum
-from .recyclable import Recyclable
-from .account import Account
-from .currency import Currency
-from .reporting_period import ReportingPeriod
-from .transaction import Transaction
+from python_accounting.models import (
+    Recyclable,
+    Account,
+    Currency,
+    ReportingPeriod,
+    Transaction,
+)
 from python_accounting.exceptions import (
     InvalidBalanceAccountError,
     InvalidBalanceTransactionError,
@@ -20,7 +33,26 @@ from python_accounting.reports import IncomeStatement
 
 
 class Balance(IsolatingMixin, ClearingMixin, Recyclable):
-    """Represents a Balance brought down from previous reporting periods"""
+    """
+    Represents a Balance brought down from previous reporting periods.
+
+    Attributes:
+        BalanceType (StrEnum): The double entry types of Balances.
+        BalanceTransactions (StrEnum): A list of Transaction Types that can have Balances.
+        id (int): The primary key of the Account database record.
+        transaction_date (datetime): The date of the Balance Transaction.
+        reference (:obj:`str`, optional): Identifying information about the Balance Transaction.
+        transaction_no (str): The Transaction number of the Balance Transaction.
+        transaction_type (TransactionType): The Transaction type of the Balance Transaction.
+        amount (Decimal): The amount outstanding on the Balance Transaction.
+        balance_type (BalanceType): The side of the double entry to post the Balance amount.
+        currency_id (int): The id of the Currency model associated with the Balance.
+        account_id (int): The id of the Account model to which the Balance belongs.
+        reporting_period_id (int): The id of the Reporting Period model to which the
+            Balance belongs.
+
+
+    """
 
     BalanceType = StrEnum("BalanceType", {"DEBIT": "Debit", "CREDIT": "Credit"})
     BalanceTransactions = StrEnum(
@@ -60,22 +92,35 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
 
     @property
     def is_posted(self) -> bool:
-        """is_posted analog for the assignment model"""
+        """is_posted analog for the assignment model."""
         return True
 
     @property
     def credited(self) -> bool:
-        """credited analog for the assignment model"""
+        """credited analog for the assignment model."""
         return self.balance_type == Balance.BalanceType.CREDIT
 
     @property
     def compound(self) -> bool:
-        """compound analog for the assignment model"""
+        """compound analog for the assignment model."""
         return False
 
     @staticmethod
     def opening_trial_balance(session, year: int = None) -> dict:
-        """Get the total opening balances for the entity's accounts for the given year"""
+        """
+        Gets the total opening balances for the Entity's accounts for the given year.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            year (:obj:`int`, optional): The calendar year to retrieve the opening
+                trial balance for. Defaults to the Balance's Entity current Reporting
+                Period's calendar year.
+
+        Returns:
+            dict: With a A summary of the debit and credit balances of the Accounts
+                together with a list of the Accounts themselves.
+
+        """
         balances = dict(debits=0, credits=0, accounts=[])
         year = session.entity.reporting_period.calendar_year if not year else year
 
@@ -90,7 +135,25 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
         return balances
 
     def validate(self, session) -> None:
-        """Validate the Balance properties"""
+        """
+        Validates the Balance properties.
+
+        Args:
+            session (Session): The accounting session to which the Balance belongs.
+
+        Raises:
+            NegativeAmountError: If the Balance amount is less than 0.
+            InvalidBalanceAccountError: If the Balance main Accounr is an Income
+                Statement Account.
+            InvalidBalanceTransactionError: If the Balance Transaction type is
+                not one of the Balance Transaction types.
+            InvalidBalanceDateError: If the Balance Transaction date is within
+                the current reporting period and the Entity does not allow mid
+                year balances.
+
+        Returns:
+            None
+        """
 
         reporting_period = session.entity.reporting_period
         account = session.get(Account, self.account_id)

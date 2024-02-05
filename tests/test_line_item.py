@@ -62,7 +62,7 @@ def test_line_item_validation(session, entity, currency):
     session.add(line_item)
     with pytest.raises(NegativeAmountError) as e:
         session.commit()
-    assert str(e.value) == "LineItem amount cannot be negative"
+    assert str(e.value) == "LineItem amount cannot be negative."
 
     line_item.amount = 10
     line_item.quantity = -1
@@ -70,7 +70,7 @@ def test_line_item_validation(session, entity, currency):
 
     with pytest.raises(NegativeAmountError) as e:
         session.commit()
-    assert str(e.value) == "LineItem quantity cannot be negative"
+    assert str(e.value) == "LineItem quantity cannot be negative."
 
 
 def test_line_item_isolation(session, entity, currency):
@@ -223,17 +223,18 @@ def test_line_item_ledgers(session, entity, currency):
 
     with pytest.raises(ValueError) as e:
         line_item1.ledgers.remove(line_item1.ledgers[0])
-    assert str(e.value) == "Line Item ledgers cannot be Removed manually"
+    assert str(e.value) == "Line Item ledgers cannot be Removed manually."
 
     with pytest.raises(ValueError) as e:
         line_item1.ledgers.append(line_item1.ledgers[0])
-    assert str(e.value) == "Line Item ledgers cannot be Added manually"
+    assert str(e.value) == "Line Item ledgers cannot be Added manually."
 
     with pytest.raises(HangingTransactionsError) as e:
         session.delete(line_item1)
     assert (
         str(e.value)
-        == "The LineItem cannot be deleted because it has Transactions in the current reporting period"
+        == """The LineItem cannot be deleted because it has Transactions in
+         the current reporting period."""
     )
 
 

@@ -1,10 +1,21 @@
+# transactions/contra_entry.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents a Contra Entry Transaction.
+
+"""
+from typing import Any
 from python_accounting.models import Transaction
 from python_accounting.mixins.trading import TradingMixin
-from typing import Any
 
 
 class ContraEntry(TradingMixin, Transaction):
-    """Class for the Contra Entry Transaction"""
+    """Class for the Contra Entry Transaction."""
 
     __tablename__ = None
     __mapper_args__ = {
@@ -12,7 +23,9 @@ class ContraEntry(TradingMixin, Transaction):
     }
 
     def __init__(self, **kw: Any) -> None:
-        from python_accounting.models import Account
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Account,
+        )
 
         self.line_item_types: list = [Account.AccountType.BANK]
         self.main_account_types: list = [Account.AccountType.BANK]

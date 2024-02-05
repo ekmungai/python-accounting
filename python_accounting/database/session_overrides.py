@@ -9,21 +9,26 @@
 Provides accounting specific overrides for some sqlalchemy session methods.
 
 """
+
+from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.orm import Mapped
-from datetime import datetime
 
 from python_accounting.models import Recycled, Entity, Assignment
 from python_accounting.exceptions import SessionEntityError
 
 
 class SessionOverridesMixin:
-    """This class overrides some of sqlalchemy session's in built methods to
+    """
+    This class overrides some of sqlalchemy session's in built methods to
     provide accounting specific behavior. It also provides custom methods
-    specific to accounting"""
+    specific to accounting.
+    """
 
     def get(self, model, primary_key, **kwargs) -> Mapped["Base"] | None:
-        """Overrides sqlalchemy the get method to use select thereby ensuring global filters are applied.
+        """
+        Overrides sqlalchemy the get method to use select thereby ensuring global filters
+        are applied.
 
         Args:
             model (DeclarativeBase): The model class.
@@ -47,7 +52,7 @@ class SessionOverridesMixin:
             True if successful, else False.
 
         Raises:
-            SessionEntityError: If the instance being deleted is the session entity
+            SessionEntityError: If the instance being deleted is the session Entity.
         """
 
         if isinstance(instance, Assignment):

@@ -1,9 +1,20 @@
+# utils/__init__.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Provides accounting specific date utilities.
+
+"""
 from datetime import datetime
 from python_accounting.models.reporting_period import ReportingPeriod
 
 
 def get_dates(session, start_date: datetime = None, end_date: datetime = None) -> tuple:
-    """Returns the start, end and period start dates given the inputs provided"""
+    """Returns the start, end and period start dates given the inputs provided."""
     end_date = datetime.today() if not end_date else end_date
     period = ReportingPeriod.get_period(
         session, datetime(end_date.year, session.entity.year_start, 1, 0, 0, 0)

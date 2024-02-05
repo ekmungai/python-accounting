@@ -1,11 +1,31 @@
+# models/currency.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents a Currency as used in Transactions.
+
+"""
+
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, ForeignKey
 from python_accounting.mixins import IsolatingMixin
-from .recyclable import Recyclable
+from python_accounting.models import Recyclable
 
 
 class Currency(IsolatingMixin, Recyclable):
-    """Represents a currency defined by a name/label and an ISO currency code"""
+    """
+    Represents a Currency in terms of a label and an ISO Currency Code.
+
+    Attributes:
+        id (int): The primary key of the Category database record.
+        name (str): The label of the Currency.
+        code (str): The ISO 4217 currency code symbol.
+
+    """
 
     __mapper_args__ = {"polymorphic_identity": "Currency"}
 

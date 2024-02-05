@@ -20,7 +20,7 @@ from python_accounting.exceptions import MissingEntityError
 
 
 def _filter_options(execute_state, option) -> bool:
-    """Valiadate if filter should be applied"""
+    """Valiadate if filter should be applied."""
     return (
         not execute_state.is_column_load
         and not execute_state.is_relationship_load
@@ -30,18 +30,23 @@ def _filter_options(execute_state, option) -> bool:
 
 
 class EventListenersMixin:
-    """This class provides logic for handling events in sqlalchemy's orm lifecycle"""
+    """This class provides logic for handling events in sqlalchemy's orm lifecycle."""
 
     @event.listens_for(Session, "do_orm_execute")
-    def _add_filtering_criteria(execute_state) -> None:
-        """Intercept all ORM queries to filter objects by delete status and entity id"""
-
+    def _add_filtering_criteria(  # pylint: disable=no-self-argument
+        execute_state,
+    ) -> None:
         # Recycling filter
         if _filter_options(execute_state, "include_deleted"):
             execute_state.statement = execute_state.statement.options(
                 orm.with_loader_criteria(
                     Recyclable,
-                    lambda cls: and_(cls.deleted_at == None, cls.destroyed_at == None),
+                    lambda cls: and_(
+                        cls.deleted_at == None,  # pylint: disable=singleton-comparison
+                        cls.destroyed_at  # pylint: disable=singleton-comparison
+                        == None,
+                    ),
+                    execute_state,
                     include_aliases=True,
                 )
             )
@@ -61,27 +66,23 @@ class EventListenersMixin:
             )
 
     @event.listens_for(Session, "transient_to_pending")
-    def _set_session_entity(session, object_) -> None:
-        """Make sure that all objects have an associated Entity"""
-
-        if not hasattr(session, "entity") or session.entity is None:
+    def _set_session_entity(self, object_) -> None:
+        if not hasattr(self, "entity") or self.entity is None:
             if isinstance(object_, Entity):
-                session.entity = object_
+                self.entity = object_
             elif object_.entity_id is None:
                 raise MissingEntityError
             else:
-                session.entity = session.get(Entity, object_.entity_id)
+                self.entity = self.get(Entity, object_.entity_id)
 
         if (
-            session.entity.reporting_period is None
-            or session.entity.reporting_period.calendar_year != datetime.today().year
+            self.entity.reporting_period is None
+            or self.entity.reporting_period.calendar_year != datetime.today().year
         ):
-            session._set_reporting_period()
+            self._set_reporting_period()
 
     @event.listens_for(Session, "transient_to_pending")
-    def _set_object_index(session, object_) -> None:
-        """Transaction and Account objects need to keep track of how many are being added to calculate their transaction number/account codes"""
-
+    def _set_object_index(self, object_) -> None:
         if (
             isinstance(object_, Transaction) or isinstance(object_, Account)
         ) and object_.id is None:
@@ -89,7 +90,7 @@ class EventListenersMixin:
                 len(
                     [
                         t
-                        for t in session.new
+                        for t in self.new
                         if isinstance(t, Transaction)
                         and t.transaction_type == object_.transaction_type
                     ]
@@ -98,7 +99,7 @@ class EventListenersMixin:
                 else len(
                     [
                         a
-                        for a in session.new
+                        for a in self.new
                         if isinstance(a, Account)
                         and a.account_type == object_.account_type
                     ]
@@ -106,8 +107,7 @@ class EventListenersMixin:
             )
 
     @event.listens_for(Session, "before_flush")
-    def _validate_model(session, flush_context, instances) -> None:
-        """Run validation logic against the model instance if any"""
-        for model in list(session.new) + list(session.dirty):
+    def _validate_model(self, flush_context, instances) -> None:
+        for model in list(self.new) + list(self.dirty):
             if hasattr(model, "validate"):
-                model.validate(session)
+                model.validate(self)

@@ -1,21 +1,50 @@
+# models/ledger.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents an entry in the Ledger.
+
+"""
 import hashlib
 from datetime import datetime
 from copy import deepcopy
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum, func
-from typing import Any
+from sqlalchemy import String, ForeignKey, Enum
 from sqlalchemy.types import DECIMAL
 from strenum import StrEnum
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
-from .recyclable import Recyclable
-from .balance import Balance
-from .transaction import Transaction
+from python_accounting.models import Recyclable, Balance, Transaction
 
 
 class Ledger(IsolatingMixin, Recyclable):
-    """Represents a record in the Ledger. This class should never have to be invoked directly"""
+    """
+    Represents an entry in the Ledger. This class should never have to be invoked directly
+
+    Attributes:
+        id (int): The primary key of the ledger database record.
+        transaction_date (datetime): The date of the Transaction associated with
+            the Ledger.
+        entry_type (BalanceType): The side of the double entry to which the Ledger
+        is posted.
+        amount (Decimal): The amount posted to the Ledger by the entry.
+        hash (str): The encoded contents of the Ledger entry.
+        transaction_id (int): The id of the Transaction associated with
+            the Ledger.
+        currency_id (int): The id of the Currency associated with the Ledger.
+        post_account_id (int): The id of the Account to which the Ledger is posted.
+        folio_account_id (int): The id of the Account to which the opposite side
+            of Ledger is posted.
+        line_item_id (:obj:`int`, optional): The id of the Line Item associated with
+             the Ledger.
+        tax_id (:obj:`int`, optional): The id of the Tax associated with the Ledger.
+
+    """
 
     __mapper_args__ = {"polymorphic_identity": "Ledger"}
 
@@ -51,7 +80,10 @@ class Ledger(IsolatingMixin, Recyclable):
     line_item: Mapped["LineItem"] = relationship(foreign_keys=[line_item_id])
 
     def __repr__(self) -> str:
-        return f"Post {self.post_account.name}, Folio {self.folio_account.name} <{self.entry_type}> : {self.amount}"
+        return f"""Post {self.post_account.name},
+         Folio {self.folio_account.name}
+         <{self.entry_type}> :
+         {self.amount}"""
 
     @staticmethod
     def _allocate_amount(
@@ -106,8 +138,6 @@ class Ledger(IsolatingMixin, Recyclable):
 
     @staticmethod
     def _post_compound(session, transaction: Transaction) -> None:
-        """Post a compound transaction to the ledger"""
-
         # Debit amounts ledgers
         debits, credits = transaction.get_compound_entries()
         Ledger._make_compound_ledgers(
@@ -122,7 +152,6 @@ class Ledger(IsolatingMixin, Recyclable):
 
     @staticmethod
     def _transaction_ledgers(transaction: Transaction) -> tuple:
-        """Prepare the ledgers for the transaction"""
         post, folio = Ledger(), Ledger()
         post.entity_id = folio.entity_id = transaction.entity_id
         post.entry_type, folio.entry_type = (
@@ -140,8 +169,6 @@ class Ledger(IsolatingMixin, Recyclable):
 
     @staticmethod
     def _post_simple(session, transaction: Transaction) -> None:
-        """Post a simple transaction to the ledger"""
-
         for line_item in transaction.line_items:
             amount = line_item.amount * line_item.quantity
             post, folio = Ledger._transaction_ledgers(transaction)
@@ -188,17 +215,32 @@ class Ledger(IsolatingMixin, Recyclable):
 
     @staticmethod
     def post(session, transaction: Transaction) -> None:
-        """Post the Transaction to the ledger"""
+        """
+        Posts the Transaction to the ledger.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            transaction (Transaction): The Transaction to be posted.
+
+        """
         if transaction.compound:
             Ledger._post_compound(session, transaction)
         else:
             Ledger._post_simple(session, transaction)
 
     def get_hash(self, session) -> str:
-        """Calculate the hash of the ledger"""
+        """
+        Calculate the hash of the Ledger.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+
+        Returns:
+            str: The hash of the Ledger entry's contents.
+
+        """
 
         last = session.query(Ledger).order_by(Ledger.id.desc()).first()
-        self.previous_hash = last.hash if last else config.hashing["salt"]
 
         return getattr(hashlib, config.hashing["algorithm"])(
             ",".join(
@@ -209,7 +251,7 @@ class Ledger(IsolatingMixin, Recyclable):
                             self.transaction_date,
                             self.entry_type,
                             self.amount,
-                            self.previous_hash,
+                            last.hash if last else config.hashing["salt"],
                             self.entity_id,
                             self.transaction_id,
                             self.currency_id,
@@ -224,6 +266,15 @@ class Ledger(IsolatingMixin, Recyclable):
         ).hexdigest()
 
     def validate(self, session) -> None:
-        """Validate the ledger properties"""
+        """
+        Validates the Ledger properties.
+
+        Args:
+            session (Session): The accounting session to which the Ledger belongs.
+
+        Returns:
+            None
+
+        """
 
         self.hash = self.get_hash(session)

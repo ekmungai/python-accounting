@@ -91,7 +91,7 @@ def test_client_receipt_validation(session, entity, currency):
     with pytest.raises(InvalidMainAccountError) as e:
         session.commit()
     assert (
-        str(e.value) == "ClientReceipt Transaction main Account be of type Receivable"
+        str(e.value) == "ClientReceipt Transaction main Account be of type Receivable."
     )
     account1.account_type = Account.AccountType.RECEIVABLE
     line_item1 = LineItem(
@@ -107,5 +107,6 @@ def test_client_receipt_validation(session, entity, currency):
         transaction.line_items.add(line_item1)
     assert (
         str(e.value)
-        == "ClientReceipt Transaction Line Item Account type be one of: Bank"
+        == """ClientReceipt Transaction Line Item Account type must
+         be one of: Bank."""
     )

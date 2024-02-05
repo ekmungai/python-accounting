@@ -1,5 +1,17 @@
-from strenum import StrEnum
+# reports/balance_sheet.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the financial position of an Entity.
+
+"""
+
 from datetime import datetime
+from strenum import StrEnum
 from python_accounting.utils.dates import get_dates
 from python_accounting.reports.financial_statement import FinancialStatement
 
@@ -7,9 +19,15 @@ from python_accounting.models import Account
 
 
 class BalanceSheet(FinancialStatement):
-    """This class represents the Statement of Financial Position/Balance Sheet of a given Entity"""
+    """
+    This class represents the Statement of Financial Position/Balance Sheet of a given Entity.
 
-    config = "balance_sheet"
+    Attributes:
+        Accounts (Account.AccountType): The Account types allowed to be in included in the report.
+        config (str): The configuration section for the report.
+
+    """
+
     Accounts = StrEnum(
         "Accounts",
         {
@@ -30,9 +48,12 @@ class BalanceSheet(FinancialStatement):
             ]
         },
     )
+    config = "balance_sheet"
 
     def __init__(self, session, end_date: datetime = None) -> None:
-        from python_accounting.reports.income_statement import IncomeStatement
+        from python_accounting.reports.income_statement import (  # pylint: disable=import-outside-toplevel
+            IncomeStatement,
+        )
 
         self.start_date, self.end_date, _, _ = get_dates(session, None, end_date)
         super().__init__(session)
@@ -66,8 +87,6 @@ class BalanceSheet(FinancialStatement):
         )
 
     def __repr__(self) -> str:
-        return "Assets: {}, Liabilities: {}, Equity: {}".format(
-            abs(self.totals[self.sections.ASSETS.name]),
-            abs(self.totals[self.sections.LIABILITIES.name]),
-            abs(self.result_amounts[self.results.TOTAL_EQUITY.name]),
-        )
+        return f"""Assets: {abs(self.totals[self.sections.ASSETS.name])}, 
+        Liabilities: {abs(self.totals[self.sections.LIABILITIES.name])},
+         Equity: {abs(self.result_amounts[self.results.TOTAL_EQUITY.name])}"""

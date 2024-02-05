@@ -1,7 +1,22 @@
+# models/account.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents an Account, the basic unit of accounting that groups the transactions of an Entity.
+
+"""
 import warnings
+from decimal import Decimal
 from datetime import datetime
+from strenum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship, aliased
 from sqlalchemy import String, ForeignKey, Enum, func, inspect, Text, select, or_, exc
+from python_accounting.models.recyclable import Recyclable
+from python_accounting.models.reporting_period import ReportingPeriod
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
 from python_accounting.exceptions import (
@@ -10,10 +25,6 @@ from python_accounting.exceptions import (
     HangingTransactionsError,
 )
 from python_accounting.utils.dates import get_dates
-from strenum import StrEnum
-from .recyclable import Recyclable
-from .reporting_period import ReportingPeriod
-
 
 account_type_enum = StrEnum(
     "AccountType", {k: v["label"] for k, v in config.accounts["types"].items()}
@@ -21,7 +32,22 @@ account_type_enum = StrEnum(
 
 
 class Account(IsolatingMixin, Recyclable):
-    """Represents an account which groups related Transactions"""
+    """
+    Represents an account which groups related Transactions.
+
+    Attributes:
+        AccountType (StrEnum): Account Types as defined by IFRS and GAAP.
+        purchasables (:obj:`list` of :obj:`Account.AccountType`): A list of Account
+            Types that can be used in purchasing Transactions.
+        id (int): The primary key of the Account database record.
+        name (str): The label of the Account.
+        decsription (:obj:`str`, optional): A narration of the purpose of the Account.
+        account_type (AccountType): The type of the Account.
+        currency_id (int): The id of the Currency model associated with the Account.
+        category_id (:obj:`int`, optional): The id of the Category model to which
+            the Account belongs.
+
+    """
 
     # Chart of Accounts types
     AccountType = account_type_enum
@@ -51,7 +77,7 @@ class Account(IsolatingMixin, Recyclable):
             session.query(Account)
             .filter(Account.entity_id == self.entity_id)
             .filter(Account.account_type == self.account_type)
-            .with_entities(func.count())
+            .with_entities(func.count())  # pylint: disable=not-callable
             .scalar()
         )
 
@@ -64,17 +90,35 @@ class Account(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.account_type} {self.name} <{self.account_code}>"
 
-    def _balance_movement(
+    def balance_movement(
         self, session, start_date: datetime, end_date: datetime
-    ) -> dict:
-        """Get the change in the account balance between the given dates"""
-        from .balance import Balance
-        from .ledger import Ledger
+    ) -> Decimal:
+        """
+        Get the change in the account balance between the given dates.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            start_date (datetime): The earliest transaction date for Transaction amounts to be
+                included in the balance.
+            end_date (datetime): The latest transaction date for Transaction amounts to be included
+                in the balance.
+
+        Returns:
+            Decimal: The difference between the balance of the Account at the start date and
+                end date.
+
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Balance,
+            Ledger,
+        )
 
         start_date, end_date, _, _ = get_dates(session, start_date, end_date)
 
         query = (
-            session.query(func.sum(Ledger.amount).label("amount"))
+            session.query(
+                func.sum(Ledger.amount).label("amount")  # pylint: disable=not-callable
+            )
             .filter(Ledger.currency_id == self.currency_id)
             .filter(Ledger.transaction_date >= start_date)
             .filter(Ledger.transaction_date <= end_date)
@@ -90,12 +134,30 @@ class Account(IsolatingMixin, Recyclable):
     @staticmethod
     def section_balances(
         session,
-        account_types,
+        account_types: list,
         start_date: datetime = None,
         end_date: datetime = None,
         full_balance: bool = True,
     ) -> dict:
-        """Get the opening, movement and closing balances of the accounts of the given section (account types), organized by category"""
+        """
+        Gets the opening, movement and closing balances of the accounts of the given section
+        (account types), organized by category.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            account_types (:obj:`list` of :obj:`Account.AccountType`): The Account types
+                belonging to the section.
+            start_date (datetime): The earliest transaction date for Transaction amounts to be
+                included in the balance.
+            end_date (datetime): The latest transaction date for Transaction amounts to be included
+                in the balance.
+            full_balance (bool): Whether to include opening balance amounts in the balance.
+
+        Returns:
+            dict: A summary of the total opening, balance movement and closing balance, which
+                details of totals by Category and the Accounts contained in each Category.
+
+        """
         balances = dict(opening=0, movement=0, closing=0, categories={})
 
         start_date, end_date, period_start, _ = get_dates(session, start_date, end_date)
@@ -105,8 +167,8 @@ class Account(IsolatingMixin, Recyclable):
         ).all():
             account.opening = account.opening_balance(
                 session, end_date.year
-            ) + account._balance_movement(session, period_start, start_date)
-            movement = account._balance_movement(session, start_date, end_date)
+            ) + account.balance_movement(session, period_start, start_date)
+            movement = account.balance_movement(session, start_date, end_date)
             account.closing = account.opening + movement if full_balance else movement
             account.movement = movement * -1  # cashflow statement display
             if account.closing != 0 or account.movement != 0:
@@ -115,7 +177,12 @@ class Account(IsolatingMixin, Recyclable):
                     if account.category is None
                     else (account.category_id, account.category.name)
                 )
-                if category_name in balances["categories"].keys():
+                if (
+                    category_name
+                    in balances[  # pylint: disable=consider-iterating-dictionary
+                        "categories"  # pylint: disable=consider-iterating-dictionary
+                    ].keys()  # pylint: disable=consider-iterating-dictionary
+                ):
                     balances["categories"][category_name]["total"] += account.closing
                     balances["categories"][category_name]["accounts"].append(account)
                 else:
@@ -133,9 +200,21 @@ class Account(IsolatingMixin, Recyclable):
                 balances["closing"] += account.closing
         return balances
 
-    def opening_balance(self, session, year: int = None) -> dict:
-        """Get the opening balance for the account for the given year"""
-        from .balance import Balance
+    def opening_balance(self, session, year: int = None) -> Decimal:
+        """
+        Gets the the opening balance for the account for the given year.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            year (int): The calendar year for which to retrieve the opening balance.
+
+        Returns:
+            Decimal: The total opening balance of the Account for the year.
+
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Balance,
+        )
 
         period_id = (
             ReportingPeriod.get_period(
@@ -145,7 +224,9 @@ class Account(IsolatingMixin, Recyclable):
             else session.entity.reporting_period_id
         )
         query = (
-            session.query(func.sum(Balance.amount).label("amount"))
+            session.query(
+                func.sum(Balance.amount).label("amount")  # pylint: disable=not-callable
+            )
             .filter(Balance.currency_id == self.currency_id)
             .filter(Balance.reporting_period_id == period_id)
             .filter(Balance.account_id == self.id)
@@ -159,12 +240,23 @@ class Account(IsolatingMixin, Recyclable):
             or 0
         )
 
-    def closing_balance(self, session, end_date: datetime = None) -> dict:
-        """Get the account balance as at the given date"""
+    def closing_balance(self, session, end_date: datetime = None) -> Decimal:
+        """
+        Gets the the closing balance of the Account as at the given date.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            end_date (datetime): The latest transaction date for Transaction
+                amounts to be included in the balance.
+
+        Returns:
+            Decimal: The total opening balance of the Account for the year.
+
+        """
 
         start_date, end_date, _, _ = get_dates(session, None, end_date)
 
-        return self.opening_balance(session, end_date.year) + self._balance_movement(
+        return self.opening_balance(session, end_date.year) + self.balance_movement(
             session, start_date, end_date
         )
 
@@ -175,25 +267,48 @@ class Account(IsolatingMixin, Recyclable):
         end_date: datetime = None,
         schedule: bool = False,
     ) -> dict:
-        """Get a chronological listing of the transactions posted to the account between the dates given"""
-        from .transaction import Transaction
-        from .ledger import Ledger
-        from .assignment import Assignment
-        from .balance import Balance
+        """
+        Gets a chronological listing of the Transactions posted to the Account between
+            the dates given.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            start_date (datetime): The earliest transaction date for Transaction amounts
+                to be included in the statement.
+            end_date (datetime): The latest transaction date for Transaction amounts to
+                be included in the statement.
+            schedule (bool): Whether to exclude assignable Transactions and only list
+                clearable Transactions with outstanding amounts.
+
+        Raises:
+            InvalidAccountTypeError: If the Account type is not Receivable or Payable.
+
+        Returns:
+            dict: With a A summary of the opening and closing balance in the case of
+                a statement, the total, cleared and uncleared amounts if its a schedule
+                together with a list of Transactions.
+
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Transaction,
+            Ledger,
+            Assignment,
+            Balance,
+        )
 
         if schedule and self.account_type not in [
             Account.AccountType.RECEIVABLE,
             Account.AccountType.PAYABLE,
         ]:
             raise InvalidAccountTypeError(
-                "Only Receivable and Payable Accounts can have a schedule"
+                "Only Receivable and Payable Accounts can have a statement/schedule."
             )
         start_date, end_date, _, period_id = get_dates(session, start_date, end_date)
 
         statement = (
             dict(
                 transactions=[],
-                amount=0,
+                total_amount=0,
                 cleared_amount=0,
                 uncleared_amount=0,
             )
@@ -272,7 +387,7 @@ class Account(IsolatingMixin, Recyclable):
                         transaction.amount - cleared,
                         (end_date - transaction.transaction_date).days,
                     )
-                    statement["amount"] += transaction.amount
+                    statement["total_amount"] += transaction.amount
                     statement["cleared_amount"] += transaction.cleared_amount
                     statement["uncleared_amount"] += transaction.uncleared_amount
                 else:
@@ -292,8 +407,22 @@ class Account(IsolatingMixin, Recyclable):
         return statement
 
     def validate(self, session) -> None:
-        """Validate the reporting period properties"""
-        from .category import Category
+        """
+        Validates the Account properties.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+
+        Raises:
+            InvalidCategoryAccountTypeError: If the account type of the Account
+                does not match that of its assigned Category.
+
+        Returns:
+            None
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Category,
+        )
 
         self.name = self.name.title()
         if (
@@ -310,11 +439,25 @@ class Account(IsolatingMixin, Recyclable):
                 )
 
     def validate_delete(self, session) -> None:
-        """Validate if the account can be deleted"""
-        from python_accounting.models import Ledger
+        """
+        Validates if the account can be deleted.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+
+        Raises:
+            HangingTransactionsError: If the Account has had Transactions during the
+                current Reporting period.
+
+        Returns:
+            None
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Ledger,
+        )
 
         if (
-            session.query(func.count(Ledger.id))
+            session.query(func.count(Ledger.id))  # pylint: disable=not-callable
             .filter(Ledger.entity_id == self.entity_id)
             .filter(
                 or_(

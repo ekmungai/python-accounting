@@ -1,18 +1,32 @@
+# reports/trial_balance.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the equality of all the credit and debit balances of an Entity.
+
+"""
+
 from datetime import datetime
 from python_accounting.reports.financial_statement import FinancialStatement
-from python_accounting.config import config
 from python_accounting.utils.dates import get_dates
-from python_accounting.models import Account
 
 
 class TrialBalance(FinancialStatement):
-    """This class represents all the balances of the chart of accounts, compared against each other"""
+    """
+    This class represents all the balances of the chart of accounts, compared against each other.
+
+     Attributes:
+        config (str): The configuration section for the report.
+
+    """
 
     config = "trial_balance"
 
     def __init__(self, session, end_date: datetime = None) -> None:
-        from python_accounting.reports import IncomeStatement, BalanceSheet
-
         self.start_date, self.end_date, _, _ = get_dates(session, None, end_date)
         super().__init__(session)
 

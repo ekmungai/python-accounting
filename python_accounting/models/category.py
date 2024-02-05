@@ -1,17 +1,37 @@
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum
+# models/category.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the Base class for accounting models.
+
+"""
+
 from typing import List
 from datetime import datetime
-from python_accounting.utils.dates import get_dates
 from strenum import StrEnum
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey, Enum
 from python_accounting.mixins import IsolatingMixin
-from .recyclable import Recyclable
-from .account import Account
+from python_accounting.models import Recyclable, Account
 from python_accounting.exceptions import InvalidAccountTypeError
+from python_accounting.utils.dates import get_dates
 
 
 class Category(IsolatingMixin, Recyclable):
-    """Represents a Category of Accounts"""
+    """
+    Represents a grouping of Accounts of the same type.
+
+    Attributes:
+        id (int): The primary key of the Category database record.
+        category_account_type (:obj:`list` of :obj:`Account.AccountType`): The Account
+            type of the members of the Category.
+        name (str): The label of the Category.
+
+    """
 
     __mapper_args__ = {"polymorphic_identity": "Category"}
 
@@ -27,16 +47,39 @@ class Category(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.name} <{self.category_account_type}>"
 
-    def validate(self, session) -> None:
-        """Validate the category properties"""
+    def validate(self, _) -> None:
+        """
+        Validates the Category properties.
+
+        Args:
+            session (Session): The accounting session to which the Category belongs.
+
+        Raises:
+            InvalidAccountTypeError: If the category account type is not one of
+            Account.AccountType.
+
+        Returns:
+            None
+        """
 
         if self.category_account_type not in Account.AccountType:
             raise InvalidAccountTypeError(
-                f"category_account_type must be one of: {', '.join(list(Account.AccountType))}",
+                f"category_account_type must be one of: {', '.join(list(Account.AccountType))}.",
             )
 
     def account_balances(self, session, end_date: datetime = None) -> dict:
-        """Returns the accounts belonging to the category and their balances"""
+        """
+        Returns the Accounts belonging to the Category and their balances.
+
+        Args:
+            session (Session): The accounting session to which the Account belongs.
+            end_date (datetime): The latest transaction date for Transaction amounts to be included
+                in the Account balances.
+
+        Returns:
+            dict: With a A summary of the total of the Account balances of the together with a list
+            of the Accounts themselves.
+        """
 
         _, end_date, _, _ = get_dates(session, None, end_date)
 

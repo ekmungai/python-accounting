@@ -96,7 +96,7 @@ def test_contra_entry_validation(session, entity, currency):
 
     with pytest.raises(InvalidMainAccountError) as e:
         session.commit()
-    assert str(e.value) == "ContraEntry Transaction main Account be of type Bank"
+    assert str(e.value) == "ContraEntry Transaction main Account be of type Bank."
     account1.account_type = Account.AccountType.BANK
     line_item1 = LineItem(
         narration="Test line item one",
@@ -110,7 +110,9 @@ def test_contra_entry_validation(session, entity, currency):
     with pytest.raises(InvalidLineItemAccountError) as e:
         transaction.line_items.add(line_item1)
     assert (
-        str(e.value) == "ContraEntry Transaction Line Item Account type be one of: Bank"
+        str(e.value)
+        == """ContraEntry Transaction Line Item Account type must
+         be one of: Bank."""
     )
 
     account2.account_type = Account.AccountType.BANK
@@ -127,4 +129,4 @@ def test_contra_entry_validation(session, entity, currency):
 
     with pytest.raises(InvalidTaxChargeError) as e:
         transaction.line_items.add(line_item1)
-    assert str(e.value) == "ContraEntry Transactions cannot be charged Tax"
+    assert str(e.value) == "ContraEntry Transactions cannot be charged Tax."

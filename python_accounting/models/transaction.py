@@ -1,5 +1,18 @@
+# models/transaction.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents a financial Transaction.
+
+"""
+from typing import List, Set
 from datetime import datetime
 from decimal import Decimal
+from strenum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy import (
     String,
@@ -10,7 +23,6 @@ from sqlalchemy import (
     func,
     UniqueConstraint,
     inspect,
-    CheckConstraint,
 )
 from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
@@ -24,16 +36,31 @@ from python_accounting.exceptions import (
     PostedTransactionError,
     InvalidTransactionTypeError,
 )
-from strenum import StrEnum
-from typing import List, Set
-from .recyclable import Recyclable
-from .account import Account
-from .reporting_period import ReportingPeriod
-from .line_item import LineItem
+from python_accounting.models import Recyclable, Account, ReportingPeriod, LineItem
 
 
 class Transaction(IsolatingMixin, Recyclable):
-    """Represents a Transaction in the sense of an original source document"""
+    """
+    Represents a Transaction in the sense of an original source document.
+
+    Attributes:
+        TransactionType (StrEnum): Transaction Types representing common
+            Transaction.
+        id (int): The primary key of the Transaction database record.
+        transaction_date (datetime): The date of the Transaction.
+        transaction_type (TransactionType): The Transaction type of the Transaction.
+        narration (str): A short description of the purpose of the Transaction.
+        reference (:obj:`str`, optional): Identifying information about the Transaction.
+        main_account_amount (:obj:`Decimal`, optional): The amount to be posted to the Transaction
+            main Account. Only applies to compound (Journal Entry) Transactions.
+        credited (:obj:`bool`, optional): Determines whether the Transaction amount will
+            be posted to the credit side of the main Account. Defaults to True.
+        compound (:obj:`bool`, optional): Determines whether the (Journal Entry) Transaction amount
+            can have Line Items on both sides of the double entry.
+        currency_id (int): The id of the Currency associated with the Transaction.
+        account_id (int): The id of the Account model to which Transaction amounts are to be posted.
+
+    """
 
     # Transaction types
     TransactionType = StrEnum(
@@ -75,17 +102,18 @@ class Transaction(IsolatingMixin, Recyclable):
 
     @validates("line_items", include_removes=True)
     def validate_line_items(self, key, line_item, is_remove):
+        """validates adding or removing of Transaction Line Items."""
         if hasattr(self, "_validate_subclass_line_items"):
             self._validate_subclass_line_items(line_item)
 
         if self.is_posted:
             raise PostedTransactionError(
-                f"Cannot {'Remove' if is_remove else 'Add'} Line Items from a Posted Transaction"
+                f"Cannot {'Remove' if is_remove else 'Add'} Line Items from a Posted Transaction."
             )
 
         if line_item.id is None:
             raise ValueError(
-                "Line Item must be persisted to be added to the Transaction"
+                "Line Item must be persisted to be added to the Transaction."
             )
 
         if not self.compound and line_item.credited == self.credited:
@@ -94,13 +122,14 @@ class Transaction(IsolatingMixin, Recyclable):
 
     @validates("ledgers", include_removes=True)
     def validate_ledgers(self, key, ledger, is_remove):
+        """validates adding or removing of Line Item Ledgers"""
         raise ValueError(
-            f"Transaction ledgers cannot be {'Removed' if is_remove else 'Added'} manually"
+            f"Transaction ledgers cannot be {'Removed' if is_remove else 'Added'} manually."
         )
 
     @property
     def tax(self) -> dict:
-        """The taxes that have been applied to the transaction"""
+        """The taxes that have been applied to the transaction."""
         taxes = dict()
         total = 0
         for line_item in iter(self.line_items):
@@ -109,7 +138,10 @@ class Transaction(IsolatingMixin, Recyclable):
                     line_item.tax.rate * line_item.amount * line_item.quantity / 100
                 )
                 total += amount
-                if line_item.tax.code in taxes.keys():
+                if (
+                    line_item.tax.code
+                    in taxes.keys()  # pylint: disable=consider-iterating-dictionary
+                ):
                     taxes[line_item.tax.code]["amount"] += amount
                 else:
                     taxes.update(
@@ -125,12 +157,12 @@ class Transaction(IsolatingMixin, Recyclable):
 
     @property
     def is_posted(self) -> Decimal:
-        """Check if the Transaction has been posted to the ledger"""
+        """If the Transaction has been posted to the ledge.r"""
         return len(self.ledgers) > 0
 
     @property
     def amount(self) -> Decimal:
-        """The amount of the transaction"""
+        """The amount of the Transaction."""
 
         return sum(
             [
@@ -148,20 +180,20 @@ class Transaction(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.account} <{self.transaction_no}>: {self.amount}"
 
-    def _get_main_account(self, session, account_id: int) -> Account:
-        """Retrieve the main account of the tranaction from the database"""
+    def _get_main_account(self, session) -> Account:
+        """Retrieve the main account of the tranaction from the database."""
         account = session.get(Account, self.account_id)
         if not account:
             raise ValueError("The main Account is required")
         return account
 
     def _transaction_no(self, session, transaction_type, reporting_period) -> str:
-        """Get the next auto-generated transaction number"""
+        """Get the next auto-generated transaction number."""
         next_id = (
             session.query(Transaction)
             .filter(Transaction.transaction_type == transaction_type)
             .filter(Transaction.transaction_date > reporting_period.interval()["start"])
-            .with_entities(func.count())
+            .with_entities(func.count())  # pylint: disable=not-callable
             .execution_options(include_deleted=True)
             .filter(Transaction.entity_id == self.entity_id)
             .scalar()
@@ -173,8 +205,24 @@ class Transaction(IsolatingMixin, Recyclable):
         return f"{prefix}{reporting_period.period_count:02}/{next_id:04}"
 
     def post(self, session) -> None:
-        """Post the Transaction to the Ledger"""
-        from .ledger import Ledger
+        """
+        Posts the Transaction to the Ledger.
+
+        Args:
+            session (Session): The accounting session to which the Reporting Period
+                 belongs.
+
+        Raises:
+            MissingLineItemError: If the Transaction has no Line Items.
+
+
+        Returns:
+            None
+
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Ledger,
+        )
 
         if not self.line_items:
             raise MissingLineItemError
@@ -183,12 +231,27 @@ class Transaction(IsolatingMixin, Recyclable):
         Ledger.post(session, self)
 
     def contribution(self, session, account: Account) -> Decimal:
-        """Get the amount contributed by the account to the transaction total"""
-        from .balance import Balance
-        from .ledger import Ledger
+        """
+        Gets the amount contributed by the account to the transaction total.
+
+        Args:
+            session (Session): The accounting session to which the Reporting Period
+                 belongs.
+            account (Account): The Account who's contribution is to be found.
+
+        Returns:
+            Decimal: The amount posted to the Account by the Transaction.
+
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Balance,
+            Ledger,
+        )
 
         query = (
-            session.query(func.sum(Ledger.amount).label("amount"))
+            session.query(
+                func.sum(Ledger.amount).label("amount")  # pylint: disable=not-callable
+            )
             .filter(Ledger.entity_id == self.entity_id)
             .filter(Ledger.transaction_id == self.id)
             .filter(Ledger.currency_id == self.currency_id)
@@ -202,12 +265,33 @@ class Transaction(IsolatingMixin, Recyclable):
         )
 
     def validate(self, session) -> None:
-        """Validate the Transaction properties"""
+        """
+        Validates the Transaction properties.
+
+        Args:
+            session (Session): The accounting session to which the Balance belongs.
+
+        Raises:
+            PostedTransactionError: If Transaction is already posted.
+            ClosedReportingPeriodError: If the Transaction date is with a Reporting Period
+                in the CLOSED status.
+            AdjustingReportingPeriodError: If the Transaction date is with a Reporting Period
+                in the ADJUSTING status and is not a Journal Entry.
+            InvalidTransactionDateError: If the Transaction date is exactly the beginning of
+                the Reporting Period.
+            InvalidTransactionTypeError: If the Transaction type is being modified.
+            RedundantTransactionError: If the Transaction main Account is also one of its
+                Line Items Accounts.
+
+        Returns:
+            None
+
+        """
 
         if self.is_posted:
-            raise PostedTransactionError(f"A Posted Transaction cannot be modified")
+            raise PostedTransactionError("A Posted Transaction cannot be modified.")
 
-        account = self._get_main_account(session, self.account_id)
+        account = self._get_main_account(session)
 
         reporting_period = ReportingPeriod.get_period(
             session,
@@ -242,8 +326,20 @@ class Transaction(IsolatingMixin, Recyclable):
             if line_item.account_id == self.account_id:
                 raise RedundantTransactionError(line_item)
 
-    def validate_delete(self, session) -> None:
-        """Validate if the Transaction can be deleted"""
+    def validate_delete(self, _) -> None:
+        """
+        Validates if the Transaction can be deleted.
+
+        Args:
+            session (Session): The accounting session to which the Balance belongs.
+
+        Raises:
+            PostedTransactionError: If Transaction is already posted.
+
+        Returns:
+            None
+
+        """
 
         if self.is_posted:
-            raise PostedTransactionError(f"A Posted Transaction cannot be deleted")
+            raise PostedTransactionError("A Posted Transaction cannot be deleted.")

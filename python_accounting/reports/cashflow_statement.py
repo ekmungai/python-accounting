@@ -1,3 +1,14 @@
+# reports/cashflow_statement.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the movement of liquid funds of an Entity.
+
+"""
 from datetime import datetime
 from python_accounting.reports.financial_statement import FinancialStatement
 from python_accounting.config import config
@@ -6,7 +17,14 @@ from python_accounting.models import Account
 
 
 class CashflowStatement(FinancialStatement):
-    """This class represents the movement of balances of Balance Sheet accounts during the given period"""
+    """
+    This class represents the movement of balances of Balance Sheet accounts during the given period.
+
+    Attributes:
+        config (str): The configuration section for the report.
+        sub_sections (dict): The categories of the contents of the sections of the report.
+
+    """
 
     config = "cashflow_statement"
     sub_sections: dict
@@ -66,12 +84,10 @@ class CashflowStatement(FinancialStatement):
         )
 
     def __repr__(self) -> str:
-        return "Operating: {}, Investing: {}, Financing: {}, Net: {}".format(
-            self.totals[self.sections.OPERATING_CASH_FLOW.name],
-            self.totals[self.sections.INVESTMENT_CASH_FLOW.name],
-            self.totals[self.sections.FINANCING_CASH_FLOW.name],
-            self.totals[self.sections.NET_CASH_FLOW.name],
-        )
+        return f"""Operating: {self.totals[self.sections.OPERATING_CASH_FLOW.name]},
+         Investing: {self.totals[self.sections.INVESTMENT_CASH_FLOW.name]},
+         Financing: {self.totals[self.sections.FINANCING_CASH_FLOW.name]},
+         Net: {self.totals[self.sections.NET_CASH_FLOW.name]}"""
 
     def _get_sections(
         self,
@@ -79,8 +95,6 @@ class CashflowStatement(FinancialStatement):
         end_date: datetime = None,
         full_balance: bool = True,
     ) -> None:
-        """Get the balances of the accounts in the financial statement, aggregated by section"""
-
         for section, sub_sections in self.sub_sections.items():
             for sub_section in sub_sections:
                 label, account_types = config.reports[self.config]["sub_sections"][
@@ -98,7 +112,6 @@ class CashflowStatement(FinancialStatement):
                     self.totals[section] += balances["movement"]
 
     def _print_section(self, section, factor=1) -> str:
-        """Print the contents of a section of the cashflow statement"""
         content = f"\n{section.value}"
         for sub_section, total in self.balances[section.name].items():
             label = f"\n{self.indent}{sub_section}"

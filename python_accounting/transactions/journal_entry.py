@@ -1,3 +1,16 @@
+# transactions/journal_entry.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+This is the most powerful Transaction in the entire system, capable of 
+    directly accessing the ledger.
+
+"""
+from typing import Any
 from python_accounting.models import Transaction
 from python_accounting.mixins import AssigningMixin, ClearingMixin
 from python_accounting.exceptions import (
@@ -5,11 +18,10 @@ from python_accounting.exceptions import (
     UnbalancedTransactionError,
     InvalidTaxChargeError,
 )
-from typing import Any
 
 
 class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
-    """Class for the Journal Entry Transaction"""
+    """Class for the Journal Entry Transaction."""
 
     __tablename__ = None
     __mapper_args__ = {
@@ -26,10 +38,15 @@ class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
             raise InvalidTaxChargeError(f"Compound {self.__class__.__name__}")
 
     def get_compound_entries(self) -> tuple:
-        """Prepare the compound entries for the Transaction"""
+        """
+        Prepare the compound entries for the Transaction
+
+        Returns:
+            tuple: A tuple of debited, credited Line Items
+        """
 
         if not self.compound:
-            return ()
+            return (0, 0)
 
         compound_entries = dict(Debit=[], Credit=[])
         compound_entries["Credit" if self.credited else "Debit"].append(
@@ -43,7 +60,19 @@ class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
         return compound_entries["Debit"], compound_entries["Credit"]
 
     def validate(self, session) -> None:
-        """Validate the buying Transaction properties"""
+        """
+        Validates the Journal Entry properties
+
+        Args:
+            session (Session): The accounting session to which the Journal Entry belongs.
+
+        Raises:
+            UnbalancedTransactionError: If the debit amounts do not equal the credit amounts.
+
+        Returns:
+            None
+
+        """
 
         if self.compound:
             if not self.main_account_amount:

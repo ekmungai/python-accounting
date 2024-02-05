@@ -12,22 +12,40 @@ Provides accounting specific overrides for some sqlalchemy session methods.
 from sqlalchemy.orm.session import Session
 
 from python_accounting.models import Entity
-from .session_overrides import SessionOverridesMixin
-from .accounting_functions import AccountingFunctionsMixin
-from .event_listeners import EventListenersMixin
+from python_accounting.database.session_overrides import SessionOverridesMixin
+from python_accounting.database.accounting_functions import AccountingFunctionsMixin
+from python_accounting.database.event_listeners import EventListenersMixin
 
 
 class AccountingSession(
     SessionOverridesMixin, EventListenersMixin, AccountingFunctionsMixin, Session
 ):
+    """This class extends the standard SqlAlchemy session by providing custom methods
+    specific to accounting.
+
+    Attributes:
+        entity (Entity): The Entity currently associated with the session. All database
+            queries will be scoped to this entity.
+    """
+
     entity: Entity
 
     def __init__(self, bind=None, info=None) -> None:
         super(AccountingSession, self).__init__(bind=bind, info=info)
 
 
-def Session(engine) -> Session:
-    """Construct the accounting session"""
+def get_ession(engine) -> Session:
+    """
+    Construct the accounting session.
+
+    Args:
+        engine: The database engine to create a session for.
+
+    Returns:
+        AccountingSession.
+
+    """
+
     return AccountingSession(
         bind=engine,
         info={

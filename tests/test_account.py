@@ -45,6 +45,7 @@ def test_account_entity(session, entity, currency):
     session.add(account)
     session.commit()
 
+    print(session.entity.currency)
     account = session.get(Account, account.id)
     assert account.entity.name == "Test Entity"
     assert account.name == "Test Account"
@@ -65,7 +66,10 @@ def test_account_validation(session, entity, currency):
     with pytest.raises(InvalidAccountTypeError) as e:
         account.statement(session, None, None, True)
 
-    assert str(e.value) == "Only Receivable and Payable Accounts can have a schedule"
+    assert (
+        str(e.value)
+        == "Only Receivable and Payable Accounts can have a statement/schedule."
+    )
 
     account = session.get(Account, account.id)
     assert account.account_code == 3001
@@ -114,7 +118,7 @@ def test_account_validation(session, entity, currency):
     with pytest.raises(InvalidCategoryAccountTypeError) as e:
         session.commit()
 
-    assert str(e.value) == "Cannot assign Receivable Account to Bank Category"
+    assert str(e.value) == "Cannot assign Receivable Account to Bank Category."
 
     session.expunge(account)
     transaction = Transaction(
@@ -153,7 +157,8 @@ def test_account_validation(session, entity, currency):
         session.delete(account)
     assert (
         str(e.value)
-        == "The Account cannot be deleted because it has Transactions in the current reporting period"
+        == """The Account cannot be deleted because it has Transactions in
+         the current reporting period."""
     )
 
 
@@ -1433,7 +1438,7 @@ def test_receivable_account_schedule(session, entity, currency):
     assert statement["transactions"][2].uncleared_amount == 50
     assert statement["transactions"][2].age == 0
 
-    assert statement["amount"] == 205
+    assert statement["total_amount"] == 205
     assert statement["cleared_amount"] == Decimal("100.6")
     assert statement["uncleared_amount"] == Decimal("104.4")
 
@@ -1647,6 +1652,6 @@ def test_supplier_account_schedule(session, entity, currency):
     assert statement["transactions"][2].uncleared_amount == 53
     assert statement["transactions"][2].age == 0
 
-    assert statement["amount"] == 234
+    assert statement["total_amount"] == 234
     assert statement["cleared_amount"] == 60
     assert statement["uncleared_amount"] == 174

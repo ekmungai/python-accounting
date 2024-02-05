@@ -1,15 +1,33 @@
-from strenum import StrEnum
+# reports/income_statement.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents the financial performance of an Entity for a given period.
+
+"""
+
 from decimal import Decimal
 from datetime import datetime
+from strenum import StrEnum
 from python_accounting.models import Account
 from python_accounting.reports.financial_statement import FinancialStatement
 from python_accounting.utils.dates import get_dates
 
 
 class IncomeStatement(FinancialStatement):
-    """This class represents the Income Statement/Profit and Loss of a given Entity"""
+    """
+    This class represents the Income Statement/Profit and Loss of a given Entity.
 
-    config = "income_statement"
+    Attributes:
+        Accounts (Account.AccountType): The Account types allowed to be in included in the report.
+        config (str): The configuration section for the report.
+
+    """
+
     Accounts = StrEnum(
         "Accounts",
         {
@@ -24,6 +42,7 @@ class IncomeStatement(FinancialStatement):
             ]
         },
     )
+    config = "income_statement"
 
     def __init__(
         self, session, start_date: datetime = None, end_date: datetime = None
@@ -69,17 +88,28 @@ class IncomeStatement(FinancialStatement):
         )
 
     def __repr__(self) -> str:
-        return "Revenue: {}, Gross Profit: {}, Net Profit: {}".format(
-            self.result_amounts[self.results.TOTAL_REVENUE.name],
-            self.result_amounts[self.results.GROSS_PROFIT.name],
-            self.result_amounts[self.results.NET_PROFIT.name],
-        )
+        return f"""Revenue: {self.result_amounts[self.results.TOTAL_REVENUE.name]},
+         Gross Profit: {self.result_amounts[self.results.GROSS_PROFIT.name]},
+         Net Profit: {self.result_amounts[self.results.NET_PROFIT.name]}"""
 
     @staticmethod
     def net_profit(
         session, start_date: datetime = None, end_date: datetime = None
     ) -> Decimal:
-        """Get the value of net profit for the given period"""
+        """
+        Get the value of net profit for the given period.
+
+        Args:
+            session (Session): The accounting session to which the report belongs.
+            start_date (datetime): The earliest transaction date for Transaction amounts to be
+                included in the report.
+            end_date (datetime): The latest transaction date for Transaction amounts to be included
+                in the report.
+
+        Returns:
+            Decimal: The net profit or loss for the Entity for the period.
+
+        """
         return (
             Account.section_balances(
                 session,

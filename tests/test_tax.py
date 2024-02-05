@@ -136,7 +136,8 @@ def test_tax_validation(session, entity, currency):
         session.delete(tax)
     assert (
         str(e.value)
-        == "The Tax cannot be deleted because it has Transactions in the current reporting period"
+        == """The Tax cannot be deleted because it has Transactions in
+         the current reporting period."""
     )
 
 

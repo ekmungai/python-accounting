@@ -1,18 +1,51 @@
+# mixins/assigning.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Provides functionality to assignable Transactions for clearing clearable Transactions.
+
+"""
+
 from datetime import datetime
 from decimal import Decimal
 from sqlalchemy import func, select
 
 
 class AssigningMixin:
-    """This class provides assignable transactions the remaining balance available for clearing"""
+    """
+    This class provides assignable Transactions functionality for
+    clearing clearable Transactions.
+
+    """
 
     def balance(self, session) -> Decimal:
-        """Get how much of the transaction amount has been assigned to clearable transactions"""
-        from python_accounting.models import Assignment
+        """
+        Gets how much of the Transaction amount is remaining available for assigning
+            to clearable Transactions.
+
+        Args:
+            session (Session): The accounting session to which the Transaction belongs.
+
+        Returns:
+            Decimal: The difference between the Transaction amount and the total amount
+                of assignments made to it.
+        """
+
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Assignment,
+        )
 
         return self.amount - (
             (
-                session.query(func.sum(Assignment.amount).label("amount"))
+                session.query(
+                    func.sum(Assignment.amount).label(  # pylint: disable=not-callable
+                        "amount"
+                    )
+                )
                 .filter(Assignment.transaction_id == self.id)
                 .filter(Assignment.entity_id == self.entity_id)
             ).scalar()
@@ -20,20 +53,50 @@ class AssigningMixin:
         )
 
     def assignments(self, session) -> list:
-        """Get the assignments used to assign this transaction"""
-        from python_accounting.models import Assignment
+        """
+        Gets the assignments made on the Transaction.
+
+        Args:
+            session (Session): The accounting session to which the Transaction belongs.
+
+        Returns:
+            A List of assignments made for the Transaction.
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Assignment,
+        )
 
         return session.scalars(
             select(Assignment).filter(Assignment.transaction_id == self.id)
         ).all()
 
     def unassign(self, session) -> None:
-        """Remove all assignments made to this transaction"""
-        [session.delete(a) for a in self.assignments(session)]
+        """
+        Removes all assignments made to this Transaction.
+
+        Args:
+            session (Session): The accounting session to which the Transaction belongs.
+
+        Returns:
+            None
+        """
+        _ = [session.delete(a) for a in self.assignments(session)]
 
     def bulk_assign(self, session) -> None:
-        """Assign this transanction to all outstanding transactions for the main account on a FIFO basis"""
-        from python_accounting.models import Assignment
+        """
+        Assigns the Transaction's amount to all outstanding clearable Transactions for the
+            main account on a FIFO basis.
+
+        Args:
+            session (Session): The accounting session to which the Transaction belongs.
+
+        Returns:
+            None
+        """
+
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Assignment,
+        )
 
         balance = self.balance(session)
 

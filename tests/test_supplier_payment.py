@@ -90,7 +90,9 @@ def test_supplier_payment_validation(session, entity, currency):
 
     with pytest.raises(InvalidMainAccountError) as e:
         session.commit()
-    assert str(e.value) == "SupplierPayment Transaction main Account be of type Payable"
+    assert (
+        str(e.value) == "SupplierPayment Transaction main Account be of type Payable."
+    )
     account1.account_type = Account.AccountType.PAYABLE
     line_item1 = LineItem(
         narration="Test line item one",
@@ -105,5 +107,6 @@ def test_supplier_payment_validation(session, entity, currency):
         transaction.line_items.add(line_item1)
     assert (
         str(e.value)
-        == "SupplierPayment Transaction Line Item Account type be one of: Bank"
+        == """SupplierPayment Transaction Line Item Account type must
+         be one of: Bank."""
     )

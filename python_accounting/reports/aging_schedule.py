@@ -1,3 +1,15 @@
+# reports/aging_schedule.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents amounts oustanding to/from suppliers/clients, grouped by their age.
+
+"""
+
 from datetime import datetime
 from python_accounting.models import Account
 from python_accounting.config import config
@@ -5,7 +17,19 @@ from python_accounting.utils.dates import get_dates
 
 
 class AgingSchedule:
-    """This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding"""
+    """
+    This class displays the outstanding balances for recievables and payables categorised
+        by how long they have been outstanding.
+
+    Attributes:
+        brackets (dict): Categories of ages in days and their labels.
+        balances (str): The total outstanding amounts per age bracket.
+        accounts (list): The Account who's outsanding transactions constitue the balances.
+        account_type (Account.AccountType.RECEIVABLE|Account.AccountType.RECEIVABLE):
+            The Account type to get aged balances for. Can only be Receivable or Payable.
+        end_date (datetime): The latest transaction date for Transaction amounts to be included
+                in the balances.
+    """
 
     brackets = config.reports["aging_schedule_brackets"]
     balances: dict
@@ -40,10 +64,9 @@ class AgingSchedule:
                 self.accounts.append(account)
 
     def __repr__(self) -> str:
-        return f"{self.account_type} Aging Schedule as at {str(self.period)}"
+        return f"{self.account_type} Aging Schedule as at {str(self.end_date)}"
 
     def _allocate_balances(self, transactions: list, account: Account) -> None:
-        """Allocate the uncleared balance of each transaction to its appropriate age bracket"""
         for transaction in transactions:
             bracket = [
                 bracket

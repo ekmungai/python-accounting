@@ -1,10 +1,21 @@
+# models/tax.py
+# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# <see AUTHORS file>
+#
+# This module is part of PythonAccounting and is released under
+# the MIT License: https://www.opensource.org/licenses/mit-license.php
+
+"""
+Represents a Tax that is applied to the Line Item of a Transaction.
+
+"""
+
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, func
 from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
-from .recyclable import Recyclable
-from .account import Account
+from python_accounting.models import Recyclable, Account
 from python_accounting.exceptions import (
     NegativeAmountError,
     MissingTaxAccountError,
@@ -14,7 +25,18 @@ from python_accounting.exceptions import (
 
 
 class Tax(IsolatingMixin, Recyclable):
-    """Represents a Tax applied to a Transaction's line item"""
+    """
+    Represents a Tax applied to a Transaction's Line Item.
+
+    Attributes:
+        id (int): The primary key of the Tax database record.
+        name (str): The label of the Tax.
+        code (str): A shorthand representation of the Tax.
+        rate (Decimal): The percentage rate of the Tax.
+        account_id (int): The id of the Account model to which Tax amounts are
+            posted.
+
+    """
 
     __mapper_args__ = {"polymorphic_identity": "Tax"}
 
@@ -31,7 +53,22 @@ class Tax(IsolatingMixin, Recyclable):
         return f"{self.name} <{self.code}>: {self.rate}"
 
     def validate(self, session) -> None:
-        """Validate the Tax properties"""
+        """
+        Validates the Tax properties.
+
+        Args:
+            session (Session): The accounting session to which the Balance belongs.
+
+        Raises:
+            NegativeAmountError: If the Tax rate is less than 0.
+            MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account
+                is not set.
+            InvalidTaxAccountError: If the Tax Account type is not Control.
+
+        Returns:
+            None
+
+        """
 
         if self.rate == 0:
             self.account_id = None
@@ -49,11 +86,26 @@ class Tax(IsolatingMixin, Recyclable):
             raise InvalidTaxAccountError
 
     def validate_delete(self, session) -> None:
-        """Validate if the tax can be deleted"""
-        from python_accounting.models import Ledger
+        """
+        Validates if the Tax can be deleted.
+
+        Args:
+            session (Session): The accounting session to which the Tax belongs.
+
+        Raises:
+            HangingTransactionsError: If there exists posted Transactions with Line Items
+                that have this Tax applied to them.
+
+        Returns:
+            None
+
+        """
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Ledger,
+        )
 
         if (
-            session.query(func.count(Ledger.id))
+            session.query(func.count(Ledger.id))  # pylint: disable=not-callable
             .filter(Ledger.entity_id == self.entity_id)
             .filter(Ledger.tax_id == self.id)
             .scalar()

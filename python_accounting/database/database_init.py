@@ -6,16 +6,16 @@
 # the MIT License: https://www.opensource.org/licenses/mit-license.php
 
 """
-Database initialization based on the engine PythonAccounting models.
+Database initialization based on the engine and PythonAccounting models.
 
 """
-from .engine import engine
-import python_accounting.models as models
+from python_accounting.database.engine import engine
+from python_accounting import models
 
 
 def database_init() -> None:
     """
-    Initializes the database by settnig up all tables that do not currently exist
+    Initializes the database by settnig up all tables that do not currently exist.
 
 
     Returns:

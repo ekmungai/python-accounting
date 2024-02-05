@@ -118,7 +118,7 @@ def test_supplier_bill_validation(session, entity, currency):
 
     with pytest.raises(InvalidMainAccountError) as e:
         session.commit()
-    assert str(e.value) == "SupplierBill Transaction main Account be of type Payable"
+    assert str(e.value) == "SupplierBill Transaction main Account be of type Payable."
     account1.account_type = Account.AccountType.PAYABLE
     line_item1 = LineItem(
         narration="Test line item one",
@@ -133,5 +133,6 @@ def test_supplier_bill_validation(session, entity, currency):
         transaction.line_items.add(line_item1)
     assert (
         str(e.value)
-        == "SupplierBill Transaction Line Item Account type be one of: Operating Expense, Direct Expense, Overhead Expense, Other Expense, Non Current Asset, Current Asset, Inventory"
+        == """SupplierBill Transaction Line Item Account type must
+         be one of: Operating Expense, Direct Expense, Overhead Expense, Other Expense, Non Current Asset, Current Asset, Inventory."""
     )
