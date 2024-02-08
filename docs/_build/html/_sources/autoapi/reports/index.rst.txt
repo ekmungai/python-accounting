@@ -1,0 +1,249 @@
+:py:mod:`reports`
+=================
+
+.. py:module:: reports
+
+.. autoapi-nested-parse::
+
+   Provides financial accounting reports.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   aging_schedule/index.rst
+   balance_sheet/index.rst
+   cashflow_statement/index.rst
+   financial_statement/index.rst
+   income_statement/index.rst
+   trial_balance/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   reports.IncomeStatement
+   reports.BalanceSheet
+   reports.AgingSchedule
+   reports.CashflowStatement
+   reports.TrialBalance
+
+
+
+
+.. py:class:: IncomeStatement(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None)
+
+
+   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+
+   This class represents the Income Statement/Profit and Loss of a given Entity.
+
+   .. attribute:: Accounts
+
+      The Account types allowed to be in included in the report.
+
+      :type: Account.AccountType
+
+   .. attribute:: config
+
+      The configuration section for the report.
+
+      :type: str
+
+   .. py:attribute:: Accounts
+
+      
+
+   .. py:attribute:: config
+      :value: 'income_statement'
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: net_profit(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None) -> decimal.Decimal
+      :staticmethod:
+
+      Get the value of net profit for the given period.
+
+      :param session: The accounting session to which the report belongs.
+      :type session: Session
+      :param start_date: The earliest transaction date for Transaction amounts to be
+                         included in the report.
+      :type start_date: datetime
+      :param end_date: The latest transaction date for Transaction amounts to be included
+                       in the report.
+      :type end_date: datetime
+
+      :returns: The net profit or loss for the Entity for the period.
+      :rtype: Decimal
+
+
+
+.. py:class:: BalanceSheet(session, end_date: datetime.datetime = None)
+
+
+   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+
+   This class represents the Statement of Financial Position/Balance Sheet of a given Entity.
+
+   .. attribute:: Accounts
+
+      The Account types allowed to be in included in the report.
+
+      :type: Account.AccountType
+
+   .. attribute:: config
+
+      The configuration section for the report.
+
+      :type: str
+
+   .. py:attribute:: Accounts
+
+      
+
+   .. py:attribute:: config
+      :value: 'balance_sheet'
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+
+.. py:class:: AgingSchedule(session, account_type: src.models.Account.AccountType, end_date: datetime.datetime = None)
+
+
+   This class displays the outstanding balances for recievables and payables categorised
+       by how long they have been outstanding.
+
+   .. attribute:: brackets
+
+      Categories of ages in days and their labels.
+
+      :type: dict
+
+   .. attribute:: balances
+
+      The total outstanding amounts per age bracket.
+
+      :type: str
+
+   .. attribute:: accounts
+
+      The Account who's outsanding transactions constitue the balances.
+
+      :type: list
+
+   .. attribute:: account_type
+
+      The Account type to get aged balances for. Can only be Receivable or Payable.
+
+      :type: Account.AccountType.RECEIVABLE|Account.AccountType.RECEIVABLE
+
+   .. attribute:: end_date
+
+      The latest transaction date for Transaction amounts to be included
+      in the balances.
+
+      :type: datetime
+
+   .. py:attribute:: brackets
+
+      
+
+   .. py:attribute:: balances
+      :type: dict
+
+      
+
+   .. py:attribute:: accounts
+      :type: list
+
+      
+
+   .. py:attribute:: account_type
+
+      
+
+   .. py:attribute:: end_date
+      :type: datetime.datetime
+
+      
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+   .. py:method:: _allocate_balances(transactions: list, account: src.models.Account) -> None
+
+
+
+.. py:class:: CashflowStatement(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None)
+
+
+   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+
+   This class represents the movement of balances of Balance Sheet accounts during the given period.
+
+   .. attribute:: config
+
+      The configuration section for the report.
+
+      :type: str
+
+   .. attribute:: sub_sections
+
+      The categories of the contents of the sections of the report.
+
+      :type: dict
+
+   .. py:attribute:: config
+      :value: 'cashflow_statement'
+
+      
+
+   .. py:attribute:: sub_sections
+      :type: dict
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: _get_sections(start_date: datetime.datetime = None, end_date: datetime.datetime = None, full_balance: bool = True) -> None
+
+
+   .. py:method:: _print_section(section, factor=1) -> str
+
+
+
+.. py:class:: TrialBalance(session, end_date: datetime.datetime = None)
+
+
+   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+
+   This class represents all the balances of the chart of accounts, compared against each other.
+
+    Attributes:
+       config (str): The configuration section for the report.
+
+
+   .. py:attribute:: config
+      :value: 'trial_balance'
+
+      
+
+

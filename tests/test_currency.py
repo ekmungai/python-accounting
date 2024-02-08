@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from python_accounting.models import Currency, Entity
+from src.models import Currency, Entity
 
 
 def test_currency_entity(session, entity):

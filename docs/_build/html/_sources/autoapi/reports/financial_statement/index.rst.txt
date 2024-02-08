@@ -1,0 +1,128 @@
+:py:mod:`reports.financial_statement`
+=====================================
+
+.. py:module:: reports.financial_statement
+
+.. autoapi-nested-parse::
+
+   Represents an abstraction of a financial statement according to IFRS/GAAP.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   reports.financial_statement.FinancialStatement
+
+
+
+
+.. py:class:: FinancialStatement(session: sqlalchemy.orm.session.Session)
+
+
+   This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP
+
+   .. attribute:: config
+
+      The configuration section for the report.
+
+      :type: str
+
+   .. attribute:: end_date
+
+      The latest transaction date for Transaction amounts to be included
+      in the report.
+
+      :type: datetime
+
+   .. attribute:: printout
+
+      The sections to be printed out.
+
+      :type: tuple
+
+   .. attribute:: width
+
+      The width of the report printout.
+
+      :type: int
+
+   .. attribute:: indent
+
+      The indent between report sections.
+
+      :type: str
+
+   .. attribute:: subtotal
+
+      The underline for report subtotals.
+
+      :type: str
+
+   .. attribute:: grandtotal
+
+      The underline for report grand totals.
+
+      :type: str
+
+   .. py:attribute:: config
+      :type: dict
+
+      
+
+   .. py:attribute:: end_date
+      :type: datetime.datetime
+
+      
+
+   .. py:attribute:: printout
+      :type: tuple
+
+      
+
+   .. py:attribute:: width
+      :type: str
+
+      
+
+   .. py:attribute:: indent
+      :type: str
+
+      
+
+   .. py:attribute:: subtotal
+      :type: str
+
+      
+
+   .. py:attribute:: grandtotal
+      :type: str
+
+      
+
+   .. py:method:: __str__() -> str
+
+      Return str(self).
+
+
+   .. py:method:: _get_sections(start_date: datetime.datetime = None, end_date: datetime.datetime = None, full_balance: bool = True) -> None
+
+
+   .. py:method:: _print_title() -> str
+
+
+   .. py:method:: _print_section(section, factor=1) -> str
+
+
+   .. py:method:: _print_result(result, grandtotal=False) -> str
+
+
+   .. py:method:: _print_total(section, factor=1, grandtotal=False) -> str
+
+
+

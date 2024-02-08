@@ -1,0 +1,62 @@
+:py:mod:`mixins.clearing`
+=========================
+
+.. py:module:: mixins.clearing
+
+.. autoapi-nested-parse::
+
+   Provides functionality to clearable Transactions for assignment to assignable Transactions.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   mixins.clearing.ClearingMixin
+
+
+
+
+.. py:class:: ClearingMixin
+
+
+   This class provides clearable Transactions functionality for assigning them to
+   assignable Transactions.
+
+   .. py:method:: cleared(session) -> decimal.Decimal
+
+      Gets how much of the Transaction amount has been cleared by assignable Transactions.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: The total amount of assignments made against Transaction.
+      :rtype: Decimal
+
+
+   .. py:method:: clearances(session) -> list
+
+      Gets the assignments made to clear the Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: A List of assignments made to clear the Transaction.
+
+
+   .. py:method:: unclear(session) -> None
+
+      Removes all assignments made to clear this Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+

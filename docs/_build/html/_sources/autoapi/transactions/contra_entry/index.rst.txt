@@ -1,0 +1,40 @@
+:py:mod:`transactions.contra_entry`
+===================================
+
+.. py:module:: transactions.contra_entry
+
+.. autoapi-nested-parse::
+
+   Represents a Contra Entry Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.contra_entry.ContraEntry
+
+
+
+
+.. py:class:: ContraEntry(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Contra Entry Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

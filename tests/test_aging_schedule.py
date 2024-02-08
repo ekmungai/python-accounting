@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
-from python_accounting.models import (
+from src.models import (
     Account,
     Balance,
     Transaction,
@@ -9,14 +9,14 @@ from python_accounting.models import (
     Assignment,
     ReportingPeriod,
 )
-from python_accounting.transactions import (
+from src.transactions import (
     ClientInvoice,
     ClientReceipt,
     JournalEntry,
     SupplierBill,
     SupplierPayment,
 )
-from python_accounting.reports import AgingSchedule
+from src.reports import AgingSchedule
 
 
 def test_receivables_aging_schedule(session, entity, currency):

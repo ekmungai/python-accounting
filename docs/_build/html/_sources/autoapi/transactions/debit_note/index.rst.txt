@@ -1,0 +1,40 @@
+:py:mod:`transactions.debit_note`
+=================================
+
+.. py:module:: transactions.debit_note
+
+.. autoapi-nested-parse::
+
+   Represents a Debit Note Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.debit_note.DebitNote
+
+
+
+
+.. py:class:: DebitNote(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Debit Note Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

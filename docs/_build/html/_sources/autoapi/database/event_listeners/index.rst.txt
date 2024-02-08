@@ -1,0 +1,55 @@
+:py:mod:`database.event_listeners`
+==================================
+
+.. py:module:: database.event_listeners
+
+.. autoapi-nested-parse::
+
+   Provides accounting specific event listeners for the sqlalchemy session.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   database.event_listeners.EventListenersMixin
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   database.event_listeners._filter_options
+
+
+
+.. py:function:: _filter_options(execute_state, option) -> bool
+
+   Valiadate if filter should be applied.
+
+
+.. py:class:: EventListenersMixin
+
+
+   This class provides logic for handling events in sqlalchemy's orm lifecycle.
+
+   .. py:method:: _add_filtering_criteria() -> None
+
+
+   .. py:method:: _set_session_entity(object_) -> None
+
+
+   .. py:method:: _set_object_index(object_) -> None
+
+
+   .. py:method:: _validate_model(flush_context, instances) -> None
+
+
+

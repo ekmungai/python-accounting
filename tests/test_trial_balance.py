@@ -1,6 +1,6 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from python_accounting.models import (
+from src.models import (
     Account,
     Tax,
     LineItem,
@@ -8,7 +8,7 @@ from python_accounting.models import (
     Balance,
     Transaction,
 )
-from python_accounting.transactions import (
+from src.transactions import (
     CashSale,
     ClientInvoice,
     CreditNote,
@@ -16,7 +16,7 @@ from python_accounting.transactions import (
     SupplierBill,
     CashPurchase,
 )
-from python_accounting.reports import TrialBalance
+from src.reports import TrialBalance
 
 
 def test_trial_balance(session, entity, currency):

@@ -1,0 +1,293 @@
+:py:mod:`models.transaction`
+============================
+
+.. py:module:: models.transaction
+
+.. autoapi-nested-parse::
+
+   Represents a financial Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.transaction.Transaction
+
+
+
+
+.. py:class:: Transaction
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+
+   Represents a Transaction in the sense of an original source document.
+
+   .. attribute:: TransactionType
+
+      Transaction Types representing common
+      Transaction.
+
+      :type: StrEnum
+
+   .. attribute:: id
+
+      The primary key of the Transaction database record.
+
+      :type: int
+
+   .. attribute:: transaction_date
+
+      The date of the Transaction.
+
+      :type: datetime
+
+   .. attribute:: transaction_type
+
+      The Transaction type of the Transaction.
+
+      :type: TransactionType
+
+   .. attribute:: narration
+
+      A short description of the purpose of the Transaction.
+
+      :type: str
+
+   .. attribute:: reference
+
+      Identifying information about the Transaction.
+
+      :type: :obj:`str`, optional
+
+   .. attribute:: main_account_amount
+
+      The amount to be posted to the Transaction
+      main Account. Only applies to compound (Journal Entry) Transactions.
+
+      :type: :obj:`Decimal`, optional
+
+   .. attribute:: credited
+
+      Determines whether the Transaction amount will
+      be posted to the credit side of the main Account. Defaults to True.
+
+      :type: :obj:`bool`, optional
+
+   .. attribute:: compound
+
+      Determines whether the (Journal Entry) Transaction amount
+      can have Line Items on both sides of the double entry.
+
+      :type: :obj:`bool`, optional
+
+   .. attribute:: currency_id
+
+      The id of the Currency associated with the Transaction.
+
+      :type: int
+
+   .. attribute:: account_id
+
+      The id of the Account model to which Transaction amounts are to be posted.
+
+      :type: int
+
+   .. py:property:: tax
+      :type: dict
+
+      The taxes that have been applied to the transaction.
+
+   .. py:property:: is_posted
+      :type: decimal.Decimal
+
+      If the Transaction has been posted to the ledge.r
+
+   .. py:property:: amount
+      :type: decimal.Decimal
+
+      The amount of the Transaction.
+
+   .. py:attribute:: TransactionType
+
+      
+
+   .. py:attribute:: __table_args__
+      :value: ()
+
+      
+
+   .. py:attribute:: __tablename__
+      :value: 'transaction'
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: transaction_date
+      :type: sqlalchemy.orm.Mapped[datetime.datetime]
+
+      
+
+   .. py:attribute:: transaction_no
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: transaction_type
+      :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
+
+      
+
+   .. py:attribute:: narration
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: reference
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: main_account_amount
+      :type: sqlalchemy.orm.Mapped[decimal.Decimal]
+
+      
+
+   .. py:attribute:: credited
+      :type: sqlalchemy.orm.Mapped[bool]
+
+      
+
+   .. py:attribute:: compound
+      :type: sqlalchemy.orm.Mapped[bool]
+
+      
+
+   .. py:attribute:: currency_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: account_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: currency
+      :type: sqlalchemy.orm.Mapped[Currency]
+
+      
+
+   .. py:attribute:: account
+      :type: sqlalchemy.orm.Mapped[src.models.Account]
+
+      
+
+   .. py:attribute:: line_items
+      :type: sqlalchemy.orm.Mapped[Set[src.models.LineItem]]
+
+      
+
+   .. py:attribute:: ledgers
+      :type: sqlalchemy.orm.Mapped[List[Ledger]]
+
+      
+
+   .. py:method:: validate_line_items(key, line_item, is_remove)
+
+      validates adding or removing of Transaction Line Items.
+
+
+   .. py:method:: validate_ledgers(key, ledger, is_remove)
+
+      validates adding or removing of Line Item Ledgers
+
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: _get_main_account(session) -> src.models.Account
+
+      Retrieve the main account of the tranaction from the database.
+
+
+   .. py:method:: _transaction_no(session, transaction_type, reporting_period) -> str
+
+      Get the next auto-generated transaction number.
+
+
+   .. py:method:: post(session) -> None
+
+      Posts the Transaction to the Ledger.
+
+      :param session: The accounting session to which the Reporting Period
+                      belongs.
+      :type session: Session
+
+      :raises MissingLineItemError: If the Transaction has no Line Items.
+
+      :returns: None
+
+
+   .. py:method:: contribution(session, account: src.models.Account) -> decimal.Decimal
+
+      Gets the amount contributed by the account to the transaction total.
+
+      :param session: The accounting session to which the Reporting Period
+                      belongs.
+      :type session: Session
+      :param account: The Account who's contribution is to be found.
+      :type account: Account
+
+      :returns: The amount posted to the Account by the Transaction.
+      :rtype: Decimal
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Transaction properties.
+
+      :param session: The accounting session to which the Balance belongs.
+      :type session: Session
+
+      :raises PostedTransactionError: If Transaction is already posted.
+      :raises ClosedReportingPeriodError: If the Transaction date is with a Reporting Period
+          in the CLOSED status.
+      :raises AdjustingReportingPeriodError: If the Transaction date is with a Reporting Period
+          in the ADJUSTING status and is not a Journal Entry.
+      :raises InvalidTransactionDateError: If the Transaction date is exactly the beginning of
+          the Reporting Period.
+      :raises InvalidTransactionTypeError: If the Transaction type is being modified.
+      :raises RedundantTransactionError: If the Transaction main Account is also one of its
+          Line Items Accounts.
+
+      :returns: None
+
+
+   .. py:method:: validate_delete(_) -> None
+
+      Validates if the Transaction can be deleted.
+
+      :param session: The accounting session to which the Balance belongs.
+      :type session: Session
+
+      :raises PostedTransactionError: If Transaction is already posted.
+
+      :returns: None
+
+
+

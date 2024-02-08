@@ -2,13 +2,13 @@ import pytest
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
-from python_accounting.models import (
+from src.models import (
     Balance,
     Entity,
     Transaction,
     Account,
 )
-from python_accounting.exceptions import (
+from src.exceptions import (
     InvalidBalanceAccountError,
     InvalidBalanceTransactionError,
     NegativeAmountError,

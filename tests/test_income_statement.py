@@ -1,11 +1,11 @@
 from datetime import datetime
-from python_accounting.models import (
+from src.models import (
     Account,
     Tax,
     LineItem,
     Category,
 )
-from python_accounting.transactions import (
+from src.transactions import (
     CashSale,
     ClientInvoice,
     CreditNote,
@@ -13,7 +13,7 @@ from python_accounting.transactions import (
     SupplierBill,
     CashPurchase,
 )
-from python_accounting.reports import IncomeStatement
+from src.reports import IncomeStatement
 
 
 def test_income_statement(session, entity, currency):

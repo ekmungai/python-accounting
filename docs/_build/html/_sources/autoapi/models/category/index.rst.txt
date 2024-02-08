@@ -1,0 +1,106 @@
+:py:mod:`models.category`
+=========================
+
+.. py:module:: models.category
+
+.. autoapi-nested-parse::
+
+   Represents the Base class for accounting models.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.category.Category
+
+
+
+
+.. py:class:: Category
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+
+   Represents a grouping of Accounts of the same type.
+
+   .. attribute:: id
+
+      The primary key of the Category database record.
+
+      :type: int
+
+   .. attribute:: category_account_type
+
+      The Account
+      type of the members of the Category.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: name
+
+      The label of the Category.
+
+      :type: str
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: name
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: category_account_type
+      :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
+
+      
+
+   .. py:attribute:: accounts
+      :type: sqlalchemy.orm.Mapped[List[src.models.Account]]
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: validate(_) -> None
+
+      Validates the Category properties.
+
+      :param session: The accounting session to which the Category belongs.
+      :type session: Session
+
+      :raises InvalidAccountTypeError: If the category account type is not one of
+      :raises Account.AccountType.:
+
+      :returns: None
+
+
+   .. py:method:: account_balances(session, end_date: datetime.datetime = None) -> dict
+
+      Returns the Accounts belonging to the Category and their balances.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param end_date: The latest transaction date for Transaction amounts to be included
+                       in the Account balances.
+      :type end_date: datetime
+
+      :returns: With a A summary of the total of the Account balances of the together with a list
+                of the Accounts themselves.
+      :rtype: dict
+
+
+

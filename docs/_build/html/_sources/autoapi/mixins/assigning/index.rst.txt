@@ -1,0 +1,78 @@
+:py:mod:`mixins.assigning`
+==========================
+
+.. py:module:: mixins.assigning
+
+.. autoapi-nested-parse::
+
+   Provides functionality to assignable Transactions for clearing clearable Transactions.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   mixins.assigning.AssigningMixin
+
+
+
+
+.. py:class:: AssigningMixin
+
+
+   This class provides assignable Transactions functionality for
+   clearing clearable Transactions.
+
+
+   .. py:method:: balance(session) -> decimal.Decimal
+
+      Gets how much of the Transaction amount is remaining available for assigning
+          to clearable Transactions.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns:
+
+                The difference between the Transaction amount and the total amount
+                    of assignments made to it.
+      :rtype: Decimal
+
+
+   .. py:method:: assignments(session) -> list
+
+      Gets the assignments made on the Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: A List of assignments made for the Transaction.
+
+
+   .. py:method:: unassign(session) -> None
+
+      Removes all assignments made to this Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+   .. py:method:: bulk_assign(session) -> None
+
+      Assigns the Transaction's amount to all outstanding clearable Transactions for the
+          main account on a FIFO basis.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+

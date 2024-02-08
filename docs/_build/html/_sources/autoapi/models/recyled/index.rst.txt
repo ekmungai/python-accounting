@@ -1,0 +1,62 @@
+:py:mod:`models.recyled`
+========================
+
+.. py:module:: models.recyled
+
+.. autoapi-nested-parse::
+
+   Represents an account model that has been recycled.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.recyled.Recycled
+
+
+
+
+.. py:class:: Recycled
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
+
+   Represents an accounting model that has been recycled.
+
+   .. attribute:: recycled_id
+
+      The id of the model that has been recycled.
+
+      :type: int
+
+   .. attribute:: restored_at
+
+      The time the model was restored.
+
+      :type: :obj:`datetime`, optional
+
+   .. py:attribute:: recycled_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: restored_at
+      :type: sqlalchemy.orm.Mapped[datetime.datetime]
+
+      
+
+   .. py:attribute:: subject
+      :type: sqlalchemy.orm.Mapped[Recyclable]
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+

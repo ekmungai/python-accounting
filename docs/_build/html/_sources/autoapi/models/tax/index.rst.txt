@@ -1,0 +1,128 @@
+:py:mod:`models.tax`
+====================
+
+.. py:module:: models.tax
+
+.. autoapi-nested-parse::
+
+   Represents a Tax that is applied to the Line Item of a Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.tax.Tax
+
+
+
+
+.. py:class:: Tax
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+
+   Represents a Tax applied to a Transaction's Line Item.
+
+   .. attribute:: id
+
+      The primary key of the Tax database record.
+
+      :type: int
+
+   .. attribute:: name
+
+      The label of the Tax.
+
+      :type: str
+
+   .. attribute:: code
+
+      A shorthand representation of the Tax.
+
+      :type: str
+
+   .. attribute:: rate
+
+      The percentage rate of the Tax.
+
+      :type: Decimal
+
+   .. attribute:: account_id
+
+      The id of the Account model to which Tax amounts are
+      posted.
+
+      :type: int
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: name
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: code
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: rate
+      :type: sqlalchemy.orm.Mapped[decimal.Decimal]
+
+      
+
+   .. py:attribute:: account_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: account
+      :type: sqlalchemy.orm.Mapped[src.models.Account]
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Tax properties.
+
+      :param session: The accounting session to which the Balance belongs.
+      :type session: Session
+
+      :raises NegativeAmountError: If the Tax rate is less than 0.
+      :raises MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account
+          is not set.
+      :raises InvalidTaxAccountError: If the Tax Account type is not Control.
+
+      :returns: None
+
+
+   .. py:method:: validate_delete(session) -> None
+
+      Validates if the Tax can be deleted.
+
+      :param session: The accounting session to which the Tax belongs.
+      :type session: Session
+
+      :raises HangingTransactionsError: If there exists posted Transactions with Line Items
+          that have this Tax applied to them.
+
+      :returns: None
+
+
+

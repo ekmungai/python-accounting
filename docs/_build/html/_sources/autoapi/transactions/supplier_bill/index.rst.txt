@@ -1,0 +1,40 @@
+:py:mod:`transactions.supplier_bill`
+====================================
+
+.. py:module:: transactions.supplier_bill
+
+.. autoapi-nested-parse::
+
+   Represents a Supplier Bill Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.supplier_bill.SupplierBill
+
+
+
+
+.. py:class:: SupplierBill(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Supplier Bill Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

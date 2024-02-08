@@ -1,0 +1,68 @@
+:py:mod:`models.base`
+=====================
+
+.. py:module:: models.base
+
+.. autoapi-nested-parse::
+
+   Represents the Base class for accounting models.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.base.Base
+
+
+
+
+.. py:class:: Base
+
+
+   Bases: :py:obj:`sqlalchemy.orm.DeclarativeBase`
+
+   The accounting model base class
+
+   .. attribute:: id
+
+      The primary key of the model database record.
+
+      :type: int
+
+   .. attribute:: created_at
+
+      The time the database record was created.
+
+      :type: datetime
+
+   .. attribute:: update_at
+
+      The time the database record was last modified.
+
+      :type: datetime
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: created_at
+      :type: sqlalchemy.orm.Mapped[datetime.datetime]
+
+      
+
+   .. py:attribute:: updated_at
+      :type: sqlalchemy.orm.Mapped[datetime.datetime]
+
+      
+
+   .. py:method:: __tablename__() -> str
+
+
+

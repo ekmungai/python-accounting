@@ -2,15 +2,15 @@ import pytest
 from datetime import datetime
 from decimal import Decimal
 from sqlalchemy import select
-from python_accounting.models import (
+from src.models import (
     LineItem,
     Entity,
     Account,
     Transaction,
     Tax,
 )
-from python_accounting.exceptions import NegativeAmountError, HangingTransactionsError
-from python_accounting.transactions import ClientInvoice
+from src.exceptions import NegativeAmountError, HangingTransactionsError
+from src.transactions import ClientInvoice
 
 
 def test_line_item_entity(session, entity, currency):

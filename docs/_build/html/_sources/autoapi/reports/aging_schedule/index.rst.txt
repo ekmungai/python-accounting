@@ -1,0 +1,93 @@
+:py:mod:`reports.aging_schedule`
+================================
+
+.. py:module:: reports.aging_schedule
+
+.. autoapi-nested-parse::
+
+   Represents amounts oustanding to/from suppliers/clients, grouped by their age.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   reports.aging_schedule.AgingSchedule
+
+
+
+
+.. py:class:: AgingSchedule(session, account_type: src.models.Account.AccountType, end_date: datetime.datetime = None)
+
+
+   This class displays the outstanding balances for recievables and payables categorised
+       by how long they have been outstanding.
+
+   .. attribute:: brackets
+
+      Categories of ages in days and their labels.
+
+      :type: dict
+
+   .. attribute:: balances
+
+      The total outstanding amounts per age bracket.
+
+      :type: str
+
+   .. attribute:: accounts
+
+      The Account who's outsanding transactions constitue the balances.
+
+      :type: list
+
+   .. attribute:: account_type
+
+      The Account type to get aged balances for. Can only be Receivable or Payable.
+
+      :type: Account.AccountType.RECEIVABLE|Account.AccountType.RECEIVABLE
+
+   .. attribute:: end_date
+
+      The latest transaction date for Transaction amounts to be included
+      in the balances.
+
+      :type: datetime
+
+   .. py:attribute:: brackets
+
+      
+
+   .. py:attribute:: balances
+      :type: dict
+
+      
+
+   .. py:attribute:: accounts
+      :type: list
+
+      
+
+   .. py:attribute:: account_type
+
+      
+
+   .. py:attribute:: end_date
+      :type: datetime.datetime
+
+      
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+   .. py:method:: _allocate_balances(transactions: list, account: src.models.Account) -> None
+
+
+

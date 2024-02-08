@@ -1,0 +1,66 @@
+:py:mod:`mixins.buying`
+=======================
+
+.. py:module:: mixins.buying
+
+.. autoapi-nested-parse::
+
+   Provides functionality to Transactions that can purchase goods and services for an Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   mixins.buying.BuyingMixin
+
+
+
+
+.. py:class:: BuyingMixin(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`
+
+   This class provides validation for Transaction that buy goods and services for an Entity.
+
+   .. attribute:: line_item_types
+
+      A list of Account
+      Types that are allowed as Line Item accounts for buying Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: main_account_types
+
+      A list of Account
+      Types that are allowed as main accounts for buying Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: account_type_map (:obj:`dict` of str
+
+      :obj:`Account.AccountType`): A mapping of
+      Transactions to the Account Types that apply to their validation.
+
+   .. py:attribute:: line_item_types
+      :type: list
+
+      
+
+   .. py:attribute:: main_account_types
+      :type: list
+
+      
+
+   .. py:attribute:: account_type_map
+      :type: dict
+
+      
+
+

@@ -1,0 +1,64 @@
+:py:mod:`transactions.journal_entry`
+====================================
+
+.. py:module:: transactions.journal_entry
+
+.. autoapi-nested-parse::
+
+   This is the most powerful Transaction in the entire system, capable of
+       directly accessing the ledger.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.journal_entry.JournalEntry
+
+
+
+
+.. py:class:: JournalEntry(**kw: Any)
+
+
+   Bases: :py:obj:`src.models.Transaction`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.mixins.ClearingMixin`
+
+   Class for the Journal Entry Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:method:: _validate_subclass_line_items(line_item)
+
+
+   .. py:method:: get_compound_entries() -> tuple
+
+      Prepare the compound entries for the Transaction
+
+      :returns: A tuple of debited, credited Line Items
+      :rtype: tuple
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Journal Entry properties
+
+      :param session: The accounting session to which the Journal Entry belongs.
+      :type session: Session
+
+      :raises UnbalancedTransactionError: If the debit amounts do not equal the credit amounts.
+
+      :returns: None
+
+
+

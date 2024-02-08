@@ -1,8 +1,8 @@
 import pytest
 from datetime import datetime
 from sqlalchemy import select
-from python_accounting.models import Entity, Currency, User
-from python_accounting.exceptions import MissingEntityError, SessionEntityError
+from src.models import Entity, Currency, User
+from src.exceptions import MissingEntityError, SessionEntityError
 
 
 def test_entity_reporting_currency(session, entity):

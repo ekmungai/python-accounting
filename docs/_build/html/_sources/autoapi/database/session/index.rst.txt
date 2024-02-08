@@ -1,0 +1,62 @@
+:py:mod:`database.session`
+==========================
+
+.. py:module:: database.session
+
+.. autoapi-nested-parse::
+
+   Provides accounting specific overrides for some sqlalchemy session methods.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   database.session.AccountingSession
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   database.session.get_ession
+
+
+
+.. py:class:: AccountingSession(bind=None, info=None)
+
+
+   Bases: :py:obj:`src.database.session_overrides.SessionOverridesMixin`, :py:obj:`src.database.event_listeners.EventListenersMixin`, :py:obj:`src.database.accounting_functions.AccountingFunctionsMixin`, :py:obj:`sqlalchemy.orm.session.Session`
+
+   This class extends the standard SqlAlchemy session by providing custom methods
+   specific to accounting.
+
+   .. attribute:: entity
+
+      The Entity currently associated with the session. All database
+      queries will be scoped to this entity.
+
+      :type: Entity
+
+   .. py:attribute:: entity
+      :type: src.models.Entity
+
+      
+
+
+.. py:function:: get_ession(engine) -> sqlalchemy.orm.session.Session
+
+   Construct the accounting session.
+
+   :param engine: The database engine to create a session for.
+
+   :returns: AccountingSession.
+
+

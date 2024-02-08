@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
-from python_accounting.models import (
+from src.models import (
     Account,
     Category,
     Entity,
@@ -14,7 +14,7 @@ from python_accounting.models import (
     Tax,
     Assignment,
 )
-from python_accounting.transactions import (
+from src.transactions import (
     ClientInvoice,
     CashSale,
     ContraEntry,
@@ -26,7 +26,7 @@ from python_accounting.transactions import (
     SupplierBill,
     DebitNote,
 )
-from python_accounting.exceptions import (
+from src.exceptions import (
     InvalidCategoryAccountTypeError,
     InvalidAccountTypeError,
     HangingTransactionsError,

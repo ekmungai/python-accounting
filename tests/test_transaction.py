@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import select, func
-from python_accounting.models import (
+from src.models import (
     Account,
     Transaction,
     Entity,
@@ -13,7 +13,7 @@ from python_accounting.models import (
     Ledger,
     Balance,
 )
-from python_accounting.exceptions import (
+from src.exceptions import (
     InvalidTransactionDateError,
     ClosedReportingPeriodError,
     AdjustingReportingPeriodError,

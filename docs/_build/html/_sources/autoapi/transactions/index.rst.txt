@@ -1,0 +1,234 @@
+:py:mod:`transactions`
+======================
+
+.. py:module:: transactions
+
+.. autoapi-nested-parse::
+
+   Provides model validastion extensions for specific financial Transactions.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cash_purchase/index.rst
+   cash_sale/index.rst
+   client_invoice/index.rst
+   client_receipt/index.rst
+   contra_entry/index.rst
+   credit_note/index.rst
+   debit_note/index.rst
+   journal_entry/index.rst
+   supplier_bill/index.rst
+   supplier_payment/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.ClientInvoice
+   transactions.CashSale
+   transactions.SupplierBill
+   transactions.CashPurchase
+   transactions.ClientReceipt
+   transactions.CreditNote
+   transactions.SupplierPayment
+   transactions.DebitNote
+   transactions.ContraEntry
+   transactions.JournalEntry
+
+
+
+
+.. py:class:: ClientInvoice(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Client Invoice Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: CashSale(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Cash Sale Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: SupplierBill(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Supplier Bill Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: CashPurchase(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Cash Purchase Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: ClientReceipt(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Client Receipt Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: CreditNote(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Credit Note Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: SupplierPayment(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Supplier Payment Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: DebitNote(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Debit Note Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: ContraEntry(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Contra Entry Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+
+.. py:class:: JournalEntry(**kw: Any)
+
+
+   Bases: :py:obj:`src.models.Transaction`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.mixins.ClearingMixin`
+
+   Class for the Journal Entry Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:method:: _validate_subclass_line_items(line_item)
+
+
+   .. py:method:: get_compound_entries() -> tuple
+
+      Prepare the compound entries for the Transaction
+
+      :returns: A tuple of debited, credited Line Items
+      :rtype: tuple
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Journal Entry properties
+
+      :param session: The accounting session to which the Journal Entry belongs.
+      :type session: Session
+
+      :raises UnbalancedTransactionError: If the debit amounts do not equal the credit amounts.
+
+      :returns: None
+
+
+

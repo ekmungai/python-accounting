@@ -1,0 +1,56 @@
+:py:mod:`reports.balance_sheet`
+===============================
+
+.. py:module:: reports.balance_sheet
+
+.. autoapi-nested-parse::
+
+   Represents the financial position of an Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   reports.balance_sheet.BalanceSheet
+
+
+
+
+.. py:class:: BalanceSheet(session, end_date: datetime.datetime = None)
+
+
+   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+
+   This class represents the Statement of Financial Position/Balance Sheet of a given Entity.
+
+   .. attribute:: Accounts
+
+      The Account types allowed to be in included in the report.
+
+      :type: Account.AccountType
+
+   .. attribute:: config
+
+      The configuration section for the report.
+
+      :type: str
+
+   .. py:attribute:: Accounts
+
+      
+
+   .. py:attribute:: config
+      :value: 'balance_sheet'
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+

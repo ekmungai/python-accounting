@@ -1,0 +1,40 @@
+:py:mod:`transactions.client_receipt`
+=====================================
+
+.. py:module:: transactions.client_receipt
+
+.. autoapi-nested-parse::
+
+   Represents a Client Receipt Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.client_receipt.ClientReceipt
+
+
+
+
+.. py:class:: ClientReceipt(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Client Receipt Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

@@ -1,0 +1,46 @@
+:py:mod:`mixins.isolating`
+==========================
+
+.. py:module:: mixins.isolating
+
+.. autoapi-nested-parse::
+
+   Provides functionality to scope accounting objects to a single Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   mixins.isolating.IsolatingMixin
+
+
+
+
+.. py:class:: IsolatingMixin
+
+
+   This class enables isolating by Entity for accounting objects.
+
+   .. attribute:: entity_id
+
+      The id of the Entity to which the model belongs.
+
+      :type: int
+
+   .. py:attribute:: entity_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:method:: entity() -> sqlalchemy.orm.Mapped[Entity]
+
+      Returns the Entity of the instance.
+
+
+

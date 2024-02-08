@@ -1,8 +1,8 @@
 import pytest
 from datetime import datetime
-from python_accounting.models import Account, Tax, LineItem, Balance
-from python_accounting.transactions import DebitNote
-from python_accounting.exceptions import (
+from src.models import Account, Tax, LineItem, Balance
+from src.transactions import DebitNote
+from src.exceptions import (
     InvalidMainAccountError,
     InvalidLineItemAccountError,
 )

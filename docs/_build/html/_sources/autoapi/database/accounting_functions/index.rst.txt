@@ -1,0 +1,37 @@
+:py:mod:`database.accounting_functions`
+=======================================
+
+.. py:module:: database.accounting_functions
+
+.. autoapi-nested-parse::
+
+   Accounting Specific extentions of the SqlAlchemy Session class.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   database.accounting_functions.AccountingFunctionsMixin
+
+
+
+
+.. py:class:: AccountingFunctionsMixin
+
+
+   This class provids accounting specific functionality to the standard sqlachemy session.
+
+
+   .. py:method:: _year_period(year: int) -> sqlalchemy.orm.Mapped[src.models.ReportingPeriod] | None
+
+
+   .. py:method:: _set_reporting_period() -> None
+
+
+

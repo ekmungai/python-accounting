@@ -1,0 +1,201 @@
+:py:mod:`models.reporting_period`
+=================================
+
+.. py:module:: models.reporting_period
+
+.. autoapi-nested-parse::
+
+   Represents a financial cycle of an Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.reporting_period.ReportingPeriod
+
+
+
+
+.. py:class:: ReportingPeriod
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+
+   Represents a financial cycle for the Reporting Entity.
+
+   .. attribute:: id
+
+      The primary key of the Reporting Period database record.
+
+      :type: int
+
+   .. attribute:: calendar_year
+
+      The calendar year associated with the Reporting
+      Period.
+
+      :type: int
+
+   .. attribute:: period_count
+
+      The number of periods that have passed since the
+      system has been in use.
+
+      :type: int
+
+   .. attribute:: status
+
+      The status of the Reporting Period.
+
+      :type: ReportingPeriod.Status
+
+   .. py:class:: Status(*args, **kwds)
+
+
+      Bases: :py:obj:`enum.Enum`
+
+      Represents a Reporting Period's status.
+
+      .. attribute:: OPEN
+
+         The period is current and Transactions may be posted to it.
+
+      .. attribute:: ADJUSTING
+
+         The period is past and only Journal Entry Transactions
+         may be posted to it (E.g Audit Adjustments).
+
+      .. attribute:: CLOSED
+
+         The period is past and no more Transactions may be posted
+         to it.
+
+      .. py:attribute:: OPEN
+         :value: 0
+
+         
+
+      .. py:attribute:: ADJUSTING
+         :value: 1
+
+         
+
+      .. py:attribute:: CLOSED
+         :value: 2
+
+         
+
+
+   .. py:attribute:: __tablename__
+      :value: 'reporting_period'
+
+      
+
+   .. py:attribute:: __table_args__
+      :value: ()
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: calendar_year
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: period_count
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: status
+      :type: sqlalchemy.orm.Mapped[ReportingPeriod.Status]
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: date_year(date: datetime.datetime = None, entity=None) -> int
+      :staticmethod:
+
+      Returns the calendar year for the given date.
+
+      :param date: The date whose calendar year is
+      :type date: :obj:`datetime`, optional
+      :param to be found. Defaults to the current date.:
+      :param entity: The Entity for whom the calendar year
+                     is to be found. If absent, defaults to the calendar year.
+      :type entity: :obj:`int`, optional
+
+      :returns: The calendar year.
+      :rtype: int
+
+
+   .. py:method:: get_period(session, date: datetime.datetime) -> ReportingPeriod
+      :staticmethod:
+
+      Returns the reporting period for the given date.
+
+      :param session: The accounting session to which the Reporting Period
+                      belongs.
+      :type session: Session
+      :param date: The date whose Reporting Period is to be found.
+      :type date: datetime
+
+      :raises MissingReportingPeriodError: If there no Reporting Period exists for the
+          given date.
+
+      :returns: The Reporting Period.
+      :rtype: ReportingPeriod
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Reporting Period properties.
+
+      :param session: The accounting session to which the Balance belongs.
+      :type session: Session
+
+      :raises DuplicateReportingPeriodError: If there already exists a Reporting Period
+          for the same calendar year.
+      :raises MultipleOpenPeriodsError: If there already exists a Reporting Period
+          in the OPEN status.
+      :raises InvalidBalanceTransactionError: If the Balance Transaction type is
+          not one of the Balance Transaction types.
+
+      :returns: None
+
+
+   .. py:method:: interval(date: datetime.datetime = None) -> dict
+
+      Returns the start and end dates of the Reporting Period.
+
+      :param session: The accounting session to which the Reporting Period
+                      belongs.
+      :type session: Session
+      :param date: The date for whose Reporting Period's inteerval is to
+                   be found.
+      :type date: datetime
+
+      :raises MissingReportingPeriodError: If there no Reporting Period exists for the
+          given date.
+
+      :returns: The Reporting Period.
+      :rtype: ReportingPeriod
+
+
+

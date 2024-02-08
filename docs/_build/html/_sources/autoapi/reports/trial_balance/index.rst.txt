@@ -1,0 +1,41 @@
+:py:mod:`reports.trial_balance`
+===============================
+
+.. py:module:: reports.trial_balance
+
+.. autoapi-nested-parse::
+
+   Represents the equality of all the credit and debit balances of an Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   reports.trial_balance.TrialBalance
+
+
+
+
+.. py:class:: TrialBalance(session, end_date: datetime.datetime = None)
+
+
+   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+
+   This class represents all the balances of the chart of accounts, compared against each other.
+
+    Attributes:
+       config (str): The configuration section for the report.
+
+
+   .. py:attribute:: config
+      :value: 'trial_balance'
+
+      
+
+

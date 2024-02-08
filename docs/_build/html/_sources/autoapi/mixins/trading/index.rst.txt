@@ -1,0 +1,44 @@
+:py:mod:`mixins.trading`
+========================
+
+.. py:module:: mixins.trading
+
+.. autoapi-nested-parse::
+
+   Provides functionality to Transactions that can by and sell goods and services for an Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   mixins.trading.TradingMixin
+
+
+
+
+.. py:class:: TradingMixin
+
+
+   This class provides validation for transactions that trade goods and services
+   for an entity.
+
+   .. py:method:: _validate_subclass_line_items(line_item)
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the trading Transaction properties.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+

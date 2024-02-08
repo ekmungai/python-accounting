@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>models.assignment &mdash; Python Accounting 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="models.balance" href="../balance/index.html" />
+    <link rel="prev" title="models.account" href="../account/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Python Accounting
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exceptions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mixins/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mixins</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../account/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.account</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.assignment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../balance/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.balance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../category/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../currency/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.currency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../entity/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.entity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ledger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.ledger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../line_item/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.line_item</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recyclable/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.recyclable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recyled/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.recyled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reporting_period/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.reporting_period</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tax/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.tax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../transaction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.transaction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../user/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../reports/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reports</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../transactions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transactions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Python Accounting</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.assignment</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/models/assignment/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-models.assignment">
+<span id="models-assignment"></span><h1><a class="reference internal" href="#module-models.assignment" title="models.assignment"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.assignment</span></code></a><a class="headerlink" href="#module-models.assignment" title="Link to this heading"></a></h1>
+<p>Represents an matching between Transactions that have an opposite effect on an Account.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#models.assignment.Assignment" title="models.assignment.Assignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Assignment</span></code></a></p></td>
+<td><p>Represents an assigment of a clearable type to an assignable Transaction.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="models.assignment.Assignment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.assignment.</span></span><span class="sig-name descname"><span class="pre">Assignment</span></span><a class="headerlink" href="#models.assignment.Assignment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Base</span></code></p>
+<p>Represents an assigment of a clearable type to an assignable Transaction.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.clearables">
+<span class="sig-name descname"><span class="pre">clearables</span></span><a class="headerlink" href="#models.assignment.Assignment.clearables" title="Link to this definition"></a></dt>
+<dd><p>A list of
+Transaction Types that can be cleared by assignable Transactions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Transaction.TransactionType</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.assignables">
+<span class="sig-name descname"><span class="pre">assignables</span></span><a class="headerlink" href="#models.assignment.Assignment.assignables" title="Link to this definition"></a></dt>
+<dd><p>A list of
+Transaction Types that can have cleareable Transactions assigned to them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Transaction.TransactionType</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.assignment_date">
+<span class="sig-name descname"><span class="pre">assignment_date</span></span><a class="headerlink" href="#models.assignment.Assignment.assignment_date" title="Link to this definition"></a></dt>
+<dd><p>The date of the Assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.transaction_id">
+<span class="sig-name descname"><span class="pre">transaction_id</span></span><a class="headerlink" href="#models.assignment.Assignment.transaction_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the assignable Transaction in the Assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.assigned_id">
+<span class="sig-name descname"><span class="pre">assigned_id</span></span><a class="headerlink" href="#models.assignment.Assignment.assigned_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the clearable Transaction|Balance in the Assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.assigned_type">
+<span class="sig-name descname"><span class="pre">assigned_type</span></span><a class="headerlink" href="#models.assignment.Assignment.assigned_type" title="Link to this definition"></a></dt>
+<dd><p>The class name of the clearable Transaction|Balance in the Assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.assigned_no">
+<span class="sig-name descname"><span class="pre">assigned_no</span></span><a class="headerlink" href="#models.assignment.Assignment.assigned_no" title="Link to this definition"></a></dt>
+<dd><p>The Transaction number of the clearable Transaction|Balance
+in the Assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#models.assignment.Assignment.amount" title="Link to this definition"></a></dt>
+<dd><p>The amount of the Assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decimal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">clearables</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">assignables</span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">assignment_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">transaction_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">assigned_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">assigned_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">assigned_no</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.assignment.Assignment.transaction">
+<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.assignment.Assignment.transaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.assignment.Assignment.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.assignment.Assignment.__repr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.assignment.Assignment.assigned">
+<span class="sig-name descname"><span class="pre">assigned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">src.models.Transaction</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">src.models.Balance</span></span></span><a class="headerlink" href="#models.assignment.Assignment.assigned" title="Link to this definition"></a></dt>
+<dd><p>Get the clearable Transaction|Balance assigned to this assigment’s transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Assignment belongs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The model cleared by this assignment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../index.html#models.Transaction" title="models.Transaction">Transaction</a>|<a class="reference internal" href="../balance/index.html#models.balance.Balance" title="models.balance.Balance">Balance</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.assignment.Assignment.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.assignment.Assignment.validate" title="Link to this definition"></a></dt>
+<dd><p>Validates the Assignment properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Assignment belongs.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the assignable Transaction or clearable Transaction|Balance
+could not be found.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.UnassignableTransactionError" title="exceptions.UnassignableTransactionError"><strong>UnassignableTransactionError</strong></a> – If the assignable Transaction type is not one
+of the assignable types.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.UnclearableTransactionError" title="exceptions.UnclearableTransactionError"><strong>UnclearableTransactionError</strong></a> – If the clearable Transaction type is not one
+of the clearable types.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.UnpostedAssignmentError" title="exceptions.UnpostedAssignmentError"><strong>UnpostedAssignmentError</strong></a> – If either the assignable or clearable Transaction
+is not posted.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InsufficientBalanceError" title="exceptions.InsufficientBalanceError"><strong>InsufficientBalanceError</strong></a> – If the remaining balance in the assignable
+Transaction is less than the Assignment amount.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.OverclearanceError" title="exceptions.OverclearanceError"><strong>OverclearanceError</strong></a> – If the Assignment amount is greater than the clearable
+Transaction|Balance uncleared amount.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.CompoundTransactionAssignmentError" title="exceptions.CompoundTransactionAssignmentError"><strong>CompoundTransactionAssignmentError</strong></a> – If either the assignable or clearable
+Journal Entry is a compound Transaction.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.SelfClearanceError" title="exceptions.SelfClearanceError"><strong>SelfClearanceError</strong></a> – If the assignable and clearable Transaction of the
+Assignment is the same.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidAssignmentAccountError" title="exceptions.InvalidAssignmentAccountError"><strong>InvalidAssignmentAccountError</strong></a> – If the assignable Transaction and clearable
+Transaction|Balance main Accounts are not the same.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.MixedAssignmentError" title="exceptions.MixedAssignmentError"><strong>MixedAssignmentError</strong></a> – If either an already Transaction is being cleared or
+an already cleared Transaction is being assigned.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../account/index.html" class="btn btn-neutral float-left" title="models.account" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../balance/index.html" class="btn btn-neutral float-right" title="models.balance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Edward Mungai.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+:py:mod:`database.database_init`
+================================
+
+.. py:module:: database.database_init
+
+.. autoapi-nested-parse::
+
+   Database initialization based on the engine and PythonAccounting models.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   database.database_init.database_init
+
+
+
+.. py:function:: database_init() -> None
+
+   Initializes the database by settnig up all tables that do not currently exist.
+
+
+   :returns: None
+
+

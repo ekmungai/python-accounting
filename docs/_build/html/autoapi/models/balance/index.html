@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>models.balance &mdash; Python Accounting 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="models.base" href="../base/index.html" />
+    <link rel="prev" title="models.assignment" href="../assignment/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Python Accounting
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exceptions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mixins/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mixins</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../account/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.account</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../assignment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.assignment</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.balance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../category/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../currency/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.currency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../entity/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.entity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ledger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.ledger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../line_item/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.line_item</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recyclable/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.recyclable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recyled/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.recyled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reporting_period/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.reporting_period</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tax/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.tax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../transaction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.transaction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../user/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../reports/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reports</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../transactions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transactions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Python Accounting</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.balance</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/models/balance/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-models.balance">
+<span id="models-balance"></span><h1><a class="reference internal" href="#module-models.balance" title="models.balance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.balance</span></code></a><a class="headerlink" href="#module-models.balance" title="Link to this heading"></a></h1>
+<p>Represents the amount outstanding on a Transaction from a previous Reporting Period.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#models.balance.Balance" title="models.balance.Balance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Balance</span></code></a></p></td>
+<td><p>Represents a Balance brought down from previous reporting periods.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="models.balance.Balance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.balance.</span></span><span class="sig-name descname"><span class="pre">Balance</span></span><a class="headerlink" href="#models.balance.Balance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.ClearingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<p>Represents a Balance brought down from previous reporting periods.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.BalanceType">
+<span class="sig-name descname"><span class="pre">BalanceType</span></span><a class="headerlink" href="#models.balance.Balance.BalanceType" title="Link to this definition"></a></dt>
+<dd><p>The double entry types of Balances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>StrEnum</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.BalanceTransactions">
+<span class="sig-name descname"><span class="pre">BalanceTransactions</span></span><a class="headerlink" href="#models.balance.Balance.BalanceTransactions" title="Link to this definition"></a></dt>
+<dd><p>A list of Transaction Types that can have Balances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>StrEnum</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.balance.Balance.id" title="Link to this definition"></a></dt>
+<dd><p>The primary key of the Account database record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.transaction_date">
+<span class="sig-name descname"><span class="pre">transaction_date</span></span><a class="headerlink" href="#models.balance.Balance.transaction_date" title="Link to this definition"></a></dt>
+<dd><p>The date of the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.reference">
+<span class="sig-name descname"><span class="pre">reference</span></span><a class="headerlink" href="#models.balance.Balance.reference" title="Link to this definition"></a></dt>
+<dd><p>Identifying information about the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.transaction_no">
+<span class="sig-name descname"><span class="pre">transaction_no</span></span><a class="headerlink" href="#models.balance.Balance.transaction_no" title="Link to this definition"></a></dt>
+<dd><p>The Transaction number of the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.transaction_type">
+<span class="sig-name descname"><span class="pre">transaction_type</span></span><a class="headerlink" href="#models.balance.Balance.transaction_type" title="Link to this definition"></a></dt>
+<dd><p>The Transaction type of the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TransactionType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#models.balance.Balance.amount" title="Link to this definition"></a></dt>
+<dd><p>The amount outstanding on the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decimal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.balance_type">
+<span class="sig-name descname"><span class="pre">balance_type</span></span><a class="headerlink" href="#models.balance.Balance.balance_type" title="Link to this definition"></a></dt>
+<dd><p>The side of the double entry to post the Balance amount.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>BalanceType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.currency_id">
+<span class="sig-name descname"><span class="pre">currency_id</span></span><a class="headerlink" href="#models.balance.Balance.currency_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Currency model associated with the Balance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.account_id">
+<span class="sig-name descname"><span class="pre">account_id</span></span><a class="headerlink" href="#models.balance.Balance.account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account model to which the Balance belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.reporting_period_id">
+<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><a class="headerlink" href="#models.balance.Balance.reporting_period_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Reporting Period model to which the
+Balance belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="models.balance.Balance.is_posted">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_posted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#models.balance.Balance.is_posted" title="Link to this definition"></a></dt>
+<dd><p>is_posted analog for the assignment model.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="models.balance.Balance.credited">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">credited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#models.balance.Balance.credited" title="Link to this definition"></a></dt>
+<dd><p>credited analog for the assignment model.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="models.balance.Balance.compound">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#models.balance.Balance.compound" title="Link to this definition"></a></dt>
+<dd><p>compound analog for the assignment model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">BalanceType</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">BalanceTransactions</span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.__mapper_args__">
+<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.balance.Balance.__mapper_args__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">transaction_no</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">transaction_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">balance_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.currency">
+<span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Currency</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.currency" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.account">
+<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.account" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.balance.Balance.reporting_period">
+<span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.reporting_period" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.balance.Balance.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.balance.Balance.__repr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.balance.Balance.opening_trial_balance">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opening_trial_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#models.balance.Balance.opening_trial_balance" title="Link to this definition"></a></dt>
+<dd><p>Gets the total opening balances for the Entity’s accounts for the given year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Account belongs.</p></li>
+<li><p><strong>year</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The calendar year to retrieve the opening
+trial balance for. Defaults to the Balance’s Entity current Reporting
+Period’s calendar year.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>With a A summary of the debit and credit balances of the Accounts</dt><dd><p>together with a list of the Accounts themselves.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.balance.Balance.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.balance.Balance.validate" title="Link to this definition"></a></dt>
+<dd><p>Validates the Balance properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Balance belongs.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeAmountError" title="exceptions.NegativeAmountError"><strong>NegativeAmountError</strong></a> – If the Balance amount is less than 0.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceAccountError" title="exceptions.InvalidBalanceAccountError"><strong>InvalidBalanceAccountError</strong></a> – If the Balance main Accounr is an Income
+Statement Account.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceTransactionError" title="exceptions.InvalidBalanceTransactionError"><strong>InvalidBalanceTransactionError</strong></a> – If the Balance Transaction type is
+not one of the Balance Transaction types.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceDateError" title="exceptions.InvalidBalanceDateError"><strong>InvalidBalanceDateError</strong></a> – If the Balance Transaction date is within
+the current reporting period and the Entity does not allow mid
+year balances.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../assignment/index.html" class="btn btn-neutral float-left" title="models.assignment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../base/index.html" class="btn btn-neutral float-right" title="models.base" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Edward Mungai.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

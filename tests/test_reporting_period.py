@@ -1,8 +1,8 @@
 import pytest
 from datetime import datetime
 from sqlalchemy import select
-from python_accounting.models import ReportingPeriod, Entity
-from python_accounting.exceptions import (
+from src.models import ReportingPeriod, Entity
+from src.exceptions import (
     DuplicateReportingPeriodError,
     MissingReportingPeriodError,
 )

@@ -1,0 +1,40 @@
+:py:mod:`transactions.cash_sale`
+================================
+
+.. py:module:: transactions.cash_sale
+
+.. autoapi-nested-parse::
+
+   Represents a Cash Sale Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.cash_sale.CashSale
+
+
+
+
+.. py:class:: CashSale(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Cash Sale Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

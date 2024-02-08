@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
-from python_accounting.models import (
+from src.models import (
     Account,
     Category,
     Entity,
@@ -10,8 +10,8 @@ from python_accounting.models import (
     Transaction,
     LineItem,
 )
-from python_accounting.transactions import ClientInvoice
-from python_accounting.exceptions import InvalidAccountTypeError
+from src.transactions import ClientInvoice
+from src.exceptions import InvalidAccountTypeError
 
 
 def test_category_entity(session, entity):

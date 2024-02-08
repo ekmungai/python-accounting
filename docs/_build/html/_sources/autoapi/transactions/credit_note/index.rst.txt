@@ -1,0 +1,40 @@
+:py:mod:`transactions.credit_note`
+==================================
+
+.. py:module:: transactions.credit_note
+
+.. autoapi-nested-parse::
+
+   Represents a Credit Note Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.credit_note.CreditNote
+
+
+
+
+.. py:class:: CreditNote(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Credit Note Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

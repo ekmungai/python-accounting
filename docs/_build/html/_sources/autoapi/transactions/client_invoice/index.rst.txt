@@ -1,0 +1,40 @@
+:py:mod:`transactions.client_invoice`
+=====================================
+
+.. py:module:: transactions.client_invoice
+
+.. autoapi-nested-parse::
+
+   Represents a Client Invoice Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.client_invoice.ClientInvoice
+
+
+
+
+.. py:class:: ClientInvoice(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Client Invoice Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

@@ -1,0 +1,72 @@
+:py:mod:`models.currency`
+=========================
+
+.. py:module:: models.currency
+
+.. autoapi-nested-parse::
+
+   Represents a Currency as used in Transactions.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.currency.Currency
+
+
+
+
+.. py:class:: Currency
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+
+   Represents a Currency in terms of a label and an ISO Currency Code.
+
+   .. attribute:: id
+
+      The primary key of the Category database record.
+
+      :type: int
+
+   .. attribute:: name
+
+      The label of the Currency.
+
+      :type: str
+
+   .. attribute:: code
+
+      The ISO 4217 currency code symbol.
+
+      :type: str
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: name
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: code
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+

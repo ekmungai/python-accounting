@@ -1,0 +1,29 @@
+:py:mod:`utils.dates`
+=====================
+
+.. py:module:: utils.dates
+
+.. autoapi-nested-parse::
+
+   Provides accounting specific date utilities.
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   utils.dates.get_dates
+
+
+
+.. py:function:: get_dates(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None) -> tuple
+
+   Returns the start, end and period start dates given the inputs provided.
+
+

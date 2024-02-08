@@ -1,0 +1,286 @@
+:py:mod:`models.account`
+========================
+
+.. py:module:: models.account
+
+.. autoapi-nested-parse::
+
+   Represents an Account, the basic unit of accounting that groups the transactions of an Entity.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.account.Account
+
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   models.account.account_type_enum
+
+
+.. py:data:: account_type_enum
+
+   
+
+.. py:class:: Account
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.recyclable.Recyclable`
+
+   Represents an account which groups related Transactions.
+
+   .. attribute:: AccountType
+
+      Account Types as defined by IFRS and GAAP.
+
+      :type: StrEnum
+
+   .. attribute:: purchasables
+
+      A list of Account
+      Types that can be used in purchasing Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: id
+
+      The primary key of the Account database record.
+
+      :type: int
+
+   .. attribute:: name
+
+      The label of the Account.
+
+      :type: str
+
+   .. attribute:: decsription
+
+      A narration of the purpose of the Account.
+
+      :type: :obj:`str`, optional
+
+   .. attribute:: account_type
+
+      The type of the Account.
+
+      :type: AccountType
+
+   .. attribute:: currency_id
+
+      The id of the Currency model associated with the Account.
+
+      :type: int
+
+   .. attribute:: category_id
+
+      The id of the Category model to which
+      the Account belongs.
+
+      :type: :obj:`int`, optional
+
+   .. py:attribute:: AccountType
+
+      
+
+   .. py:attribute:: purchasables
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: name
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: description
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: account_code
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: account_type
+      :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
+
+      
+
+   .. py:attribute:: currency_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: category_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: currency
+      :type: sqlalchemy.orm.Mapped[Currency]
+
+      
+
+   .. py:attribute:: category
+      :type: sqlalchemy.orm.Mapped[Category]
+
+      
+
+   .. py:method:: _get_account_code(session) -> int
+
+      Get the auto generated account code for the instance
+
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: balance_movement(session, start_date: datetime.datetime, end_date: datetime.datetime) -> decimal.Decimal
+
+      Get the change in the account balance between the given dates.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param start_date: The earliest transaction date for Transaction amounts to be
+                         included in the balance.
+      :type start_date: datetime
+      :param end_date: The latest transaction date for Transaction amounts to be included
+                       in the balance.
+      :type end_date: datetime
+
+      :returns:
+
+                The difference between the balance of the Account at the start date and
+                    end date.
+      :rtype: Decimal
+
+
+   .. py:method:: section_balances(session, account_types: list, start_date: datetime.datetime = None, end_date: datetime.datetime = None, full_balance: bool = True) -> dict
+      :staticmethod:
+
+      Gets the opening, movement and closing balances of the accounts of the given section
+      (account types), organized by category.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param account_types: The Account types
+                            belonging to the section.
+      :type account_types: :obj:`list` of :obj:`Account.AccountType`
+      :param start_date: The earliest transaction date for Transaction amounts to be
+                         included in the balance.
+      :type start_date: datetime
+      :param end_date: The latest transaction date for Transaction amounts to be included
+                       in the balance.
+      :type end_date: datetime
+      :param full_balance: Whether to include opening balance amounts in the balance.
+      :type full_balance: bool
+
+      :returns:
+
+                A summary of the total opening, balance movement and closing balance, which
+                    details of totals by Category and the Accounts contained in each Category.
+      :rtype: dict
+
+
+   .. py:method:: opening_balance(session, year: int = None) -> decimal.Decimal
+
+      Gets the the opening balance for the account for the given year.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param year: The calendar year for which to retrieve the opening balance.
+      :type year: int
+
+      :returns: The total opening balance of the Account for the year.
+      :rtype: Decimal
+
+
+   .. py:method:: closing_balance(session, end_date: datetime.datetime = None) -> decimal.Decimal
+
+      Gets the the closing balance of the Account as at the given date.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param end_date: The latest transaction date for Transaction
+                       amounts to be included in the balance.
+      :type end_date: datetime
+
+      :returns: The total opening balance of the Account for the year.
+      :rtype: Decimal
+
+
+   .. py:method:: statement(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None, schedule: bool = False) -> dict
+
+      Gets a chronological listing of the Transactions posted to the Account between
+          the dates given.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param start_date: The earliest transaction date for Transaction amounts
+                         to be included in the statement.
+      :type start_date: datetime
+      :param end_date: The latest transaction date for Transaction amounts to
+                       be included in the statement.
+      :type end_date: datetime
+      :param schedule: Whether to exclude assignable Transactions and only list
+                       clearable Transactions with outstanding amounts.
+      :type schedule: bool
+
+      :raises InvalidAccountTypeError: If the Account type is not Receivable or Payable.
+
+      :returns:
+
+                With a A summary of the opening and closing balance in the case of
+                    a statement, the total, cleared and uncleared amounts if its a schedule
+                    together with a list of Transactions.
+      :rtype: dict
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Account properties.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+
+      :raises InvalidCategoryAccountTypeError: If the account type of the Account
+          does not match that of its assigned Category.
+
+      :returns: None
+
+
+   .. py:method:: validate_delete(session) -> None
+
+      Validates if the account can be deleted.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+
+      :raises HangingTransactionsError: If the Account has had Transactions during the
+          current Reporting period.
+
+      :returns: None
+
+
+

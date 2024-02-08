@@ -1,0 +1,245 @@
+:py:mod:`models.ledger`
+=======================
+
+.. py:module:: models.ledger
+
+.. autoapi-nested-parse::
+
+   Represents an entry in the Ledger.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   models.ledger.Ledger
+
+
+
+
+.. py:class:: Ledger
+
+
+   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+
+   Represents an entry in the Ledger. This class should never have to be invoked directly
+
+   .. attribute:: id
+
+      The primary key of the ledger database record.
+
+      :type: int
+
+   .. attribute:: transaction_date
+
+      The date of the Transaction associated with
+      the Ledger.
+
+      :type: datetime
+
+   .. attribute:: entry_type
+
+      The side of the double entry to which the Ledger
+
+      :type: BalanceType
+
+   .. attribute:: is posted.
+
+      
+
+   .. attribute:: amount
+
+      The amount posted to the Ledger by the entry.
+
+      :type: Decimal
+
+   .. attribute:: hash
+
+      The encoded contents of the Ledger entry.
+
+      :type: str
+
+   .. attribute:: transaction_id
+
+      The id of the Transaction associated with
+      the Ledger.
+
+      :type: int
+
+   .. attribute:: currency_id
+
+      The id of the Currency associated with the Ledger.
+
+      :type: int
+
+   .. attribute:: post_account_id
+
+      The id of the Account to which the Ledger is posted.
+
+      :type: int
+
+   .. attribute:: folio_account_id
+
+      The id of the Account to which the opposite side
+      of Ledger is posted.
+
+      :type: int
+
+   .. attribute:: line_item_id
+
+      The id of the Line Item associated with
+      the Ledger.
+
+      :type: :obj:`int`, optional
+
+   .. attribute:: tax_id
+
+      The id of the Tax associated with the Ledger.
+
+      :type: :obj:`int`, optional
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+   .. py:attribute:: id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: transaction_date
+      :type: sqlalchemy.orm.Mapped[datetime.datetime]
+
+      
+
+   .. py:attribute:: entry_type
+      :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
+
+      
+
+   .. py:attribute:: amount
+      :type: sqlalchemy.orm.Mapped[decimal.Decimal]
+
+      
+
+   .. py:attribute:: hash
+      :type: sqlalchemy.orm.Mapped[str]
+
+      
+
+   .. py:attribute:: transaction_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: currency_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: post_account_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: folio_account_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: line_item_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: tax_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:attribute:: transaction
+      :type: sqlalchemy.orm.Mapped[src.models.Transaction]
+
+      
+
+   .. py:attribute:: currency
+      :type: sqlalchemy.orm.Mapped[Currency]
+
+      
+
+   .. py:attribute:: post_account
+      :type: sqlalchemy.orm.Mapped[Account]
+
+      
+
+   .. py:attribute:: folio_account
+      :type: sqlalchemy.orm.Mapped[Account]
+
+      
+
+   .. py:attribute:: line_item
+      :type: sqlalchemy.orm.Mapped[LineItem]
+
+      
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:method:: _allocate_amount(session, post, amount, posts, folios, transaction, entry_type) -> None
+      :staticmethod:
+
+
+   .. py:method:: _make_compound_ledgers(session, posts: list, folios: list, transaction: src.models.Transaction, entry_type: src.models.Balance.BalanceType) -> None
+      :staticmethod:
+
+
+   .. py:method:: _post_compound(session, transaction: src.models.Transaction) -> None
+      :staticmethod:
+
+
+   .. py:method:: _transaction_ledgers(transaction: src.models.Transaction) -> tuple
+      :staticmethod:
+
+
+   .. py:method:: _post_simple(session, transaction: src.models.Transaction) -> None
+      :staticmethod:
+
+
+   .. py:method:: post(session, transaction: src.models.Transaction) -> None
+      :staticmethod:
+
+      Posts the Transaction to the ledger.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+      :param transaction: The Transaction to be posted.
+      :type transaction: Transaction
+
+
+   .. py:method:: get_hash(session) -> str
+
+      Calculate the hash of the Ledger.
+
+      :param session: The accounting session to which the Account belongs.
+      :type session: Session
+
+      :returns: The hash of the Ledger entry's contents.
+      :rtype: str
+
+
+   .. py:method:: validate(session) -> None
+
+      Validates the Ledger properties.
+
+      :param session: The accounting session to which the Ledger belongs.
+      :type session: Session
+
+      :returns: None
+
+
+

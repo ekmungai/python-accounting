@@ -1,0 +1,240 @@
+:py:mod:`mixins`
+================
+
+.. py:module:: mixins
+
+.. autoapi-nested-parse::
+
+   Provides accounting functionality mixins.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   assigning/index.rst
+   buying/index.rst
+   clearing/index.rst
+   isolating/index.rst
+   selling/index.rst
+   trading/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   mixins.IsolatingMixin
+   mixins.SellingMixin
+   mixins.BuyingMixin
+   mixins.ClearingMixin
+   mixins.AssigningMixin
+
+
+
+
+.. py:class:: IsolatingMixin
+
+
+   This class enables isolating by Entity for accounting objects.
+
+   .. attribute:: entity_id
+
+      The id of the Entity to which the model belongs.
+
+      :type: int
+
+   .. py:attribute:: entity_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:method:: entity() -> sqlalchemy.orm.Mapped[Entity]
+
+      Returns the Entity of the instance.
+
+
+
+.. py:class:: SellingMixin(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`
+
+   This class provides validation for Transaction that sell goods and services for an Entity.
+
+   .. attribute:: line_item_types
+
+      A list of Account
+      Types that are allowed as Line Item accounts for selling Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: main_account_types
+
+      A list of Account
+      Types that are allowed as main accounts for selling Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: account_type_map (:obj:`dict` of str
+
+      :obj:`Account.AccountType`): A mapping of
+      Transactions to the Account Types that apply to their validation.
+
+   .. py:attribute:: line_item_types
+      :type: list
+
+      
+
+   .. py:attribute:: main_account_types
+      :type: list
+
+      
+
+   .. py:attribute:: account_type_map
+      :type: dict
+
+      
+
+
+.. py:class:: BuyingMixin(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`
+
+   This class provides validation for Transaction that buy goods and services for an Entity.
+
+   .. attribute:: line_item_types
+
+      A list of Account
+      Types that are allowed as Line Item accounts for buying Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: main_account_types
+
+      A list of Account
+      Types that are allowed as main accounts for buying Transactions.
+
+      :type: :obj:`list` of :obj:`Account.AccountType`
+
+   .. attribute:: account_type_map (:obj:`dict` of str
+
+      :obj:`Account.AccountType`): A mapping of
+      Transactions to the Account Types that apply to their validation.
+
+   .. py:attribute:: line_item_types
+      :type: list
+
+      
+
+   .. py:attribute:: main_account_types
+      :type: list
+
+      
+
+   .. py:attribute:: account_type_map
+      :type: dict
+
+      
+
+
+.. py:class:: ClearingMixin
+
+
+   This class provides clearable Transactions functionality for assigning them to
+   assignable Transactions.
+
+   .. py:method:: cleared(session) -> decimal.Decimal
+
+      Gets how much of the Transaction amount has been cleared by assignable Transactions.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: The total amount of assignments made against Transaction.
+      :rtype: Decimal
+
+
+   .. py:method:: clearances(session) -> list
+
+      Gets the assignments made to clear the Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: A List of assignments made to clear the Transaction.
+
+
+   .. py:method:: unclear(session) -> None
+
+      Removes all assignments made to clear this Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+
+.. py:class:: AssigningMixin
+
+
+   This class provides assignable Transactions functionality for
+   clearing clearable Transactions.
+
+
+   .. py:method:: balance(session) -> decimal.Decimal
+
+      Gets how much of the Transaction amount is remaining available for assigning
+          to clearable Transactions.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns:
+
+                The difference between the Transaction amount and the total amount
+                    of assignments made to it.
+      :rtype: Decimal
+
+
+   .. py:method:: assignments(session) -> list
+
+      Gets the assignments made on the Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: A List of assignments made for the Transaction.
+
+
+   .. py:method:: unassign(session) -> None
+
+      Removes all assignments made to this Transaction.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+   .. py:method:: bulk_assign(session) -> None
+
+      Assigns the Transaction's amount to all outstanding clearable Transactions for the
+          main account on a FIFO basis.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: None
+
+
+

@@ -1,0 +1,40 @@
+:py:mod:`transactions.supplier_payment`
+=======================================
+
+.. py:module:: transactions.supplier_payment
+
+.. autoapi-nested-parse::
+
+   Represents a Supplier Payment Transaction.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   transactions.supplier_payment.SupplierPayment
+
+
+
+
+.. py:class:: SupplierPayment(**kw: Any)
+
+
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+
+   Class for the Supplier Payment Transaction.
+
+   .. py:attribute:: __tablename__
+
+      
+
+   .. py:attribute:: __mapper_args__
+
+      
+
+

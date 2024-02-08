@@ -1,0 +1,87 @@
+:py:mod:`database.session_overrides`
+====================================
+
+.. py:module:: database.session_overrides
+
+.. autoapi-nested-parse::
+
+   Provides accounting specific overrides for some sqlalchemy session methods.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   database.session_overrides.SessionOverridesMixin
+
+
+
+
+.. py:class:: SessionOverridesMixin
+
+
+   This class overrides some of sqlalchemy session's in built methods to
+   provide accounting specific behavior. It also provides custom methods
+   specific to accounting.
+
+   .. py:method:: get(model, primary_key, **kwargs) -> sqlalchemy.orm.Mapped[Base] | None
+
+      Overrides sqlalchemy the get method to use select thereby ensuring global filters
+      are applied.
+
+      :param model: The model class.
+      :type model: DeclarativeBase
+      :param primary_key: The primary key of the instance being fetched.
+      :type primary_key: int
+
+      :returns: Mapped["Base"] if found, else None.
+
+
+   .. py:method:: delete(instance) -> bool
+
+      Overrides the sqlalchemy delete method to enable model recycling.
+
+      :param instance: The model instance.
+      :type instance: DeclarativeBase
+
+      :returns: True if successful, else False.
+
+      :raises SessionEntityError: If the instance being deleted is the session Entity.
+
+
+   .. py:method:: restore(instance) -> bool
+
+      Restore a deleted/recycled model instance.
+
+      :param instance: The model instance.
+      :type instance: DeclarativeBase
+
+      :returns: True if successful, else False.
+
+
+   .. py:method:: destroy(instance) -> bool
+
+      Mark a model instance as destroyed, i.e. permanently delete.
+
+      :param instance: The model instance.
+      :type instance: DeclarativeBase
+
+      :returns: True.
+
+
+   .. py:method:: erase(instance) -> bool
+
+      Completely remove an instance from the database.
+
+      :param instance: The model instance.
+      :type instance: DeclarativeBase
+
+      :returns: True.
+
+
+
