@@ -100,7 +100,8 @@
              
   <section id="module-database.session_overrides">
 <span id="database-session-overrides"></span><h1><a class="reference internal" href="#module-database.session_overrides" title="database.session_overrides"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database.session_overrides</span></code></a><a class="headerlink" href="#module-database.session_overrides" title="Link to this heading"></a></h1>
-<p>Provides accounting specific overrides for some sqlalchemy session methods.</p>
+<p>This mixin overrides some of sqlalchemy session’s in built methods to provide
+accounting specific behavior. It also provides custom methods specific to accounting.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <section id="classes">
@@ -108,16 +109,14 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#database.session_overrides.SessionOverridesMixin" title="database.session_overrides.SessionOverridesMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SessionOverridesMixin</span></code></a></p></td>
-<td><p>This class overrides some of sqlalchemy session's in built methods to</p></td>
+<td><p>Session overrides class.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="database.session_overrides.SessionOverridesMixin">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.session_overrides.</span></span><span class="sig-name descname"><span class="pre">SessionOverridesMixin</span></span><a class="headerlink" href="#database.session_overrides.SessionOverridesMixin" title="Link to this definition"></a></dt>
-<dd><p>This class overrides some of sqlalchemy session’s in built methods to
-provide accounting specific behavior. It also provides custom methods
-specific to accounting.</p>
+<dd><p>Session overrides class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="database.session_overrides.SessionOverridesMixin.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../models/base/index.html#models.base.Base" title="models.base.Base"><span class="pre">Base</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#database.session_overrides.SessionOverridesMixin.get" title="Link to this definition"></a></dt>
@@ -126,12 +125,12 @@ are applied.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>DeclarativeBase</em>) – The model class.</p></li>
-<li><p><strong>primary_key</strong> (<em>int</em>) – The primary key of the instance being fetched.</p></li>
+<li><p><strong>model</strong> (<cite>DeclarativeBase</cite>) – The model class.</p></li>
+<li><p><strong>primary_key</strong> (<cite>int</cite>) – The primary key of the instance being fetched.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Mapped[“Base”] if found, else None.</p>
+<dd class="field-even"><p>The model instance if found, else None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -142,7 +141,7 @@ are applied.</p>
 <dd><p>Overrides the sqlalchemy delete method to enable model recycling.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>instance</strong> (<em>DeclarativeBase</em>) – The model instance.</p>
+<dd class="field-odd"><p><strong>instance</strong> (<cite>DeclarativeBase</cite>) – The model instance.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if successful, else False.</p>
@@ -159,7 +158,7 @@ are applied.</p>
 <dd><p>Restore a deleted/recycled model instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>instance</strong> (<em>DeclarativeBase</em>) – The model instance.</p>
+<dd class="field-odd"><p><strong>instance</strong> (<cite>DeclarativeBase</cite>) – The model instance.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if successful, else False.</p>
@@ -173,7 +172,7 @@ are applied.</p>
 <dd><p>Mark a model instance as destroyed, i.e. permanently delete.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>instance</strong> (<em>DeclarativeBase</em>) – The model instance.</p>
+<dd class="field-odd"><p><strong>instance</strong> (<cite>DeclarativeBase</cite>) – The model instance.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True.</p>
@@ -187,7 +186,7 @@ are applied.</p>
 <dd><p>Completely remove an instance from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>instance</strong> (<em>DeclarativeBase</em>) – The model instance.</p>
+<dd class="field-odd"><p><strong>instance</strong> (<cite>DeclarativeBase</cite>) – The model instance.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True.</p>

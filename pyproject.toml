@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "The world's most comprehensive python Double Entry Accounting Library"
 authors = ["Edward Mungai <emungai@pinecrest.co.ke>"]
 readme = "README.md"
+packages = [{include = "*", from="src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"

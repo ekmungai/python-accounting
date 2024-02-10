@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Accounting Specific extentions of the SqlAlchemy Session class.
+   This mixin providses accounting specific functionality to the standard sqlachemy session.
 
 
 
@@ -25,7 +25,7 @@ Classes
 .. py:class:: AccountingFunctionsMixin
 
 
-   This class provids accounting specific functionality to the standard sqlachemy session.
+   Accounting functions class.
 
 
    .. py:method:: _year_period(year: int) -> sqlalchemy.orm.Mapped[src.models.ReportingPeriod] | None

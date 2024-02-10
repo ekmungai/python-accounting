@@ -5,7 +5,8 @@
 
 .. autoapi-nested-parse::
 
-   Provides accounting specific overrides for some sqlalchemy session methods.
+   This mixin overrides some of sqlalchemy session's in built methods to provide
+   accounting specific behavior. It also provides custom methods specific to accounting.
 
 
 
@@ -25,9 +26,7 @@ Classes
 .. py:class:: SessionOverridesMixin
 
 
-   This class overrides some of sqlalchemy session's in built methods to
-   provide accounting specific behavior. It also provides custom methods
-   specific to accounting.
+   Session overrides class.
 
    .. py:method:: get(model, primary_key, **kwargs) -> sqlalchemy.orm.Mapped[Base] | None
 
@@ -35,11 +34,11 @@ Classes
       are applied.
 
       :param model: The model class.
-      :type model: DeclarativeBase
+      :type model: `DeclarativeBase`
       :param primary_key: The primary key of the instance being fetched.
-      :type primary_key: int
+      :type primary_key: `int`
 
-      :returns: Mapped["Base"] if found, else None.
+      :returns: The model instance if found, else None.
 
 
    .. py:method:: delete(instance) -> bool
@@ -47,7 +46,7 @@ Classes
       Overrides the sqlalchemy delete method to enable model recycling.
 
       :param instance: The model instance.
-      :type instance: DeclarativeBase
+      :type instance: `DeclarativeBase`
 
       :returns: True if successful, else False.
 
@@ -59,7 +58,7 @@ Classes
       Restore a deleted/recycled model instance.
 
       :param instance: The model instance.
-      :type instance: DeclarativeBase
+      :type instance: `DeclarativeBase`
 
       :returns: True if successful, else False.
 
@@ -69,7 +68,7 @@ Classes
       Mark a model instance as destroyed, i.e. permanently delete.
 
       :param instance: The model instance.
-      :type instance: DeclarativeBase
+      :type instance: `DeclarativeBase`
 
       :returns: True.
 
@@ -79,7 +78,7 @@ Classes
       Completely remove an instance from the database.
 
       :param instance: The model instance.
-      :type instance: DeclarativeBase
+      :type instance: `DeclarativeBase`
 
       :returns: True.
 

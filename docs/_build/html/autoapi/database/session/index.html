@@ -108,7 +108,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#database.session.AccountingSession" title="database.session.AccountingSession"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingSession</span></code></a></p></td>
-<td><p>This class extends the standard SqlAlchemy session by providing custom methods</p></td>
+<td><p>Custom methods specific to accounting.</p></td>
 </tr>
 </tbody>
 </table>
@@ -126,8 +126,7 @@
 <dt class="sig sig-object py" id="database.session.AccountingSession">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.session.</span></span><span class="sig-name descname"><span class="pre">AccountingSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.session.AccountingSession" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.database.session_overrides.SessionOverridesMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.database.event_listeners.EventListenersMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.database.accounting_functions.AccountingFunctionsMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">sqlalchemy.orm.session.Session</span></code></p>
-<p>This class extends the standard SqlAlchemy session by providing custom methods
-specific to accounting.</p>
+<p>Custom methods specific to accounting.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="database.session.AccountingSession.entity">
 <span class="sig-name descname"><span class="pre">entity</span></span><a class="headerlink" href="#database.session.AccountingSession.entity" title="Link to this definition"></a></dt>

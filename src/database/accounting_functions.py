@@ -6,7 +6,7 @@
 # the MIT License: https://www.opensource.org/licenses/mit-license.php
 
 """
-Accounting Specific extentions of the SqlAlchemy Session class.
+This mixin providses accounting specific functionality to the standard sqlachemy session.
 """
 
 from datetime import datetime
@@ -16,7 +16,7 @@ from src.models import ReportingPeriod
 
 class AccountingFunctionsMixin:
     """
-    This class provids accounting specific functionality to the standard sqlachemy session.
+    Accounting functions class.
 
     """
 

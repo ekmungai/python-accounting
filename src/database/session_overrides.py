@@ -6,7 +6,8 @@
 # the MIT License: https://www.opensource.org/licenses/mit-license.php
 
 """
-Provides accounting specific overrides for some sqlalchemy session methods.
+This mixin overrides some of sqlalchemy session's in built methods to provide
+accounting specific behavior. It also provides custom methods specific to accounting.
 
 """
 
@@ -20,9 +21,7 @@ from src.exceptions import SessionEntityError
 
 class SessionOverridesMixin:
     """
-    This class overrides some of sqlalchemy session's in built methods to
-    provide accounting specific behavior. It also provides custom methods
-    specific to accounting.
+    Session overrides class.
     """
 
     def get(self, model, primary_key, **kwargs) -> Mapped["Base"] | None:
@@ -31,11 +30,11 @@ class SessionOverridesMixin:
         are applied.
 
         Args:
-            model (DeclarativeBase): The model class.
-            primary_key (int): The primary key of the instance being fetched.
+            model (`DeclarativeBase`): The model class.
+            primary_key (`int`): The primary key of the instance being fetched.
 
         Returns:
-            Mapped["Base"] if found, else None.
+            The model instance if found, else None.
 
         """
         return self.scalar(
@@ -46,7 +45,7 @@ class SessionOverridesMixin:
         """Overrides the sqlalchemy delete method to enable model recycling.
 
         Args:
-            instance (DeclarativeBase): The model instance.
+            instance (`DeclarativeBase`): The model instance.
 
         Returns:
             True if successful, else False.
@@ -78,7 +77,7 @@ class SessionOverridesMixin:
         """Restore a deleted/recycled model instance.
 
         Args:
-            instance (DeclarativeBase): The model instance.
+            instance (`DeclarativeBase`): The model instance.
 
         Returns:
             True if successful, else False.
@@ -98,7 +97,7 @@ class SessionOverridesMixin:
         """Mark a model instance as destroyed, i.e. permanently delete.
 
         Args:
-            instance (DeclarativeBase): The model instance.
+            instance (`DeclarativeBase`): The model instance.
 
         Returns:
             True.
@@ -114,7 +113,7 @@ class SessionOverridesMixin:
         """Completely remove an instance from the database.
 
         Args:
-            instance (DeclarativeBase): The model instance.
+            instance (`DeclarativeBase`): The model instance.
 
         Returns:
             True.

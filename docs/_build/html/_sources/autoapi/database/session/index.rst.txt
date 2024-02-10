@@ -35,8 +35,7 @@ Functions
 
    Bases: :py:obj:`src.database.session_overrides.SessionOverridesMixin`, :py:obj:`src.database.event_listeners.EventListenersMixin`, :py:obj:`src.database.accounting_functions.AccountingFunctionsMixin`, :py:obj:`sqlalchemy.orm.session.Session`
 
-   This class extends the standard SqlAlchemy session by providing custom methods
-   specific to accounting.
+   Custom methods specific to accounting.
 
    .. attribute:: entity
 

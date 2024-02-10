@@ -100,7 +100,8 @@
              
   <section id="module-database.event_listeners">
 <span id="database-event-listeners"></span><h1><a class="reference internal" href="#module-database.event_listeners" title="database.event_listeners"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database.event_listeners</span></code></a><a class="headerlink" href="#module-database.event_listeners" title="Link to this heading"></a></h1>
-<p>Provides accounting specific event listeners for the sqlalchemy session.</p>
+<p>This mixin provides logic for handling events in sqlalchemy’s orm lifecycle
+that are relevant to accounting.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <section id="classes">
@@ -108,7 +109,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#database.event_listeners.EventListenersMixin" title="database.event_listeners.EventListenersMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventListenersMixin</span></code></a></p></td>
-<td><p>This class provides logic for handling events in sqlalchemy's orm lifecycle.</p></td>
+<td><p>Event Listeners class.</p></td>
 </tr>
 </tbody>
 </table>
@@ -118,20 +119,19 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#database.event_listeners._filter_options" title="database.event_listeners._filter_options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_filter_options</span></code></a>(→ bool)</p></td>
-<td><p>Valiadate if filter should be applied.</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="database.event_listeners._filter_options">
 <span class="sig-prename descclassname"><span class="pre">database.event_listeners.</span></span><span class="sig-name descname"><span class="pre">_filter_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">execute_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#database.event_listeners._filter_options" title="Link to this definition"></a></dt>
-<dd><p>Valiadate if filter should be applied.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="database.event_listeners.EventListenersMixin">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.event_listeners.</span></span><span class="sig-name descname"><span class="pre">EventListenersMixin</span></span><a class="headerlink" href="#database.event_listeners.EventListenersMixin" title="Link to this definition"></a></dt>
-<dd><p>This class provides logic for handling events in sqlalchemy’s orm lifecycle.</p>
+<dd><p>Event Listeners class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="database.event_listeners.EventListenersMixin._add_filtering_criteria">
 <span class="sig-name descname"><span class="pre">_add_filtering_criteria</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#database.event_listeners.EventListenersMixin._add_filtering_criteria" title="Link to this definition"></a></dt>
@@ -148,10 +148,9 @@
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="database.event_listeners.EventListenersMixin.receive_after_insert">
-<span class="sig-name descname"><span class="pre">receive_after_insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.event_listeners.EventListenersMixin.receive_after_insert" title="Link to this definition"></a></dt>
-<dd><p>Set the Ledger hash</p>
-</dd></dl>
+<dt class="sig sig-object py" id="database.event_listeners.EventListenersMixin._set_ledger_hash">
+<span class="sig-name descname"><span class="pre">_set_ledger_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.event_listeners.EventListenersMixin._set_ledger_hash" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="database.event_listeners.EventListenersMixin._validate_model">

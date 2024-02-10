@@ -20,8 +20,8 @@ from src.database.event_listeners import EventListenersMixin
 class AccountingSession(
     SessionOverridesMixin, EventListenersMixin, AccountingFunctionsMixin, Session
 ):
-    """This class extends the standard SqlAlchemy session by providing custom methods
-    specific to accounting.
+    """
+    Custom methods specific to accounting.
 
     Attributes:
         entity (Entity): The Entity currently associated with the session. All database

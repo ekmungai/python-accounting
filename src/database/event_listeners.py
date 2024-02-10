@@ -6,7 +6,8 @@
 # the MIT License: https://www.opensource.org/licenses/mit-license.php
 
 """
-Provides accounting specific event listeners for the sqlalchemy session.
+This mixin provides logic for handling events in sqlalchemy's orm lifecycle
+that are relevant to accounting.
 
 """
 from datetime import datetime
@@ -20,7 +21,6 @@ from src.exceptions import MissingEntityError
 
 
 def _filter_options(execute_state, option) -> bool:
-    """Valiadate if filter should be applied."""
     return (
         not execute_state.is_column_load
         and not execute_state.is_relationship_load
@@ -30,7 +30,9 @@ def _filter_options(execute_state, option) -> bool:
 
 
 class EventListenersMixin:
-    """This class provides logic for handling events in sqlalchemy's orm lifecycle."""
+    """
+    Event Listeners class.
+    """
 
     @event.listens_for(Session, "do_orm_execute")
     def _add_filtering_criteria(  # pylint: disable=no-self-argument
@@ -107,10 +109,9 @@ class EventListenersMixin:
             )
 
     @event.listens_for(Ledger, "after_insert")
-    def receive_after_insert(  # pylint: disable=no-self-argument
+    def _set_ledger_hash(  # pylint: disable=no-self-argument
         mapper, connection, target
     ):
-        """Set the Ledger hash"""
         connection.execute(
             update(Ledger)
             .where(Ledger.id == target.id)
