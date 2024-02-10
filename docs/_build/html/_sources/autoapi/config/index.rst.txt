@@ -5,7 +5,11 @@
 
 .. autoapi-nested-parse::
 
-   Represents the configuration for python accounting. Its properties are populated from the config.toml by default.
+   This module provides the configuration for python accounting. Its properties are populated from the
+   config.toml by default and should be adequate for most settings (except maybe the datatabse
+   configuration), but being a plain python object any of the attributes may be overriden by
+   assingment at any point. For more extensive custom configurations, you can initialize the
+   class with a custom config.tml file.
 
 
 
@@ -33,19 +37,18 @@ Attributes
 .. py:class:: Config(config_file='config.toml')
 
 
-   Python Accounting configuration class. The defaults settings are loaded from config.toml
-   and should be adequate for most settings (except maybe the datatabse configuration), but
-   being a plain python object any of the attributes may be overriden by assingment at any
-   point.
+   Python Accounting configuration class.
 
-   .. py:attribute:: testing
+   .. py:attribute:: database
       :type: dict
 
-      Database configuration for running unit tests
+      The database configuration.
       ::
           {
               url (str): The database connection string.
               echo (bool): Whether to output the SqlAlchemy generated queries to the console.
+              include_deleted (bool): Whether to include soft deleted records in query results.
+              echo (bool): Whether to include records from all entities in query results.
           }
 
    .. py:attribute:: accounts
@@ -56,30 +59,25 @@ Attributes
           {
               types (dict): The Account Types as defined by GAAP/IFRS:
               label (str): The human readable name of the Account Type.
-              account_code (int): The starting point for the genaration of Account Codes
-                  for Accounts of the type.
+              account_code (int): The starting point for the genaration of Account Codes for
+               Accounts of the type.
               purchasables (list): Account types that can be used in purchasing Transations.
           }
 
    .. py:attribute:: transactions
       :type: dict
 
-      
-
-
-
-      Transaction Types, Number Prefixes and clearable/assignable Configuration::
-          types (`dict`): The Transaction Types as defined by GAAP/IFRS
+      Transaction Types, Number Prefixes and clearable/assignable Configuration
+      ::
+          {
+              types (`dict`): The Transaction Types as defined by GAAP/IFRS
               label (`str`): The human readable name of the Transaction Type.
               transaction_no_prefix (`int`): The code to be inserted at the beginning
-              of the Transaction's type's sequentially generated transaction number.
-          clearables (`list`): Transaction types that can cleared by assignable Transactions.
-          assignables (`list`): Transaction types that can user to cleared (have assigned to them) clearable Transactions.
-
-   .. py:attribute:: database
-      :type: dict
-
-      
+               of the Transaction's type's sequentially generated transaction number.
+              clearables (`list`): Transaction types that can cleared by assignable Transactions.
+              assignables (`list`): Transaction types that can user to cleared (have assigned
+               to them) clearable Transactions.
+          }
 
    .. py:attribute:: hashing
       :type: dict
@@ -99,5 +97,5 @@ Attributes
 
 .. py:data:: config
 
-   
+   The default configuration
 

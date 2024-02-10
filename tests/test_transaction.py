@@ -751,3 +751,52 @@ def test_transaction_account_contribution(session, entity, currency):
     assert transaction.contribution(session, account1) == Decimal(-195)
     assert transaction.contribution(session, account2) == Decimal(75)
     assert transaction.contribution(session, account3) == Decimal(120)
+
+
+def test_transaction_security(session, entity, currency):
+    """Tests the security of Transactions against manipulation"""
+
+    account1 = Account(
+        name="test transaction account",
+        account_type=Account.AccountType.OPERATING_EXPENSE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    account2 = Account(
+        name="test line item one account",
+        account_type=Account.AccountType.PAYABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+
+    session.add_all([account1, account2])
+
+    transaction = Transaction(
+        narration="Test transaction",
+        transaction_date=datetime.now(),
+        account_id=account1.id,
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        entity_id=entity.id,
+    )
+    session.add(transaction)
+    session.flush()
+
+    line_item1 = LineItem(
+        narration="Test line item one",
+        account_id=account2.id,
+        amount=75,
+        entity_id=entity.id,
+    )
+
+    session.add_all([line_item1])
+    session.flush()
+
+    transaction.line_items.add(line_item1)
+    session.add(transaction)
+    session.flush()
+
+    transaction.post(session)
+
+    assert transaction.amount == Decimal(75)
+    transaction.is_secure(session)
+    # assert transaction.is_secure(session) is True

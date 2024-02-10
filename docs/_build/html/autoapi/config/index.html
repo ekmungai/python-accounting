@@ -95,7 +95,11 @@
              
   <section id="module-config">
 <span id="config"></span><h1><a class="reference internal" href="#module-config" title="config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a><a class="headerlink" href="#module-config" title="Link to this heading"></a></h1>
-<p>Represents the configuration for python accounting. Its properties are populated from the config.toml by default.</p>
+<p>This module provides the configuration for python accounting. Its properties are populated from the
+config.toml by default and should be adequate for most settings (except maybe the datatabse
+configuration), but being a plain python object any of the attributes may be overriden by
+assingment at any point. For more extensive custom configurations, you can initialize the
+class with a custom config.tml file.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <section id="classes">
@@ -103,7 +107,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#config.Config" title="config.Config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config</span></code></a></p></td>
-<td><p>Python Accounting configuration class. The defaults settings are loaded from config.toml</p></td>
+<td><p>Python Accounting configuration class.</p></td>
 </tr>
 </tbody>
 </table>
@@ -113,24 +117,23 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#config.config" title="config.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
-<td><p></p></td>
+<td><p>The default configuration</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="config.Config">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config.toml'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.Config" title="Link to this definition"></a></dt>
-<dd><p>Python Accounting configuration class. The defaults settings are loaded from config.toml
-and should be adequate for most settings (except maybe the datatabse configuration), but
-being a plain python object any of the attributes may be overriden by assingment at any
-point.</p>
+<dd><p>Python Accounting configuration class.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="config.Config.testing">
-<span class="sig-name descname"><span class="pre">testing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.testing" title="Link to this definition"></a></dt>
-<dd><p>Database configuration for running unit tests</p>
+<dt class="sig sig-object py" id="config.Config.database">
+<span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.database" title="Link to this definition"></a></dt>
+<dd><p>The database configuration.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="n">url</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">database</span> <span class="n">connection</span> <span class="n">string</span><span class="o">.</span>
     <span class="n">echo</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">SqlAlchemy</span> <span class="n">generated</span> <span class="n">queries</span> <span class="n">to</span> <span class="n">the</span> <span class="n">console</span><span class="o">.</span>
+    <span class="n">include_deleted</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">soft</span> <span class="n">deleted</span> <span class="n">records</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
+    <span class="n">echo</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">records</span> <span class="kn">from</span> <span class="nn">all</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -143,8 +146,8 @@ point.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="n">types</span> <span class="p">(</span><span class="nb">dict</span><span class="p">):</span> <span class="n">The</span> <span class="n">Account</span> <span class="n">Types</span> <span class="k">as</span> <span class="n">defined</span> <span class="n">by</span> <span class="n">GAAP</span><span class="o">/</span><span class="n">IFRS</span><span class="p">:</span>
     <span class="n">label</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">human</span> <span class="n">readable</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Account</span> <span class="n">Type</span><span class="o">.</span>
-    <span class="n">account_code</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">The</span> <span class="n">starting</span> <span class="n">point</span> <span class="k">for</span> <span class="n">the</span> <span class="n">genaration</span> <span class="n">of</span> <span class="n">Account</span> <span class="n">Codes</span>
-        <span class="k">for</span> <span class="n">Accounts</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">type</span><span class="o">.</span>
+    <span class="n">account_code</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">The</span> <span class="n">starting</span> <span class="n">point</span> <span class="k">for</span> <span class="n">the</span> <span class="n">genaration</span> <span class="n">of</span> <span class="n">Account</span> <span class="n">Codes</span> <span class="k">for</span>
+     <span class="n">Accounts</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">type</span><span class="o">.</span>
     <span class="n">purchasables</span> <span class="p">(</span><span class="nb">list</span><span class="p">):</span> <span class="n">Account</span> <span class="n">types</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">purchasing</span> <span class="n">Transations</span><span class="o">.</span>
 <span class="p">}</span>
 </pre></div>
@@ -154,23 +157,19 @@ point.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="config.Config.transactions">
 <span class="sig-name descname"><span class="pre">transactions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.transactions" title="Link to this definition"></a></dt>
-<dd><dl>
-<dt>Transaction Types, Number Prefixes and clearable/assignable Configuration::</dt><dd><dl class="simple">
-<dt>types (<cite>dict</cite>): The Transaction Types as defined by GAAP/IFRS</dt><dd><p>label (<cite>str</cite>): The human readable name of the Transaction Type.
-transaction_no_prefix (<cite>int</cite>): The code to be inserted at the beginning
-of the Transaction’s type’s sequentially generated transaction number.</p>
-</dd>
-</dl>
-<p>clearables (<cite>list</cite>): Transaction types that can cleared by assignable Transactions.
-assignables (<cite>list</cite>): Transaction types that can user to cleared (have assigned to them) clearable Transactions.</p>
-</dd>
-</dl>
+<dd><p>Transaction Types, Number Prefixes and clearable/assignable Configuration</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{
+    types (`dict`): The Transaction Types as defined by GAAP/IFRS
+    label (`str`): The human readable name of the Transaction Type.
+    transaction_no_prefix (`int`): The code to be inserted at the beginning
+     of the Transaction&#39;s type&#39;s sequentially generated transaction number.
+    clearables (`list`): Transaction types that can cleared by assignable Transactions.
+    assignables (`list`): Transaction types that can user to cleared (have assigned
+     to them) clearable Transactions.
+}
+</pre></div>
+</div>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="config.Config.database">
-<span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.database" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="config.Config.hashing">
@@ -192,7 +191,8 @@ assignables (<cite>list</cite>): Transaction types that can user to cleared (hav
 <dl class="py data">
 <dt class="sig sig-object py" id="config.config">
 <span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#config.config" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The default configuration</p>
+</dd></dl>
 
 </section>
 </section>

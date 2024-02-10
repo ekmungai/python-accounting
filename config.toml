@@ -1,12 +1,8 @@
 [database]
-url = ""
+url = "sqlite://"
 echo = false
 include_deleted = false
 ignore_isolation = false
-
-[testing.database]
-url = "sqlite://"
-echo = false
 
 [hashing]
 salt = "hashing salt"

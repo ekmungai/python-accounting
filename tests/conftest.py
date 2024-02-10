@@ -7,7 +7,7 @@ from src.config import config
 
 @pytest.fixture
 def engine():
-    database = config.testing["database"]
+    database = config.database
     engine = create_engine(database["url"], echo=database["echo"])
     Base.metadata.create_all(engine)
     return engine

@@ -174,9 +174,9 @@ class Ledger(IsolatingMixin, Recyclable):
             post, folio = Ledger._transaction_ledgers(transaction)
             post.transaction_id = folio.transaction_id = transaction.id
             post.currency_id = folio.currency_id = transaction.currency_id
-            post.transaction_date = (
-                folio.transaction_date
-            ) = transaction.transaction_date
+            post.transaction_date = folio.transaction_date = (
+                transaction.transaction_date
+            )
             post.line_item_id = folio.line_item_id = line_item.id
 
             if line_item.tax_id:
@@ -191,9 +191,9 @@ class Ledger(IsolatingMixin, Recyclable):
                     if line_item.tax_inclusive
                     else transaction.account_id
                 )
-                tax_post.folio_account_id = (
-                    tax_folio.post_account_id
-                ) = line_item.tax.account_id
+                tax_post.folio_account_id = tax_folio.post_account_id = (
+                    line_item.tax.account_id
+                )
 
                 session.add(tax_post)
                 session.flush()
@@ -239,31 +239,50 @@ class Ledger(IsolatingMixin, Recyclable):
             str: The hash of the Ledger entry's contents.
 
         """
+        last = session.get(Ledger, self.id - 1)
 
-        last = session.query(Ledger).order_by(Ledger.id.desc()).first()
-
-        return getattr(hashlib, config.hashing["algorithm"])(
-            ",".join(
-                list(
-                    map(
-                        str,
-                        [
-                            self.transaction_date,
-                            self.entry_type,
-                            self.amount,
-                            last.hash if last else config.hashing["salt"],
-                            self.entity_id,
-                            self.transaction_id,
-                            self.currency_id,
-                            self.post_account_id,
-                            self.folio_account_id,
-                            self.line_item_id,
-                            self.tax_id,
-                        ],
-                    )
+        return ",".join(
+            list(
+                map(
+                    str,
+                    [
+                        self.transaction_date,
+                        self.entry_type,
+                        self.amount,
+                        last.hash if last else config.hashing["salt"],
+                        self.entity_id,
+                        self.transaction_id,
+                        self.currency_id,
+                        self.post_account_id,
+                        self.folio_account_id,
+                        self.line_item_id,
+                        self.tax_id,
+                    ],
                 )
-            ).encode()
-        ).hexdigest()
+            )
+        ).encode()
+        # return getattr(hashlib, config.hashing["algorithm"])(
+        #     ",".join(
+        #         list(
+        #             map(
+        #                 str,
+        #                 [
+        #                     self.transaction_date,
+        #                     self.entry_type,
+        #                     self.amount,
+        #                     last.hash if last else config.hashing["salt"],
+        #                     self.entity_id,
+        #                     self.transaction_id,
+        #                     self.currency_id,
+        #                     self.post_account_id,
+        #                     self.folio_account_id,
+        #                     self.line_item_id,
+        #                     self.tax_id,
+        #                 ],
+        #             )
+        #         )
+        #     ).encode()
+        # ).hexdigest()
 
     def validate(self, session) -> None:
         """
@@ -277,4 +296,10 @@ class Ledger(IsolatingMixin, Recyclable):
 
         """
 
-        self.hash = self.get_hash(session)
+        print(self.id)
+        session.commit()
+        # last = session.query(Ledger).order_by(Ledger.id.desc()).first()
+        # if last:
+        print(self.id)
+        # self.hash = self.get_hash(session)
+        # session.commit()

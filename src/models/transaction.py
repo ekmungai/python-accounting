@@ -156,8 +156,8 @@ class Transaction(IsolatingMixin, Recyclable):
         return dict(total=total, taxes=taxes)
 
     @property
-    def is_posted(self) -> Decimal:
-        """If the Transaction has been posted to the ledge.r"""
+    def is_posted(self) -> bool:
+        """Check if the Transaction has been posted to the ledger"""
         return len(self.ledgers) > 0
 
     @property
@@ -203,6 +203,11 @@ class Transaction(IsolatingMixin, Recyclable):
             "transaction_no_prefix"
         ]
         return f"{prefix}{reporting_period.period_count:02}/{next_id:04}"
+
+    def is_secure(self, session) -> bool:
+        """Verify that the Transaction's Ledgers have not been tampered with."""
+        print([(l.hash, l.get_hash(session)) for l in self.ledgers])
+        return all(l.hash == l.get_hash(session) for l in self.ledgers)
 
     def post(self, session) -> None:
         """
