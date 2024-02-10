@@ -388,28 +388,12 @@ the Ledger.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.ledger.Ledger.get_hash">
-<span class="sig-name descname"><span class="pre">get_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.ledger.Ledger.get_hash" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.ledger.Ledger.get_hash" title="Link to this definition"></a></dt>
 <dd><p>Calculate the hash of the Ledger.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Account belongs.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The hash of the Ledger entry’s contents.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="models.ledger.Ledger.validate">
-<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.ledger.Ledger.validate" title="Link to this definition"></a></dt>
-<dd><p>Validates the Ledger properties.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Ledger belongs.</p>
+<dd class="field-odd"><p><strong>connection</strong> (<em>Connection</em>) – The database connection of the accounting session
+to which the Ledger belongs.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

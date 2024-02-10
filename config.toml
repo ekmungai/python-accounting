@@ -116,14 +116,6 @@ types = ["CLIENT_INVOICE", "SUPPLIER_BILL", "JOURNAL_ENTRY"]
 [transactions.assignables]
 types = ["CLIENT_RECEIPT", "SUPPLIER_PAYMENT", "CREDIT_NOTE", "DEBIT_NOTE", "JOURNAL_ENTRY"]
 
-[reports.aging_schedule_brackets] # bracket label = max age 
-"current" = 30
-"31 - 90 days" = 90
-"91 - 180 days" = 180
-"181 - 270 days" = 270
-"271 - 365 days" = 365
-"365+ (bad debts)" = 1000000000 # (infinity)
-
 [reports]
 indent_length = 4
 result_length = 15
@@ -132,6 +124,13 @@ balance_sheet.title = "Balance Sheet"
 cashflow_statement.title = "Cashflow Statement"
 trial_balance.title = "Trial Balance"
 
+[reports.aging_schedule_brackets] # bracket label = max age 
+"current" = 30
+"31 - 90 days" = 90
+"91 - 180 days" = 180
+"181 - 270 days" = 270
+"271 - 365 days" = 365
+"365+ (bad debts)" = 1000000000 # (infinity)
 
 [reports.income_statement.sections]
 OPERATING_REVENUES.label = "Operating Revenues" 

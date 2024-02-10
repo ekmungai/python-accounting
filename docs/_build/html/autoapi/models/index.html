@@ -419,8 +419,7 @@ permanently deleted.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="models.User.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.User.__repr__" title="Link to this definition"></a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -469,8 +468,7 @@ permanently deleted.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Recycled.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.Recycled.__repr__" title="Link to this definition"></a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1686,8 +1684,8 @@ can have Line Items on both sides of the double entry.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="models.Transaction.is_posted">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_posted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">decimal.Decimal</span></em><a class="headerlink" href="#models.Transaction.is_posted" title="Link to this definition"></a></dt>
-<dd><p>If the Transaction has been posted to the ledge.r</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_posted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#models.Transaction.is_posted" title="Link to this definition"></a></dt>
+<dd><p>Check if the Transaction has been posted to the ledger</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1818,6 +1816,12 @@ can have Line Items on both sides of the double entry.</p>
 <dt class="sig sig-object py" id="models.Transaction._transaction_no">
 <span class="sig-name descname"><span class="pre">_transaction_no</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporting_period</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.Transaction._transaction_no" title="Link to this definition"></a></dt>
 <dd><p>Get the next auto-generated transaction number.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.Transaction.is_secure">
+<span class="sig-name descname"><span class="pre">is_secure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#models.Transaction.is_secure" title="Link to this definition"></a></dt>
+<dd><p>Verify that the Transaction’s Ledgers have not been tampered with.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2610,28 +2614,12 @@ the Ledger.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Ledger.get_hash">
-<span class="sig-name descname"><span class="pre">get_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.Ledger.get_hash" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger.get_hash" title="Link to this definition"></a></dt>
 <dd><p>Calculate the hash of the Ledger.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Account belongs.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The hash of the Ledger entry’s contents.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="models.Ledger.validate">
-<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger.validate" title="Link to this definition"></a></dt>
-<dd><p>Validates the Ledger properties.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Ledger belongs.</p>
+<dd class="field-odd"><p><strong>connection</strong> (<em>Connection</em>) – The database connection of the accounting session
+to which the Ledger belongs.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

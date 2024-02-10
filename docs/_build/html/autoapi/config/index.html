@@ -95,11 +95,11 @@
              
   <section id="module-config">
 <span id="config"></span><h1><a class="reference internal" href="#module-config" title="config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a><a class="headerlink" href="#module-config" title="Link to this heading"></a></h1>
-<p>This module provides the configuration for python accounting. Its properties are populated from the
-config.toml by default and should be adequate for most settings (except maybe the datatabse
-configuration), but being a plain python object any of the attributes may be overriden by
-assingment at any point. For more extensive custom configurations, you can initialize the
-class with a custom config.tml file.</p>
+<p>This module provides the configuration for python accounting. Its properties are populated from
+<a class="reference external" href="https://github.com/ekmungai/python-accounting/blob/main/config.toml">config.toml</a> by default and
+should be adequate for most settings (except maybe the database configuration), but being a plain
+python object any of the attributes may be overriden by assingment at any point. For more extensive
+custom configurations, you can initialize the class with a custom config.tml file.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <section id="classes">
@@ -130,10 +130,37 @@ class with a custom config.tml file.</p>
 <span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.database" title="Link to this definition"></a></dt>
 <dd><p>The database configuration.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="n">url</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">database</span> <span class="n">connection</span> <span class="n">string</span><span class="o">.</span>
+    <span class="n">url</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">database</span> <span class="n">connection</span> <span class="n">string</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="s1">&#39;sqlite://&#39;</span><span class="o">.</span>
     <span class="n">echo</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">SqlAlchemy</span> <span class="n">generated</span> <span class="n">queries</span> <span class="n">to</span> <span class="n">the</span> <span class="n">console</span><span class="o">.</span>
+    <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
     <span class="n">include_deleted</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">soft</span> <span class="n">deleted</span> <span class="n">records</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
+    <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
     <span class="n">echo</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">records</span> <span class="kn">from</span> <span class="nn">all</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
+    <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="config.Config.hashing">
+<span class="sig-name descname"><span class="pre">hashing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.hashing" title="Link to this definition"></a></dt>
+<dd><p>Configuration for hashing Ledger records to guard against direct database tampering.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">salt</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">initial</span> <span class="n">value</span> <span class="k">for</span> <span class="n">the</span> <span class="n">ledger</span> <span class="n">hashing</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="s1">&#39;hashing salt&#39;</span><span class="o">.</span>
+    <span class="n">algorithm</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">Algorithm</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">encoding</span> <span class="n">the</span> <span class="n">hashes</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="s1">&#39;sha256&#39;</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="config.Config.dates">
+<span class="sig-name descname"><span class="pre">dates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.dates" title="Link to this definition"></a></dt>
+<dd><p>Configuration for formatting dates in reports.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">short</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="nb">format</span> <span class="k">for</span> <span class="n">short</span> <span class="n">dates</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">.</span>
+    <span class="n">long</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="nb">format</span> <span class="k">for</span> <span class="n">long</span> <span class="n">dates</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">, %b %Y&#39;</span><span class="o">.</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -147,7 +174,7 @@ class with a custom config.tml file.</p>
     <span class="n">types</span> <span class="p">(</span><span class="nb">dict</span><span class="p">):</span> <span class="n">The</span> <span class="n">Account</span> <span class="n">Types</span> <span class="k">as</span> <span class="n">defined</span> <span class="n">by</span> <span class="n">GAAP</span><span class="o">/</span><span class="n">IFRS</span><span class="p">:</span>
     <span class="n">label</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">The</span> <span class="n">human</span> <span class="n">readable</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Account</span> <span class="n">Type</span><span class="o">.</span>
     <span class="n">account_code</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">The</span> <span class="n">starting</span> <span class="n">point</span> <span class="k">for</span> <span class="n">the</span> <span class="n">genaration</span> <span class="n">of</span> <span class="n">Account</span> <span class="n">Codes</span> <span class="k">for</span>
-     <span class="n">Accounts</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">type</span><span class="o">.</span>
+    <span class="n">Accounts</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">type</span><span class="o">.</span>
     <span class="n">purchasables</span> <span class="p">(</span><span class="nb">list</span><span class="p">):</span> <span class="n">Account</span> <span class="n">types</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">purchasing</span> <span class="n">Transations</span><span class="o">.</span>
 <span class="p">}</span>
 </pre></div>
@@ -161,30 +188,30 @@ class with a custom config.tml file.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{
     types (`dict`): The Transaction Types as defined by GAAP/IFRS
     label (`str`): The human readable name of the Transaction Type.
-    transaction_no_prefix (`int`): The code to be inserted at the beginning
-     of the Transaction&#39;s type&#39;s sequentially generated transaction number.
+    transaction_no_prefix (`int`): The code to be inserted at the beginningof the
+    Transaction&#39;s type&#39;s sequentially generated transaction number.
     clearables (`list`): Transaction types that can cleared by assignable Transactions.
     assignables (`list`): Transaction types that can user to cleared (have assigned
-     to them) clearable Transactions.
+    to them) clearable Transactions.
 }
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="config.Config.hashing">
-<span class="sig-name descname"><span class="pre">hashing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.hashing" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="config.Config.reports">
 <span class="sig-name descname"><span class="pre">reports</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.reports" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="config.Config.dates">
-<span class="sig-name descname"><span class="pre">dates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.Config.dates" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Configuration for Financial Reports.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{
+    indent_length (`int`): Number of spaces to indent report sections. Defaults to 4.
+    result_length (`int`): Number of characters to underline report results. Defaults
+    to 15.
+    aging_schedule_brackets (`dict`): The labels and max age in days for aging schedule
+    brackets.
+}
+</pre></div>
+</div>
+</dd></dl>
 
 </dd></dl>
 

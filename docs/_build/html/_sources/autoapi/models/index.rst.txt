@@ -233,8 +233,6 @@ Classes
 
    .. py:method:: __repr__() -> str
 
-      Return repr(self).
-
 
 
 .. py:class:: Recycled
@@ -272,8 +270,6 @@ Classes
       
 
    .. py:method:: __repr__() -> str
-
-      Return repr(self).
 
 
 
@@ -1164,9 +1160,9 @@ Classes
       The taxes that have been applied to the transaction.
 
    .. py:property:: is_posted
-      :type: decimal.Decimal
+      :type: bool
 
-      If the Transaction has been posted to the ledge.r
+      Check if the Transaction has been posted to the ledger
 
    .. py:property:: amount
       :type: decimal.Decimal
@@ -1287,6 +1283,11 @@ Classes
    .. py:method:: _transaction_no(session, transaction_type, reporting_period) -> str
 
       Get the next auto-generated transaction number.
+
+
+   .. py:method:: is_secure(session) -> bool
+
+      Verify that the Transaction's Ledgers have not been tampered with.
 
 
    .. py:method:: post(session) -> None
@@ -1867,23 +1868,13 @@ Classes
       :type transaction: Transaction
 
 
-   .. py:method:: get_hash(session) -> str
+   .. py:method:: get_hash(connection) -> None
 
       Calculate the hash of the Ledger.
 
-      :param session: The accounting session to which the Account belongs.
-      :type session: Session
-
-      :returns: The hash of the Ledger entry's contents.
-      :rtype: str
-
-
-   .. py:method:: validate(session) -> None
-
-      Validates the Ledger properties.
-
-      :param session: The accounting session to which the Ledger belongs.
-      :type session: Session
+      :param connection: The database connection of the accounting session
+                         to which the Ledger belongs.
+      :type connection: Connection
 
       :returns: None
 

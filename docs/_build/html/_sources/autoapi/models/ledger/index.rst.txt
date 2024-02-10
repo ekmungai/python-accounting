@@ -221,23 +221,13 @@ Classes
       :type transaction: Transaction
 
 
-   .. py:method:: get_hash(session) -> str
+   .. py:method:: get_hash(connection) -> None
 
       Calculate the hash of the Ledger.
 
-      :param session: The accounting session to which the Account belongs.
-      :type session: Session
-
-      :returns: The hash of the Ledger entry's contents.
-      :rtype: str
-
-
-   .. py:method:: validate(session) -> None
-
-      Validates the Ledger properties.
-
-      :param session: The accounting session to which the Ledger belongs.
-      :type session: Session
+      :param connection: The database connection of the accounting session
+                         to which the Ledger belongs.
+      :type connection: Connection
 
       :returns: None
 

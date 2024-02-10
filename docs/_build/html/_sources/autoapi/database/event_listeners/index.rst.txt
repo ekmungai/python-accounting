@@ -49,6 +49,11 @@ Functions
    .. py:method:: _set_object_index(object_) -> None
 
 
+   .. py:method:: receive_after_insert(connection, target)
+
+      Set the Ledger hash
+
+
    .. py:method:: _validate_model(flush_context, instances) -> None
 
 

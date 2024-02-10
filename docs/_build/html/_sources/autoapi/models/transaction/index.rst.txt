@@ -105,9 +105,9 @@ Classes
       The taxes that have been applied to the transaction.
 
    .. py:property:: is_posted
-      :type: decimal.Decimal
+      :type: bool
 
-      If the Transaction has been posted to the ledge.r
+      Check if the Transaction has been posted to the ledger
 
    .. py:property:: amount
       :type: decimal.Decimal
@@ -228,6 +228,11 @@ Classes
    .. py:method:: _transaction_no(session, transaction_type, reporting_period) -> str
 
       Get the next auto-generated transaction number.
+
+
+   .. py:method:: is_secure(session) -> bool
+
+      Verify that the Transaction's Ledgers have not been tampered with.
 
 
    .. py:method:: post(session) -> None
