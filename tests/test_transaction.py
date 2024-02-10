@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 from decimal import Decimal
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import select, func
+from sqlalchemy import select, func, update
 from src.models import (
     Account,
     Transaction,
@@ -255,26 +255,26 @@ def test_transaction_recycling(session, entity, currency):
     session.delete(transaction)
 
     transaction = session.get(Transaction, transaction_id)
-    assert transaction == None
+    assert transaction is None
 
     transaction = session.get(Transaction, transaction_id, include_deleted=True)
-    assert transaction != None
+    assert transaction is not None
     session.restore(transaction)
 
     transaction = session.get(Transaction, transaction_id)
-    assert transaction != None
+    assert transaction is not None
 
     session.destroy(transaction)
 
     transaction = session.get(Transaction, transaction_id)
-    assert transaction == None
+    assert transaction is None
 
     transaction = session.get(Transaction, transaction_id, include_deleted=True)
-    assert transaction != None
+    assert transaction is not None
     session.restore(transaction)  # destroyed models canot be restored
 
     transaction = session.get(Transaction, transaction_id)
-    assert transaction == None
+    assert transaction is None
 
 
 def test_transaction_numbers(session, entity, currency):
@@ -784,7 +784,7 @@ def test_transaction_security(session, entity, currency):
     line_item1 = LineItem(
         narration="Test line item one",
         account_id=account2.id,
-        amount=75,
+        amount=75.36,
         entity_id=entity.id,
     )
 
@@ -797,6 +797,13 @@ def test_transaction_security(session, entity, currency):
 
     transaction.post(session)
 
-    assert transaction.amount == Decimal(75)
-    transaction.is_secure(session)
-    # assert transaction.is_secure(session) is True
+    assert transaction.amount == Decimal("75.36")
+    assert transaction.is_secure(session) is True
+
+    connection = session.connection()
+    connection.execute(
+        update(Ledger).where(Ledger.id == transaction.ledgers[0].id).values(amount=10)
+    )
+
+    session.refresh(transaction)
+    assert transaction.is_secure(session) is not True

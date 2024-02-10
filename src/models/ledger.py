@@ -14,7 +14,7 @@ from datetime import datetime
 from copy import deepcopy
 from decimal import Decimal
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey, Enum
+from sqlalchemy import String, ForeignKey, Enum, select
 from sqlalchemy.types import DECIMAL
 from strenum import StrEnum
 from src.mixins import IsolatingMixin
@@ -228,18 +228,20 @@ class Ledger(IsolatingMixin, Recyclable):
         else:
             Ledger._post_simple(session, transaction)
 
-    def get_hash(self, session) -> str:
+    def get_hash(self, connection) -> None:
         """
         Calculate the hash of the Ledger.
 
         Args:
-            session (Session): The accounting session to which the Account belongs.
+            connection (Connection): The database connection of the accounting session
+             to which the Ledger belongs.
 
         Returns:
-            str: The hash of the Ledger entry's contents.
-
+            None
         """
-        last = session.get(Ledger, self.id - 1)
+        last = connection.execute(
+            select(Ledger).where(Ledger.id == self.id - 1)
+        ).fetchone()
 
         return ",".join(
             list(
@@ -248,7 +250,7 @@ class Ledger(IsolatingMixin, Recyclable):
                     [
                         self.transaction_date,
                         self.entry_type,
-                        self.amount,
+                        round(Decimal(self.amount), 4).normalize(),
                         last.hash if last else config.hashing["salt"],
                         self.entity_id,
                         self.transaction_id,
@@ -283,23 +285,3 @@ class Ledger(IsolatingMixin, Recyclable):
         #         )
         #     ).encode()
         # ).hexdigest()
-
-    def validate(self, session) -> None:
-        """
-        Validates the Ledger properties.
-
-        Args:
-            session (Session): The accounting session to which the Ledger belongs.
-
-        Returns:
-            None
-
-        """
-
-        print(self.id)
-        session.commit()
-        # last = session.query(Ledger).order_by(Ledger.id.desc()).first()
-        # if last:
-        print(self.id)
-        # self.hash = self.get_hash(session)
-        # session.commit()

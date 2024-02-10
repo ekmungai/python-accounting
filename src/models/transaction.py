@@ -206,8 +206,7 @@ class Transaction(IsolatingMixin, Recyclable):
 
     def is_secure(self, session) -> bool:
         """Verify that the Transaction's Ledgers have not been tampered with."""
-        print([(l.hash, l.get_hash(session)) for l in self.ledgers])
-        return all(l.hash == l.get_hash(session) for l in self.ledgers)
+        return all(l.hash == l.get_hash(session.connection()) for l in self.ledgers)
 
     def post(self, session) -> None:
         """

@@ -12,9 +12,9 @@ Provides accounting specific event listeners for the sqlalchemy session.
 from datetime import datetime
 
 from sqlalchemy.orm.session import Session
-from sqlalchemy import event, orm, and_
+from sqlalchemy import event, orm, and_, update
 
-from src.models import Entity, Recyclable, Transaction, Account
+from src.models import Entity, Recyclable, Transaction, Account, Ledger
 from src.mixins import IsolatingMixin
 from src.exceptions import MissingEntityError
 
@@ -105,6 +105,17 @@ class EventListenersMixin:
                     ]
                 )
             )
+
+    @event.listens_for(Ledger, "after_insert")
+    def receive_after_insert(  # pylint: disable=no-self-argument
+        mapper, connection, target
+    ):
+        """Set the Ledger hash"""
+        connection.execute(
+            update(Ledger)
+            .where(Ledger.id == target.id)
+            .values(hash=target.get_hash(connection))
+        )
 
     @event.listens_for(Session, "before_flush")
     def _validate_model(self, flush_context, instances) -> None:
