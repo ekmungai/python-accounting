@@ -31,77 +31,65 @@ Classes
 
 .. autoapisummary::
 
-   mixins.IsolatingMixin
-   mixins.SellingMixin
+   mixins.AssigningMixin
    mixins.BuyingMixin
    mixins.ClearingMixin
-   mixins.AssigningMixin
+   mixins.IsolatingMixin
+   mixins.SellingMixin
 
 
 
 
-.. py:class:: IsolatingMixin
+.. py:class:: AssigningMixin
 
 
-   This class enables isolating by Entity for accounting objects.
-
-   .. attribute:: entity_id
-
-      The id of the Entity to which the model belongs.
-
-      :type: int
-
-   .. py:attribute:: entity_id
-      :type: sqlalchemy.orm.Mapped[int]
-
-      
-
-   .. py:method:: entity() -> sqlalchemy.orm.Mapped[Entity]
-
-      Returns the Entity of the instance.
+   This class provides assignable Transactions functionality for
+   clearing clearable Transactions.
 
 
+   .. py:method:: balance(session) -> decimal.Decimal
 
-.. py:class:: SellingMixin(**kw: Any)
+      Gets how much of the Transaction amount is remaining available for assigning
+          to clearable Transactions.
+
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
+
+      :returns: The difference between the Transaction
+                amount and the total amount of assignments made to it.
+      :rtype: Decimal
 
 
-   Bases: :py:obj:`src.mixins.trading.TradingMixin`
+   .. py:method:: assignments(session) -> list
 
-   This class provides validation for Transaction that sell goods and services for an Entity.
+      Gets the assignments made on the Transaction.
 
-   .. attribute:: line_item_types
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
 
-      A list of Account
-      Types that are allowed as Line Item accounts for selling Transactions.
+      :returns: A List of assignments made for the Transaction.
 
-      :type: :obj:`list` of :obj:`Account.AccountType`
 
-   .. attribute:: main_account_types
+   .. py:method:: unassign(session) -> None
 
-      A list of Account
-      Types that are allowed as main accounts for selling Transactions.
+      Removes all assignments made to this Transaction.
 
-      :type: :obj:`list` of :obj:`Account.AccountType`
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
 
-   .. attribute:: account_type_map (:obj:`dict` of str
+      :returns: None
 
-      :obj:`Account.AccountType`): A mapping of
-      Transactions to the Account Types that apply to their validation.
 
-   .. py:attribute:: line_item_types
-      :type: list
+   .. py:method:: bulk_assign(session) -> None
 
-      
+      Assigns the Transaction's amount to all outstanding clearable Transactions for the
+      main account on a FIFO basis.
 
-   .. py:attribute:: main_account_types
-      :type: list
+      :param session: The accounting session to which the Transaction belongs.
+      :type session: Session
 
-      
+      :returns: None
 
-   .. py:attribute:: account_type_map
-      :type: dict
-
-      
 
 
 .. py:class:: BuyingMixin(**kw: Any)
@@ -111,39 +99,29 @@ Classes
 
    This class provides validation for Transaction that buy goods and services for an Entity.
 
-   .. attribute:: line_item_types
+   .. py:attribute:: line_item_types
+      :type: list
 
       A list of Account
       Types that are allowed as Line Item accounts for buying Transactions.
 
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: main_account_types
-
-      A list of Account
-      Types that are allowed as main accounts for buying Transactions.
-
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: account_type_map (:obj:`dict` of str
-
-      :obj:`Account.AccountType`): A mapping of
-      Transactions to the Account Types that apply to their validation.
-
-   .. py:attribute:: line_item_types
-      :type: list
-
-      
+      :type: line_item_types (`list` of `Account.AccountType`)
 
    .. py:attribute:: main_account_types
       :type: list
 
-      
+      A list of Account
+      Types that are allowed as main accounts for buying Transactions.
+
+      :type: main_account_types (`list` of `Account.AccountType`)
 
    .. py:attribute:: account_type_map
       :type: dict
 
-      
+      A mapping of
+      Transactions to the Account Types that apply to their validation.
+
+      :type: account_type_map (`dict` of `Account.AccountType`)
 
 
 .. py:class:: ClearingMixin
@@ -184,57 +162,57 @@ Classes
 
 
 
-.. py:class:: AssigningMixin
+.. py:class:: IsolatingMixin
 
 
-   This class provides assignable Transactions functionality for
-   clearing clearable Transactions.
+   This class enables isolating by Entity for accounting objects.
+
+   .. attribute:: entity_id
+
+      The id of the Entity to which the model belongs.
+
+      :type: int
+
+   .. py:attribute:: entity_id
+      :type: sqlalchemy.orm.Mapped[int]
+
+      
+
+   .. py:method:: entity() -> sqlalchemy.orm.Mapped[Entity]
+
+      Returns the Entity of the instance.
 
 
-   .. py:method:: balance(session) -> decimal.Decimal
 
-      Gets how much of the Transaction amount is remaining available for assigning
-          to clearable Transactions.
-
-      :param session: The accounting session to which the Transaction belongs.
-      :type session: Session
-
-      :returns:
-
-                The difference between the Transaction amount and the total amount
-                    of assignments made to it.
-      :rtype: Decimal
+.. py:class:: SellingMixin(**kw: Any)
 
 
-   .. py:method:: assignments(session) -> list
+   Bases: :py:obj:`src.mixins.trading.TradingMixin`
 
-      Gets the assignments made on the Transaction.
+   This class provides validation for Transaction that sell goods and services for an Entity.
 
-      :param session: The accounting session to which the Transaction belongs.
-      :type session: Session
+   .. py:attribute:: line_item_types
+      :type: list
 
-      :returns: A List of assignments made for the Transaction.
+      A list of Account
+      Types that are allowed as Line Item accounts for selling Transactions.
 
+      :type: line_item_types (`list` of `Account.AccountType`)
 
-   .. py:method:: unassign(session) -> None
+   .. py:attribute:: main_account_types
+      :type: list
 
-      Removes all assignments made to this Transaction.
+      A list of Account
+      Types that are allowed as main accounts for selling Transactions.
 
-      :param session: The accounting session to which the Transaction belongs.
-      :type session: Session
+      :type: main_account_types (`list` of `Account.AccountType`)
 
-      :returns: None
+   .. py:attribute:: account_type_map
+      :type: dict
 
+      A mapping of
+      Transactions to the Account Types that apply to their validation.
 
-   .. py:method:: bulk_assign(session) -> None
-
-      Assigns the Transaction's amount to all outstanding clearable Transactions for the
-          main account on a FIFO basis.
-
-      :param session: The accounting session to which the Transaction belongs.
-      :type session: Session
-
-      :returns: None
-
+      :type: account_type_map (`dict` of`Account.AccountType`)
 
 

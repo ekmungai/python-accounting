@@ -37,10 +37,8 @@ Classes
       :param session: The accounting session to which the Transaction belongs.
       :type session: Session
 
-      :returns:
-
-                The difference between the Transaction amount and the total amount
-                    of assignments made to it.
+      :returns: The difference between the Transaction
+                amount and the total amount of assignments made to it.
       :rtype: Decimal
 
 
@@ -67,7 +65,7 @@ Classes
    .. py:method:: bulk_assign(session) -> None
 
       Assigns the Transaction's amount to all outstanding clearable Transactions for the
-          main account on a FIFO basis.
+      main account on a FIFO basis.
 
       :param session: The accounting session to which the Transaction belongs.
       :type session: Session

@@ -123,101 +123,91 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mixins.IsolatingMixin" title="mixins.IsolatingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IsolatingMixin</span></code></a></p></td>
-<td><p>This class enables isolating by Entity for accounting objects.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mixins.SellingMixin" title="mixins.SellingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SellingMixin</span></code></a></p></td>
-<td><p>This class provides validation for Transaction that sell goods and services for an Entity.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mixins.BuyingMixin" title="mixins.BuyingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BuyingMixin</span></code></a></p></td>
-<td><p>This class provides validation for Transaction that buy goods and services for an Entity.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mixins.ClearingMixin" title="mixins.ClearingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClearingMixin</span></code></a></p></td>
-<td><p>This class provides clearable Transactions functionality for assigning them to</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mixins.AssigningMixin" title="mixins.AssigningMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AssigningMixin</span></code></a></p></td>
 <td><p>This class provides assignable Transactions functionality for</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mixins.BuyingMixin" title="mixins.BuyingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BuyingMixin</span></code></a></p></td>
+<td><p>This class provides validation for Transaction that buy goods and services for an Entity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mixins.ClearingMixin" title="mixins.ClearingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClearingMixin</span></code></a></p></td>
+<td><p>This class provides clearable Transactions functionality for assigning them to</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mixins.IsolatingMixin" title="mixins.IsolatingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IsolatingMixin</span></code></a></p></td>
+<td><p>This class enables isolating by Entity for accounting objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mixins.SellingMixin" title="mixins.SellingMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SellingMixin</span></code></a></p></td>
+<td><p>This class provides validation for Transaction that sell goods and services for an Entity.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="mixins.IsolatingMixin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mixins.</span></span><span class="sig-name descname"><span class="pre">IsolatingMixin</span></span><a class="headerlink" href="#mixins.IsolatingMixin" title="Link to this definition"></a></dt>
-<dd><p>This class enables isolating by Entity for accounting objects.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="mixins.IsolatingMixin.entity_id">
-<span class="sig-name descname"><span class="pre">entity_id</span></span><a class="headerlink" href="#mixins.IsolatingMixin.entity_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Entity to which the model belongs.</p>
+<dt class="sig sig-object py" id="mixins.AssigningMixin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mixins.</span></span><span class="sig-name descname"><span class="pre">AssigningMixin</span></span><a class="headerlink" href="#mixins.AssigningMixin" title="Link to this definition"></a></dt>
+<dd><p>This class provides assignable Transactions functionality for
+clearing clearable Transactions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mixins.AssigningMixin.balance">
+<span class="sig-name descname"><span class="pre">balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">decimal.Decimal</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.balance" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Gets how much of the Transaction amount is remaining available for assigning</dt><dd><p>to clearable Transactions.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The difference between the Transaction
+amount and the total amount of assignments made to it.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decimal</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">entity_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mixins.IsolatingMixin.entity">
-<span class="sig-name descname"><span class="pre">entity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../models/entity/index.html#models.entity.Entity" title="models.entity.Entity"><span class="pre">Entity</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mixins.IsolatingMixin.entity" title="Link to this definition"></a></dt>
-<dd><p>Returns the Entity of the instance.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="mixins.SellingMixin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mixins.</span></span><span class="sig-name descname"><span class="pre">SellingMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mixins.SellingMixin" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.trading.TradingMixin</span></code></p>
-<p>This class provides validation for Transaction that sell goods and services for an Entity.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="mixins.SellingMixin.line_item_types">
-<span class="sig-name descname"><span class="pre">line_item_types</span></span><a class="headerlink" href="#mixins.SellingMixin.line_item_types" title="Link to this definition"></a></dt>
-<dd><p>A list of Account
-Types that are allowed as Line Item accounts for selling Transactions.</p>
+<dt class="sig sig-object py" id="mixins.AssigningMixin.assignments">
+<span class="sig-name descname"><span class="pre">assignments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.assignments" title="Link to this definition"></a></dt>
+<dd><p>Gets the assignments made on the Transaction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A List of assignments made for the Transaction.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="mixins.SellingMixin.main_account_types">
-<span class="sig-name descname"><span class="pre">main_account_types</span></span><a class="headerlink" href="#mixins.SellingMixin.main_account_types" title="Link to this definition"></a></dt>
-<dd><p>A list of Account
-Types that are allowed as main accounts for selling Transactions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mixins.AssigningMixin.unassign">
+<span class="sig-name descname"><span class="pre">unassign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.unassign" title="Link to this definition"></a></dt>
+<dd><p>Removes all assignments made to this Transaction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">account_type_map</span> <span class="pre">(:obj:`dict`</span> <span class="pre">of</span> <span class="pre">str</span></span></dt>
-<dd><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code>): A mapping of
-Transactions to the Account Types that apply to their validation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mixins.AssigningMixin.bulk_assign">
+<span class="sig-name descname"><span class="pre">bulk_assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.bulk_assign" title="Link to this definition"></a></dt>
+<dd><p>Assigns the Transaction’s amount to all outstanding clearable Transactions for the
+main account on a FIFO basis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">line_item_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">main_account_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="mixins.SellingMixin.account_type_map">
-<span class="sig-name descname"><span class="pre">account_type_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#mixins.SellingMixin.account_type_map" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -228,49 +218,39 @@ Transactions to the Account Types that apply to their validation.</p>
 <p>This class provides validation for Transaction that buy goods and services for an Entity.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mixins.BuyingMixin.line_item_types">
-<span class="sig-name descname"><span class="pre">line_item_types</span></span><a class="headerlink" href="#mixins.BuyingMixin.line_item_types" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">line_item_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#mixins.BuyingMixin.line_item_types" title="Link to this definition"></a></dt>
 <dd><p>A list of Account
 Types that are allowed as Line Item accounts for buying Transactions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code></p>
+<dd class="field-odd"><p>line_item_types (<cite>list</cite> of <cite>Account.AccountType</cite>)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mixins.BuyingMixin.main_account_types">
-<span class="sig-name descname"><span class="pre">main_account_types</span></span><a class="headerlink" href="#mixins.BuyingMixin.main_account_types" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">main_account_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#mixins.BuyingMixin.main_account_types" title="Link to this definition"></a></dt>
 <dd><p>A list of Account
 Types that are allowed as main accounts for buying Transactions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code></p>
+<dd class="field-odd"><p>main_account_types (<cite>list</cite> of <cite>Account.AccountType</cite>)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">account_type_map</span> <span class="pre">(:obj:`dict`</span> <span class="pre">of</span> <span class="pre">str</span></span></dt>
-<dd><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code>): A mapping of
-Transactions to the Account Types that apply to their validation.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">line_item_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">main_account_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="mixins.BuyingMixin.account_type_map">
 <span class="sig-name descname"><span class="pre">account_type_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#mixins.BuyingMixin.account_type_map" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A mapping of
+Transactions to the Account Types that apply to their validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>account_type_map (<cite>dict</cite> of <cite>Account.AccountType</cite>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -327,75 +307,70 @@ assignable Transactions.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="mixins.AssigningMixin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mixins.</span></span><span class="sig-name descname"><span class="pre">AssigningMixin</span></span><a class="headerlink" href="#mixins.AssigningMixin" title="Link to this definition"></a></dt>
-<dd><p>This class provides assignable Transactions functionality for
-clearing clearable Transactions.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="mixins.AssigningMixin.balance">
-<span class="sig-name descname"><span class="pre">balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">decimal.Decimal</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.balance" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Gets how much of the Transaction amount is remaining available for assigning</dt><dd><p>to clearable Transactions.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="mixins.IsolatingMixin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mixins.</span></span><span class="sig-name descname"><span class="pre">IsolatingMixin</span></span><a class="headerlink" href="#mixins.IsolatingMixin" title="Link to this definition"></a></dt>
+<dd><p>This class enables isolating by Entity for accounting objects.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mixins.IsolatingMixin.entity_id">
+<span class="sig-name descname"><span class="pre">entity_id</span></span><a class="headerlink" href="#mixins.IsolatingMixin.entity_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Entity to which the model belongs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>The difference between the Transaction amount and the total amount</dt><dd><p>of assignments made to it.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">entity_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="mixins.AssigningMixin.assignments">
-<span class="sig-name descname"><span class="pre">assignments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.assignments" title="Link to this definition"></a></dt>
-<dd><p>Gets the assignments made on the Transaction.</p>
+<dt class="sig sig-object py" id="mixins.IsolatingMixin.entity">
+<span class="sig-name descname"><span class="pre">entity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../models/entity/index.html#models.entity.Entity" title="models.entity.Entity"><span class="pre">Entity</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mixins.IsolatingMixin.entity" title="Link to this definition"></a></dt>
+<dd><p>Returns the Entity of the instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mixins.SellingMixin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mixins.</span></span><span class="sig-name descname"><span class="pre">SellingMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mixins.SellingMixin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.trading.TradingMixin</span></code></p>
+<p>This class provides validation for Transaction that sell goods and services for an Entity.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mixins.SellingMixin.line_item_types">
+<span class="sig-name descname"><span class="pre">line_item_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#mixins.SellingMixin.line_item_types" title="Link to this definition"></a></dt>
+<dd><p>A list of Account
+Types that are allowed as Line Item accounts for selling Transactions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A List of assignments made for the Transaction.</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>line_item_types (<cite>list</cite> of <cite>Account.AccountType</cite>)</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="mixins.AssigningMixin.unassign">
-<span class="sig-name descname"><span class="pre">unassign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.unassign" title="Link to this definition"></a></dt>
-<dd><p>Removes all assignments made to this Transaction.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mixins.SellingMixin.main_account_types">
+<span class="sig-name descname"><span class="pre">main_account_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#mixins.SellingMixin.main_account_types" title="Link to this definition"></a></dt>
+<dd><p>A list of Account
+Types that are allowed as main accounts for selling Transactions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>main_account_types (<cite>list</cite> of <cite>Account.AccountType</cite>)</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="mixins.AssigningMixin.bulk_assign">
-<span class="sig-name descname"><span class="pre">bulk_assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mixins.AssigningMixin.bulk_assign" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Assigns the Transaction’s amount to all outstanding clearable Transactions for the</dt><dd><p>main account on a FIFO basis.</p>
-</dd>
-</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mixins.SellingMixin.account_type_map">
+<span class="sig-name descname"><span class="pre">account_type_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#mixins.SellingMixin.account_type_map" title="Link to this definition"></a></dt>
+<dd><p>A mapping of
+Transactions to the Account Types that apply to their validation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Transaction belongs.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>account_type_map (<cite>dict</cite> of`Account.AccountType`)</p>
 </dd>
 </dl>
 </dd></dl>

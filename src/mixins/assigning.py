@@ -31,8 +31,8 @@ class AssigningMixin:
             session (Session): The accounting session to which the Transaction belongs.
 
         Returns:
-            Decimal: The difference between the Transaction amount and the total amount
-                of assignments made to it.
+            Decimal: The difference between the Transaction
+            amount and the total amount of assignments made to it.
         """
 
         from src.models import (  # pylint: disable=import-outside-toplevel
@@ -85,7 +85,7 @@ class AssigningMixin:
     def bulk_assign(self, session) -> None:
         """
         Assigns the Transaction's amount to all outstanding clearable Transactions for the
-            main account on a FIFO basis.
+        main account on a FIFO basis.
 
         Args:
             session (Session): The accounting session to which the Transaction belongs.

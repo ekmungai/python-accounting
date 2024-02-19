@@ -9,8 +9,9 @@
 Provides accounting functionality mixins.
 
 """
-from .isolating import IsolatingMixin
-from .selling import SellingMixin
+
+from .assigning import AssigningMixin
 from .buying import BuyingMixin
 from .clearing import ClearingMixin
-from .assigning import AssigningMixin
+from .isolating import IsolatingMixin
+from .selling import SellingMixin

@@ -29,38 +29,28 @@ Classes
 
    This class provides validation for Transaction that buy goods and services for an Entity.
 
-   .. attribute:: line_item_types
+   .. py:attribute:: line_item_types
+      :type: list
 
       A list of Account
       Types that are allowed as Line Item accounts for buying Transactions.
 
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: main_account_types
-
-      A list of Account
-      Types that are allowed as main accounts for buying Transactions.
-
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: account_type_map (:obj:`dict` of str
-
-      :obj:`Account.AccountType`): A mapping of
-      Transactions to the Account Types that apply to their validation.
-
-   .. py:attribute:: line_item_types
-      :type: list
-
-      
+      :type: line_item_types (`list` of `Account.AccountType`)
 
    .. py:attribute:: main_account_types
       :type: list
 
-      
+      A list of Account
+      Types that are allowed as main accounts for buying Transactions.
+
+      :type: main_account_types (`list` of `Account.AccountType`)
 
    .. py:attribute:: account_type_map
       :type: dict
 
-      
+      A mapping of
+      Transactions to the Account Types that apply to their validation.
+
+      :type: account_type_map (`dict` of `Account.AccountType`)
 
 
