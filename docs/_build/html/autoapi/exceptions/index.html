@@ -166,7 +166,12 @@
 <dt class="sig sig-object py" id="exceptions.AdjustingReportingPeriodError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">AdjustingReportingPeriodError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reporting_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.AdjustingReportingPeriodError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
-<p>Only Journal Entry Transactions can be recorded for adjusting status reporting periods.</p>
+<p>Only Journal Entry Transactions can be recorded for adjusting status Reporting Periods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reporting_period</strong> (<a class="reference internal" href="../models/index.html#models.ReportingPeriod" title="models.ReportingPeriod"><em>ReportingPeriod</em></a>) – The Reporting Period in question.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -174,6 +179,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">ClosedReportingPeriodError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reporting_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.ClosedReportingPeriodError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Transactions cannot be recorded for closed reporting periods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reporting_period</strong> (<a class="reference internal" href="../models/index.html#models.ReportingPeriod" title="models.ReportingPeriod"><em>ReportingPeriod</em></a>) – The Reporting Period in question.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -181,11 +191,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">DuplicateReportingPeriodError</span></span><a class="headerlink" href="#exceptions.DuplicateReportingPeriodError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>An Entity can only have one reporting period per calendar year.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.DuplicateReportingPeriodError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">reporting</span> <span class="pre">Period</span> <span class="pre">already</span> <span class="pre">exists</span> <span class="pre">for</span> <span class="pre">that</span> <span class="pre">calendar</span> <span class="pre">year.'</span></em><a class="headerlink" href="#exceptions.DuplicateReportingPeriodError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -193,6 +198,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidAccountTypeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.InvalidAccountTypeError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The account type must be one of those given in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – A string containing the list of allowed Account Types.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -200,6 +210,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">HangingTransactionsError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.HangingTransactionsError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The account cannot be deleted because it has Transactions in the current reporting period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>DeclarativeBase</em>) – The model to be deleted.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -207,26 +222,13 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidBalanceAccountError</span></span><a class="headerlink" href="#exceptions.InvalidBalanceAccountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Income Statement Accounts cannot have an opening balance.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidBalanceAccountError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Income</span> <span class="pre">Statement</span> <span class="pre">Accounts</span> <span class="pre">cannot</span> <span class="pre">have</span> <span class="pre">an</span> <span class="pre">opening</span> <span class="pre">balance.'</span></em><a class="headerlink" href="#exceptions.InvalidBalanceAccountError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="exceptions.InvalidBalanceDateError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidBalanceDateError</span></span><a class="headerlink" href="#exceptions.InvalidBalanceDateError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
-<dl class="simple">
-<dt>Unless the Entity allows for mid year balances, the balance date must be</dt><dd><p>earlier than its reporting period’s start.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidBalanceDateError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;Transaction</span> <span class="pre">date</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">earlier</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">first</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Balance's</span> <span class="pre">Reporting</span> <span class="pre">Period.&quot;</span></em><a class="headerlink" href="#exceptions.InvalidBalanceDateError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<p>Unless the Entity allows for mid year balances, the balance date must be earlier than its reporting period’s start.</p>
 </dd></dl>
 
 <dl class="py exception">
@@ -234,11 +236,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidBalanceTransactionError</span></span><a class="headerlink" href="#exceptions.InvalidBalanceTransactionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Balance Transaction must be one of Client Invoice, Supplier Bill or Journal Entry.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidBalanceTransactionError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Balance</span> <span class="pre">Transaction</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">one</span> <span class="pre">of</span> <span class="pre">Client</span> <span class="pre">Invoice,</span> <span class="pre">Supplier</span> <span class="pre">Bill</span> <span class="pre">or</span> <span class="pre">Journal</span> <span class="pre">Entry.'</span></em><a class="headerlink" href="#exceptions.InvalidBalanceTransactionError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -246,6 +243,14 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidCategoryAccountTypeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_account_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.InvalidCategoryAccountTypeError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The account type must the same as the category account type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>account_type</strong> (<em>Account.AccountType</em>) – The account type of the Account.</p></li>
+<li><p><strong>category_account_type</strong> (<em>Account.AccountType</em>) – The account type of the Category.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -253,6 +258,14 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidLineItemAccountError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.InvalidLineItemAccountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The Line Item main Account type must be one of those given in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classname</strong> (<em>Transaction.TransactionType</em>) – The type of the Transaction.</p></li>
+<li><p><strong>account_types</strong> (<em>list</em>) – The list of allowed Account types for the Transaction.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -260,6 +273,14 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidMainAccountError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.InvalidMainAccountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The account type of the transaction must be of the type given.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classname</strong> (<em>Transaction.TransactionType</em>) – The type of the Transaction.</p></li>
+<li><p><strong>account_type</strong> (<em>str</em>) – The allowed Account type for the Transaction.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -267,11 +288,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidTaxAccountError</span></span><a class="headerlink" href="#exceptions.InvalidTaxAccountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A Tax account must be of type Control.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidTaxAccountError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">Tax</span> <span class="pre">account</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">of</span> <span class="pre">type</span> <span class="pre">Control.'</span></em><a class="headerlink" href="#exceptions.InvalidTaxAccountError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -279,6 +295,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidTaxChargeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.InvalidTaxChargeError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A Contra Entry Transaction cannot be charged Tax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>classname</strong> (<em>Transaction.TransactionType</em>) – The type of the Transaction.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -286,11 +307,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidTransactionDateError</span></span><a class="headerlink" href="#exceptions.InvalidTransactionDateError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The Transaction date cannot be the exact beginning of the reporting period.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidTransactionDateError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'The</span> <span class="pre">Transaction</span> <span class="pre">date</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">exact</span> <span class="pre">start</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Reporting</span> <span class="pre">Period.</span> <span class="pre">Use</span> <span class="pre">a</span> <span class="pre">Balance</span> <span class="pre">object</span> <span class="pre">instead.'</span></em><a class="headerlink" href="#exceptions.InvalidTransactionDateError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -298,11 +314,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidTransactionTypeError</span></span><a class="headerlink" href="#exceptions.InvalidTransactionTypeError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The Transaction type cannot be changed as this would bypass subclass validations.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidTransactionTypeError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'The</span> <span class="pre">Transaction</span> <span class="pre">type</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">changed</span> <span class="pre">as</span> <span class="pre">this</span> <span class="pre">would</span> <span class="pre">bypass</span> <span class="pre">subclass</span> <span class="pre">validations.'</span></em><a class="headerlink" href="#exceptions.InvalidTransactionTypeError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -310,11 +321,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingEntityError</span></span><a class="headerlink" href="#exceptions.MissingEntityError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Accounting objects must all be associated with an Entity.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.MissingEntityError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Accounting</span> <span class="pre">objects</span> <span class="pre">must</span> <span class="pre">have</span> <span class="pre">an</span> <span class="pre">Entity.'</span></em><a class="headerlink" href="#exceptions.MissingEntityError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -322,11 +328,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingLineItemError</span></span><a class="headerlink" href="#exceptions.MissingLineItemError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A Transaction must have at least one Line Item to be posted.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.MissingLineItemError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">Transaction</span> <span class="pre">must</span> <span class="pre">have</span> <span class="pre">at</span> <span class="pre">least</span> <span class="pre">one</span> <span class="pre">Line</span> <span class="pre">Item</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">posted.'</span></em><a class="headerlink" href="#exceptions.MissingLineItemError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -334,11 +335,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingMainAccountAmountError</span></span><a class="headerlink" href="#exceptions.MissingMainAccountAmountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A Compound Journal Entry Transaction must have a main account amount.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.MissingMainAccountAmountError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">Compound</span> <span class="pre">Journal</span> <span class="pre">Entry</span> <span class="pre">Transaction</span> <span class="pre">must</span> <span class="pre">have</span> <span class="pre">a</span> <span class="pre">main</span> <span class="pre">account</span> <span class="pre">amount.'</span></em><a class="headerlink" href="#exceptions.MissingMainAccountAmountError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -353,11 +349,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingTaxAccountError</span></span><a class="headerlink" href="#exceptions.MissingTaxAccountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A non Zero Rate Tax must have an associated control account.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.MissingTaxAccountError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">non</span> <span class="pre">Zero</span> <span class="pre">Rate</span> <span class="pre">Tax</span> <span class="pre">must</span> <span class="pre">have</span> <span class="pre">an</span> <span class="pre">associated</span> <span class="pre">Control</span> <span class="pre">Account.'</span></em><a class="headerlink" href="#exceptions.MissingTaxAccountError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -365,18 +356,21 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">MultipleOpenPeriodsError</span></span><a class="headerlink" href="#exceptions.MultipleOpenPeriodsError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>An Entity can only have one reporting period open at a time.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.MultipleOpenPeriodsError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'There</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">be</span> <span class="pre">one</span> <span class="pre">Open</span> <span class="pre">Reporting</span> <span class="pre">Period</span> <span class="pre">per</span> <span class="pre">Entity</span> <span class="pre">at</span> <span class="pre">a</span> <span class="pre">time.'</span></em><a class="headerlink" href="#exceptions.MultipleOpenPeriodsError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="exceptions.NegativeAmountError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">NegativeAmountError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amount_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amount'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.NegativeAmountError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">NegativeAmountError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amount'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.NegativeAmountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Accounting amounts should not be negative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classname</strong> (<em>DeclarativeBase</em>) – The model in question.</p></li>
+<li><p><strong>attribute</strong> – The model attribute that must be greater than zero.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -384,6 +378,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">PostedTransactionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.PostedTransactionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Changes are not allowed for a posted Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – The changes that are not allowed for a posted Transaction.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -391,6 +390,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">RedundantTransactionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line_item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.RedundantTransactionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A Transaction main account cannot be used as the account for any of its Line Items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line_item</strong> (<a class="reference internal" href="../models/index.html#models.LineItem" title="models.LineItem"><em>LineItem</em></a>) – The line item in question.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -398,11 +402,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">SessionEntityError</span></span><a class="headerlink" href="#exceptions.SessionEntityError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The Session Entity should not be deleted.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.SessionEntityError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Cannot</span> <span class="pre">delete</span> <span class="pre">the</span> <span class="pre">session</span> <span class="pre">Entity.'</span></em><a class="headerlink" href="#exceptions.SessionEntityError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -410,11 +409,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">UnbalancedTransactionError</span></span><a class="headerlink" href="#exceptions.UnbalancedTransactionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Total Debit amounts do not match total Credit amounts.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.UnbalancedTransactionError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Total</span> <span class="pre">Debit</span> <span class="pre">amounts</span> <span class="pre">do</span> <span class="pre">not</span> <span class="pre">match</span> <span class="pre">total</span> <span class="pre">Credit</span> <span class="pre">amounts.'</span></em><a class="headerlink" href="#exceptions.UnbalancedTransactionError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -422,6 +416,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">UnassignableTransactionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.UnassignableTransactionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The Transaction type must be one of those given in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line_item</strong> (<a class="reference internal" href="../models/index.html#models.LineItem" title="models.LineItem"><em>LineItem</em></a>) – The line item in question.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -429,6 +428,14 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">UnclearableTransactionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.UnclearableTransactionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The Transaction type must be one of those given in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classname</strong> (<em>Transaction.TransactionType</em>) – The type of the Transaction.</p></li>
+<li><p><strong>transaction_types</strong> (<em>list</em>) – The list of allowed Transactiom types for the Assignment.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -436,11 +443,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">UnpostedAssignmentError</span></span><a class="headerlink" href="#exceptions.UnpostedAssignmentError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>An unposted Transaction cannot be cleared or assigned.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.UnpostedAssignmentError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'An</span> <span class="pre">unposted</span> <span class="pre">Transaction</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">cleared</span> <span class="pre">or</span> <span class="pre">assigned.'</span></em><a class="headerlink" href="#exceptions.UnpostedAssignmentError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -448,11 +450,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">SelfClearanceError</span></span><a class="headerlink" href="#exceptions.SelfClearanceError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A Transaction cannot clear/be assigned to itself.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.SelfClearanceError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">Transaction</span> <span class="pre">cannot</span> <span class="pre">clear/be</span> <span class="pre">assigned</span> <span class="pre">to</span> <span class="pre">itself.'</span></em><a class="headerlink" href="#exceptions.SelfClearanceError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -460,11 +457,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidAssignmentAccountError</span></span><a class="headerlink" href="#exceptions.InvalidAssignmentAccountError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The main account for the cleared and clearing Transaction must be the same.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.InvalidAssignmentAccountError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'The</span> <span class="pre">main</span> <span class="pre">account</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">cleared</span> <span class="pre">and</span> <span class="pre">clearing</span> <span class="pre">Transaction</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">the</span> <span class="pre">same.'</span></em><a class="headerlink" href="#exceptions.InvalidAssignmentAccountError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -472,6 +464,11 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidClearanceEntryTypeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.InvalidClearanceEntryTypeError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Transaction Entry increases the Main Account outstanding balance instead of reducing it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>entry_type</strong> (<em>Balance.BalanceType</em>) – The type of the Transaction entry.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -479,11 +476,6 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">CompoundTransactionAssignmentError</span></span><a class="headerlink" href="#exceptions.CompoundTransactionAssignmentError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>A compound Transaction cannot be cleared or assigned.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="exceptions.CompoundTransactionAssignmentError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A</span> <span class="pre">compound</span> <span class="pre">Transaction</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">cleared</span> <span class="pre">or</span> <span class="pre">assigned.'</span></em><a class="headerlink" href="#exceptions.CompoundTransactionAssignmentError.message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py exception">
@@ -492,6 +484,15 @@
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Assigning Transaction does not have suffecient balance to
 clear the amount specified of the assigned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assigning</strong> (<em>str</em>) – The type of the Transaction to be assigned.</p></li>
+<li><p><strong>amount</strong> (<em>Decimal</em>) – The amount to be assigned.</p></li>
+<li><p><strong>assigned</strong> (<em>str</em>) – The type of the Transaction to be cleared.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -499,6 +500,11 @@ clear the amount specified of the assigned.</p>
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">OverclearanceError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assigned</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.OverclearanceError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>The assigned Transaction has already been completely cleared.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>assigned</strong> (<em>str</em>) – The type of the Transaction to be cleared.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -506,6 +512,14 @@ clear the amount specified of the assigned.</p>
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">MixedAssignmentError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">previous</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.MixedAssignmentError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>An assigned/cleared cannot be cleared/assigned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>previous</strong> (<em>str</em>) – The role played by the Transaction in a previous Assignment.</p></li>
+<li><p><strong>current</strong> (<em>str</em>) – The role played by the Transaction in the current Assignment.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

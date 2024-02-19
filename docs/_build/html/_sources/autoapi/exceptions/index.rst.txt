@@ -41,7 +41,10 @@ Package Contents
 
    Bases: :py:obj:`AccountingExeption`
 
-   Only Journal Entry Transactions can be recorded for adjusting status reporting periods.
+   Only Journal Entry Transactions can be recorded for adjusting status Reporting Periods.
+
+   :param reporting_period: The Reporting Period in question.
+   :type reporting_period: ReportingPeriod
 
 
 .. py:exception:: ClosedReportingPeriodError(reporting_period)
@@ -51,6 +54,9 @@ Package Contents
 
    Transactions cannot be recorded for closed reporting periods.
 
+   :param reporting_period: The Reporting Period in question.
+   :type reporting_period: ReportingPeriod
+
 
 .. py:exception:: DuplicateReportingPeriodError
 
@@ -58,11 +64,6 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    An Entity can only have one reporting period per calendar year.
-
-   .. py:attribute:: message
-      :value: 'A reporting Period already exists for that calendar year.'
-
-      
 
 
 .. py:exception:: InvalidAccountTypeError(message: str)
@@ -72,6 +73,9 @@ Package Contents
 
    The account type must be one of those given in the list.
 
+   :param message: A string containing the list of allowed Account Types.
+   :type message: str
+
 
 .. py:exception:: HangingTransactionsError(model)
 
@@ -79,6 +83,9 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    The account cannot be deleted because it has Transactions in the current reporting period.
+
+   :param model: The model to be deleted.
+   :type model: DeclarativeBase
 
 
 .. py:exception:: InvalidBalanceAccountError
@@ -88,24 +95,13 @@ Package Contents
 
    Income Statement Accounts cannot have an opening balance.
 
-   .. py:attribute:: message
-      :value: 'Income Statement Accounts cannot have an opening balance.'
-
-      
-
 
 .. py:exception:: InvalidBalanceDateError
 
 
    Bases: :py:obj:`AccountingExeption`
 
-   Unless the Entity allows for mid year balances, the balance date must be
-    earlier than its reporting period's start.
-
-   .. py:attribute:: message
-      :value: "Transaction date must be earlier than the first day of the Balance's Reporting Period."
-
-      
+   Unless the Entity allows for mid year balances, the balance date must be earlier than its reporting period's start.
 
 
 .. py:exception:: InvalidBalanceTransactionError
@@ -115,11 +111,6 @@ Package Contents
 
    Balance Transaction must be one of Client Invoice, Supplier Bill or Journal Entry.
 
-   .. py:attribute:: message
-      :value: 'Balance Transaction must be one of Client Invoice, Supplier Bill or Journal Entry.'
-
-      
-
 
 .. py:exception:: InvalidCategoryAccountTypeError(account_type, category_account_type)
 
@@ -127,6 +118,11 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    The account type must the same as the category account type.
+
+   :param account_type: The account type of the Account.
+   :type account_type: Account.AccountType
+   :param category_account_type: The account type of the Category.
+   :type category_account_type: Account.AccountType
 
 
 .. py:exception:: InvalidLineItemAccountError(classname, account_types: list)
@@ -136,6 +132,11 @@ Package Contents
 
    The Line Item main Account type must be one of those given in the list.
 
+   :param classname: The type of the Transaction.
+   :type classname: Transaction.TransactionType
+   :param account_types: The list of allowed Account types for the Transaction.
+   :type account_types: list
+
 
 .. py:exception:: InvalidMainAccountError(classname, account_type: str)
 
@@ -143,6 +144,11 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    The account type of the transaction must be of the type given.
+
+   :param classname: The type of the Transaction.
+   :type classname: Transaction.TransactionType
+   :param account_type: The allowed Account type for the Transaction.
+   :type account_type: str
 
 
 .. py:exception:: InvalidTaxAccountError
@@ -152,11 +158,6 @@ Package Contents
 
    A Tax account must be of type Control.
 
-   .. py:attribute:: message
-      :value: 'A Tax account must be of type Control.'
-
-      
-
 
 .. py:exception:: InvalidTaxChargeError(classname)
 
@@ -164,6 +165,9 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    A Contra Entry Transaction cannot be charged Tax.
+
+   :param classname: The type of the Transaction.
+   :type classname: Transaction.TransactionType
 
 
 .. py:exception:: InvalidTransactionDateError
@@ -173,11 +177,6 @@ Package Contents
 
    The Transaction date cannot be the exact beginning of the reporting period.
 
-   .. py:attribute:: message
-      :value: 'The Transaction date cannot be at the exact start of the Reporting Period. Use a Balance object instead.'
-
-      
-
 
 .. py:exception:: InvalidTransactionTypeError
 
@@ -185,11 +184,6 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    The Transaction type cannot be changed as this would bypass subclass validations.
-
-   .. py:attribute:: message
-      :value: 'The Transaction type cannot be changed as this would bypass subclass validations.'
-
-      
 
 
 .. py:exception:: MissingEntityError
@@ -199,11 +193,6 @@ Package Contents
 
    Accounting objects must all be associated with an Entity.
 
-   .. py:attribute:: message
-      :value: 'Accounting objects must have an Entity.'
-
-      
-
 
 .. py:exception:: MissingLineItemError
 
@@ -212,11 +201,6 @@ Package Contents
 
    A Transaction must have at least one Line Item to be posted.
 
-   .. py:attribute:: message
-      :value: 'A Transaction must have at least one Line Item to be posted.'
-
-      
-
 
 .. py:exception:: MissingMainAccountAmountError
 
@@ -224,11 +208,6 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    A Compound Journal Entry Transaction must have a main account amount.
-
-   .. py:attribute:: message
-      :value: 'A Compound Journal Entry Transaction must have a main account amount.'
-
-      
 
 
 .. py:exception:: MissingReportingPeriodError(entity, year)
@@ -246,11 +225,6 @@ Package Contents
 
    A non Zero Rate Tax must have an associated control account.
 
-   .. py:attribute:: message
-      :value: 'A non Zero Rate Tax must have an associated Control Account.'
-
-      
-
 
 .. py:exception:: MultipleOpenPeriodsError
 
@@ -259,18 +233,17 @@ Package Contents
 
    An Entity can only have one reporting period open at a time.
 
-   .. py:attribute:: message
-      :value: 'There can only be one Open Reporting Period per Entity at a time.'
 
-      
-
-
-.. py:exception:: NegativeAmountError(amount_class, attribute='amount')
+.. py:exception:: NegativeAmountError(classname, attribute='amount')
 
 
    Bases: :py:obj:`AccountingExeption`
 
    Accounting amounts should not be negative.
+
+   :param classname: The model in question.
+   :type classname: DeclarativeBase
+   :param attribute: The model attribute that must be greater than zero.
 
 
 .. py:exception:: PostedTransactionError(message)
@@ -280,6 +253,9 @@ Package Contents
 
    Changes are not allowed for a posted Transaction.
 
+   :param message: The changes that are not allowed for a posted Transaction.
+   :type message: str
+
 
 .. py:exception:: RedundantTransactionError(line_item)
 
@@ -287,6 +263,9 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    A Transaction main account cannot be used as the account for any of its Line Items.
+
+   :param line_item: The line item in question.
+   :type line_item: LineItem
 
 
 .. py:exception:: SessionEntityError
@@ -296,11 +275,6 @@ Package Contents
 
    The Session Entity should not be deleted.
 
-   .. py:attribute:: message
-      :value: 'Cannot delete the session Entity.'
-
-      
-
 
 .. py:exception:: UnbalancedTransactionError
 
@@ -308,11 +282,6 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    Total Debit amounts do not match total Credit amounts.
-
-   .. py:attribute:: message
-      :value: 'Total Debit amounts do not match total Credit amounts.'
-
-      
 
 
 .. py:exception:: UnassignableTransactionError(classname, transaction_types: list)
@@ -322,6 +291,9 @@ Package Contents
 
    The Transaction type must be one of those given in the list.
 
+   :param line_item: The line item in question.
+   :type line_item: LineItem
+
 
 .. py:exception:: UnclearableTransactionError(classname, transaction_types: list)
 
@@ -329,6 +301,11 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    The Transaction type must be one of those given in the list.
+
+   :param classname: The type of the Transaction.
+   :type classname: Transaction.TransactionType
+   :param transaction_types: The list of allowed Transactiom types for the Assignment.
+   :type transaction_types: list
 
 
 .. py:exception:: UnpostedAssignmentError
@@ -338,11 +315,6 @@ Package Contents
 
    An unposted Transaction cannot be cleared or assigned.
 
-   .. py:attribute:: message
-      :value: 'An unposted Transaction cannot be cleared or assigned.'
-
-      
-
 
 .. py:exception:: SelfClearanceError
 
@@ -350,11 +322,6 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    A Transaction cannot clear/be assigned to itself.
-
-   .. py:attribute:: message
-      :value: 'A Transaction cannot clear/be assigned to itself.'
-
-      
 
 
 .. py:exception:: InvalidAssignmentAccountError
@@ -364,11 +331,6 @@ Package Contents
 
    The main account for the cleared and clearing Transaction must be the same.
 
-   .. py:attribute:: message
-      :value: 'The main account for the cleared and clearing Transaction must be the same.'
-
-      
-
 
 .. py:exception:: InvalidClearanceEntryTypeError(entry_type: str)
 
@@ -377,6 +339,9 @@ Package Contents
 
    Transaction Entry increases the Main Account outstanding balance instead of reducing it.
 
+   :param entry_type: The type of the Transaction entry.
+   :type entry_type: Balance.BalanceType
+
 
 .. py:exception:: CompoundTransactionAssignmentError
 
@@ -384,11 +349,6 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    A compound Transaction cannot be cleared or assigned.
-
-   .. py:attribute:: message
-      :value: 'A compound Transaction cannot be cleared or assigned.'
-
-      
 
 
 .. py:exception:: InsufficientBalanceError(assigning: str, amount: float, assigned: str)
@@ -399,6 +359,13 @@ Package Contents
    Assigning Transaction does not have suffecient balance to
    clear the amount specified of the assigned.
 
+   :param assigning: The type of the Transaction to be assigned.
+   :type assigning: str
+   :param amount: The amount to be assigned.
+   :type amount: Decimal
+   :param assigned: The type of the Transaction to be cleared.
+   :type assigned: str
+
 
 .. py:exception:: OverclearanceError(assigned: str)
 
@@ -407,6 +374,9 @@ Package Contents
 
    The assigned Transaction has already been completely cleared.
 
+   :param assigned: The type of the Transaction to be cleared.
+   :type assigned: str
+
 
 .. py:exception:: MixedAssignmentError(previous: str, current: str)
 
@@ -414,5 +384,10 @@ Package Contents
    Bases: :py:obj:`AccountingExeption`
 
    An assigned/cleared cannot be cleared/assigned.
+
+   :param previous: The role played by the Transaction in a previous Assignment.
+   :type previous: str
+   :param current: The role played by the Transaction in the current Assignment.
+   :type current: str
 
 
