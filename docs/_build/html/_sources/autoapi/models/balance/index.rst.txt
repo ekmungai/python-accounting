@@ -27,80 +27,7 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Recyclable`
 
-   Represents a Balance brought down from previous reporting periods.
-
-   .. attribute:: BalanceType
-
-      The double entry types of Balances.
-
-      :type: StrEnum
-
-   .. attribute:: BalanceTransactions
-
-      A list of Transaction Types that can have Balances.
-
-      :type: StrEnum
-
-   .. attribute:: id
-
-      The primary key of the Account database record.
-
-      :type: int
-
-   .. attribute:: transaction_date
-
-      The date of the Balance Transaction.
-
-      :type: datetime
-
-   .. attribute:: reference
-
-      Identifying information about the Balance Transaction.
-
-      :type: :obj:`str`, optional
-
-   .. attribute:: transaction_no
-
-      The Transaction number of the Balance Transaction.
-
-      :type: str
-
-   .. attribute:: transaction_type
-
-      The Transaction type of the Balance Transaction.
-
-      :type: TransactionType
-
-   .. attribute:: amount
-
-      The amount outstanding on the Balance Transaction.
-
-      :type: Decimal
-
-   .. attribute:: balance_type
-
-      The side of the double entry to post the Balance amount.
-
-      :type: BalanceType
-
-   .. attribute:: currency_id
-
-      The id of the Currency model associated with the Balance.
-
-      :type: int
-
-   .. attribute:: account_id
-
-      The id of the Account model to which the Balance belongs.
-
-      :type: int
-
-   .. attribute:: reporting_period_id
-
-      The id of the Reporting Period model to which the
-      Balance belongs.
-
-      :type: int
+   Represents a Balance brought down from previous Reporting Periods.
 
    .. py:property:: is_posted
       :type: bool
@@ -119,11 +46,15 @@ Classes
 
    .. py:attribute:: BalanceType
 
-      
+      The double entry types of Balances.
+
+      :type: (StrEnum)
 
    .. py:attribute:: BalanceTransactions
 
-      
+      A list of Transaction Types that can have Balances.
+
+      :type: (StrEnum)
 
    .. py:attribute:: __mapper_args__
 
@@ -132,67 +63,93 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Account database record.
+
+      :type: (int)
 
    .. py:attribute:: transaction_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Balance Transaction.
+
+      :type: (datetime)
 
    .. py:attribute:: reference
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      Identifying information about the Balance Transaction.
+
+      :type: (`str`, optional)
 
    .. py:attribute:: transaction_no
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The Transaction number of the Balance Transaction.
+
+      :type: (str)
 
    .. py:attribute:: transaction_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The Transaction type of the Balance Transaction.
+
+      :type: (TransactionType)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount outstanding on the Balance Transaction.
+
+      :type: (Decimal)
 
    .. py:attribute:: balance_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The side of the double entry to post the Balance amount.
+
+      :type: (BalanceType)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency model associated with the Balance.
+
+      :type: (int)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model to which the Balance belongs.
+
+      :type: (int)
 
    .. py:attribute:: reporting_period_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Reporting Period model to which the Balance belongs.
+
+      :type: (int)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[src.models.Currency]
 
-      
+      The Currency model associated with the Balance.
+
+      :type: (Currency)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[src.models.Account]
 
-      
+      The Account model to which the Balance belongs.
+
+      :type: (Account)
 
    .. py:attribute:: reporting_period
       :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
 
-      
+      The Reporting Period model to which the Balance belongs.
+
+      :type: (ReportingPeriod)
 
    .. py:method:: __repr__() -> str
 
@@ -207,12 +164,13 @@ Classes
       :param year: The calendar year to retrieve the opening
                    trial balance for. Defaults to the Balance's Entity current Reporting
                    Period's calendar year.
-      :type year: :obj:`int`, optional
+      :type year: `int`, optional
 
-      :returns:
-
-                With a A summary of the debit and credit balances of the Accounts
-                    together with a list of the Accounts themselves.
+      :returns: With a A summary of the debit and credit balances of the Accounts
+                together with a list of the Accounts themselves.
+                    - debits (Decimal): The total debit balance.
+                    - credits (Decimal): The total credit balance.
+                    - accounts (Decimal): Accounts constituting the opening trial balance.
       :rtype: dict
 
 
@@ -223,14 +181,10 @@ Classes
       :param session: The accounting session to which the Balance belongs.
       :type session: Session
 
-      :raises NegativeAmountError: If the Balance amount is less than 0.
-      :raises InvalidBalanceAccountError: If the Balance main Accounr is an Income
-          Statement Account.
-      :raises InvalidBalanceTransactionError: If the Balance Transaction type is
-          not one of the Balance Transaction types.
-      :raises InvalidBalanceDateError: If the Balance Transaction date is within
-          the current reporting period and the Entity does not allow mid
-          year balances.
+      :raises NegativeValueError: If the Balance amount is less than 0.
+      :raises InvalidBalanceAccountError: If the Balance main Account is an Income Statement Account.
+      :raises InvalidBalanceTransactionError: If the Balance Transaction type is not one of the Balance Transaction types.
+      :raises InvalidBalanceDateError: If the Balance Transaction date is within the current reporting period and the Entity does not allow mid year balances.
 
       :returns: None
 

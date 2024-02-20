@@ -29,63 +29,6 @@ Classes
 
    Represents the Reporting Entity.
 
-   .. attribute:: id
-
-      The primary key of the Entity database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The Name of the Entity.
-
-      :type: str
-
-   .. attribute:: multi_currency
-
-      Determines if the Entity can
-      have Transactions in currencies other than its base Currency.
-      Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: mid_year_balances
-
-      Determines if the Entity
-      can have Opening Balances withing the current Reporting Period.
-      Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: year_start
-
-      The month at which the Entity's Reporting
-      Periods begin, expressed as a number between 1 and 12. Defaults to 1
-      (January).
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: locale
-
-      The language format to be used to represent amounts. Defaults
-      to en_GB.
-
-      :type: str
-
-   .. attribute:: currency_id
-
-      The id of the Reporting Currency of
-      the Entity.
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: reporting_period_id
-
-      The current Reporting Period
-      of the Entity.
-
-      :type: :obj:`int`, optional
-
    .. py:attribute:: __mapper_args__
 
       
@@ -93,57 +36,85 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Entity database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The Name of the Entity.
+
+      :type: (str)
 
    .. py:attribute:: multi_currency
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines if the Entity can
+      have Transactions in currencies other than its base Currency.
+      Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: mid_year_balances
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines if the Entity
+      can have Opening Balances withing the current Reporting Period.
+      Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: year_start
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The month at which the Entity's Reporting
+      Periods begin, expressed as a number between 1 and 12. Defaults to 1
+      (January).
+
+      :type: (`int`, optional)
 
    .. py:attribute:: locale
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The language format to be used to represent amounts. Defaults to en_GB.
+
+      :type: (str)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Reporting Currency of the Entity.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: reporting_period_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the current Reporting Period of the Entity.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Reporting Currency of the Entity.
+
+      :type: (Currency)
 
    .. py:attribute:: reporting_period
       :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
 
-      
+      The current Reporting Period of the Entity.
+
+      :type: (ReportingPeriod)
 
    .. py:attribute:: users
       :type: sqlalchemy.orm.Mapped[List[User]]
 
-      
+      A list of Users that belong to the Entity.
+
+      :type: (`list` of User)
 
    .. py:method:: __repr__() -> str
 

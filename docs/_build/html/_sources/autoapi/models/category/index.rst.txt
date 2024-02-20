@@ -29,25 +29,6 @@ Classes
 
    Represents a grouping of Accounts of the same type.
 
-   .. attribute:: id
-
-      The primary key of the Category database record.
-
-      :type: int
-
-   .. attribute:: category_account_type
-
-      The Account
-      type of the members of the Category.
-
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: name
-
-      The label of the Category.
-
-      :type: str
-
    .. py:attribute:: __mapper_args__
 
       
@@ -55,22 +36,30 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Category database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Category.
+
+      :type: (str)
 
    .. py:attribute:: category_account_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The Account type of the members of the Category.
+
+      :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: accounts
       :type: sqlalchemy.orm.Mapped[List[src.models.Account]]
 
-      
+      Accounts that belong to the Category.
+
+      :type: (list)
 
    .. py:method:: __repr__() -> str
 
@@ -82,8 +71,7 @@ Classes
       :param session: The accounting session to which the Category belongs.
       :type session: Session
 
-      :raises InvalidAccountTypeError: If the category account type is not one of
-      :raises Account.AccountType.:
+      :raises InvalidAccountTypeError: If the category account type is not one of Account.AccountType.
 
       :returns: None
 
@@ -94,12 +82,13 @@ Classes
 
       :param session: The accounting session to which the Account belongs.
       :type session: Session
-      :param end_date: The latest transaction date for Transaction amounts to be included
-                       in the Account balances.
+      :param end_date: The latest transaction date for Transaction amounts to be included in the Account balances.
       :type end_date: datetime
 
       :returns: With a A summary of the total of the Account balances of the together with a list
                 of the Accounts themselves.
+                    - total (Decimal): The total of the closing balances of the Category accounts as at the end date.
+                    - accounts (list): The Accounts belonging to the Category.
       :rtype: dict
 
 

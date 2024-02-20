@@ -127,52 +127,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.reporting_period.</span></span><span class="sig-name descname"><span class="pre">ReportingPeriod</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
 <p>Represents a financial cycle for the Reporting Entity.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.id" title="Link to this definition"></a></dt>
-<dd><p>The primary key of the Reporting Period database record.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.calendar_year">
-<span class="sig-name descname"><span class="pre">calendar_year</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.calendar_year" title="Link to this definition"></a></dt>
-<dd><p>The calendar year associated with the Reporting
-Period.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.period_count">
-<span class="sig-name descname"><span class="pre">period_count</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.period_count" title="Link to this definition"></a></dt>
-<dd><p>The number of periods that have passed since the
-system has been in use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.status">
-<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.status" title="Link to this definition"></a></dt>
-<dd><p>The status of the Reporting Period.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#models.reporting_period.ReportingPeriod.Status" title="models.reporting_period.ReportingPeriod.Status">ReportingPeriod.Status</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.Status">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status" title="Link to this definition"></a></dt>
@@ -180,38 +134,22 @@ system has been in use.</p>
 <p>Represents a Reporting Period’s status.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.Status.OPEN">
-<span class="sig-name descname"><span class="pre">OPEN</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status.OPEN" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status.OPEN" title="Link to this definition"></a></dt>
 <dd><p>The period is current and Transactions may be posted to it.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.Status.ADJUSTING">
-<span class="sig-name descname"><span class="pre">ADJUSTING</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status.ADJUSTING" title="Link to this definition"></a></dt>
-<dd><p>The period is past and only Journal Entry Transactions
-may be posted to it (E.g Audit Adjustments).</p>
+<span class="sig-name descname"><span class="pre">ADJUSTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status.ADJUSTING" title="Link to this definition"></a></dt>
+<dd><p>The period is past and only Journal Entry Transactions may be posted to
+it (E.g Audit Adjustments).</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.Status.CLOSED">
-<span class="sig-name descname"><span class="pre">CLOSED</span></span><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status.CLOSED" title="Link to this definition"></a></dt>
-<dd><p>The period is past and no more Transactions may be posted
-to it.</p>
+<span class="sig-name descname"><span class="pre">CLOSED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.Status.CLOSED" title="Link to this definition"></a></dt>
+<dd><p>The period is past and no more Transactions may be posted to it.</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">ADJUSTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">CLOSED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -231,24 +169,48 @@ to it.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.id" title="Link to this definition"></a></dt>
+<dd><p>The primary key of the Reporting Period database record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">calendar_year</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.calendar_year">
+<span class="sig-name descname"><span class="pre">calendar_year</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.calendar_year" title="Link to this definition"></a></dt>
+<dd><p>The calendar year associated with the ReportingPeriod.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">period_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.period_count">
+<span class="sig-name descname"><span class="pre">period_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.period_count" title="Link to this definition"></a></dt>
+<dd><p>The number of periods since the system has been in use by the Entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#models.reporting_period.ReportingPeriod.Status" title="models.reporting_period.ReportingPeriod.Status"><span class="pre">ReportingPeriod.Status</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#models.reporting_period.ReportingPeriod.Status" title="models.reporting_period.ReportingPeriod.Status"><span class="pre">ReportingPeriod.Status</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.reporting_period.ReportingPeriod.status" title="Link to this definition"></a></dt>
+<dd><p>The status of the Reporting Period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#models.reporting_period.ReportingPeriod.Status" title="models.reporting_period.ReportingPeriod.Status">ReportingPeriod.Status</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.reporting_period.ReportingPeriod.__repr__">
@@ -262,9 +224,9 @@ to it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>date</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime</span></code>, optional) – The date whose calendar year is</p></li>
-<li><p><strong>date.</strong> (<em>to be found. Defaults to the current</em>) – </p></li>
-<li><p><strong>entity</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The Entity for whom the calendar year
+<li><p><strong>date</strong> (<cite>datetime</cite>, optional) – The date whose calendar year is
+to be found. Defaults to the current date.</p></li>
+<li><p><strong>entity</strong> (<cite>int</cite>, optional) – The Entity for whom the calendar year
 is to be found. If absent, defaults to the calendar year.</p></li>
 </ul>
 </dd>
@@ -308,7 +270,7 @@ given date.</p>
 <dd><p>Validates the Reporting Period properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Balance belongs.</p>
+<dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the ReportingPeriod belongs.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
@@ -316,8 +278,6 @@ given date.</p>
 for the same calendar year.</p></li>
 <li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.MultipleOpenPeriodsError" title="exceptions.MultipleOpenPeriodsError"><strong>MultipleOpenPeriodsError</strong></a> – If there already exists a Reporting Period
 in the OPEN status.</p></li>
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceTransactionError" title="exceptions.InvalidBalanceTransactionError"><strong>InvalidBalanceTransactionError</strong></a> – If the Balance Transaction type is
-not one of the Balance Transaction types.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -335,7 +295,7 @@ not one of the Balance Transaction types.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Reporting Period
 belongs.</p></li>
-<li><p><strong>date</strong> (<em>datetime</em>) – The date for whose Reporting Period’s inteerval is to
+<li><p><strong>date</strong> (<em>datetime</em>) – The date for whose Reporting Period’s interval is to
 be found.</p></li>
 </ul>
 </dd>

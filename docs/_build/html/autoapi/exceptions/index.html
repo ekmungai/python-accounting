@@ -75,7 +75,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#exceptions.MissingReportingPeriodError"><code class="docutils literal notranslate"><span class="pre">MissingReportingPeriodError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exceptions.MissingTaxAccountError"><code class="docutils literal notranslate"><span class="pre">MissingTaxAccountError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exceptions.MultipleOpenPeriodsError"><code class="docutils literal notranslate"><span class="pre">MultipleOpenPeriodsError</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#exceptions.NegativeAmountError"><code class="docutils literal notranslate"><span class="pre">NegativeAmountError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exceptions.NegativeValueError"><code class="docutils literal notranslate"><span class="pre">NegativeValueError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exceptions.PostedTransactionError"><code class="docutils literal notranslate"><span class="pre">PostedTransactionError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exceptions.RedundantTransactionError"><code class="docutils literal notranslate"><span class="pre">RedundantTransactionError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exceptions.SessionEntityError"><code class="docutils literal notranslate"><span class="pre">SessionEntityError</span></code></a></li>
@@ -359,8 +359,8 @@
 </dd></dl>
 
 <dl class="py exception">
-<dt class="sig sig-object py" id="exceptions.NegativeAmountError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">NegativeAmountError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amount'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.NegativeAmountError" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="exceptions.NegativeValueError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">NegativeValueError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amount'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.NegativeValueError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#exceptions.AccountingExeption" title="exceptions.AccountingExeption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccountingExeption</span></code></a></p>
 <p>Accounting amounts should not be negative.</p>
 <dl class="field-list simple">

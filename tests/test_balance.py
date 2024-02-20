@@ -11,7 +11,7 @@ from src.models import (
 from src.exceptions import (
     InvalidBalanceAccountError,
     InvalidBalanceTransactionError,
-    NegativeAmountError,
+    NegativeValueError,
     InvalidBalanceDateError,
 )
 
@@ -101,7 +101,7 @@ def test_balance_validation(session, entity, currency):
     balance.amount = -1
     session.add(balance)
 
-    with pytest.raises(NegativeAmountError) as e:
+    with pytest.raises(NegativeValueError) as e:
         session.commit()
     assert str(e.value) == "Balance amount cannot be negative."
 

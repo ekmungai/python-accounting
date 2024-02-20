@@ -29,99 +29,68 @@ Classes
 
    Represents an assigment of a clearable type to an assignable Transaction.
 
-   .. attribute:: clearables
-
-      A list of
-      Transaction Types that can be cleared by assignable Transactions.
-
-      :type: :obj:`list` of :obj:`Transaction.TransactionType`
-
-   .. attribute:: assignables
-
-      A list of
-      Transaction Types that can have cleareable Transactions assigned to them.
-
-      :type: :obj:`list` of :obj:`Transaction.TransactionType`
-
-   .. attribute:: assignment_date
-
-      The date of the Assignment.
-
-      :type: datetime
-
-   .. attribute:: transaction_id
-
-      The id of the assignable Transaction in the Assignment.
-
-      :type: int
-
-   .. attribute:: assigned_id
-
-      The id of the clearable Transaction|Balance in the Assignment.
-
-      :type: int
-
-   .. attribute:: assigned_type
-
-      The class name of the clearable Transaction|Balance in the Assignment.
-
-      :type: str
-
-   .. attribute:: assigned_no
-
-      The Transaction number of the clearable Transaction|Balance
-      in the Assignment.
-
-      :type: str
-
-   .. attribute:: amount
-
-      The amount of the Assignment.
-
-      :type: Decimal
-
    .. py:attribute:: clearables
 
-      
+      A list of Transaction Types
+      that can be cleared by assignable Transactions.
+
+      :type: (`list` of `Transaction.TransactionType`)
 
    .. py:attribute:: assignables
 
-      
+      A list of Transaction Types
+      that can have cleareable Transactions assigned to them.
+
+      :type: (`list` of `Transaction.TransactionType`)
 
    .. py:attribute:: assignment_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Assignment.
+
+      :type: (datetime)
 
    .. py:attribute:: transaction_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the assignable Transaction in the Assignment.
+
+      :type: (int)
 
    .. py:attribute:: assigned_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the clearable Transaction|Balance in the Assignment.
+
+      :type: (int)
 
    .. py:attribute:: assigned_type
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The class name of the clearable Transaction|Balance in the Assignment.
+
+      :type: (str)
 
    .. py:attribute:: assigned_no
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The Transaction number of the clearable Transaction|Balance in the Assignment.
+
+      :type: (str)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount of the Assignment.
+
+      :type: (Decimal)
 
    .. py:attribute:: transaction
       :type: sqlalchemy.orm.Mapped[src.models.Transaction]
 
-      
+      The assignable Transaction in the Assignment.
+
+      :type: (Transaction)
 
    .. py:method:: __repr__() -> str
 
@@ -144,26 +113,16 @@ Classes
       :param session: The accounting session to which the Assignment belongs.
       :type session: Session
 
-      :raises ValueError: If the assignable Transaction or clearable Transaction|Balance
-          could not be found.
-      :raises UnassignableTransactionError: If the assignable Transaction type is not one
-          of the assignable types.
-      :raises UnclearableTransactionError: If the clearable Transaction type is not one
-          of the clearable types.
-      :raises UnpostedAssignmentError: If either the assignable or clearable Transaction
-          is not posted.
-      :raises InsufficientBalanceError: If the remaining balance in the assignable
-          Transaction is less than the Assignment amount.
-      :raises OverclearanceError: If the Assignment amount is greater than the clearable
-          Transaction|Balance uncleared amount.
-      :raises CompoundTransactionAssignmentError: If either the assignable or clearable
-          Journal Entry is a compound Transaction.
-      :raises SelfClearanceError: If the assignable and clearable Transaction of the
-          Assignment is the same.
-      :raises InvalidAssignmentAccountError: If the assignable Transaction and clearable
-          Transaction|Balance main Accounts are not the same.
-      :raises MixedAssignmentError: If either an already Transaction is being cleared or
-          an already cleared Transaction is being assigned.
+      :raises ValueError: If the assignable Transaction or clearable Transaction|Balance could not be found.
+      :raises UnassignableTransactionError: If the assignable Transaction type is not one of the assignable types.
+      :raises UnclearableTransactionError: If the clearable Transaction type is not one of the clearable types.
+      :raises UnpostedAssignmentError: If either the assignable or clearable Transaction is not posted.
+      :raises InsufficientBalanceError: If the remaining balance in the assignable Transaction is less than the Assignment amount.
+      :raises OverclearanceError: If the Assignment amount is greater than the clearable Transaction|Balance uncleared amount.
+      :raises CompoundTransactionAssignmentError: If either the assignable or clearable Journal Entry is a compound Transaction.
+      :raises SelfClearanceError: If the assignable and clearable Transaction of the Assignment is the same.
+      :raises InvalidAssignmentAccountError: If the assignable Transaction and clearable Transaction|Balance main Accounts are not the same.
+      :raises MixedAssignmentError: If either an already Transaction is being cleared or an already cleared Transaction is being assigned.
 
       :returns: None
 

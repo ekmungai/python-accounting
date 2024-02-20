@@ -20,19 +20,17 @@ from src.models import Base
 class Recyclable(Base):
     """
     Interface for associating recycled objects with its models.
-
-    Attributes:
-        deleted_at (:obj:`datetime`, optional): The time the model was recycled.
-        destroyed_at (:obj:`datetime`, optional): The time the model was recycled
-            permanently deleted.
-        recycled_type (str): The class name of the recycled model.
     """
 
     deleted_at: Mapped[datetime] = mapped_column(nullable=True)
+    """(`datetime`, optional): The time the model was recycled."""
     destroyed_at: Mapped[datetime] = mapped_column(nullable=True)
+    """(`datetime`, optional): The time the model was recycled permanently deleted."""
     recycled_type: Mapped[str] = mapped_column(String(255))
+    """(str): The class name of the recycled model."""
 
     # relationships
     history: Mapped[List["Recycled"]] = relationship()
+    """(list): A list of deletions and restorations for the model."""
 
     __mapper_args__ = {"polymorphic_on": recycled_type}

@@ -29,32 +29,6 @@ Classes
 
    Represents a financial cycle for the Reporting Entity.
 
-   .. attribute:: id
-
-      The primary key of the Reporting Period database record.
-
-      :type: int
-
-   .. attribute:: calendar_year
-
-      The calendar year associated with the Reporting
-      Period.
-
-      :type: int
-
-   .. attribute:: period_count
-
-      The number of periods that have passed since the
-      system has been in use.
-
-      :type: int
-
-   .. attribute:: status
-
-      The status of the Reporting Period.
-
-      :type: ReportingPeriod.Status
-
    .. py:class:: Status(*args, **kwds)
 
 
@@ -62,34 +36,21 @@ Classes
 
       Represents a Reporting Period's status.
 
-      .. attribute:: OPEN
-
-         The period is current and Transactions may be posted to it.
-
-      .. attribute:: ADJUSTING
-
-         The period is past and only Journal Entry Transactions
-         may be posted to it (E.g Audit Adjustments).
-
-      .. attribute:: CLOSED
-
-         The period is past and no more Transactions may be posted
-         to it.
-
       .. py:attribute:: OPEN
          :value: 0
 
-         
+         The period is current and Transactions may be posted to it.
 
       .. py:attribute:: ADJUSTING
          :value: 1
 
-         
+         The period is past and only Journal Entry Transactions may be posted to
+         it (E.g Audit Adjustments).
 
       .. py:attribute:: CLOSED
          :value: 2
 
-         
+         The period is past and no more Transactions may be posted to it.
 
 
    .. py:attribute:: __tablename__
@@ -109,22 +70,30 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Reporting Period database record.
+
+      :type: (int)
 
    .. py:attribute:: calendar_year
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The calendar year associated with the ReportingPeriod.
+
+      :type: (int)
 
    .. py:attribute:: period_count
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The number of periods since the system has been in use by the Entity.
+
+      :type: (int)
 
    .. py:attribute:: status
       :type: sqlalchemy.orm.Mapped[ReportingPeriod.Status]
 
-      
+      The status of the Reporting Period.
+
+      :type: (ReportingPeriod.Status)
 
    .. py:method:: __repr__() -> str
 
@@ -135,11 +104,11 @@ Classes
       Returns the calendar year for the given date.
 
       :param date: The date whose calendar year is
-      :type date: :obj:`datetime`, optional
-      :param to be found. Defaults to the current date.:
+                   to be found. Defaults to the current date.
+      :type date: `datetime`, optional
       :param entity: The Entity for whom the calendar year
                      is to be found. If absent, defaults to the calendar year.
-      :type entity: :obj:`int`, optional
+      :type entity: `int`, optional
 
       :returns: The calendar year.
       :rtype: int
@@ -167,15 +136,13 @@ Classes
 
       Validates the Reporting Period properties.
 
-      :param session: The accounting session to which the Balance belongs.
+      :param session: The accounting session to which the ReportingPeriod belongs.
       :type session: Session
 
       :raises DuplicateReportingPeriodError: If there already exists a Reporting Period
           for the same calendar year.
       :raises MultipleOpenPeriodsError: If there already exists a Reporting Period
           in the OPEN status.
-      :raises InvalidBalanceTransactionError: If the Balance Transaction type is
-          not one of the Balance Transaction types.
 
       :returns: None
 
@@ -187,7 +154,7 @@ Classes
       :param session: The accounting session to which the Reporting Period
                       belongs.
       :type session: Session
-      :param date: The date for whose Reporting Period's inteerval is to
+      :param date: The date for whose Reporting Period's interval is to
                    be found.
       :type date: datetime
 

@@ -129,57 +129,47 @@
 <p>Interface for associating recycled objects with its models.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.recyclable.Recyclable.deleted_at">
-<span class="sig-name descname"><span class="pre">deleted_at</span></span><a class="headerlink" href="#models.recyclable.Recyclable.deleted_at" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deleted_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.recyclable.Recyclable.deleted_at" title="Link to this definition"></a></dt>
 <dd><p>The time the model was recycled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>datetime</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.recyclable.Recyclable.destroyed_at">
-<span class="sig-name descname"><span class="pre">destroyed_at</span></span><a class="headerlink" href="#models.recyclable.Recyclable.destroyed_at" title="Link to this definition"></a></dt>
-<dd><p>The time the model was recycled
-permanently deleted.</p>
+<span class="sig-name descname"><span class="pre">destroyed_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.recyclable.Recyclable.destroyed_at" title="Link to this definition"></a></dt>
+<dd><p>The time the model was recycled permanently deleted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>datetime</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.recyclable.Recyclable.recycled_type">
-<span class="sig-name descname"><span class="pre">recycled_type</span></span><a class="headerlink" href="#models.recyclable.Recyclable.recycled_type" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">recycled_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.recyclable.Recyclable.recycled_type" title="Link to this definition"></a></dt>
 <dd><p>The class name of the recycled model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">deleted_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">destroyed_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">recycled_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="models.recyclable.Recyclable.history">
 <span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.Recycled" title="models.Recycled"><span class="pre">Recycled</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.recyclable.Recyclable.history" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A list of deletions and restorations for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.recyclable.Recyclable.__mapper_args__">

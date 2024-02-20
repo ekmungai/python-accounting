@@ -118,7 +118,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#models.line_item.LineItem" title="models.line_item.LineItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LineItem</span></code></a></p></td>
-<td><p>Represents a Line Item which the other side of the double entry from the main account</p></td>
+<td><p>Represents the other side of the double entry from the main account of a Transaction.</p></td>
 </tr>
 </tbody>
 </table>
@@ -126,112 +126,7 @@
 <dt class="sig sig-object py" id="models.line_item.LineItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.line_item.</span></span><span class="sig-name descname"><span class="pre">LineItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.line_item.LineItem" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
-<p>Represents a Line Item which the other side of the double entry from the main account
-of a Transaction.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.line_item.LineItem.id" title="Link to this definition"></a></dt>
-<dd><p>The primary key of the Line Item database record.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.narration">
-<span class="sig-name descname"><span class="pre">narration</span></span><a class="headerlink" href="#models.line_item.LineItem.narration" title="Link to this definition"></a></dt>
-<dd><p>A short description of the Line Item’s contribution to the
-Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.quantity">
-<span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#models.line_item.LineItem.quantity" title="Link to this definition"></a></dt>
-<dd><p>The multiple of the Line Item amount to be posted to the
-Ledger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.amount">
-<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#models.line_item.LineItem.amount" title="Link to this definition"></a></dt>
-<dd><p>The amount to be posted to the Line Item Account.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.credited">
-<span class="sig-name descname"><span class="pre">credited</span></span><a class="headerlink" href="#models.line_item.LineItem.credited" title="Link to this definition"></a></dt>
-<dd><p>Determines whether the Line Item amount will
-be posted to the credit side of the Line Item Account. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.tax_inclusive">
-<span class="sig-name descname"><span class="pre">tax_inclusive</span></span><a class="headerlink" href="#models.line_item.LineItem.tax_inclusive" title="Link to this definition"></a></dt>
-<dd><p>Determines whether the Tax amount of the
-Line Item is included in the Line Item amount. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.account_id">
-<span class="sig-name descname"><span class="pre">account_id</span></span><a class="headerlink" href="#models.line_item.LineItem.account_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Account model associated with the Line Item.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.transaction_id">
-<span class="sig-name descname"><span class="pre">transaction_id</span></span><a class="headerlink" href="#models.line_item.LineItem.transaction_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Transaction model associated
-with the Line Item.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.line_item.LineItem.tax_id">
-<span class="sig-name descname"><span class="pre">tax_id</span></span><a class="headerlink" href="#models.line_item.LineItem.tax_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Tax model associated with the Line Item.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>Represents the other side of the double entry from the main account of a Transaction.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.line_item.LineItem.__tablename__">
 <span class="sig-name descname"><span class="pre">__tablename__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'line_item'</span></em><a class="headerlink" href="#models.line_item.LineItem.__tablename__" title="Link to this definition"></a></dt>
@@ -243,74 +138,159 @@ with the Line Item.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.id" title="Link to this definition"></a></dt>
+<dd><p>The primary key of the Line Item database record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">narration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.narration">
+<span class="sig-name descname"><span class="pre">narration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.narration" title="Link to this definition"></a></dt>
+<dd><p>A short description of the Line Item’s contribution to the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">quantity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.quantity">
+<span class="sig-name descname"><span class="pre">quantity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.quantity" title="Link to this definition"></a></dt>
+<dd><p>The multiple of the Line Item amount to be posted to the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Decimal)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.amount" title="Link to this definition"></a></dt>
+<dd><p>The amount to be posted to the Line Item Account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Decimal)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">credited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.credited">
+<span class="sig-name descname"><span class="pre">credited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.credited" title="Link to this definition"></a></dt>
+<dd><p>Determines whether the Line Item amount will
+be posted to the credit side of the Line Item Account. Defaults to False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>bool</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">tax_inclusive</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.tax_inclusive">
+<span class="sig-name descname"><span class="pre">tax_inclusive</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.tax_inclusive" title="Link to this definition"></a></dt>
+<dd><p>Determines whether the Tax amount of the
+Line Item is included in the Line Item amount. Defaults to False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>bool</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.account_id">
+<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account model associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">transaction_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.transaction_id">
+<span class="sig-name descname"><span class="pre">transaction_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.transaction_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Transaction model associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">tax_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.line_item.LineItem.tax_id">
+<span class="sig-name descname"><span class="pre">tax_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.tax_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Tax model associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.line_item.LineItem.account">
 <span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account"><span class="pre">Account</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.account" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The the Account model associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account">Account</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.line_item.LineItem.tax">
 <span class="sig-name descname"><span class="pre">tax</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.Tax" title="models.Tax"><span class="pre">Tax</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.tax" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Tax model associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>Tax</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.line_item.LineItem.transaction">
 <span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.Transaction" title="models.Transaction"><span class="pre">Transaction</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.transaction" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Transaction model associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>Transaction</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.line_item.LineItem.ledgers">
 <span class="sig-name descname"><span class="pre">ledgers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.Ledger" title="models.Ledger"><span class="pre">Ledger</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.line_item.LineItem.ledgers" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Ledger models associated with the Line Item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.line_item.LineItem.validate_ledgers">
 <span class="sig-name descname"><span class="pre">validate_ledgers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ledger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_remove</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.line_item.LineItem.validate_ledgers" title="Link to this definition"></a></dt>
-<dd><p>validates adding or removing of Line Item Ledgers.</p>
+<dd><p>Validates adding or removing of Line Item Ledgers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the Line Item Ledgers are manually added or removed.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -327,7 +307,7 @@ with the Line Item.</p>
 <dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Line Item belongs.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeAmountError" title="exceptions.NegativeAmountError"><strong>NegativeAmountError</strong></a> – If the Line Item amount or quantity is less than 0.</p>
+<dd class="field-even"><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeValueError" title="exceptions.NegativeValueError"><strong>NegativeValueError</strong></a> – If the Line Item amount or quantity is less than 0.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>

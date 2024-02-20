@@ -9,7 +9,7 @@ from src.models import (
     Transaction,
     Tax,
 )
-from src.exceptions import NegativeAmountError, HangingTransactionsError
+from src.exceptions import NegativeValueError, HangingTransactionsError
 from src.transactions import ClientInvoice
 
 
@@ -60,7 +60,7 @@ def test_line_item_validation(session, entity, currency):
         entity_id=entity.id,
     )
     session.add(line_item)
-    with pytest.raises(NegativeAmountError) as e:
+    with pytest.raises(NegativeValueError) as e:
         session.commit()
     assert str(e.value) == "LineItem amount cannot be negative."
 
@@ -68,7 +68,7 @@ def test_line_item_validation(session, entity, currency):
     line_item.quantity = -1
     session.add(line_item)
 
-    with pytest.raises(NegativeAmountError) as e:
+    with pytest.raises(NegativeValueError) as e:
         session.commit()
     assert str(e.value) == "LineItem quantity cannot be negative."
 

@@ -41,63 +41,18 @@ Attributes
 
    Represents an account which groups related Transactions.
 
-   .. attribute:: AccountType
+   .. py:attribute:: AccountType
 
       Account Types as defined by IFRS and GAAP.
 
-      :type: StrEnum
+      :type: (StrEnum)
 
-   .. attribute:: purchasables
+   .. py:attribute:: purchasables
 
       A list of Account
       Types that can be used in purchasing Transactions.
 
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: id
-
-      The primary key of the Account database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The label of the Account.
-
-      :type: str
-
-   .. attribute:: decsription
-
-      A narration of the purpose of the Account.
-
-      :type: :obj:`str`, optional
-
-   .. attribute:: account_type
-
-      The type of the Account.
-
-      :type: AccountType
-
-   .. attribute:: currency_id
-
-      The id of the Currency model associated with the Account.
-
-      :type: int
-
-   .. attribute:: category_id
-
-      The id of the Category model to which
-      the Account belongs.
-
-      :type: :obj:`int`, optional
-
-   .. py:attribute:: AccountType
-
-      
-
-   .. py:attribute:: purchasables
-
-      
+      :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: __mapper_args__
 
@@ -106,51 +61,67 @@ Attributes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Account database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Account.
+
+      :type: (str)
 
    .. py:attribute:: description
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A narration of the purpose of the Account.
+
+      :type: (`str`, optional)
 
    .. py:attribute:: account_code
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      A serially generated code based on the type of the Account.
+
+      :type: (int)
 
    .. py:attribute:: account_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The type of the Account.
+
+      :type: (AccountType)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency model associated with the Account.
+
+      :type: (int)
 
    .. py:attribute:: category_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Category model to which the Account belongs.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Currency associated with the Account.
+
+      :type: (Currency)
 
    .. py:attribute:: category
       :type: sqlalchemy.orm.Mapped[Category]
 
-      
+      The Category to which the Account belongs.
+
+      :type: (`Category`, optional)
 
    .. py:method:: _get_account_code(session) -> int
-
-      Get the auto generated account code for the instance
 
 
    .. py:method:: __repr__() -> str
@@ -169,10 +140,8 @@ Attributes
                        in the balance.
       :type end_date: datetime
 
-      :returns:
-
-                The difference between the balance of the Account at the start date and
-                    end date.
+      :returns: The difference between the balance of the Account at the start date and
+                end date.
       :rtype: Decimal
 
 
@@ -186,7 +155,7 @@ Attributes
       :type session: Session
       :param account_types: The Account types
                             belonging to the section.
-      :type account_types: :obj:`list` of :obj:`Account.AccountType`
+      :type account_types: `list` of `Account.AccountType`
       :param start_date: The earliest transaction date for Transaction amounts to be
                          included in the balance.
       :type start_date: datetime
@@ -196,10 +165,12 @@ Attributes
       :param full_balance: Whether to include opening balance amounts in the balance.
       :type full_balance: bool
 
-      :returns:
-
-                A summary of the total opening, balance movement and closing balance, which
-                    details of totals by Category and the Accounts contained in each Category.
+      :returns: A summary of the total opening, balance movement and closing balance, which
+                details of totals by Category and the Accounts contained in each Category.
+                    - opening (Decimal): The sum of opening balances of Accounts in the section.
+                    - movement (Decimal): The movememt of the balances of Accounts in the section.
+                    - closing (Decimal): The sum of opening closing of Accounts in the section.
+                    - categories (dict): The Accounts belonging to the section separated by Category.
       :rtype: dict
 
 
@@ -249,11 +220,19 @@ Attributes
 
       :raises InvalidAccountTypeError: If the Account type is not Receivable or Payable.
 
-      :returns:
+      :returns: With a A summary of the opening and closing balance in the case of
+                a statement, the total, cleared and uncleared amounts if its a schedule
+                together with a list of Transactions.
 
-                With a A summary of the opening and closing balance in the case of
-                    a statement, the total, cleared and uncleared amounts if its a schedule
-                    together with a list of Transactions.
+                Statements.
+                    - opening_balance (Decimal): The balance of the Account at the beginning of the statement period.
+                    - transactions (list): Transactions posted to the Account during the period.
+                    - closing_balance (Decimal): The balance of the Account at the end of the statement period.
+                Schedule.
+                    - transactions (list): Outstanding clearable Transactions posted to the Account as at the end date.
+                    - total_amount (Decimal): The total amount of the Transactions in the Schdeule.
+                    - cleared_amount (Decimal): The amount of the Transactions in the Schdeule that has been cleared.
+                    - uncleared_amount (Decimal): The amount of the Transactions in the Schdeule that is still outstanding.
       :rtype: dict
 
 

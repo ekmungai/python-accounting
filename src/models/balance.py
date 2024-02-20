@@ -25,7 +25,7 @@ from src.models import (
 from src.exceptions import (
     InvalidBalanceAccountError,
     InvalidBalanceTransactionError,
-    NegativeAmountError,
+    NegativeValueError,
     InvalidBalanceDateError,
 )
 from src.mixins import IsolatingMixin, ClearingMixin
@@ -33,28 +33,10 @@ from src.reports import IncomeStatement
 
 
 class Balance(IsolatingMixin, ClearingMixin, Recyclable):
-    """
-    Represents a Balance brought down from previous reporting periods.
-
-    Attributes:
-        BalanceType (StrEnum): The double entry types of Balances.
-        BalanceTransactions (StrEnum): A list of Transaction Types that can have Balances.
-        id (int): The primary key of the Account database record.
-        transaction_date (datetime): The date of the Balance Transaction.
-        reference (:obj:`str`, optional): Identifying information about the Balance Transaction.
-        transaction_no (str): The Transaction number of the Balance Transaction.
-        transaction_type (TransactionType): The Transaction type of the Balance Transaction.
-        amount (Decimal): The amount outstanding on the Balance Transaction.
-        balance_type (BalanceType): The side of the double entry to post the Balance amount.
-        currency_id (int): The id of the Currency model associated with the Balance.
-        account_id (int): The id of the Account model to which the Balance belongs.
-        reporting_period_id (int): The id of the Reporting Period model to which the
-            Balance belongs.
-
-
-    """
+    """Represents a Balance brought down from previous Reporting Periods."""
 
     BalanceType = StrEnum("BalanceType", {"DEBIT": "Debit", "CREDIT": "Credit"})
+    """(StrEnum): The double entry types of Balances."""
     BalanceTransactions = StrEnum(
         "BalanceTransactions",
         {
@@ -66,26 +48,40 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
             ]
         },
     )
+    """(StrEnum): A list of Transaction Types that can have Balances."""
 
     __mapper_args__ = {"polymorphic_identity": "Balance"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
+    """(int): The primary key of the Account database record."""
     transaction_date: Mapped[datetime] = mapped_column()
+    """(datetime): The date of the Balance Transaction."""
     reference: Mapped[str] = mapped_column(String(255), nullable=True)
+    """(`str`, optional): Identifying information about the Balance Transaction."""
     transaction_no: Mapped[str] = mapped_column(String(255))
+    """(str): The Transaction number of the Balance Transaction."""
     transaction_type: Mapped[StrEnum] = mapped_column(Enum(BalanceTransactions))
+    """(TransactionType): The Transaction type of the Balance Transaction."""
     amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    """(Decimal): The amount outstanding on the Balance Transaction."""
     balance_type: Mapped[StrEnum] = mapped_column(Enum(BalanceType))
+    """(BalanceType): The side of the double entry to post the Balance amount."""
     currency_id: Mapped[int] = mapped_column(ForeignKey("currency.id"))
+    """(int): The id of the Currency model associated with the Balance."""
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"))
+    """(int): The id of the Account model to which the Balance belongs."""
     reporting_period_id: Mapped[int] = mapped_column(ForeignKey("reporting_period.id"))
+    """(int): The id of the Reporting Period model to which the Balance belongs."""
 
     # relationships
     currency: Mapped["Currency"] = relationship(foreign_keys=[currency_id])
+    """(Currency): The Currency model associated with the Balance."""
     account: Mapped["Account"] = relationship(foreign_keys=[account_id])
+    """(Account): The Account model to which the Balance belongs."""
     reporting_period: Mapped["ReportingPeriod"] = relationship(
         foreign_keys=[reporting_period_id]
     )
+    """(ReportingPeriod): The Reporting Period model to which the Balance belongs."""
 
     def __repr__(self) -> str:
         return f"{self.account} {self.reporting_period}: {self.amount}"
@@ -112,13 +108,16 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
 
         Args:
             session (Session): The accounting session to which the Account belongs.
-            year (:obj:`int`, optional): The calendar year to retrieve the opening
+            year (`int`, optional): The calendar year to retrieve the opening
                 trial balance for. Defaults to the Balance's Entity current Reporting
                 Period's calendar year.
 
         Returns:
             dict: With a A summary of the debit and credit balances of the Accounts
-                together with a list of the Accounts themselves.
+            together with a list of the Accounts themselves.
+                - debits (Decimal): The total debit balance.
+                - credits (Decimal): The total credit balance.
+                - accounts (Decimal): Accounts constituting the opening trial balance.
 
         """
         balances = dict(debits=0, credits=0, accounts=[])
@@ -142,14 +141,10 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
             session (Session): The accounting session to which the Balance belongs.
 
         Raises:
-            NegativeAmountError: If the Balance amount is less than 0.
-            InvalidBalanceAccountError: If the Balance main Accounr is an Income
-                Statement Account.
-            InvalidBalanceTransactionError: If the Balance Transaction type is
-                not one of the Balance Transaction types.
-            InvalidBalanceDateError: If the Balance Transaction date is within
-                the current reporting period and the Entity does not allow mid
-                year balances.
+            NegativeValueError: If the Balance amount is less than 0.
+            InvalidBalanceAccountError: If the Balance main Account is an Income Statement Account.
+            InvalidBalanceTransactionError: If the Balance Transaction type is not one of the Balance Transaction types.
+            InvalidBalanceDateError: If the Balance Transaction date is within the current reporting period and the Entity does not allow mid year balances.
 
         Returns:
             None
@@ -167,7 +162,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
             )
 
         if self.amount < 0:
-            raise NegativeAmountError(self.__class__.__name__)
+            raise NegativeValueError(self.__class__.__name__)
 
         if account.account_type in IncomeStatement.Accounts:
             raise InvalidBalanceAccountError

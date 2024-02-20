@@ -17,7 +17,7 @@ from sqlalchemy.types import DECIMAL
 from src.mixins import IsolatingMixin
 from src.models import Recyclable, Account
 from src.exceptions import (
-    NegativeAmountError,
+    NegativeValueError,
     MissingTaxAccountError,
     InvalidTaxAccountError,
     HangingTransactionsError,
@@ -25,29 +25,24 @@ from src.exceptions import (
 
 
 class Tax(IsolatingMixin, Recyclable):
-    """
-    Represents a Tax applied to a Transaction's Line Item.
-
-    Attributes:
-        id (int): The primary key of the Tax database record.
-        name (str): The label of the Tax.
-        code (str): A shorthand representation of the Tax.
-        rate (Decimal): The percentage rate of the Tax.
-        account_id (int): The id of the Account model to which Tax amounts are
-            posted.
-
-    """
+    """Represents a Tax applied to a Transaction's Line Item."""
 
     __mapper_args__ = {"polymorphic_identity": "Tax"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
+    """(int): The primary key of the Tax database record."""
     name: Mapped[str] = mapped_column(String(255))
+    """(str): The label of the Tax."""
     code: Mapped[str] = mapped_column(String(5))
+    """(str): A shorthand representation of the Tax."""
     rate: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    """(Decimal): The percentage rate of the Tax."""
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"), nullable=True)
+    """(int): The id of the Account model to which Tax amounts are posted."""
 
     # relationships
     account: Mapped["Account"] = relationship(foreign_keys=[account_id])
+    """(Account): The Account model to which Tax amounts are posted."""
 
     def __repr__(self) -> str:
         return f"{self.name} <{self.code}>: {self.rate}"
@@ -60,21 +55,19 @@ class Tax(IsolatingMixin, Recyclable):
             session (Session): The accounting session to which the Balance belongs.
 
         Raises:
-            NegativeAmountError: If the Tax rate is less than 0.
-            MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account
-                is not set.
+            NegativeValueError: If the Tax rate is less than 0.
+            MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account is not set.
             InvalidTaxAccountError: If the Tax Account type is not Control.
 
         Returns:
             None
-
         """
 
         if self.rate == 0:
             self.account_id = None
 
         if self.rate < 0:
-            raise NegativeAmountError(self.__class__.__name__, "Rate")
+            raise NegativeValueError(self.__class__.__name__, "Rate")
 
         if self.rate > 0 and self.account_id is None:
             raise MissingTaxAccountError
@@ -93,12 +86,10 @@ class Tax(IsolatingMixin, Recyclable):
             session (Session): The accounting session to which the Tax belongs.
 
         Raises:
-            HangingTransactionsError: If there exists posted Transactions with Line Items
-                that have this Tax applied to them.
+            HangingTransactionsError: If there exists posted Transactions with Line Items that have this Tax applied to them.
 
         Returns:
             None
-
         """
         from src.models import (  # pylint: disable=import-outside-toplevel
             Ledger,

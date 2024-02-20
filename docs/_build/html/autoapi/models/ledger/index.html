@@ -118,7 +118,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#models.ledger.Ledger" title="models.ledger.Ledger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ledger</span></code></a></p></td>
-<td><p>Represents an entry in the Ledger. This class should never have to be invoked directly</p></td>
+<td><p>Represents an entry in the Ledger. (Should never have to be invoked directly).</p></td>
 </tr>
 </tbody>
 </table>
@@ -126,221 +126,187 @@
 <dt class="sig sig-object py" id="models.ledger.Ledger">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.ledger.</span></span><span class="sig-name descname"><span class="pre">Ledger</span></span><a class="headerlink" href="#models.ledger.Ledger" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
-<p>Represents an entry in the Ledger. This class should never have to be invoked directly</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.ledger.Ledger.id" title="Link to this definition"></a></dt>
-<dd><p>The primary key of the ledger database record.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.transaction_date">
-<span class="sig-name descname"><span class="pre">transaction_date</span></span><a class="headerlink" href="#models.ledger.Ledger.transaction_date" title="Link to this definition"></a></dt>
-<dd><p>The date of the Transaction associated with
-the Ledger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.entry_type">
-<span class="sig-name descname"><span class="pre">entry_type</span></span><a class="headerlink" href="#models.ledger.Ledger.entry_type" title="Link to this definition"></a></dt>
-<dd><p>The side of the double entry to which the Ledger</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BalanceType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">is</span> <span class="pre">posted.</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.amount">
-<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#models.ledger.Ledger.amount" title="Link to this definition"></a></dt>
-<dd><p>The amount posted to the Ledger by the entry.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.hash">
-<span class="sig-name descname"><span class="pre">hash</span></span><a class="headerlink" href="#models.ledger.Ledger.hash" title="Link to this definition"></a></dt>
-<dd><p>The encoded contents of the Ledger entry.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.transaction_id">
-<span class="sig-name descname"><span class="pre">transaction_id</span></span><a class="headerlink" href="#models.ledger.Ledger.transaction_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Transaction associated with
-the Ledger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.currency_id">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><a class="headerlink" href="#models.ledger.Ledger.currency_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Currency associated with the Ledger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.post_account_id">
-<span class="sig-name descname"><span class="pre">post_account_id</span></span><a class="headerlink" href="#models.ledger.Ledger.post_account_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Account to which the Ledger is posted.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.folio_account_id">
-<span class="sig-name descname"><span class="pre">folio_account_id</span></span><a class="headerlink" href="#models.ledger.Ledger.folio_account_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Account to which the opposite side
-of Ledger is posted.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.line_item_id">
-<span class="sig-name descname"><span class="pre">line_item_id</span></span><a class="headerlink" href="#models.ledger.Ledger.line_item_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Line Item associated with
-the Ledger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.ledger.Ledger.tax_id">
-<span class="sig-name descname"><span class="pre">tax_id</span></span><a class="headerlink" href="#models.ledger.Ledger.tax_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Tax associated with the Ledger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>Represents an entry in the Ledger. (Should never have to be invoked directly).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.ledger.Ledger.__mapper_args__">
 <span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.ledger.Ledger.__mapper_args__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.id" title="Link to this definition"></a></dt>
+<dd><p>The primary key of the ledger database record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.transaction_date">
+<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.transaction_date" title="Link to this definition"></a></dt>
+<dd><p>The date of the Transaction associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(datetime)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">entry_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.entry_type">
+<span class="sig-name descname"><span class="pre">entry_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.entry_type" title="Link to this definition"></a></dt>
+<dd><p>The side of the double entry to which the Ledger is posted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(BalanceType)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.amount" title="Link to this definition"></a></dt>
+<dd><p>The amount posted to the Ledger by the entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Decimal)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">hash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.hash">
+<span class="sig-name descname"><span class="pre">hash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.hash" title="Link to this definition"></a></dt>
+<dd><p>The encoded contents of the Ledger entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">transaction_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.transaction_id">
+<span class="sig-name descname"><span class="pre">transaction_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.transaction_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Transaction associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.currency_id">
+<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.currency_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Currency associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">post_account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.post_account_id">
+<span class="sig-name descname"><span class="pre">post_account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.post_account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account to which the Ledger is posted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">folio_account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.folio_account_id">
+<span class="sig-name descname"><span class="pre">folio_account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.folio_account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account to which the opposite side of Ledger is posted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">line_item_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.line_item_id">
+<span class="sig-name descname"><span class="pre">line_item_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.line_item_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Line Item associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">tax_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.ledger.Ledger.tax_id">
+<span class="sig-name descname"><span class="pre">tax_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.tax_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Tax associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.ledger.Ledger.transaction">
 <span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.transaction" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Transaction associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../index.html#models.Transaction" title="models.Transaction">Transaction</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.ledger.Ledger.currency">
 <span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency"><span class="pre">Currency</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.currency" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Currency associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency">Currency</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.ledger.Ledger.post_account">
 <span class="sig-name descname"><span class="pre">post_account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account"><span class="pre">Account</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.post_account" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The main Account associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account">Account</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.ledger.Ledger.folio_account">
 <span class="sig-name descname"><span class="pre">folio_account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account"><span class="pre">Account</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.folio_account" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The oppeite double entry Account associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account">Account</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.ledger.Ledger.line_item">
 <span class="sig-name descname"><span class="pre">line_item</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.LineItem" title="models.LineItem"><span class="pre">LineItem</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.ledger.Ledger.line_item" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The LineItem associated with the Ledger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../index.html#models.LineItem" title="models.LineItem">LineItem</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.ledger.Ledger.__repr__">
@@ -392,8 +358,10 @@ the Ledger.</p>
 <dd><p>Calculate the hash of the Ledger.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>connection</strong> (<em>Connection</em>) – The database connection of the accounting session
-to which the Ledger belongs.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connection</strong> (<em>Connection</em>) – The database connection of the accounting session</p></li>
+<li><p><strong>belongs.</strong> (<em>to which the Ledger</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

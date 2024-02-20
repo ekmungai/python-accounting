@@ -21,7 +21,7 @@ from src.config import config
 from src.exceptions import (
     UnassignableTransactionError,
     UnclearableTransactionError,
-    NegativeAmountError,
+    NegativeValueError,
     SelfClearanceError,
     UnpostedAssignmentError,
     InvalidAssignmentAccountError,
@@ -34,47 +34,44 @@ from src.exceptions import (
 
 
 class Assignment(IsolatingMixin, Base):
-    """
-    Represents an assigment of a clearable type to an assignable Transaction.
+    """Represents an assigment of a clearable type to an assignable Transaction."""
 
-    Attributes:
-        clearables (:obj:`list` of :obj:`Transaction.TransactionType`): A list of
-            Transaction Types that can be cleared by assignable Transactions.
-        assignables (:obj:`list` of :obj:`Transaction.TransactionType`): A list of
-            Transaction Types that can have cleareable Transactions assigned to them.
-        assignment_date (datetime): The date of the Assignment.
-        transaction_id (int): The id of the assignable Transaction in the Assignment.
-        assigned_id (int): The id of the clearable Transaction|Balance in the Assignment.
-        assigned_type (str): The class name of the clearable Transaction|Balance in the Assignment.
-        assigned_no (str): The Transaction number of the clearable Transaction|Balance
-            in the Assignment.
-        amount (Decimal): The amount of the Assignment.
-
-    """
-
-    # Transaction Types that can be cleared by assignable transactions
     clearables = [
         Transaction.TransactionType[t]
         for t in config.transactions["clearables"]["types"]
     ]
+    """
+    (`list` of `Transaction.TransactionType`): A list of Transaction Types
+    that can be cleared by assignable Transactions.
+    """
 
-    # Transaction Types that can have clearbale transactions assigned to them
     assignables = [
         Transaction.TransactionType[t]
         for t in config.transactions["assignables"]["types"]
     ]
+    """
+    (`list` of `Transaction.TransactionType`): A list of Transaction Types
+    that can have cleareable Transactions assigned to them.
+    """
 
     assignment_date: Mapped[datetime] = mapped_column()
+    """(datetime): The date of the Assignment."""
     transaction_id: Mapped[int] = mapped_column(
         ForeignKey("transaction.id"), nullable=True
     )
+    """(int): The id of the assignable Transaction in the Assignment."""
     assigned_id: Mapped[int] = mapped_column()
+    """(int): The id of the clearable Transaction|Balance in the Assignment."""
     assigned_type: Mapped[str] = mapped_column()
+    """(str): The class name of the clearable Transaction|Balance in the Assignment."""
     assigned_no: Mapped[str] = mapped_column()
+    """(str): The Transaction number of the clearable Transaction|Balance in the Assignment."""
     amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    """(Decimal): The amount of the Assignment."""
 
     # relationships
     transaction: Mapped["Transaction"] = relationship(foreign_keys=[transaction_id])
+    """(Transaction): The assignable Transaction in the Assignment."""
 
     def __repr__(self) -> str:
         return f"""Assigning {self.assigned_no}
@@ -91,7 +88,6 @@ class Assignment(IsolatingMixin, Base):
 
         Returns:
             Transaction|Balance: The model cleared by this assignment.
-
         """
         module = (
             importlib.import_module("src.models")
@@ -108,33 +104,23 @@ class Assignment(IsolatingMixin, Base):
             session (Session): The accounting session to which the Assignment belongs.
 
         Raises:
-            ValueError: If the assignable Transaction or clearable Transaction|Balance
-                could not be found.
-            UnassignableTransactionError: If the assignable Transaction type is not one
-                of the assignable types.
-            UnclearableTransactionError: If the clearable Transaction type is not one
-                of the clearable types.
-            UnpostedAssignmentError: If either the assignable or clearable Transaction
-                 is not posted.
-            InsufficientBalanceError: If the remaining balance in the assignable
-                Transaction is less than the Assignment amount.
-            OverclearanceError: If the Assignment amount is greater than the clearable
-                Transaction|Balance uncleared amount.
-            CompoundTransactionAssignmentError: If either the assignable or clearable
-                 Journal Entry is a compound Transaction.
-            SelfClearanceError: If the assignable and clearable Transaction of the
-                 Assignment is the same.
-            InvalidAssignmentAccountError: If the assignable Transaction and clearable
-                 Transaction|Balance main Accounts are not the same.
-            MixedAssignmentError: If either an already Transaction is being cleared or
-                 an already cleared Transaction is being assigned.
+            ValueError: If the assignable Transaction or clearable Transaction|Balance could not be found.
+            UnassignableTransactionError: If the assignable Transaction type is not one of the assignable types.
+            UnclearableTransactionError: If the clearable Transaction type is not one of the clearable types.
+            UnpostedAssignmentError: If either the assignable or clearable Transaction is not posted.
+            InsufficientBalanceError: If the remaining balance in the assignable Transaction is less than the Assignment amount.
+            OverclearanceError: If the Assignment amount is greater than the clearable Transaction|Balance uncleared amount.
+            CompoundTransactionAssignmentError: If either the assignable or clearable Journal Entry is a compound Transaction.
+            SelfClearanceError: If the assignable and clearable Transaction of the Assignment is the same.
+            InvalidAssignmentAccountError: If the assignable Transaction and clearable Transaction|Balance main Accounts are not the same.
+            MixedAssignmentError: If either an already Transaction is being cleared or an already cleared Transaction is being assigned.
 
         Returns:
             None
         """
 
         if self.amount < 0:
-            raise NegativeAmountError(self.__class__.__name__)
+            raise NegativeValueError(self.__class__.__name__)
 
         transaction = session.get(Transaction, self.transaction_id)
         if not transaction:

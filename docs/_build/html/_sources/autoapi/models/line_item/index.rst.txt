@@ -27,67 +27,7 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
 
-   Represents a Line Item which the other side of the double entry from the main account
-   of a Transaction.
-
-   .. attribute:: id
-
-      The primary key of the Line Item database record.
-
-      :type: int
-
-   .. attribute:: narration
-
-      A short description of the Line Item's contribution to the
-      Transaction.
-
-      :type: str
-
-   .. attribute:: quantity
-
-      The multiple of the Line Item amount to be posted to the
-      Ledger.
-
-      :type: Decimal
-
-   .. attribute:: amount
-
-      The amount to be posted to the Line Item Account.
-
-      :type: Decimal
-
-   .. attribute:: credited
-
-      Determines whether the Line Item amount will
-      be posted to the credit side of the Line Item Account. Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: tax_inclusive
-
-      Determines whether the Tax amount of the
-      Line Item is included in the Line Item amount. Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: account_id
-
-      The id of the Account model associated with the Line Item.
-
-      :type: int
-
-   .. attribute:: transaction_id
-
-      The id of the Transaction model associated
-      with the Line Item.
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: tax_id
-
-      The id of the Tax model associated with the Line Item.
-
-      :type: :obj:`int`, optional
+   Represents the other side of the double entry from the main account of a Transaction.
 
    .. py:attribute:: __tablename__
       :value: 'line_item'
@@ -101,71 +41,101 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Line Item database record.
+
+      :type: (int)
 
    .. py:attribute:: narration
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A short description of the Line Item's contribution to the Transaction.
+
+      :type: (str)
 
    .. py:attribute:: quantity
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The multiple of the Line Item amount to be posted to the Ledger.
+
+      :type: (Decimal)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount to be posted to the Line Item Account.
+
+      :type: (Decimal)
 
    .. py:attribute:: credited
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the Line Item amount will
+      be posted to the credit side of the Line Item Account. Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: tax_inclusive
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the Tax amount of the
+      Line Item is included in the Line Item amount. Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model associated with the Line Item.
+
+      :type: (int)
 
    .. py:attribute:: transaction_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Transaction model associated with the Line Item.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: tax_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Tax model associated with the Line Item.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[Account]
 
-      
+      The the Account model associated with the Line Item.
+
+      :type: (Account)
 
    .. py:attribute:: tax
       :type: sqlalchemy.orm.Mapped[Tax]
 
-      
+      The Tax model associated with the Line Item.
+
+      :type: (`Tax`, optional)
 
    .. py:attribute:: transaction
       :type: sqlalchemy.orm.Mapped[Transaction]
 
-      
+      The Transaction model associated with the Line Item.
+
+      :type: (`Transaction`, optional)
 
    .. py:attribute:: ledgers
       :type: sqlalchemy.orm.Mapped[List[Ledger]]
 
-      
+      The Ledger models associated with the Line Item.
+
+      :type: (list)
 
    .. py:method:: validate_ledgers(key, ledger, is_remove)
 
-      validates adding or removing of Line Item Ledgers.
+      Validates adding or removing of Line Item Ledgers.
+
+      :raises ValueError: If the Line Item Ledgers are manually added or removed.
 
 
    .. py:method:: __repr__() -> str
@@ -178,7 +148,7 @@ Classes
       :param session: The accounting session to which the Line Item belongs.
       :type session: Session
 
-      :raises NegativeAmountError: If the Line Item amount or quantity is less than 0.
+      :raises NegativeValueError: If the Line Item amount or quantity is less than 0.
 
       :returns: None
 

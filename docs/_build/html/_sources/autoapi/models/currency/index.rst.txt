@@ -29,24 +29,6 @@ Classes
 
    Represents a Currency in terms of a label and an ISO Currency Code.
 
-   .. attribute:: id
-
-      The primary key of the Category database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The label of the Currency.
-
-      :type: str
-
-   .. attribute:: code
-
-      The ISO 4217 currency code symbol.
-
-      :type: str
-
    .. py:attribute:: __mapper_args__
 
       
@@ -54,17 +36,23 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Category database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Currency.
+
+      :type: (str)
 
    .. py:attribute:: code
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The ISO 4217 currency code symbol.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 

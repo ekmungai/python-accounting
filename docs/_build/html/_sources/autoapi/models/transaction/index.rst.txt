@@ -29,80 +29,12 @@ Classes
 
    Represents a Transaction in the sense of an original source document.
 
-   .. attribute:: TransactionType
-
-      Transaction Types representing common
-      Transaction.
-
-      :type: StrEnum
-
-   .. attribute:: id
-
-      The primary key of the Transaction database record.
-
-      :type: int
-
-   .. attribute:: transaction_date
-
-      The date of the Transaction.
-
-      :type: datetime
-
-   .. attribute:: transaction_type
-
-      The Transaction type of the Transaction.
-
-      :type: TransactionType
-
-   .. attribute:: narration
-
-      A short description of the purpose of the Transaction.
-
-      :type: str
-
-   .. attribute:: reference
-
-      Identifying information about the Transaction.
-
-      :type: :obj:`str`, optional
-
-   .. attribute:: main_account_amount
-
-      The amount to be posted to the Transaction
-      main Account. Only applies to compound (Journal Entry) Transactions.
-
-      :type: :obj:`Decimal`, optional
-
-   .. attribute:: credited
-
-      Determines whether the Transaction amount will
-      be posted to the credit side of the main Account. Defaults to True.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: compound
-
-      Determines whether the (Journal Entry) Transaction amount
-      can have Line Items on both sides of the double entry.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: currency_id
-
-      The id of the Currency associated with the Transaction.
-
-      :type: int
-
-   .. attribute:: account_id
-
-      The id of the Account model to which Transaction amounts are to be posted.
-
-      :type: int
-
    .. py:property:: tax
       :type: dict
 
       The taxes that have been applied to the transaction.
+      - taxes (dict): The taxes applied to the Transaction and their amounts.
+      - amount (str): The total tax applied to the Transaction.
 
    .. py:property:: is_posted
       :type: bool
@@ -116,7 +48,9 @@ Classes
 
    .. py:attribute:: TransactionType
 
-      
+      Transaction Types representing standard source document Transactions.
+
+      :type: (StrEnum)
 
    .. py:attribute:: __table_args__
       :value: ()
@@ -135,86 +69,124 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Transaction database record.
+
+      :type: (int)
 
    .. py:attribute:: transaction_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Transaction.
+
+      :type: (datetime)
 
    .. py:attribute:: transaction_no
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      Serially generated indentifier for the Transaction
+
+      :type: (str)
 
    .. py:attribute:: transaction_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The Transaction type of the Transaction.
+
+      :type: (TransactionType)
 
    .. py:attribute:: narration
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A short description of the purpose of the Transaction.
+
+      :type: (str)
 
    .. py:attribute:: reference
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      Identifying information about the Transaction.
+
+      :type: (`str`, optional)
 
    .. py:attribute:: main_account_amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount to be posted to the Transaction
+      main Account. Only applies to compound (Journal Entry) Transactions.
+
+      :type: (`Decimal`, optional)
 
    .. py:attribute:: credited
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the Transaction amount will
+      be posted to the credit side of the main Account. Defaults to True.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: compound
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the (Journal Entry) Transaction amount
+      can have Line Items on both sides of the double entry.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency associated with the Transaction.
+
+      :type: (int)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model to which Transaction amounts are to be posted.
+
+      :type: (int)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Currency associated with the Transaction.
+
+      :type: (Currency)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[src.models.Account]
 
-      
+      The Account model to which Transaction amounts are to be posted.
+
+      :type: (Account)
 
    .. py:attribute:: line_items
       :type: sqlalchemy.orm.Mapped[Set[src.models.LineItem]]
 
-      
+      The Line Items models associated with the Transaction.
+
+      :type: (Set)
 
    .. py:attribute:: ledgers
       :type: sqlalchemy.orm.Mapped[List[Ledger]]
 
-      
+      The Ledger models associated with the Transaction.
+
+      :type: (list)
 
    .. py:method:: validate_line_items(key, line_item, is_remove)
 
-      validates adding or removing of Transaction Line Items.
+      Validates adding or removing of Transaction Line Items.
+
+      :raises PostedTransactionError: If the Transaction is posted and Line Items are added or removed from it.
+      :raises ValueError: If the unsaved Line Item are added or removed from the Transaction.
 
 
    .. py:method:: validate_ledgers(key, ledger, is_remove)
 
-      validates adding or removing of Line Item Ledgers
+      Validates adding or removing of Transaction Ledgers
+
+      :raises ValueError: If the Transaction Ledgers are manually added or removed.
 
 
    .. py:method:: __repr__() -> str
@@ -222,12 +194,8 @@ Classes
 
    .. py:method:: _get_main_account(session) -> src.models.Account
 
-      Retrieve the main account of the tranaction from the database.
-
 
    .. py:method:: _transaction_no(session, transaction_type, reporting_period) -> str
-
-      Get the next auto-generated transaction number.
 
 
    .. py:method:: is_secure(session) -> bool

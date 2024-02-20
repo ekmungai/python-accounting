@@ -23,61 +23,56 @@ from src.models import Recyclable, Balance, Transaction
 
 
 class Ledger(IsolatingMixin, Recyclable):
-    """
-    Represents an entry in the Ledger. This class should never have to be invoked directly
-
-    Attributes:
-        id (int): The primary key of the ledger database record.
-        transaction_date (datetime): The date of the Transaction associated with
-            the Ledger.
-        entry_type (BalanceType): The side of the double entry to which the Ledger
-        is posted.
-        amount (Decimal): The amount posted to the Ledger by the entry.
-        hash (str): The encoded contents of the Ledger entry.
-        transaction_id (int): The id of the Transaction associated with
-            the Ledger.
-        currency_id (int): The id of the Currency associated with the Ledger.
-        post_account_id (int): The id of the Account to which the Ledger is posted.
-        folio_account_id (int): The id of the Account to which the opposite side
-            of Ledger is posted.
-        line_item_id (:obj:`int`, optional): The id of the Line Item associated with
-             the Ledger.
-        tax_id (:obj:`int`, optional): The id of the Tax associated with the Ledger.
-
-    """
+    """Represents an entry in the Ledger. (Should never have to be invoked directly)."""
 
     __mapper_args__ = {"polymorphic_identity": "Ledger"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
+    """(int): The primary key of the ledger database record."""
     transaction_date: Mapped[datetime] = mapped_column()
+    """(datetime): The date of the Transaction associated with the Ledger."""
     entry_type: Mapped[StrEnum] = mapped_column(Enum(Balance.BalanceType))
+    """(BalanceType): The side of the double entry to which the Ledger is posted."""
     amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    """(Decimal): The amount posted to the Ledger by the entry."""
     hash: Mapped[str] = mapped_column(String(500), nullable=True)
+    """(str): The encoded contents of the Ledger entry."""
     transaction_id: Mapped[int] = mapped_column(
         ForeignKey("transaction.id", ondelete="RESTRICT")
     )
+    """(int): The id of the Transaction associated with the Ledger."""
     currency_id: Mapped[int] = mapped_column(
         ForeignKey("currency.id", ondelete="RESTRICT")
     )
+    """(int): The id of the Currency associated with the Ledger."""
     post_account_id: Mapped[int] = mapped_column(
         ForeignKey("account.id", ondelete="RESTRICT")
     )
+    """(int): The id of the Account to which the Ledger is posted."""
     folio_account_id: Mapped[int] = mapped_column(
         ForeignKey("account.id", ondelete="RESTRICT")
     )
+    """(int): The id of the Account to which the opposite side of Ledger is posted."""
     line_item_id: Mapped[int] = mapped_column(
         ForeignKey("line_item.id", ondelete="RESTRICT"), nullable=True
     )
+    """(`int`, optional): The id of the Line Item associated with the Ledger."""
     tax_id: Mapped[int] = mapped_column(
         ForeignKey("tax.id", ondelete="RESTRICT"), nullable=True
     )
+    """(`int`, optional): The id of the Tax associated with the Ledger."""
 
     # relationships
     transaction: Mapped["Transaction"] = relationship(foreign_keys=[transaction_id])
+    """(Transaction): The Transaction associated with the Ledger."""
     currency: Mapped["Currency"] = relationship(foreign_keys=[currency_id])
+    """(Currency): The Currency associated with the Ledger."""
     post_account: Mapped["Account"] = relationship(foreign_keys=[post_account_id])
+    """(Account): The main Account associated with the Ledger."""
     folio_account: Mapped["Account"] = relationship(foreign_keys=[folio_account_id])
+    """(Account): The oppeite double entry Account associated with the Ledger."""
     line_item: Mapped["LineItem"] = relationship(foreign_keys=[line_item_id])
+    """(LineItem): The LineItem associated with the Ledger."""
 
     def __repr__(self) -> str:
         return f"""Post {self.post_account.name},
@@ -221,7 +216,6 @@ class Ledger(IsolatingMixin, Recyclable):
         Args:
             session (Session): The accounting session to which the Account belongs.
             transaction (Transaction): The Transaction to be posted.
-
         """
         if transaction.compound:
             Ledger._post_compound(session, transaction)
@@ -234,7 +228,7 @@ class Ledger(IsolatingMixin, Recyclable):
 
         Args:
             connection (Connection): The database connection of the accounting session
-             to which the Ledger belongs.
+            to which the Ledger belongs.
 
         Returns:
             None
@@ -243,45 +237,25 @@ class Ledger(IsolatingMixin, Recyclable):
             select(Ledger).where(Ledger.id == self.id - 1)
         ).fetchone()
 
-        return ",".join(
-            list(
-                map(
-                    str,
-                    [
-                        self.transaction_date,
-                        self.entry_type,
-                        round(Decimal(self.amount), 4).normalize(),
-                        last.hash if last else config.hashing["salt"],
-                        self.entity_id,
-                        self.transaction_id,
-                        self.currency_id,
-                        self.post_account_id,
-                        self.folio_account_id,
-                        self.line_item_id,
-                        self.tax_id,
-                    ],
+        return getattr(hashlib, config.hashing["algorithm"])(
+            ",".join(
+                list(
+                    map(
+                        str,
+                        [
+                            self.transaction_date,
+                            self.entry_type,
+                            round(Decimal(self.amount), 4).normalize(),
+                            last.hash if last else config.hashing["salt"],
+                            self.entity_id,
+                            self.transaction_id,
+                            self.currency_id,
+                            self.post_account_id,
+                            self.folio_account_id,
+                            self.line_item_id,
+                            self.tax_id,
+                        ],
+                    )
                 )
-            )
-        ).encode()
-        # return getattr(hashlib, config.hashing["algorithm"])(
-        #     ",".join(
-        #         list(
-        #             map(
-        #                 str,
-        #                 [
-        #                     self.transaction_date,
-        #                     self.entry_type,
-        #                     self.amount,
-        #                     last.hash if last else config.hashing["salt"],
-        #                     self.entity_id,
-        #                     self.transaction_id,
-        #                     self.currency_id,
-        #                     self.post_account_id,
-        #                     self.folio_account_id,
-        #                     self.line_item_id,
-        #                     self.tax_id,
-        #                 ],
-        #             )
-        #         )
-        #     ).encode()
-        # ).hexdigest()
+            ).encode()
+        ).hexdigest()

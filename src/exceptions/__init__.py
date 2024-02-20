@@ -248,7 +248,7 @@ class MultipleOpenPeriodsError(AccountingExeption):
         super().__init__()
 
 
-class NegativeAmountError(AccountingExeption):
+class NegativeValueError(AccountingExeption):
     """
     Accounting amounts should not be negative.
 

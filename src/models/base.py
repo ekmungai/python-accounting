@@ -14,19 +14,20 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
 
 class Base(DeclarativeBase):
-    """
-    The accounting model base class
-
-    Attributes:
-        id (int): The primary key of the model database record.
-        created_at (datetime): The time the database record was created.
-        update_at (datetime): The time the database record was last modified.
-
-    """
+    """The accounting model base class"""
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    """
+    id (int): The primary key of the model database record.
+    """
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
+    """
+    created_at (datetime): The time the database record was created.
+    """
     updated_at: Mapped[datetime] = mapped_column(default=datetime.now())
+    """
+    update_at (datetime): The time the database record was last modified.
+    """
 
     @declared_attr.directive
     def __tablename__(cls) -> str:  # pylint: disable=no-self-argument

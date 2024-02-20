@@ -118,7 +118,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#models.balance.Balance" title="models.balance.Balance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Balance</span></code></a></p></td>
-<td><p>Represents a Balance brought down from previous reporting periods.</p></td>
+<td><p>Represents a Balance brought down from previous Reporting Periods.</p></td>
 </tr>
 </tbody>
 </table>
@@ -126,140 +126,7 @@
 <dt class="sig sig-object py" id="models.balance.Balance">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.balance.</span></span><span class="sig-name descname"><span class="pre">Balance</span></span><a class="headerlink" href="#models.balance.Balance" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.ClearingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
-<p>Represents a Balance brought down from previous reporting periods.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.BalanceType">
-<span class="sig-name descname"><span class="pre">BalanceType</span></span><a class="headerlink" href="#models.balance.Balance.BalanceType" title="Link to this definition"></a></dt>
-<dd><p>The double entry types of Balances.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>StrEnum</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.BalanceTransactions">
-<span class="sig-name descname"><span class="pre">BalanceTransactions</span></span><a class="headerlink" href="#models.balance.Balance.BalanceTransactions" title="Link to this definition"></a></dt>
-<dd><p>A list of Transaction Types that can have Balances.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>StrEnum</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.balance.Balance.id" title="Link to this definition"></a></dt>
-<dd><p>The primary key of the Account database record.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.transaction_date">
-<span class="sig-name descname"><span class="pre">transaction_date</span></span><a class="headerlink" href="#models.balance.Balance.transaction_date" title="Link to this definition"></a></dt>
-<dd><p>The date of the Balance Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.reference">
-<span class="sig-name descname"><span class="pre">reference</span></span><a class="headerlink" href="#models.balance.Balance.reference" title="Link to this definition"></a></dt>
-<dd><p>Identifying information about the Balance Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.transaction_no">
-<span class="sig-name descname"><span class="pre">transaction_no</span></span><a class="headerlink" href="#models.balance.Balance.transaction_no" title="Link to this definition"></a></dt>
-<dd><p>The Transaction number of the Balance Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.transaction_type">
-<span class="sig-name descname"><span class="pre">transaction_type</span></span><a class="headerlink" href="#models.balance.Balance.transaction_type" title="Link to this definition"></a></dt>
-<dd><p>The Transaction type of the Balance Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>TransactionType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.amount">
-<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#models.balance.Balance.amount" title="Link to this definition"></a></dt>
-<dd><p>The amount outstanding on the Balance Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.balance_type">
-<span class="sig-name descname"><span class="pre">balance_type</span></span><a class="headerlink" href="#models.balance.Balance.balance_type" title="Link to this definition"></a></dt>
-<dd><p>The side of the double entry to post the Balance amount.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BalanceType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.currency_id">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><a class="headerlink" href="#models.balance.Balance.currency_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Currency model associated with the Balance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.account_id">
-<span class="sig-name descname"><span class="pre">account_id</span></span><a class="headerlink" href="#models.balance.Balance.account_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Account model to which the Balance belongs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.balance.Balance.reporting_period_id">
-<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><a class="headerlink" href="#models.balance.Balance.reporting_period_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Reporting Period model to which the
-Balance belongs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>Represents a Balance brought down from previous Reporting Periods.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="models.balance.Balance.is_posted">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_posted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#models.balance.Balance.is_posted" title="Link to this definition"></a></dt>
@@ -279,14 +146,26 @@ Balance belongs.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">BalanceType</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.BalanceType">
+<span class="sig-name descname"><span class="pre">BalanceType</span></span><a class="headerlink" href="#models.balance.Balance.BalanceType" title="Link to this definition"></a></dt>
+<dd><p>The double entry types of Balances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(StrEnum)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">BalanceTransactions</span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.BalanceTransactions">
+<span class="sig-name descname"><span class="pre">BalanceTransactions</span></span><a class="headerlink" href="#models.balance.Balance.BalanceTransactions" title="Link to this definition"></a></dt>
+<dd><p>A list of Transaction Types that can have Balances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(StrEnum)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.balance.Balance.__mapper_args__">
@@ -294,69 +173,147 @@ Balance belongs.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.id" title="Link to this definition"></a></dt>
+<dd><p>The primary key of the Account database record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.transaction_date">
+<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.transaction_date" title="Link to this definition"></a></dt>
+<dd><p>The date of the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(datetime)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.reference">
+<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.reference" title="Link to this definition"></a></dt>
+<dd><p>Identifying information about the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>str</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">transaction_no</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.transaction_no">
+<span class="sig-name descname"><span class="pre">transaction_no</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.transaction_no" title="Link to this definition"></a></dt>
+<dd><p>The Transaction number of the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">transaction_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.transaction_type">
+<span class="sig-name descname"><span class="pre">transaction_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.transaction_type" title="Link to this definition"></a></dt>
+<dd><p>The Transaction type of the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(TransactionType)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.amount" title="Link to this definition"></a></dt>
+<dd><p>The amount outstanding on the Balance Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Decimal)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">balance_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.balance_type">
+<span class="sig-name descname"><span class="pre">balance_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.balance_type" title="Link to this definition"></a></dt>
+<dd><p>The side of the double entry to post the Balance amount.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(BalanceType)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.currency_id">
+<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.currency_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Currency model associated with the Balance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.account_id">
+<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account model to which the Balance belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.balance.Balance.reporting_period_id">
+<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.reporting_period_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Reporting Period model to which the Balance belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.balance.Balance.currency">
 <span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Currency</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.currency" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Currency model associated with the Balance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency">Currency</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.balance.Balance.account">
 <span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.account" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Account model to which the Balance belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account">Account</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.balance.Balance.reporting_period">
 <span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.balance.Balance.reporting_period" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Reporting Period model to which the Balance belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../index.html#models.ReportingPeriod" title="models.ReportingPeriod">ReportingPeriod</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.balance.Balance.__repr__">
@@ -371,16 +328,21 @@ Balance belongs.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Account belongs.</p></li>
-<li><p><strong>year</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The calendar year to retrieve the opening
+<li><p><strong>year</strong> (<cite>int</cite>, optional) – The calendar year to retrieve the opening
 trial balance for. Defaults to the Balance’s Entity current Reporting
 Period’s calendar year.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>With a A summary of the debit and credit balances of the Accounts</dt><dd><p>together with a list of the Accounts themselves.</p>
-</dd>
-</dl>
+<dd class="field-even"><p><p>With a A summary of the debit and credit balances of the Accounts
+together with a list of the Accounts themselves.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>debits (Decimal): The total debit balance.</p></li>
+<li><p>credits (Decimal): The total credit balance.</p></li>
+<li><p>accounts (Decimal): Accounts constituting the opening trial balance.</p></li>
+</ul>
+</div></blockquote>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -399,14 +361,10 @@ Period’s calendar year.</p></li>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeAmountError" title="exceptions.NegativeAmountError"><strong>NegativeAmountError</strong></a> – If the Balance amount is less than 0.</p></li>
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceAccountError" title="exceptions.InvalidBalanceAccountError"><strong>InvalidBalanceAccountError</strong></a> – If the Balance main Accounr is an Income
-Statement Account.</p></li>
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceTransactionError" title="exceptions.InvalidBalanceTransactionError"><strong>InvalidBalanceTransactionError</strong></a> – If the Balance Transaction type is
-not one of the Balance Transaction types.</p></li>
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceDateError" title="exceptions.InvalidBalanceDateError"><strong>InvalidBalanceDateError</strong></a> – If the Balance Transaction date is within
-the current reporting period and the Entity does not allow mid
-year balances.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeValueError" title="exceptions.NegativeValueError"><strong>NegativeValueError</strong></a> – If the Balance amount is less than 0.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceAccountError" title="exceptions.InvalidBalanceAccountError"><strong>InvalidBalanceAccountError</strong></a> – If the Balance main Account is an Income Statement Account.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceTransactionError" title="exceptions.InvalidBalanceTransactionError"><strong>InvalidBalanceTransactionError</strong></a> – If the Balance Transaction type is not one of the Balance Transaction types.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidBalanceDateError" title="exceptions.InvalidBalanceDateError"><strong>InvalidBalanceDateError</strong></a> – If the Balance Transaction date is within the current reporting period and the Entity does not allow mid year balances.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>

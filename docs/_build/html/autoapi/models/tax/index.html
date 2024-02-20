@@ -128,95 +128,75 @@
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
 <p>Represents a Tax applied to a Transaction’s Line Item.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="models.tax.Tax.__mapper_args__">
+<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.tax.Tax.__mapper_args__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="models.tax.Tax.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.tax.Tax.id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.tax.Tax.id" title="Link to this definition"></a></dt>
 <dd><p>The primary key of the Tax database record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>(int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.tax.Tax.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#models.tax.Tax.name" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.tax.Tax.name" title="Link to this definition"></a></dt>
 <dd><p>The label of the Tax.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.tax.Tax.code">
-<span class="sig-name descname"><span class="pre">code</span></span><a class="headerlink" href="#models.tax.Tax.code" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.tax.Tax.code" title="Link to this definition"></a></dt>
 <dd><p>A shorthand representation of the Tax.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.tax.Tax.rate">
-<span class="sig-name descname"><span class="pre">rate</span></span><a class="headerlink" href="#models.tax.Tax.rate" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.tax.Tax.rate" title="Link to this definition"></a></dt>
 <dd><p>The percentage rate of the Tax.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
+<dd class="field-odd"><p>(Decimal)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.tax.Tax.account_id">
-<span class="sig-name descname"><span class="pre">account_id</span></span><a class="headerlink" href="#models.tax.Tax.account_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Account model to which Tax amounts are
-posted.</p>
+<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.tax.Tax.account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account model to which Tax amounts are posted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>(int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="models.tax.Tax.__mapper_args__">
-<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.tax.Tax.__mapper_args__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="models.tax.Tax.account">
 <span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.tax.Tax.account" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Account model to which Tax amounts are posted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account">Account</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.tax.Tax.__repr__">
@@ -233,9 +213,8 @@ posted.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeAmountError" title="exceptions.NegativeAmountError"><strong>NegativeAmountError</strong></a> – If the Tax rate is less than 0.</p></li>
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.MissingTaxAccountError" title="exceptions.MissingTaxAccountError"><strong>MissingTaxAccountError</strong></a> – If the Tax rate is greater than 0 and the Tax Account
-is not set.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.NegativeValueError" title="exceptions.NegativeValueError"><strong>NegativeValueError</strong></a> – If the Tax rate is less than 0.</p></li>
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.MissingTaxAccountError" title="exceptions.MissingTaxAccountError"><strong>MissingTaxAccountError</strong></a> – If the Tax rate is greater than 0 and the Tax Account is not set.</p></li>
 <li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidTaxAccountError" title="exceptions.InvalidTaxAccountError"><strong>InvalidTaxAccountError</strong></a> – If the Tax Account type is not Control.</p></li>
 </ul>
 </dd>
@@ -254,8 +233,7 @@ is not set.</p></li>
 <dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Tax belongs.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="../../exceptions/index.html#exceptions.HangingTransactionsError" title="exceptions.HangingTransactionsError"><strong>HangingTransactionsError</strong></a> – If there exists posted Transactions with Line Items
-that have this Tax applied to them.</p>
+<dd class="field-even"><p><a class="reference internal" href="../../exceptions/index.html#exceptions.HangingTransactionsError" title="exceptions.HangingTransactionsError"><strong>HangingTransactionsError</strong></a> – If there exists posted Transactions with Line Items that have this Tax applied to them.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>

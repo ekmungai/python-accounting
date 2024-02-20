@@ -127,135 +127,12 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.transaction.</span></span><span class="sig-name descname"><span class="pre">Transaction</span></span><a class="headerlink" href="#models.transaction.Transaction" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
 <p>Represents a Transaction in the sense of an original source document.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.TransactionType">
-<span class="sig-name descname"><span class="pre">TransactionType</span></span><a class="headerlink" href="#models.transaction.Transaction.TransactionType" title="Link to this definition"></a></dt>
-<dd><p>Transaction Types representing common
-Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>StrEnum</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.transaction.Transaction.id" title="Link to this definition"></a></dt>
-<dd><p>The primary key of the Transaction database record.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.transaction_date">
-<span class="sig-name descname"><span class="pre">transaction_date</span></span><a class="headerlink" href="#models.transaction.Transaction.transaction_date" title="Link to this definition"></a></dt>
-<dd><p>The date of the Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.transaction_type">
-<span class="sig-name descname"><span class="pre">transaction_type</span></span><a class="headerlink" href="#models.transaction.Transaction.transaction_type" title="Link to this definition"></a></dt>
-<dd><p>The Transaction type of the Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>TransactionType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.narration">
-<span class="sig-name descname"><span class="pre">narration</span></span><a class="headerlink" href="#models.transaction.Transaction.narration" title="Link to this definition"></a></dt>
-<dd><p>A short description of the purpose of the Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.reference">
-<span class="sig-name descname"><span class="pre">reference</span></span><a class="headerlink" href="#models.transaction.Transaction.reference" title="Link to this definition"></a></dt>
-<dd><p>Identifying information about the Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.main_account_amount">
-<span class="sig-name descname"><span class="pre">main_account_amount</span></span><a class="headerlink" href="#models.transaction.Transaction.main_account_amount" title="Link to this definition"></a></dt>
-<dd><p>The amount to be posted to the Transaction
-main Account. Only applies to compound (Journal Entry) Transactions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Decimal</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.credited">
-<span class="sig-name descname"><span class="pre">credited</span></span><a class="headerlink" href="#models.transaction.Transaction.credited" title="Link to this definition"></a></dt>
-<dd><p>Determines whether the Transaction amount will
-be posted to the credit side of the main Account. Defaults to True.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.compound">
-<span class="sig-name descname"><span class="pre">compound</span></span><a class="headerlink" href="#models.transaction.Transaction.compound" title="Link to this definition"></a></dt>
-<dd><p>Determines whether the (Journal Entry) Transaction amount
-can have Line Items on both sides of the double entry.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.currency_id">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><a class="headerlink" href="#models.transaction.Transaction.currency_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Currency associated with the Transaction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.transaction.Transaction.account_id">
-<span class="sig-name descname"><span class="pre">account_id</span></span><a class="headerlink" href="#models.transaction.Transaction.account_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Account model to which Transaction amounts are to be posted.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="models.transaction.Transaction.tax">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tax</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#models.transaction.Transaction.tax" title="Link to this definition"></a></dt>
-<dd><p>The taxes that have been applied to the transaction.</p>
+<dd><p>The taxes that have been applied to the transaction.
+- taxes (dict): The taxes applied to the Transaction and their amounts.
+- amount (str): The total tax applied to the Transaction.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -271,9 +148,15 @@ can have Line Items on both sides of the double entry.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">TransactionType</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.TransactionType">
+<span class="sig-name descname"><span class="pre">TransactionType</span></span><a class="headerlink" href="#models.transaction.Transaction.TransactionType" title="Link to this definition"></a></dt>
+<dd><p>Transaction Types representing standard source document Transactions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(StrEnum)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.transaction.Transaction.__table_args__">
@@ -291,90 +174,196 @@ can have Line Items on both sides of the double entry.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.id" title="Link to this definition"></a></dt>
+<dd><p>The primary key of the Transaction database record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.transaction_date">
+<span class="sig-name descname"><span class="pre">transaction_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.transaction_date" title="Link to this definition"></a></dt>
+<dd><p>The date of the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(datetime)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.transaction.Transaction.transaction_no">
 <span class="sig-name descname"><span class="pre">transaction_no</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.transaction_no" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Serially generated indentifier for the Transaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">transaction_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.transaction_type">
+<span class="sig-name descname"><span class="pre">transaction_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.transaction_type" title="Link to this definition"></a></dt>
+<dd><p>The Transaction type of the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(TransactionType)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">narration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.narration">
+<span class="sig-name descname"><span class="pre">narration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.narration" title="Link to this definition"></a></dt>
+<dd><p>A short description of the purpose of the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.reference">
+<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.reference" title="Link to this definition"></a></dt>
+<dd><p>Identifying information about the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>str</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">main_account_amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.main_account_amount">
+<span class="sig-name descname"><span class="pre">main_account_amount</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">decimal.Decimal</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.main_account_amount" title="Link to this definition"></a></dt>
+<dd><p>The amount to be posted to the Transaction
+main Account. Only applies to compound (Journal Entry) Transactions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>Decimal</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">credited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.credited">
+<span class="sig-name descname"><span class="pre">credited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.credited" title="Link to this definition"></a></dt>
+<dd><p>Determines whether the Transaction amount will
+be posted to the credit side of the main Account. Defaults to True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>bool</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">compound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.compound">
+<span class="sig-name descname"><span class="pre">compound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.compound" title="Link to this definition"></a></dt>
+<dd><p>Determines whether the (Journal Entry) Transaction amount
+can have Line Items on both sides of the double entry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>bool</cite>, optional)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.currency_id">
+<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.currency_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Currency associated with the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.transaction.Transaction.account_id">
+<span class="sig-name descname"><span class="pre">account_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.account_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Account model to which Transaction amounts are to be posted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.transaction.Transaction.currency">
 <span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency"><span class="pre">Currency</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.currency" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Currency associated with the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency">Currency</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.transaction.Transaction.account">
 <span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.account" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Account model to which Transaction amounts are to be posted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../account/index.html#models.account.Account" title="models.account.Account">Account</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.transaction.Transaction.line_items">
 <span class="sig-name descname"><span class="pre">line_items</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.LineItem</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.line_items" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Line Items models associated with the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Set)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.transaction.Transaction.ledgers">
 <span class="sig-name descname"><span class="pre">ledgers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.Ledger" title="models.Ledger"><span class="pre">Ledger</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.transaction.Transaction.ledgers" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Ledger models associated with the Transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.transaction.Transaction.validate_line_items">
 <span class="sig-name descname"><span class="pre">validate_line_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_remove</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.transaction.Transaction.validate_line_items" title="Link to this definition"></a></dt>
-<dd><p>validates adding or removing of Transaction Line Items.</p>
+<dd><p>Validates adding or removing of Transaction Line Items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.PostedTransactionError" title="exceptions.PostedTransactionError"><strong>PostedTransactionError</strong></a> – If the Transaction is posted and Line Items are added or removed from it.</p></li>
+<li><p><strong>ValueError</strong> – If the unsaved Line Item are added or removed from the Transaction.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.transaction.Transaction.validate_ledgers">
 <span class="sig-name descname"><span class="pre">validate_ledgers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ledger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_remove</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.transaction.Transaction.validate_ledgers" title="Link to this definition"></a></dt>
-<dd><p>validates adding or removing of Line Item Ledgers</p>
+<dd><p>Validates adding or removing of Transaction Ledgers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the Transaction Ledgers are manually added or removed.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -385,14 +374,12 @@ can have Line Items on both sides of the double entry.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="models.transaction.Transaction._get_main_account">
 <span class="sig-name descname"><span class="pre">_get_main_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">src.models.Account</span></span></span><a class="headerlink" href="#models.transaction.Transaction._get_main_account" title="Link to this definition"></a></dt>
-<dd><p>Retrieve the main account of the tranaction from the database.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.transaction.Transaction._transaction_no">
 <span class="sig-name descname"><span class="pre">_transaction_no</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporting_period</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.transaction.Transaction._transaction_no" title="Link to this definition"></a></dt>
-<dd><p>Get the next auto-generated transaction number.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.transaction.Transaction.is_secure">

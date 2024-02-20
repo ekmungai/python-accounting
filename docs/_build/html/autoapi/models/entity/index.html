@@ -128,161 +128,136 @@
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
 <p>Represents the Reporting Entity.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="models.entity.Entity.__mapper_args__">
+<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.entity.Entity.__mapper_args__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.entity.Entity.id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.id" title="Link to this definition"></a></dt>
 <dd><p>The primary key of the Entity database record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>(int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#models.entity.Entity.name" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.name" title="Link to this definition"></a></dt>
 <dd><p>The Name of the Entity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.multi_currency">
-<span class="sig-name descname"><span class="pre">multi_currency</span></span><a class="headerlink" href="#models.entity.Entity.multi_currency" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">multi_currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.multi_currency" title="Link to this definition"></a></dt>
 <dd><p>Determines if the Entity can
 have Transactions in currencies other than its base Currency.
 Defaults to False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>bool</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.mid_year_balances">
-<span class="sig-name descname"><span class="pre">mid_year_balances</span></span><a class="headerlink" href="#models.entity.Entity.mid_year_balances" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mid_year_balances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.mid_year_balances" title="Link to this definition"></a></dt>
 <dd><p>Determines if the Entity
 can have Opening Balances withing the current Reporting Period.
 Defaults to False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>bool</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.year_start">
-<span class="sig-name descname"><span class="pre">year_start</span></span><a class="headerlink" href="#models.entity.Entity.year_start" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">year_start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.year_start" title="Link to this definition"></a></dt>
 <dd><p>The month at which the Entity’s Reporting
 Periods begin, expressed as a number between 1 and 12. Defaults to 1
 (January).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.locale">
-<span class="sig-name descname"><span class="pre">locale</span></span><a class="headerlink" href="#models.entity.Entity.locale" title="Link to this definition"></a></dt>
-<dd><p>The language format to be used to represent amounts. Defaults
-to en_GB.</p>
+<span class="sig-name descname"><span class="pre">locale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.locale" title="Link to this definition"></a></dt>
+<dd><p>The language format to be used to represent amounts. Defaults to en_GB.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.currency_id">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><a class="headerlink" href="#models.entity.Entity.currency_id" title="Link to this definition"></a></dt>
-<dd><p>The id of the Reporting Currency of
-the Entity.</p>
+<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.currency_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the Reporting Currency of the Entity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.reporting_period_id">
-<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><a class="headerlink" href="#models.entity.Entity.reporting_period_id" title="Link to this definition"></a></dt>
-<dd><p>The current Reporting Period
-of the Entity.</p>
+<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.reporting_period_id" title="Link to this definition"></a></dt>
+<dd><p>The id of the current Reporting Period of the Entity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional</p>
+<dd class="field-odd"><p>(<cite>int</cite>, optional)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="models.entity.Entity.__mapper_args__">
-<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.entity.Entity.__mapper_args__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">multi_currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">mid_year_balances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">year_start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">locale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">currency_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">reporting_period_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.currency">
 <span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency"><span class="pre">Currency</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.currency" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Reporting Currency of the Entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../currency/index.html#models.currency.Currency" title="models.currency.Currency">Currency</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.reporting_period">
 <span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.reporting_period" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The current Reporting Period of the Entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../index.html#models.ReportingPeriod" title="models.ReportingPeriod">ReportingPeriod</a>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.entity.Entity.users">
 <span class="sig-name descname"><span class="pre">users</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../index.html#models.User" title="models.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.entity.Entity.users" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A list of Users that belong to the Entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>list</cite> of User)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.entity.Entity.__repr__">

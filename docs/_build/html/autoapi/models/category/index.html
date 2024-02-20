@@ -128,63 +128,53 @@
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
 <p>Represents a grouping of Accounts of the same type.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="models.category.Category.__mapper_args__">
+<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.category.Category.__mapper_args__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="models.category.Category.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.category.Category.id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.category.Category.id" title="Link to this definition"></a></dt>
 <dd><p>The primary key of the Category database record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="models.category.Category.category_account_type">
-<span class="sig-name descname"><span class="pre">category_account_type</span></span><a class="headerlink" href="#models.category.Category.category_account_type" title="Link to this definition"></a></dt>
-<dd><p>The Account
-type of the members of the Category.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Account.AccountType</span></code></p>
+<dd class="field-odd"><p>(int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.category.Category.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#models.category.Category.name" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.category.Category.name" title="Link to this definition"></a></dt>
 <dd><p>The label of the Category.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="models.category.Category.__mapper_args__">
-<span class="sig-name descname"><span class="pre">__mapper_args__</span></span><a class="headerlink" href="#models.category.Category.__mapper_args__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">category_account_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="models.category.Category.category_account_type">
+<span class="sig-name descname"><span class="pre">category_account_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">strenum.StrEnum</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.category.Category.category_account_type" title="Link to this definition"></a></dt>
+<dd><p>The Account type of the members of the Category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<cite>list</cite> of <cite>Account.AccountType</cite>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.category.Category.accounts">
 <span class="sig-name descname"><span class="pre">accounts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.category.Category.accounts" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Accounts that belong to the Category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.category.Category.__repr__">
@@ -200,10 +190,7 @@ type of the members of the Category.</p>
 <dd class="field-odd"><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Category belongs.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidAccountTypeError" title="exceptions.InvalidAccountTypeError"><strong>InvalidAccountTypeError</strong></a> – If the category account type is not one of</p></li>
-<li><p><strong>Account.AccountType.</strong> – </p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="../../exceptions/index.html#exceptions.InvalidAccountTypeError" title="exceptions.InvalidAccountTypeError"><strong>InvalidAccountTypeError</strong></a> – If the category account type is not one of Account.AccountType.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -219,13 +206,19 @@ type of the members of the Category.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>session</strong> (<em>Session</em>) – The accounting session to which the Account belongs.</p></li>
-<li><p><strong>end_date</strong> (<em>datetime</em>) – The latest transaction date for Transaction amounts to be included
-in the Account balances.</p></li>
+<li><p><strong>end_date</strong> (<em>datetime</em>) – The latest transaction date for Transaction amounts to be included in the Account balances.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>With a A summary of the total of the Account balances of the together with a list
+<dd class="field-even"><p><p>With a A summary of the total of the Account balances of the together with a list
 of the Accounts themselves.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>total (Decimal): The total of the closing balances of the Category accounts as at the end date.</p></li>
+<li><p>accounts (list): The Accounts belonging to the Category.</p></li>
+</ul>
+</div></blockquote>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>

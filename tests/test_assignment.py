@@ -6,7 +6,7 @@ from src.models import Account, Assignment, Balance, LineItem, Transaction
 from src.exceptions import (
     UnassignableTransactionError,
     UnclearableTransactionError,
-    NegativeAmountError,
+    NegativeValueError,
     UnpostedAssignmentError,
     SelfClearanceError,
     InvalidAssignmentAccountError,
@@ -216,7 +216,7 @@ def test_assignment_validation(session, entity, currency):
     assignment.assigned_id = transaction1.id
     assignment.amount = -1
 
-    with pytest.raises(NegativeAmountError) as e:
+    with pytest.raises(NegativeValueError) as e:
         session.add(assignment)
     assert str(e.value) == "Assignment amount cannot be negative."
 

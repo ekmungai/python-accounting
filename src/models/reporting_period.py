@@ -24,17 +24,7 @@ from src.models import Recyclable
 
 
 class ReportingPeriod(IsolatingMixin, Recyclable):
-    """
-    Represents a financial cycle for the Reporting Entity.
-
-    Attributes:
-        id (int): The primary key of the Reporting Period database record.
-        calendar_year (int): The calendar year associated with the Reporting
-            Period.
-        period_count (int): The number of periods that have passed since the
-            system has been in use.
-        status (ReportingPeriod.Status): The status of the Reporting Period.
-    """
+    """Represents a financial cycle for the Reporting Entity."""
 
     __tablename__ = "reporting_period"
     __table_args__ = (
@@ -43,28 +33,28 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
     )
 
     class Status(Enum):
-        """
-        Represents a Reporting Period's status.
-
-        Attributes:
-            OPEN: The period is current and Transactions may be posted to it.
-            ADJUSTING: The period is past and only Journal Entry Transactions
-                may be posted to it (E.g Audit Adjustments).
-            CLOSED: The period is past and no more Transactions may be posted
-                to it.
-
-        """
+        """Represents a Reporting Period's status."""
 
         OPEN = 0
+        """The period is current and Transactions may be posted to it."""
         ADJUSTING = 1
+        """
+        The period is past and only Journal Entry Transactions may be posted to
+        it (E.g Audit Adjustments).
+        """
         CLOSED = 2
+        """The period is past and no more Transactions may be posted to it."""
 
     __mapper_args__ = {"polymorphic_identity": "ReportingPeriod"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
+    """(int): The primary key of the Reporting Period database record."""
     calendar_year: Mapped[int] = mapped_column()
+    """(int): The calendar year associated with the ReportingPeriod."""
     period_count: Mapped[int] = mapped_column()
+    """(int): The number of periods since the system has been in use by the Entity."""
     status: Mapped[Status] = mapped_column(default=Status.OPEN)
+    """(ReportingPeriod.Status): The status of the Reporting Period."""
 
     def __repr__(self) -> str:
         return f"{self.calendar_year} <Period {self.period_count}>"
@@ -75,14 +65,13 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         Returns the calendar year for the given date.
 
         Args:
-            date (:obj:`datetime`, optional): The date whose calendar year is
-            to be found. Defaults to the current date.
-            entity (:obj:`int`, optional): The Entity for whom the calendar year
+            date (`datetime`, optional): The date whose calendar year is
+                to be found. Defaults to the current date.
+            entity (`int`, optional): The Entity for whom the calendar year
                 is to be found. If absent, defaults to the calendar year.
 
         Returns:
             int: The calendar year.
-
         """
 
         today = datetime.today()
@@ -105,7 +94,6 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         Raises:
             MissingReportingPeriodError: If there no Reporting Period exists for the
                 given date.
-
 
         Returns:
             ReportingPeriod: The Reporting Period.
@@ -130,19 +118,16 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         Validates the Reporting Period properties.
 
         Args:
-            session (Session): The accounting session to which the Balance belongs.
+            session (Session): The accounting session to which the ReportingPeriod belongs.
 
         Raises:
             DuplicateReportingPeriodError: If there already exists a Reporting Period
                 for the same calendar year.
             MultipleOpenPeriodsError: If there already exists a Reporting Period
                 in the OPEN status.
-            InvalidBalanceTransactionError: If the Balance Transaction type is
-                not one of the Balance Transaction types.
 
         Returns:
             None
-
         """
 
         if self.id is None:
@@ -173,7 +158,7 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         Args:
             session (Session): The accounting session to which the Reporting Period
                  belongs.
-            date (datetime): The date for whose Reporting Period's inteerval is to
+            date (datetime): The date for whose Reporting Period's interval is to
                 be found.
 
         Raises:

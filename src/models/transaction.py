@@ -40,33 +40,14 @@ from src.models import Recyclable, Account, ReportingPeriod, LineItem
 
 
 class Transaction(IsolatingMixin, Recyclable):
-    """
-    Represents a Transaction in the sense of an original source document.
-
-    Attributes:
-        TransactionType (StrEnum): Transaction Types representing common
-            Transaction.
-        id (int): The primary key of the Transaction database record.
-        transaction_date (datetime): The date of the Transaction.
-        transaction_type (TransactionType): The Transaction type of the Transaction.
-        narration (str): A short description of the purpose of the Transaction.
-        reference (:obj:`str`, optional): Identifying information about the Transaction.
-        main_account_amount (:obj:`Decimal`, optional): The amount to be posted to the Transaction
-            main Account. Only applies to compound (Journal Entry) Transactions.
-        credited (:obj:`bool`, optional): Determines whether the Transaction amount will
-            be posted to the credit side of the main Account. Defaults to True.
-        compound (:obj:`bool`, optional): Determines whether the (Journal Entry) Transaction amount
-            can have Line Items on both sides of the double entry.
-        currency_id (int): The id of the Currency associated with the Transaction.
-        account_id (int): The id of the Account model to which Transaction amounts are to be posted.
-
-    """
+    """Represents a Transaction in the sense of an original source document."""
 
     # Transaction types
     TransactionType = StrEnum(
         "TransactionType",
         {k: v["label"] for k, v in config.transactions["types"].items()},
     )
+    """(StrEnum): Transaction Types representing standard source document Transactions."""
 
     __table_args__ = (UniqueConstraint("transaction_no", "entity_id"),)
     __tablename__ = "transaction"
@@ -75,34 +56,64 @@ class Transaction(IsolatingMixin, Recyclable):
     }
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
+    """(int): The primary key of the Transaction database record."""
     transaction_date: Mapped[datetime] = mapped_column()
+    """(datetime): The date of the Transaction."""
     transaction_no: Mapped[str] = mapped_column(String(255), nullable=True)
+    """(str): Serially generated indentifier for the Transaction"""
     transaction_type: Mapped[StrEnum] = mapped_column(Enum(TransactionType))
+    """(TransactionType): The Transaction type of the Transaction."""
     narration: Mapped[str] = mapped_column(Text(1000))
+    """(str): A short description of the purpose of the Transaction."""
     reference: Mapped[str] = mapped_column(String(255), nullable=True)
+    """(`str`, optional): Identifying information about the Transaction."""
     main_account_amount: Mapped[Decimal] = mapped_column(
         DECIMAL(precision=13, scale=4), default=0
     )
+    """
+    (`Decimal`, optional): The amount to be posted to the Transaction
+    main Account. Only applies to compound (Journal Entry) Transactions.
+    """
     credited: Mapped[bool] = mapped_column(Boolean, default=True)
+    """
+    (`bool`, optional): Determines whether the Transaction amount will
+    be posted to the credit side of the main Account. Defaults to True.
+    """
     compound: Mapped[bool] = mapped_column(Boolean, default=False)
+    """
+    (`bool`, optional): Determines whether the (Journal Entry) Transaction amount
+    can have Line Items on both sides of the double entry.
+    """
     currency_id: Mapped[int] = mapped_column(ForeignKey("currency.id"))
+    """(int): The id of the Currency associated with the Transaction."""
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"))
+    """(int): The id of the Account model to which Transaction amounts are to be posted."""
 
     # relationships
     currency: Mapped["Currency"] = relationship(foreign_keys=[currency_id])
+    """(Currency): The Currency associated with the Transaction."""
     account: Mapped["Account"] = relationship(foreign_keys=[account_id])
+    """(Account): The Account model to which Transaction amounts are to be posted."""
     line_items: Mapped[Set["LineItem"]] = relationship(
         back_populates="transaction",
         primaryjoin="Transaction.id==LineItem.transaction_id",
     )
+    """(Set): The Line Items models associated with the Transaction."""
     ledgers: Mapped[List["Ledger"]] = relationship(
         back_populates="transaction",
         primaryjoin="Transaction.id==Ledger.transaction_id",
     )
+    """(list): The Ledger models associated with the Transaction."""
 
     @validates("line_items", include_removes=True)
     def validate_line_items(self, key, line_item, is_remove):
-        """validates adding or removing of Transaction Line Items."""
+        """
+        Validates adding or removing of Transaction Line Items.
+
+        Raises:
+            PostedTransactionError: If the Transaction is posted and Line Items are added or removed from it.
+            ValueError: If the unsaved Line Item are added or removed from the Transaction.
+        """
         if hasattr(self, "_validate_subclass_line_items"):
             self._validate_subclass_line_items(line_item)
 
@@ -122,14 +133,23 @@ class Transaction(IsolatingMixin, Recyclable):
 
     @validates("ledgers", include_removes=True)
     def validate_ledgers(self, key, ledger, is_remove):
-        """validates adding or removing of Line Item Ledgers"""
+        """
+        Validates adding or removing of Transaction Ledgers
+
+        Raises:
+            ValueError: If the Transaction Ledgers are manually added or removed.
+        """
         raise ValueError(
             f"Transaction ledgers cannot be {'Removed' if is_remove else 'Added'} manually."
         )
 
     @property
     def tax(self) -> dict:
-        """The taxes that have been applied to the transaction."""
+        """
+        The taxes that have been applied to the transaction.
+            - taxes (dict): The taxes applied to the Transaction and their amounts.
+            - amount (str): The total tax applied to the Transaction.
+        """
         taxes = dict()
         total = 0
         for line_item in iter(self.line_items):
@@ -181,14 +201,12 @@ class Transaction(IsolatingMixin, Recyclable):
         return f"{self.account} <{self.transaction_no}>: {self.amount}"
 
     def _get_main_account(self, session) -> Account:
-        """Retrieve the main account of the tranaction from the database."""
         account = session.get(Account, self.account_id)
         if not account:
             raise ValueError("The main Account is required")
         return account
 
     def _transaction_no(self, session, transaction_type, reporting_period) -> str:
-        """Get the next auto-generated transaction number."""
         next_id = (
             session.query(Transaction)
             .filter(Transaction.transaction_type == transaction_type)
@@ -219,10 +237,8 @@ class Transaction(IsolatingMixin, Recyclable):
         Raises:
             MissingLineItemError: If the Transaction has no Line Items.
 
-
         Returns:
             None
-
         """
         from src.models import (  # pylint: disable=import-outside-toplevel
             Ledger,
@@ -245,7 +261,6 @@ class Transaction(IsolatingMixin, Recyclable):
 
         Returns:
             Decimal: The amount posted to the Account by the Transaction.
-
         """
         from src.models import (  # pylint: disable=import-outside-toplevel
             Balance,
@@ -289,7 +304,6 @@ class Transaction(IsolatingMixin, Recyclable):
 
         Returns:
             None
-
         """
 
         if self.is_posted:
@@ -342,7 +356,6 @@ class Transaction(IsolatingMixin, Recyclable):
 
         Returns:
             None
-
         """
 
         if self.is_posted:

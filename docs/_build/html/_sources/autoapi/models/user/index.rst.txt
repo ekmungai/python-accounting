@@ -27,29 +27,21 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
 
-   Represents an authenicatable User with access to an Entity.
-
-   .. attribute:: name
-
-      The name of the User.
-
-      :type: str
-
-   .. attribute:: email
-
-      A unique email to identify the User.
-
-      :type: str
+   Represents an authenticatable User with access to an Entity.
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The name of the User.
+
+      :type: (str)
 
    .. py:attribute:: email
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A unique email to identify the User.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 

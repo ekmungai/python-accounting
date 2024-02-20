@@ -5,7 +5,7 @@ from src.models import Tax, Entity, Account, LineItem
 from src.transactions import ClientInvoice
 from src.exceptions import (
     InvalidTaxAccountError,
-    NegativeAmountError,
+    NegativeValueError,
     MissingTaxAccountError,
     HangingTransactionsError,
 )
@@ -60,7 +60,7 @@ def test_tax_validation(session, entity, currency):
         entity_id=entity.id,
     )
     session.add(tax)
-    with pytest.raises(NegativeAmountError):
+    with pytest.raises(NegativeValueError):
         session.commit()
 
     tax.rate = 10

@@ -66,38 +66,26 @@ Classes
 
    The accounting model base class
 
-   .. attribute:: id
-
-      The primary key of the model database record.
-
-      :type: int
-
-   .. attribute:: created_at
-
-      The time the database record was created.
-
-      :type: datetime
-
-   .. attribute:: update_at
-
-      The time the database record was last modified.
-
-      :type: datetime
-
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the model database record.
+
+      :type: id (int)
 
    .. py:attribute:: created_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the database record was created.
+
+      :type: created_at (datetime)
 
    .. py:attribute:: updated_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the database record was last modified.
+
+      :type: update_at (datetime)
 
    .. py:method:: __tablename__() -> str
 
@@ -110,44 +98,33 @@ Classes
 
    Interface for associating recycled objects with its models.
 
-   .. attribute:: deleted_at
-
-      The time the model was recycled.
-
-      :type: :obj:`datetime`, optional
-
-   .. attribute:: destroyed_at
-
-      The time the model was recycled
-      permanently deleted.
-
-      :type: :obj:`datetime`, optional
-
-   .. attribute:: recycled_type
-
-      The class name of the recycled model.
-
-      :type: str
-
    .. py:attribute:: deleted_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the model was recycled.
+
+      :type: (`datetime`, optional)
 
    .. py:attribute:: destroyed_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the model was recycled permanently deleted.
+
+      :type: (`datetime`, optional)
 
    .. py:attribute:: recycled_type
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The class name of the recycled model.
+
+      :type: (str)
 
    .. py:attribute:: history
       :type: sqlalchemy.orm.Mapped[List[Recycled]]
 
-      
+      A list of deletions and restorations for the model.
+
+      :type: (list)
 
    .. py:attribute:: __mapper_args__
 
@@ -161,24 +138,6 @@ Classes
 
    Represents a Currency in terms of a label and an ISO Currency Code.
 
-   .. attribute:: id
-
-      The primary key of the Category database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The label of the Currency.
-
-      :type: str
-
-   .. attribute:: code
-
-      The ISO 4217 currency code symbol.
-
-      :type: str
-
    .. py:attribute:: __mapper_args__
 
       
@@ -186,17 +145,23 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Category database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Currency.
+
+      :type: (str)
 
    .. py:attribute:: code
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The ISO 4217 currency code symbol.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 
@@ -207,29 +172,21 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
 
-   Represents an authenicatable User with access to an Entity.
-
-   .. attribute:: name
-
-      The name of the User.
-
-      :type: str
-
-   .. attribute:: email
-
-      A unique email to identify the User.
-
-      :type: str
+   Represents an authenticatable User with access to an Entity.
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The name of the User.
+
+      :type: (str)
 
    .. py:attribute:: email
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A unique email to identify the User.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 
@@ -242,32 +199,26 @@ Classes
 
    Represents an accounting model that has been recycled.
 
-   .. attribute:: recycled_id
-
-      The id of the model that has been recycled.
-
-      :type: int
-
-   .. attribute:: restored_at
-
-      The time the model was restored.
-
-      :type: :obj:`datetime`, optional
-
    .. py:attribute:: recycled_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the model that has been recycled.
+
+      :type: (int)
 
    .. py:attribute:: restored_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the model was restored.
+
+      :type: (`datetime`, optional)
 
    .. py:attribute:: subject
       :type: sqlalchemy.orm.Mapped[Recyclable]
 
-      
+      The model that was recycled/restored.
+
+      :type: (Recyclable)
 
    .. py:method:: __repr__() -> str
 
@@ -280,32 +231,6 @@ Classes
 
    Represents a financial cycle for the Reporting Entity.
 
-   .. attribute:: id
-
-      The primary key of the Reporting Period database record.
-
-      :type: int
-
-   .. attribute:: calendar_year
-
-      The calendar year associated with the Reporting
-      Period.
-
-      :type: int
-
-   .. attribute:: period_count
-
-      The number of periods that have passed since the
-      system has been in use.
-
-      :type: int
-
-   .. attribute:: status
-
-      The status of the Reporting Period.
-
-      :type: ReportingPeriod.Status
-
    .. py:class:: Status(*args, **kwds)
 
 
@@ -313,34 +238,21 @@ Classes
 
       Represents a Reporting Period's status.
 
-      .. attribute:: OPEN
-
-         The period is current and Transactions may be posted to it.
-
-      .. attribute:: ADJUSTING
-
-         The period is past and only Journal Entry Transactions
-         may be posted to it (E.g Audit Adjustments).
-
-      .. attribute:: CLOSED
-
-         The period is past and no more Transactions may be posted
-         to it.
-
       .. py:attribute:: OPEN
          :value: 0
 
-         
+         The period is current and Transactions may be posted to it.
 
       .. py:attribute:: ADJUSTING
          :value: 1
 
-         
+         The period is past and only Journal Entry Transactions may be posted to
+         it (E.g Audit Adjustments).
 
       .. py:attribute:: CLOSED
          :value: 2
 
-         
+         The period is past and no more Transactions may be posted to it.
 
 
    .. py:attribute:: __tablename__
@@ -360,22 +272,30 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Reporting Period database record.
+
+      :type: (int)
 
    .. py:attribute:: calendar_year
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The calendar year associated with the ReportingPeriod.
+
+      :type: (int)
 
    .. py:attribute:: period_count
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The number of periods since the system has been in use by the Entity.
+
+      :type: (int)
 
    .. py:attribute:: status
       :type: sqlalchemy.orm.Mapped[ReportingPeriod.Status]
 
-      
+      The status of the Reporting Period.
+
+      :type: (ReportingPeriod.Status)
 
    .. py:method:: __repr__() -> str
 
@@ -386,11 +306,11 @@ Classes
       Returns the calendar year for the given date.
 
       :param date: The date whose calendar year is
-      :type date: :obj:`datetime`, optional
-      :param to be found. Defaults to the current date.:
+                   to be found. Defaults to the current date.
+      :type date: `datetime`, optional
       :param entity: The Entity for whom the calendar year
                      is to be found. If absent, defaults to the calendar year.
-      :type entity: :obj:`int`, optional
+      :type entity: `int`, optional
 
       :returns: The calendar year.
       :rtype: int
@@ -418,15 +338,13 @@ Classes
 
       Validates the Reporting Period properties.
 
-      :param session: The accounting session to which the Balance belongs.
+      :param session: The accounting session to which the ReportingPeriod belongs.
       :type session: Session
 
       :raises DuplicateReportingPeriodError: If there already exists a Reporting Period
           for the same calendar year.
       :raises MultipleOpenPeriodsError: If there already exists a Reporting Period
           in the OPEN status.
-      :raises InvalidBalanceTransactionError: If the Balance Transaction type is
-          not one of the Balance Transaction types.
 
       :returns: None
 
@@ -438,7 +356,7 @@ Classes
       :param session: The accounting session to which the Reporting Period
                       belongs.
       :type session: Session
-      :param date: The date for whose Reporting Period's inteerval is to
+      :param date: The date for whose Reporting Period's interval is to
                    be found.
       :type date: datetime
 
@@ -457,63 +375,6 @@ Classes
 
    Represents the Reporting Entity.
 
-   .. attribute:: id
-
-      The primary key of the Entity database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The Name of the Entity.
-
-      :type: str
-
-   .. attribute:: multi_currency
-
-      Determines if the Entity can
-      have Transactions in currencies other than its base Currency.
-      Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: mid_year_balances
-
-      Determines if the Entity
-      can have Opening Balances withing the current Reporting Period.
-      Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: year_start
-
-      The month at which the Entity's Reporting
-      Periods begin, expressed as a number between 1 and 12. Defaults to 1
-      (January).
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: locale
-
-      The language format to be used to represent amounts. Defaults
-      to en_GB.
-
-      :type: str
-
-   .. attribute:: currency_id
-
-      The id of the Reporting Currency of
-      the Entity.
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: reporting_period_id
-
-      The current Reporting Period
-      of the Entity.
-
-      :type: :obj:`int`, optional
-
    .. py:attribute:: __mapper_args__
 
       
@@ -521,57 +382,85 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Entity database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The Name of the Entity.
+
+      :type: (str)
 
    .. py:attribute:: multi_currency
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines if the Entity can
+      have Transactions in currencies other than its base Currency.
+      Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: mid_year_balances
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines if the Entity
+      can have Opening Balances withing the current Reporting Period.
+      Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: year_start
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The month at which the Entity's Reporting
+      Periods begin, expressed as a number between 1 and 12. Defaults to 1
+      (January).
+
+      :type: (`int`, optional)
 
    .. py:attribute:: locale
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The language format to be used to represent amounts. Defaults to en_GB.
+
+      :type: (str)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Reporting Currency of the Entity.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: reporting_period_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the current Reporting Period of the Entity.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Reporting Currency of the Entity.
+
+      :type: (Currency)
 
    .. py:attribute:: reporting_period
       :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
 
-      
+      The current Reporting Period of the Entity.
+
+      :type: (ReportingPeriod)
 
    .. py:attribute:: users
       :type: sqlalchemy.orm.Mapped[List[User]]
 
-      
+      A list of Users that belong to the Entity.
+
+      :type: (`list` of User)
 
    .. py:method:: __repr__() -> str
 
@@ -584,63 +473,18 @@ Classes
 
    Represents an account which groups related Transactions.
 
-   .. attribute:: AccountType
+   .. py:attribute:: AccountType
 
       Account Types as defined by IFRS and GAAP.
 
-      :type: StrEnum
+      :type: (StrEnum)
 
-   .. attribute:: purchasables
+   .. py:attribute:: purchasables
 
       A list of Account
       Types that can be used in purchasing Transactions.
 
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: id
-
-      The primary key of the Account database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The label of the Account.
-
-      :type: str
-
-   .. attribute:: decsription
-
-      A narration of the purpose of the Account.
-
-      :type: :obj:`str`, optional
-
-   .. attribute:: account_type
-
-      The type of the Account.
-
-      :type: AccountType
-
-   .. attribute:: currency_id
-
-      The id of the Currency model associated with the Account.
-
-      :type: int
-
-   .. attribute:: category_id
-
-      The id of the Category model to which
-      the Account belongs.
-
-      :type: :obj:`int`, optional
-
-   .. py:attribute:: AccountType
-
-      
-
-   .. py:attribute:: purchasables
-
-      
+      :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: __mapper_args__
 
@@ -649,51 +493,67 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Account database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Account.
+
+      :type: (str)
 
    .. py:attribute:: description
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A narration of the purpose of the Account.
+
+      :type: (`str`, optional)
 
    .. py:attribute:: account_code
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      A serially generated code based on the type of the Account.
+
+      :type: (int)
 
    .. py:attribute:: account_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The type of the Account.
+
+      :type: (AccountType)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency model associated with the Account.
+
+      :type: (int)
 
    .. py:attribute:: category_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Category model to which the Account belongs.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Currency associated with the Account.
+
+      :type: (Currency)
 
    .. py:attribute:: category
       :type: sqlalchemy.orm.Mapped[Category]
 
-      
+      The Category to which the Account belongs.
+
+      :type: (`Category`, optional)
 
    .. py:method:: _get_account_code(session) -> int
-
-      Get the auto generated account code for the instance
 
 
    .. py:method:: __repr__() -> str
@@ -712,10 +572,8 @@ Classes
                        in the balance.
       :type end_date: datetime
 
-      :returns:
-
-                The difference between the balance of the Account at the start date and
-                    end date.
+      :returns: The difference between the balance of the Account at the start date and
+                end date.
       :rtype: Decimal
 
 
@@ -729,7 +587,7 @@ Classes
       :type session: Session
       :param account_types: The Account types
                             belonging to the section.
-      :type account_types: :obj:`list` of :obj:`Account.AccountType`
+      :type account_types: `list` of `Account.AccountType`
       :param start_date: The earliest transaction date for Transaction amounts to be
                          included in the balance.
       :type start_date: datetime
@@ -739,10 +597,12 @@ Classes
       :param full_balance: Whether to include opening balance amounts in the balance.
       :type full_balance: bool
 
-      :returns:
-
-                A summary of the total opening, balance movement and closing balance, which
-                    details of totals by Category and the Accounts contained in each Category.
+      :returns: A summary of the total opening, balance movement and closing balance, which
+                details of totals by Category and the Accounts contained in each Category.
+                    - opening (Decimal): The sum of opening balances of Accounts in the section.
+                    - movement (Decimal): The movememt of the balances of Accounts in the section.
+                    - closing (Decimal): The sum of opening closing of Accounts in the section.
+                    - categories (dict): The Accounts belonging to the section separated by Category.
       :rtype: dict
 
 
@@ -792,11 +652,19 @@ Classes
 
       :raises InvalidAccountTypeError: If the Account type is not Receivable or Payable.
 
-      :returns:
+      :returns: With a A summary of the opening and closing balance in the case of
+                a statement, the total, cleared and uncleared amounts if its a schedule
+                together with a list of Transactions.
 
-                With a A summary of the opening and closing balance in the case of
-                    a statement, the total, cleared and uncleared amounts if its a schedule
-                    together with a list of Transactions.
+                Statements.
+                    - opening_balance (Decimal): The balance of the Account at the beginning of the statement period.
+                    - transactions (list): Transactions posted to the Account during the period.
+                    - closing_balance (Decimal): The balance of the Account at the end of the statement period.
+                Schedule.
+                    - transactions (list): Outstanding clearable Transactions posted to the Account as at the end date.
+                    - total_amount (Decimal): The total amount of the Transactions in the Schdeule.
+                    - cleared_amount (Decimal): The amount of the Transactions in the Schdeule that has been cleared.
+                    - uncleared_amount (Decimal): The amount of the Transactions in the Schdeule that is still outstanding.
       :rtype: dict
 
 
@@ -834,25 +702,6 @@ Classes
 
    Represents a grouping of Accounts of the same type.
 
-   .. attribute:: id
-
-      The primary key of the Category database record.
-
-      :type: int
-
-   .. attribute:: category_account_type
-
-      The Account
-      type of the members of the Category.
-
-      :type: :obj:`list` of :obj:`Account.AccountType`
-
-   .. attribute:: name
-
-      The label of the Category.
-
-      :type: str
-
    .. py:attribute:: __mapper_args__
 
       
@@ -860,22 +709,30 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Category database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Category.
+
+      :type: (str)
 
    .. py:attribute:: category_account_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The Account type of the members of the Category.
+
+      :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: accounts
       :type: sqlalchemy.orm.Mapped[List[src.models.Account]]
 
-      
+      Accounts that belong to the Category.
+
+      :type: (list)
 
    .. py:method:: __repr__() -> str
 
@@ -887,8 +744,7 @@ Classes
       :param session: The accounting session to which the Category belongs.
       :type session: Session
 
-      :raises InvalidAccountTypeError: If the category account type is not one of
-      :raises Account.AccountType.:
+      :raises InvalidAccountTypeError: If the category account type is not one of Account.AccountType.
 
       :returns: None
 
@@ -899,12 +755,13 @@ Classes
 
       :param session: The accounting session to which the Account belongs.
       :type session: Session
-      :param end_date: The latest transaction date for Transaction amounts to be included
-                       in the Account balances.
+      :param end_date: The latest transaction date for Transaction amounts to be included in the Account balances.
       :type end_date: datetime
 
       :returns: With a A summary of the total of the Account balances of the together with a list
                 of the Accounts themselves.
+                    - total (Decimal): The total of the closing balances of the Category accounts as at the end date.
+                    - accounts (list): The Accounts belonging to the Category.
       :rtype: dict
 
 
@@ -914,67 +771,7 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
 
-   Represents a Line Item which the other side of the double entry from the main account
-   of a Transaction.
-
-   .. attribute:: id
-
-      The primary key of the Line Item database record.
-
-      :type: int
-
-   .. attribute:: narration
-
-      A short description of the Line Item's contribution to the
-      Transaction.
-
-      :type: str
-
-   .. attribute:: quantity
-
-      The multiple of the Line Item amount to be posted to the
-      Ledger.
-
-      :type: Decimal
-
-   .. attribute:: amount
-
-      The amount to be posted to the Line Item Account.
-
-      :type: Decimal
-
-   .. attribute:: credited
-
-      Determines whether the Line Item amount will
-      be posted to the credit side of the Line Item Account. Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: tax_inclusive
-
-      Determines whether the Tax amount of the
-      Line Item is included in the Line Item amount. Defaults to False.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: account_id
-
-      The id of the Account model associated with the Line Item.
-
-      :type: int
-
-   .. attribute:: transaction_id
-
-      The id of the Transaction model associated
-      with the Line Item.
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: tax_id
-
-      The id of the Tax model associated with the Line Item.
-
-      :type: :obj:`int`, optional
+   Represents the other side of the double entry from the main account of a Transaction.
 
    .. py:attribute:: __tablename__
       :value: 'line_item'
@@ -988,71 +785,101 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Line Item database record.
+
+      :type: (int)
 
    .. py:attribute:: narration
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A short description of the Line Item's contribution to the Transaction.
+
+      :type: (str)
 
    .. py:attribute:: quantity
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The multiple of the Line Item amount to be posted to the Ledger.
+
+      :type: (Decimal)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount to be posted to the Line Item Account.
+
+      :type: (Decimal)
 
    .. py:attribute:: credited
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the Line Item amount will
+      be posted to the credit side of the Line Item Account. Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: tax_inclusive
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the Tax amount of the
+      Line Item is included in the Line Item amount. Defaults to False.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model associated with the Line Item.
+
+      :type: (int)
 
    .. py:attribute:: transaction_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Transaction model associated with the Line Item.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: tax_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Tax model associated with the Line Item.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[Account]
 
-      
+      The the Account model associated with the Line Item.
+
+      :type: (Account)
 
    .. py:attribute:: tax
       :type: sqlalchemy.orm.Mapped[Tax]
 
-      
+      The Tax model associated with the Line Item.
+
+      :type: (`Tax`, optional)
 
    .. py:attribute:: transaction
       :type: sqlalchemy.orm.Mapped[Transaction]
 
-      
+      The Transaction model associated with the Line Item.
+
+      :type: (`Transaction`, optional)
 
    .. py:attribute:: ledgers
       :type: sqlalchemy.orm.Mapped[List[Ledger]]
 
-      
+      The Ledger models associated with the Line Item.
+
+      :type: (list)
 
    .. py:method:: validate_ledgers(key, ledger, is_remove)
 
-      validates adding or removing of Line Item Ledgers.
+      Validates adding or removing of Line Item Ledgers.
+
+      :raises ValueError: If the Line Item Ledgers are manually added or removed.
 
 
    .. py:method:: __repr__() -> str
@@ -1065,7 +892,7 @@ Classes
       :param session: The accounting session to which the Line Item belongs.
       :type session: Session
 
-      :raises NegativeAmountError: If the Line Item amount or quantity is less than 0.
+      :raises NegativeValueError: If the Line Item amount or quantity is less than 0.
 
       :returns: None
 
@@ -1084,80 +911,12 @@ Classes
 
    Represents a Transaction in the sense of an original source document.
 
-   .. attribute:: TransactionType
-
-      Transaction Types representing common
-      Transaction.
-
-      :type: StrEnum
-
-   .. attribute:: id
-
-      The primary key of the Transaction database record.
-
-      :type: int
-
-   .. attribute:: transaction_date
-
-      The date of the Transaction.
-
-      :type: datetime
-
-   .. attribute:: transaction_type
-
-      The Transaction type of the Transaction.
-
-      :type: TransactionType
-
-   .. attribute:: narration
-
-      A short description of the purpose of the Transaction.
-
-      :type: str
-
-   .. attribute:: reference
-
-      Identifying information about the Transaction.
-
-      :type: :obj:`str`, optional
-
-   .. attribute:: main_account_amount
-
-      The amount to be posted to the Transaction
-      main Account. Only applies to compound (Journal Entry) Transactions.
-
-      :type: :obj:`Decimal`, optional
-
-   .. attribute:: credited
-
-      Determines whether the Transaction amount will
-      be posted to the credit side of the main Account. Defaults to True.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: compound
-
-      Determines whether the (Journal Entry) Transaction amount
-      can have Line Items on both sides of the double entry.
-
-      :type: :obj:`bool`, optional
-
-   .. attribute:: currency_id
-
-      The id of the Currency associated with the Transaction.
-
-      :type: int
-
-   .. attribute:: account_id
-
-      The id of the Account model to which Transaction amounts are to be posted.
-
-      :type: int
-
    .. py:property:: tax
       :type: dict
 
       The taxes that have been applied to the transaction.
+      - taxes (dict): The taxes applied to the Transaction and their amounts.
+      - amount (str): The total tax applied to the Transaction.
 
    .. py:property:: is_posted
       :type: bool
@@ -1171,7 +930,9 @@ Classes
 
    .. py:attribute:: TransactionType
 
-      
+      Transaction Types representing standard source document Transactions.
+
+      :type: (StrEnum)
 
    .. py:attribute:: __table_args__
       :value: ()
@@ -1190,86 +951,124 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Transaction database record.
+
+      :type: (int)
 
    .. py:attribute:: transaction_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Transaction.
+
+      :type: (datetime)
 
    .. py:attribute:: transaction_no
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      Serially generated indentifier for the Transaction
+
+      :type: (str)
 
    .. py:attribute:: transaction_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The Transaction type of the Transaction.
+
+      :type: (TransactionType)
 
    .. py:attribute:: narration
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A short description of the purpose of the Transaction.
+
+      :type: (str)
 
    .. py:attribute:: reference
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      Identifying information about the Transaction.
+
+      :type: (`str`, optional)
 
    .. py:attribute:: main_account_amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount to be posted to the Transaction
+      main Account. Only applies to compound (Journal Entry) Transactions.
+
+      :type: (`Decimal`, optional)
 
    .. py:attribute:: credited
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the Transaction amount will
+      be posted to the credit side of the main Account. Defaults to True.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: compound
       :type: sqlalchemy.orm.Mapped[bool]
 
-      
+      Determines whether the (Journal Entry) Transaction amount
+      can have Line Items on both sides of the double entry.
+
+      :type: (`bool`, optional)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency associated with the Transaction.
+
+      :type: (int)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model to which Transaction amounts are to be posted.
+
+      :type: (int)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Currency associated with the Transaction.
+
+      :type: (Currency)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[src.models.Account]
 
-      
+      The Account model to which Transaction amounts are to be posted.
+
+      :type: (Account)
 
    .. py:attribute:: line_items
       :type: sqlalchemy.orm.Mapped[Set[src.models.LineItem]]
 
-      
+      The Line Items models associated with the Transaction.
+
+      :type: (Set)
 
    .. py:attribute:: ledgers
       :type: sqlalchemy.orm.Mapped[List[Ledger]]
 
-      
+      The Ledger models associated with the Transaction.
+
+      :type: (list)
 
    .. py:method:: validate_line_items(key, line_item, is_remove)
 
-      validates adding or removing of Transaction Line Items.
+      Validates adding or removing of Transaction Line Items.
+
+      :raises PostedTransactionError: If the Transaction is posted and Line Items are added or removed from it.
+      :raises ValueError: If the unsaved Line Item are added or removed from the Transaction.
 
 
    .. py:method:: validate_ledgers(key, ledger, is_remove)
 
-      validates adding or removing of Line Item Ledgers
+      Validates adding or removing of Transaction Ledgers
+
+      :raises ValueError: If the Transaction Ledgers are manually added or removed.
 
 
    .. py:method:: __repr__() -> str
@@ -1277,12 +1076,8 @@ Classes
 
    .. py:method:: _get_main_account(session) -> src.models.Account
 
-      Retrieve the main account of the tranaction from the database.
-
 
    .. py:method:: _transaction_no(session, transaction_type, reporting_period) -> str
-
-      Get the next auto-generated transaction number.
 
 
    .. py:method:: is_secure(session) -> bool
@@ -1356,80 +1151,7 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Recyclable`
 
-   Represents a Balance brought down from previous reporting periods.
-
-   .. attribute:: BalanceType
-
-      The double entry types of Balances.
-
-      :type: StrEnum
-
-   .. attribute:: BalanceTransactions
-
-      A list of Transaction Types that can have Balances.
-
-      :type: StrEnum
-
-   .. attribute:: id
-
-      The primary key of the Account database record.
-
-      :type: int
-
-   .. attribute:: transaction_date
-
-      The date of the Balance Transaction.
-
-      :type: datetime
-
-   .. attribute:: reference
-
-      Identifying information about the Balance Transaction.
-
-      :type: :obj:`str`, optional
-
-   .. attribute:: transaction_no
-
-      The Transaction number of the Balance Transaction.
-
-      :type: str
-
-   .. attribute:: transaction_type
-
-      The Transaction type of the Balance Transaction.
-
-      :type: TransactionType
-
-   .. attribute:: amount
-
-      The amount outstanding on the Balance Transaction.
-
-      :type: Decimal
-
-   .. attribute:: balance_type
-
-      The side of the double entry to post the Balance amount.
-
-      :type: BalanceType
-
-   .. attribute:: currency_id
-
-      The id of the Currency model associated with the Balance.
-
-      :type: int
-
-   .. attribute:: account_id
-
-      The id of the Account model to which the Balance belongs.
-
-      :type: int
-
-   .. attribute:: reporting_period_id
-
-      The id of the Reporting Period model to which the
-      Balance belongs.
-
-      :type: int
+   Represents a Balance brought down from previous Reporting Periods.
 
    .. py:property:: is_posted
       :type: bool
@@ -1448,11 +1170,15 @@ Classes
 
    .. py:attribute:: BalanceType
 
-      
+      The double entry types of Balances.
+
+      :type: (StrEnum)
 
    .. py:attribute:: BalanceTransactions
 
-      
+      A list of Transaction Types that can have Balances.
+
+      :type: (StrEnum)
 
    .. py:attribute:: __mapper_args__
 
@@ -1461,67 +1187,93 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Account database record.
+
+      :type: (int)
 
    .. py:attribute:: transaction_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Balance Transaction.
+
+      :type: (datetime)
 
    .. py:attribute:: reference
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      Identifying information about the Balance Transaction.
+
+      :type: (`str`, optional)
 
    .. py:attribute:: transaction_no
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The Transaction number of the Balance Transaction.
+
+      :type: (str)
 
    .. py:attribute:: transaction_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The Transaction type of the Balance Transaction.
+
+      :type: (TransactionType)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount outstanding on the Balance Transaction.
+
+      :type: (Decimal)
 
    .. py:attribute:: balance_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The side of the double entry to post the Balance amount.
+
+      :type: (BalanceType)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency model associated with the Balance.
+
+      :type: (int)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model to which the Balance belongs.
+
+      :type: (int)
 
    .. py:attribute:: reporting_period_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Reporting Period model to which the Balance belongs.
+
+      :type: (int)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[src.models.Currency]
 
-      
+      The Currency model associated with the Balance.
+
+      :type: (Currency)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[src.models.Account]
 
-      
+      The Account model to which the Balance belongs.
+
+      :type: (Account)
 
    .. py:attribute:: reporting_period
       :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
 
-      
+      The Reporting Period model to which the Balance belongs.
+
+      :type: (ReportingPeriod)
 
    .. py:method:: __repr__() -> str
 
@@ -1536,12 +1288,13 @@ Classes
       :param year: The calendar year to retrieve the opening
                    trial balance for. Defaults to the Balance's Entity current Reporting
                    Period's calendar year.
-      :type year: :obj:`int`, optional
+      :type year: `int`, optional
 
-      :returns:
-
-                With a A summary of the debit and credit balances of the Accounts
-                    together with a list of the Accounts themselves.
+      :returns: With a A summary of the debit and credit balances of the Accounts
+                together with a list of the Accounts themselves.
+                    - debits (Decimal): The total debit balance.
+                    - credits (Decimal): The total credit balance.
+                    - accounts (Decimal): Accounts constituting the opening trial balance.
       :rtype: dict
 
 
@@ -1552,14 +1305,10 @@ Classes
       :param session: The accounting session to which the Balance belongs.
       :type session: Session
 
-      :raises NegativeAmountError: If the Balance amount is less than 0.
-      :raises InvalidBalanceAccountError: If the Balance main Accounr is an Income
-          Statement Account.
-      :raises InvalidBalanceTransactionError: If the Balance Transaction type is
-          not one of the Balance Transaction types.
-      :raises InvalidBalanceDateError: If the Balance Transaction date is within
-          the current reporting period and the Entity does not allow mid
-          year balances.
+      :raises NegativeValueError: If the Balance amount is less than 0.
+      :raises InvalidBalanceAccountError: If the Balance main Account is an Income Statement Account.
+      :raises InvalidBalanceTransactionError: If the Balance Transaction type is not one of the Balance Transaction types.
+      :raises InvalidBalanceDateError: If the Balance Transaction date is within the current reporting period and the Entity does not allow mid year balances.
 
       :returns: None
 
@@ -1572,37 +1321,6 @@ Classes
 
    Represents a Tax applied to a Transaction's Line Item.
 
-   .. attribute:: id
-
-      The primary key of the Tax database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The label of the Tax.
-
-      :type: str
-
-   .. attribute:: code
-
-      A shorthand representation of the Tax.
-
-      :type: str
-
-   .. attribute:: rate
-
-      The percentage rate of the Tax.
-
-      :type: Decimal
-
-   .. attribute:: account_id
-
-      The id of the Account model to which Tax amounts are
-      posted.
-
-      :type: int
-
    .. py:attribute:: __mapper_args__
 
       
@@ -1610,32 +1328,44 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Tax database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Tax.
+
+      :type: (str)
 
    .. py:attribute:: code
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A shorthand representation of the Tax.
+
+      :type: (str)
 
    .. py:attribute:: rate
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The percentage rate of the Tax.
+
+      :type: (Decimal)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model to which Tax amounts are posted.
+
+      :type: (int)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[src.models.Account]
 
-      
+      The Account model to which Tax amounts are posted.
+
+      :type: (Account)
 
    .. py:method:: __repr__() -> str
 
@@ -1647,9 +1377,8 @@ Classes
       :param session: The accounting session to which the Balance belongs.
       :type session: Session
 
-      :raises NegativeAmountError: If the Tax rate is less than 0.
-      :raises MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account
-          is not set.
+      :raises NegativeValueError: If the Tax rate is less than 0.
+      :raises MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account is not set.
       :raises InvalidTaxAccountError: If the Tax Account type is not Control.
 
       :returns: None
@@ -1662,8 +1391,7 @@ Classes
       :param session: The accounting session to which the Tax belongs.
       :type session: Session
 
-      :raises HangingTransactionsError: If there exists posted Transactions with Line Items
-          that have this Tax applied to them.
+      :raises HangingTransactionsError: If there exists posted Transactions with Line Items that have this Tax applied to them.
 
       :returns: None
 
@@ -1674,81 +1402,7 @@ Classes
 
    Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
 
-   Represents an entry in the Ledger. This class should never have to be invoked directly
-
-   .. attribute:: id
-
-      The primary key of the ledger database record.
-
-      :type: int
-
-   .. attribute:: transaction_date
-
-      The date of the Transaction associated with
-      the Ledger.
-
-      :type: datetime
-
-   .. attribute:: entry_type
-
-      The side of the double entry to which the Ledger
-
-      :type: BalanceType
-
-   .. attribute:: is posted.
-
-      
-
-   .. attribute:: amount
-
-      The amount posted to the Ledger by the entry.
-
-      :type: Decimal
-
-   .. attribute:: hash
-
-      The encoded contents of the Ledger entry.
-
-      :type: str
-
-   .. attribute:: transaction_id
-
-      The id of the Transaction associated with
-      the Ledger.
-
-      :type: int
-
-   .. attribute:: currency_id
-
-      The id of the Currency associated with the Ledger.
-
-      :type: int
-
-   .. attribute:: post_account_id
-
-      The id of the Account to which the Ledger is posted.
-
-      :type: int
-
-   .. attribute:: folio_account_id
-
-      The id of the Account to which the opposite side
-      of Ledger is posted.
-
-      :type: int
-
-   .. attribute:: line_item_id
-
-      The id of the Line Item associated with
-      the Ledger.
-
-      :type: :obj:`int`, optional
-
-   .. attribute:: tax_id
-
-      The id of the Tax associated with the Ledger.
-
-      :type: :obj:`int`, optional
+   Represents an entry in the Ledger. (Should never have to be invoked directly).
 
    .. py:attribute:: __mapper_args__
 
@@ -1757,82 +1411,114 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the ledger database record.
+
+      :type: (int)
 
    .. py:attribute:: transaction_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Transaction associated with the Ledger.
+
+      :type: (datetime)
 
    .. py:attribute:: entry_type
       :type: sqlalchemy.orm.Mapped[strenum.StrEnum]
 
-      
+      The side of the double entry to which the Ledger is posted.
+
+      :type: (BalanceType)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount posted to the Ledger by the entry.
+
+      :type: (Decimal)
 
    .. py:attribute:: hash
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The encoded contents of the Ledger entry.
+
+      :type: (str)
 
    .. py:attribute:: transaction_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Transaction associated with the Ledger.
+
+      :type: (int)
 
    .. py:attribute:: currency_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Currency associated with the Ledger.
+
+      :type: (int)
 
    .. py:attribute:: post_account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account to which the Ledger is posted.
+
+      :type: (int)
 
    .. py:attribute:: folio_account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account to which the opposite side of Ledger is posted.
+
+      :type: (int)
 
    .. py:attribute:: line_item_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Line Item associated with the Ledger.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: tax_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Tax associated with the Ledger.
+
+      :type: (`int`, optional)
 
    .. py:attribute:: transaction
       :type: sqlalchemy.orm.Mapped[src.models.Transaction]
 
-      
+      The Transaction associated with the Ledger.
+
+      :type: (Transaction)
 
    .. py:attribute:: currency
       :type: sqlalchemy.orm.Mapped[Currency]
 
-      
+      The Currency associated with the Ledger.
+
+      :type: (Currency)
 
    .. py:attribute:: post_account
       :type: sqlalchemy.orm.Mapped[Account]
 
-      
+      The main Account associated with the Ledger.
+
+      :type: (Account)
 
    .. py:attribute:: folio_account
       :type: sqlalchemy.orm.Mapped[Account]
 
-      
+      The oppeite double entry Account associated with the Ledger.
+
+      :type: (Account)
 
    .. py:attribute:: line_item
       :type: sqlalchemy.orm.Mapped[LineItem]
 
-      
+      The LineItem associated with the Ledger.
+
+      :type: (LineItem)
 
    .. py:method:: __repr__() -> str
 
@@ -1873,8 +1559,8 @@ Classes
       Calculate the hash of the Ledger.
 
       :param connection: The database connection of the accounting session
-                         to which the Ledger belongs.
       :type connection: Connection
+      :param to which the Ledger belongs.:
 
       :returns: None
 
@@ -1887,99 +1573,68 @@ Classes
 
    Represents an assigment of a clearable type to an assignable Transaction.
 
-   .. attribute:: clearables
-
-      A list of
-      Transaction Types that can be cleared by assignable Transactions.
-
-      :type: :obj:`list` of :obj:`Transaction.TransactionType`
-
-   .. attribute:: assignables
-
-      A list of
-      Transaction Types that can have cleareable Transactions assigned to them.
-
-      :type: :obj:`list` of :obj:`Transaction.TransactionType`
-
-   .. attribute:: assignment_date
-
-      The date of the Assignment.
-
-      :type: datetime
-
-   .. attribute:: transaction_id
-
-      The id of the assignable Transaction in the Assignment.
-
-      :type: int
-
-   .. attribute:: assigned_id
-
-      The id of the clearable Transaction|Balance in the Assignment.
-
-      :type: int
-
-   .. attribute:: assigned_type
-
-      The class name of the clearable Transaction|Balance in the Assignment.
-
-      :type: str
-
-   .. attribute:: assigned_no
-
-      The Transaction number of the clearable Transaction|Balance
-      in the Assignment.
-
-      :type: str
-
-   .. attribute:: amount
-
-      The amount of the Assignment.
-
-      :type: Decimal
-
    .. py:attribute:: clearables
 
-      
+      A list of Transaction Types
+      that can be cleared by assignable Transactions.
+
+      :type: (`list` of `Transaction.TransactionType`)
 
    .. py:attribute:: assignables
 
-      
+      A list of Transaction Types
+      that can have cleareable Transactions assigned to them.
+
+      :type: (`list` of `Transaction.TransactionType`)
 
    .. py:attribute:: assignment_date
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The date of the Assignment.
+
+      :type: (datetime)
 
    .. py:attribute:: transaction_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the assignable Transaction in the Assignment.
+
+      :type: (int)
 
    .. py:attribute:: assigned_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the clearable Transaction|Balance in the Assignment.
+
+      :type: (int)
 
    .. py:attribute:: assigned_type
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The class name of the clearable Transaction|Balance in the Assignment.
+
+      :type: (str)
 
    .. py:attribute:: assigned_no
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The Transaction number of the clearable Transaction|Balance in the Assignment.
+
+      :type: (str)
 
    .. py:attribute:: amount
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The amount of the Assignment.
+
+      :type: (Decimal)
 
    .. py:attribute:: transaction
       :type: sqlalchemy.orm.Mapped[src.models.Transaction]
 
-      
+      The assignable Transaction in the Assignment.
+
+      :type: (Transaction)
 
    .. py:method:: __repr__() -> str
 
@@ -2002,26 +1657,16 @@ Classes
       :param session: The accounting session to which the Assignment belongs.
       :type session: Session
 
-      :raises ValueError: If the assignable Transaction or clearable Transaction|Balance
-          could not be found.
-      :raises UnassignableTransactionError: If the assignable Transaction type is not one
-          of the assignable types.
-      :raises UnclearableTransactionError: If the clearable Transaction type is not one
-          of the clearable types.
-      :raises UnpostedAssignmentError: If either the assignable or clearable Transaction
-          is not posted.
-      :raises InsufficientBalanceError: If the remaining balance in the assignable
-          Transaction is less than the Assignment amount.
-      :raises OverclearanceError: If the Assignment amount is greater than the clearable
-          Transaction|Balance uncleared amount.
-      :raises CompoundTransactionAssignmentError: If either the assignable or clearable
-          Journal Entry is a compound Transaction.
-      :raises SelfClearanceError: If the assignable and clearable Transaction of the
-          Assignment is the same.
-      :raises InvalidAssignmentAccountError: If the assignable Transaction and clearable
-          Transaction|Balance main Accounts are not the same.
-      :raises MixedAssignmentError: If either an already Transaction is being cleared or
-          an already cleared Transaction is being assigned.
+      :raises ValueError: If the assignable Transaction or clearable Transaction|Balance could not be found.
+      :raises UnassignableTransactionError: If the assignable Transaction type is not one of the assignable types.
+      :raises UnclearableTransactionError: If the clearable Transaction type is not one of the clearable types.
+      :raises UnpostedAssignmentError: If either the assignable or clearable Transaction is not posted.
+      :raises InsufficientBalanceError: If the remaining balance in the assignable Transaction is less than the Assignment amount.
+      :raises OverclearanceError: If the Assignment amount is greater than the clearable Transaction|Balance uncleared amount.
+      :raises CompoundTransactionAssignmentError: If either the assignable or clearable Journal Entry is a compound Transaction.
+      :raises SelfClearanceError: If the assignable and clearable Transaction of the Assignment is the same.
+      :raises InvalidAssignmentAccountError: If the assignable Transaction and clearable Transaction|Balance main Accounts are not the same.
+      :raises MixedAssignmentError: If either an already Transaction is being cleared or an already cleared Transaction is being assigned.
 
       :returns: None
 

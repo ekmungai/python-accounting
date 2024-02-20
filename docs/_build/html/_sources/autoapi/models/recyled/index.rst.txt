@@ -29,32 +29,26 @@ Classes
 
    Represents an accounting model that has been recycled.
 
-   .. attribute:: recycled_id
-
-      The id of the model that has been recycled.
-
-      :type: int
-
-   .. attribute:: restored_at
-
-      The time the model was restored.
-
-      :type: :obj:`datetime`, optional
-
    .. py:attribute:: recycled_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the model that has been recycled.
+
+      :type: (int)
 
    .. py:attribute:: restored_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the model was restored.
+
+      :type: (`datetime`, optional)
 
    .. py:attribute:: subject
       :type: sqlalchemy.orm.Mapped[Recyclable]
 
-      
+      The model that was recycled/restored.
+
+      :type: (Recyclable)
 
    .. py:method:: __repr__() -> str
 

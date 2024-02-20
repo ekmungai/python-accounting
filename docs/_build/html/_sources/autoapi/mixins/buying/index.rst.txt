@@ -35,7 +35,7 @@ Classes
       A list of Account
       Types that are allowed as Line Item accounts for buying Transactions.
 
-      :type: line_item_types (`list` of `Account.AccountType`)
+      :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: main_account_types
       :type: list
@@ -43,7 +43,7 @@ Classes
       A list of Account
       Types that are allowed as main accounts for buying Transactions.
 
-      :type: main_account_types (`list` of `Account.AccountType`)
+      :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: account_type_map
       :type: dict
@@ -51,6 +51,6 @@ Classes
       A mapping of
       Transactions to the Account Types that apply to their validation.
 
-      :type: account_type_map (`dict` of `Account.AccountType`)
+      :type: (`dict` of `Account.AccountType`)
 
 

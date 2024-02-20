@@ -234,7 +234,7 @@ Package Contents
    An Entity can only have one reporting period open at a time.
 
 
-.. py:exception:: NegativeAmountError(classname, attribute='amount')
+.. py:exception:: NegativeValueError(classname, attribute='amount')
 
 
    Bases: :py:obj:`AccountingExeption`

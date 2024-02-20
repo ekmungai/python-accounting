@@ -31,47 +31,45 @@ account_type_enum = StrEnum(
 
 
 class Account(IsolatingMixin, Recyclable):
-    """
-    Represents an account which groups related Transactions.
-
-    Attributes:
-        AccountType (StrEnum): Account Types as defined by IFRS and GAAP.
-        purchasables (:obj:`list` of :obj:`Account.AccountType`): A list of Account
-            Types that can be used in purchasing Transactions.
-        id (int): The primary key of the Account database record.
-        name (str): The label of the Account.
-        decsription (:obj:`str`, optional): A narration of the purpose of the Account.
-        account_type (AccountType): The type of the Account.
-        currency_id (int): The id of the Currency model associated with the Account.
-        category_id (:obj:`int`, optional): The id of the Category model to which
-            the Account belongs.
-
-    """
+    """Represents an account which groups related Transactions."""
 
     # Chart of Accounts types
     AccountType = account_type_enum
+    """(StrEnum): Account Types as defined by IFRS and GAAP."""
 
     # Account Types that can be used in Purchasing Transactions
     purchasables = [
         account_type_enum[t] for t in config.accounts["purchasables"]["types"]
     ]
+    """
+    (`list` of `Account.AccountType`): A list of Account
+    Types that can be used in purchasing Transactions.
+    """
 
     __mapper_args__ = {"polymorphic_identity": "Account"}
 
     id: Mapped[int] = mapped_column(ForeignKey("recyclable.id"), primary_key=True)
+    """(int): The primary key of the Account database record."""
     name: Mapped[str] = mapped_column(String(255))
+    """(str): The label of the Account."""
     description: Mapped[str] = mapped_column(Text(1000), nullable=True)
+    """(`str`, optional): A narration of the purpose of the Account."""
     account_code: Mapped[int] = mapped_column()
+    """(int): A serially generated code based on the type of the Account."""
     account_type: Mapped[StrEnum] = mapped_column(Enum(AccountType))
+    """(AccountType): The type of the Account."""
     currency_id: Mapped[int] = mapped_column(ForeignKey("currency.id"))
+    """(int): The id of the Currency model associated with the Account."""
     category_id: Mapped[int] = mapped_column(ForeignKey("category.id"), nullable=True)
+    """(`int`, optional): The id of the Category model to which the Account belongs."""
 
     # relationships
     currency: Mapped["Currency"] = relationship(foreign_keys=[currency_id])
+    """(Currency): The Currency associated with the Account."""
     category: Mapped["Category"] = relationship(foreign_keys=[category_id])
+    """(`Category`, optional): The Category to which the Account belongs."""
 
     def _get_account_code(self, session) -> int:
-        """Get the auto generated account code for the instance"""
         current_count = (
             session.query(Account)
             .filter(Account.entity_id == self.entity_id)
@@ -104,8 +102,7 @@ class Account(IsolatingMixin, Recyclable):
 
         Returns:
             Decimal: The difference between the balance of the Account at the start date and
-                end date.
-
+            end date.
         """
         from src.models import (  # pylint: disable=import-outside-toplevel
             Balance,
@@ -144,7 +141,7 @@ class Account(IsolatingMixin, Recyclable):
 
         Args:
             session (Session): The accounting session to which the Account belongs.
-            account_types (:obj:`list` of :obj:`Account.AccountType`): The Account types
+            account_types (`list` of `Account.AccountType`): The Account types
                 belonging to the section.
             start_date (datetime): The earliest transaction date for Transaction amounts to be
                 included in the balance.
@@ -154,8 +151,11 @@ class Account(IsolatingMixin, Recyclable):
 
         Returns:
             dict: A summary of the total opening, balance movement and closing balance, which
-                details of totals by Category and the Accounts contained in each Category.
-
+            details of totals by Category and the Accounts contained in each Category.
+                - opening (Decimal): The sum of opening balances of Accounts in the section.
+                - movement (Decimal): The movememt of the balances of Accounts in the section.
+                - closing (Decimal): The sum of opening closing of Accounts in the section.
+                - categories (dict): The Accounts belonging to the section separated by Category.
         """
         balances = dict(opening=0, movement=0, closing=0, categories={})
 
@@ -284,9 +284,18 @@ class Account(IsolatingMixin, Recyclable):
 
         Returns:
             dict: With a A summary of the opening and closing balance in the case of
-                a statement, the total, cleared and uncleared amounts if its a schedule
-                together with a list of Transactions.
+            a statement, the total, cleared and uncleared amounts if its a schedule
+            together with a list of Transactions.
 
+            Statements.
+                - opening_balance (Decimal): The balance of the Account at the beginning of the statement period.
+                - transactions (list): Transactions posted to the Account during the period.
+                - closing_balance (Decimal): The balance of the Account at the end of the statement period.
+            Schedule.
+                - transactions (list): Outstanding clearable Transactions posted to the Account as at the end date.
+                - total_amount (Decimal): The total amount of the Transactions in the Schdeule.
+                - cleared_amount (Decimal): The amount of the Transactions in the Schdeule that has been cleared.
+                - uncleared_amount (Decimal): The amount of the Transactions in the Schdeule that is still outstanding.
         """
         from src.models import (  # pylint: disable=import-outside-toplevel
             Transaction,

@@ -29,44 +29,33 @@ Classes
 
    Interface for associating recycled objects with its models.
 
-   .. attribute:: deleted_at
-
-      The time the model was recycled.
-
-      :type: :obj:`datetime`, optional
-
-   .. attribute:: destroyed_at
-
-      The time the model was recycled
-      permanently deleted.
-
-      :type: :obj:`datetime`, optional
-
-   .. attribute:: recycled_type
-
-      The class name of the recycled model.
-
-      :type: str
-
    .. py:attribute:: deleted_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the model was recycled.
+
+      :type: (`datetime`, optional)
 
    .. py:attribute:: destroyed_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the model was recycled permanently deleted.
+
+      :type: (`datetime`, optional)
 
    .. py:attribute:: recycled_type
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The class name of the recycled model.
+
+      :type: (str)
 
    .. py:attribute:: history
       :type: sqlalchemy.orm.Mapped[List[Recycled]]
 
-      
+      A list of deletions and restorations for the model.
+
+      :type: (list)
 
    .. py:attribute:: __mapper_args__
 

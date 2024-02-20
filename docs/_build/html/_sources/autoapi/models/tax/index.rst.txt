@@ -29,37 +29,6 @@ Classes
 
    Represents a Tax applied to a Transaction's Line Item.
 
-   .. attribute:: id
-
-      The primary key of the Tax database record.
-
-      :type: int
-
-   .. attribute:: name
-
-      The label of the Tax.
-
-      :type: str
-
-   .. attribute:: code
-
-      A shorthand representation of the Tax.
-
-      :type: str
-
-   .. attribute:: rate
-
-      The percentage rate of the Tax.
-
-      :type: Decimal
-
-   .. attribute:: account_id
-
-      The id of the Account model to which Tax amounts are
-      posted.
-
-      :type: int
-
    .. py:attribute:: __mapper_args__
 
       
@@ -67,32 +36,44 @@ Classes
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the Tax database record.
+
+      :type: (int)
 
    .. py:attribute:: name
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      The label of the Tax.
+
+      :type: (str)
 
    .. py:attribute:: code
       :type: sqlalchemy.orm.Mapped[str]
 
-      
+      A shorthand representation of the Tax.
+
+      :type: (str)
 
    .. py:attribute:: rate
       :type: sqlalchemy.orm.Mapped[decimal.Decimal]
 
-      
+      The percentage rate of the Tax.
+
+      :type: (Decimal)
 
    .. py:attribute:: account_id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The id of the Account model to which Tax amounts are posted.
+
+      :type: (int)
 
    .. py:attribute:: account
       :type: sqlalchemy.orm.Mapped[src.models.Account]
 
-      
+      The Account model to which Tax amounts are posted.
+
+      :type: (Account)
 
    .. py:method:: __repr__() -> str
 
@@ -104,9 +85,8 @@ Classes
       :param session: The accounting session to which the Balance belongs.
       :type session: Session
 
-      :raises NegativeAmountError: If the Tax rate is less than 0.
-      :raises MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account
-          is not set.
+      :raises NegativeValueError: If the Tax rate is less than 0.
+      :raises MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account is not set.
       :raises InvalidTaxAccountError: If the Tax Account type is not Control.
 
       :returns: None
@@ -119,8 +99,7 @@ Classes
       :param session: The accounting session to which the Tax belongs.
       :type session: Session
 
-      :raises HangingTransactionsError: If there exists posted Transactions with Line Items
-          that have this Tax applied to them.
+      :raises HangingTransactionsError: If there exists posted Transactions with Line Items that have this Tax applied to them.
 
       :returns: None
 

@@ -29,38 +29,26 @@ Classes
 
    The accounting model base class
 
-   .. attribute:: id
-
-      The primary key of the model database record.
-
-      :type: int
-
-   .. attribute:: created_at
-
-      The time the database record was created.
-
-      :type: datetime
-
-   .. attribute:: update_at
-
-      The time the database record was last modified.
-
-      :type: datetime
-
    .. py:attribute:: id
       :type: sqlalchemy.orm.Mapped[int]
 
-      
+      The primary key of the model database record.
+
+      :type: id (int)
 
    .. py:attribute:: created_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the database record was created.
+
+      :type: created_at (datetime)
 
    .. py:attribute:: updated_at
       :type: sqlalchemy.orm.Mapped[datetime.datetime]
 
-      
+      The time the database record was last modified.
+
+      :type: update_at (datetime)
 
    .. py:method:: __tablename__() -> str
 

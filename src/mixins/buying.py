@@ -21,17 +21,17 @@ class BuyingMixin(TradingMixin):
 
     line_item_types: list
     """
-    line_item_types (`list` of `Account.AccountType`): A list of Account
+    (`list` of `Account.AccountType`): A list of Account
     Types that are allowed as Line Item accounts for buying Transactions.
     """
     main_account_types: list
     """
-    main_account_types (`list` of `Account.AccountType`): A list of Account
+    (`list` of `Account.AccountType`): A list of Account
     Types that are allowed as main accounts for buying Transactions.
     """
     account_type_map: dict
     """
-    account_type_map (`dict` of `Account.AccountType`): A mapping of
+    (`dict` of `Account.AccountType`): A mapping of
     Transactions to the Account Types that apply to their validation.
     """
 

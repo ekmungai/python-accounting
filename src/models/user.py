@@ -16,17 +16,12 @@ from .base import Base
 
 
 class User(IsolatingMixin, Base):
-    """
-    Represents an authenicatable User with access to an Entity.
-
-    Attributes:
-        name (str): The name of the User.
-        email (str): A unique email to identify the User.
-
-    """
+    """Represents an authenticatable User with access to an Entity."""
 
     name: Mapped[str]
+    """(str): The name of the User."""
     email: Mapped[str]
+    """(str): A unique email to identify the User."""
 
     def __repr__(self) -> str:
         return f"{self.name} <{self.email}>"
