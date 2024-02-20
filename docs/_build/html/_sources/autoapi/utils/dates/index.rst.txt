@@ -26,4 +26,9 @@ Functions
 
    Returns the start, end and period start dates given the inputs provided.
 
+   :param start_date: The start date.
+   :type start_date: datetime
+   :param end_date: The end date.
+   :type end_date: datetime
+
 

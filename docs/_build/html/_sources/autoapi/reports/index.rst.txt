@@ -207,13 +207,11 @@ Classes
 
    This class represents all the balances of the chart of accounts, compared against each other.
 
-    Attributes:
-       config (str): The configuration section for the report.
-
-
    .. py:attribute:: config
       :value: 'trial_balance'
 
-      
+      The configuration section for the report.
+
+      :type: (str)
 
 
