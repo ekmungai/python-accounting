@@ -17,25 +17,45 @@ from src.utils.dates import get_dates
 
 
 class AgingSchedule:
-    """
-    This class displays the outstanding balances for recievables and payables categorised
-        by how long they have been outstanding.
-
-    Attributes:
-        brackets (dict): Categories of ages in days and their labels.
-        balances (str): The total outstanding amounts per age bracket.
-        accounts (list): The Account who's outsanding transactions constitue the balances.
-        account_type (Account.AccountType.RECEIVABLE|Account.AccountType.RECEIVABLE):
-            The Account type to get aged balances for. Can only be Receivable or Payable.
-        end_date (datetime): The latest transaction date for Transaction amounts to be included
-                in the balances.
-    """
+    """This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding."""
 
     brackets = config.reports["aging_schedule_brackets"]
+    """
+    (dict): Categories of ages in days and their labels.
+    ::
+        {
+            current (int): Days in the current bracket. Defaults to 30.
+            31 - 90 days (int): Days in the quarter bracket. Defaults to 90.
+            91 - 180 days (int): Days in the half year bracket. Defaults to 180.
+            181 - 270 days (int): Days in the three quarters bracket. Defaults to 270.
+            271 - 365 days (int): Days in the whole year bracket. Defaults to 365.
+            365+ Bad Debts (int): Days in the year plus bracket. Defaults to 1000000000 (infinity).
+        }
+    
+    """
     balances: dict
+    """
+    (dict): The total outstanding amounts per age bracket.
+    ::
+        {
+            current (Decimal): Balances not yet due.
+            31 - 90 days (Decimal): Balances outstanding for up to 90 days.
+            91 - 180 days (Decimal): Balances outstanding for up to 180 days.
+            181 - 270 days (Decimal): Balances outstanding for up to 270 days.
+            271 - 365 days (Decimal): Balances outstanding for up to 365 days.
+            365+ Bad Debts (Decimal): Balances over a year old.
+        }
+    """
     accounts: list
+    """(list): The Account who's outsanding transactions constitue the balances."""
     account_type = None
+    """
+    (`Account.AccountType.RECEIVABLE|Account.AccountType.PAYABLE`):
+    The Account type to get aged balances for. Can only be Receivable or Payable.
+    """
     end_date: datetime
+    """(datetime): The latest transaction date for Transaction amounts to be included
+    in the balances."""
 
     def __init__(
         self,

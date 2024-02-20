@@ -17,17 +17,13 @@ from src.models import Account
 
 
 class CashflowStatement(FinancialStatement):
-    """
-    This class represents the movement of balances of Balance Sheet accounts during the given period.
-
-    Attributes:
-        config (str): The configuration section for the report.
-        sub_sections (dict): The categories of the contents of the sections of the report.
-
-    """
+    """This class represents the movement of balances of Balance Sheet accounts during the given period."""
 
     config = "cashflow_statement"
+    """config (str): The configuration section for the report."""
+
     sub_sections: dict
+    """sub_sections (dict): The categories of the contents of the sections of the report."""
 
     def __init__(
         self, session, start_date: datetime = None, end_date: datetime = None

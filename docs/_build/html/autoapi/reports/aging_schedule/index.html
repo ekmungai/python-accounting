@@ -109,46 +109,63 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#reports.aging_schedule.AgingSchedule" title="reports.aging_schedule.AgingSchedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AgingSchedule</span></code></a></p></td>
-<td><p>This class displays the outstanding balances for recievables and payables categorised</p></td>
+<td><p>This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.aging_schedule.</span></span><span class="sig-name descname"><span class="pre">AgingSchedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Account.AccountType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.aging_schedule.AgingSchedule" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>This class displays the outstanding balances for recievables and payables categorised</dt><dd><p>by how long they have been outstanding.</p>
-</dd>
-</dl>
+<dd><p>This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule.brackets">
 <span class="sig-name descname"><span class="pre">brackets</span></span><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.brackets" title="Link to this definition"></a></dt>
 <dd><p>Categories of ages in days and their labels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">current</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Days</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">current</span> <span class="n">bracket</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">30.</span>
+    <span class="mi">31</span> <span class="o">-</span> <span class="mi">90</span> <span class="n">days</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Days</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">quarter</span> <span class="n">bracket</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">90.</span>
+    <span class="mi">91</span> <span class="o">-</span> <span class="mi">180</span> <span class="n">days</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Days</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">half</span> <span class="n">year</span> <span class="n">bracket</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">180.</span>
+    <span class="mi">181</span> <span class="o">-</span> <span class="mi">270</span> <span class="n">days</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Days</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">three</span> <span class="n">quarters</span> <span class="n">bracket</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">270.</span>
+    <span class="mi">271</span> <span class="o">-</span> <span class="mi">365</span> <span class="n">days</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Days</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">whole</span> <span class="n">year</span> <span class="n">bracket</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">365.</span>
+    <span class="mi">365</span><span class="o">+</span> <span class="n">Bad</span> <span class="n">Debts</span> <span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Days</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">year</span> <span class="n">plus</span> <span class="n">bracket</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mi">1000000000</span> <span class="p">(</span><span class="n">infinity</span><span class="p">)</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p>(dict)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule.balances">
-<span class="sig-name descname"><span class="pre">balances</span></span><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.balances" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">balances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.balances" title="Link to this definition"></a></dt>
 <dd><p>The total outstanding amounts per age bracket.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">current</span> <span class="p">(</span><span class="n">Decimal</span><span class="p">):</span> <span class="n">Balances</span> <span class="ow">not</span> <span class="n">yet</span> <span class="n">due</span><span class="o">.</span>
+    <span class="mi">31</span> <span class="o">-</span> <span class="mi">90</span> <span class="n">days</span> <span class="p">(</span><span class="n">Decimal</span><span class="p">):</span> <span class="n">Balances</span> <span class="n">outstanding</span> <span class="k">for</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">90</span> <span class="n">days</span><span class="o">.</span>
+    <span class="mi">91</span> <span class="o">-</span> <span class="mi">180</span> <span class="n">days</span> <span class="p">(</span><span class="n">Decimal</span><span class="p">):</span> <span class="n">Balances</span> <span class="n">outstanding</span> <span class="k">for</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">180</span> <span class="n">days</span><span class="o">.</span>
+    <span class="mi">181</span> <span class="o">-</span> <span class="mi">270</span> <span class="n">days</span> <span class="p">(</span><span class="n">Decimal</span><span class="p">):</span> <span class="n">Balances</span> <span class="n">outstanding</span> <span class="k">for</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">270</span> <span class="n">days</span><span class="o">.</span>
+    <span class="mi">271</span> <span class="o">-</span> <span class="mi">365</span> <span class="n">days</span> <span class="p">(</span><span class="n">Decimal</span><span class="p">):</span> <span class="n">Balances</span> <span class="n">outstanding</span> <span class="k">for</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">365</span> <span class="n">days</span><span class="o">.</span>
+    <span class="mi">365</span><span class="o">+</span> <span class="n">Bad</span> <span class="n">Debts</span> <span class="p">(</span><span class="n">Decimal</span><span class="p">):</span> <span class="n">Balances</span> <span class="n">over</span> <span class="n">a</span> <span class="n">year</span> <span class="n">old</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(dict)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule.accounts">
-<span class="sig-name descname"><span class="pre">accounts</span></span><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.accounts" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">accounts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.accounts" title="Link to this definition"></a></dt>
 <dd><p>The Account who’s outsanding transactions constitue the balances.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-odd"><p>(list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -156,50 +173,21 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule.account_type">
 <span class="sig-name descname"><span class="pre">account_type</span></span><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.account_type" title="Link to this definition"></a></dt>
-<dd><p>The Account type to get aged balances for. Can only be Receivable or Payable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Account.AccountType.RECEIVABLE|Account.AccountType.RECEIVABLE</p>
-</dd>
-</dl>
+<dd><p>(<cite>Account.AccountType.RECEIVABLE|Account.AccountType.PAYABLE</cite>):
+The Account type to get aged balances for. Can only be Receivable or Payable.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule.end_date">
-<span class="sig-name descname"><span class="pre">end_date</span></span><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.end_date" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">end_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#reports.aging_schedule.AgingSchedule.end_date" title="Link to this definition"></a></dt>
 <dd><p>The latest transaction date for Transaction amounts to be included
 in the balances.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
+<dd class="field-odd"><p>(datetime)</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">brackets</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">balances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">accounts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">account_type</span></span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">end_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="reports.aging_schedule.AgingSchedule.__repr__">

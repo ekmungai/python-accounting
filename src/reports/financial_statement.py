@@ -17,30 +17,24 @@ from src.models import Account
 
 
 class FinancialStatement:
-    """
-    This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP
-    
-    Attributes:
-        config (str): The configuration section for the report.
-        end_date (datetime): The latest transaction date for Transaction amounts to be included
-            in the report.
-        printout (tuple): The sections to be printed out.
-        width (int): The width of the report printout.
-        indent (str): The indent between report sections.
-        subtotal (str): The underline for report subtotals.
-        grandtotal (str): The underline for report grand totals.
-
-    """
+    """This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP."""
 
     config: dict
+    """(str): The configuration section for the report."""
     end_date: datetime
+    """(datetime): The latest transaction date for Transaction amounts to be included in the report."""
 
     # printing
     printout: tuple
-    width: str
+    """(tuple): The sections to be printed out."""
+    width: int
+    """(int): The width of the report printout."""
     indent: str = " " * configuration.reports["indent_length"]
+    """(str): The indent between report sections."""
     subtotal: str = "_" * configuration.reports["result_length"]
+    """(str): The underline for report subtotals."""
     grandtotal: str = "=" * configuration.reports["result_length"]
+    """(str): The underline for report grand totals."""
 
     def __init__(self, session: Session) -> None:
         self.session = session
@@ -51,18 +45,25 @@ class FinancialStatement:
             "Sections",
             {k: v["label"] for k, v in configuration.reports[self.config]["sections"].items()},
         )
+        """(StrEnum): The sections of the report."""
 
         # Financial Statement Results
         self.results = StrEnum(
             "Results",
             {k: v for k, v in configuration.reports[self.config]["results"].items()},
         )
+        """(StrEnum): The results of the report."""
 
         self.section_names = [section.name for section in self.sections]
+        """(list): The names of the sections of the report."""
         self.accounts = {k: {} for k in self.section_names}
+        """(dict): The Accounts in the sections of the report, by Account category."""
         self.balances = {k: {} for k in self.section_names}
+        """(dict): The total balances of the Accounts in the sections of the report, by Account category."""
         self.totals = {k: 0 for k in self.section_names}
+        """(dict): The Total balances of Accounts in the sections of the report."""
         self.result_amounts = {}
+        """(dict): The amounts results of the report."""
 
         self.balances.update({"debit": 0, "credit": 0})
 

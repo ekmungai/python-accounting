@@ -19,14 +19,7 @@ from src.models import Account
 
 
 class BalanceSheet(FinancialStatement):
-    """
-    This class represents the Statement of Financial Position/Balance Sheet of a given Entity.
-
-    Attributes:
-        Accounts (Account.AccountType): The Account types allowed to be in included in the report.
-        config (str): The configuration section for the report.
-
-    """
+    """This class represents Financial Position/Balance Sheet of a given Entity."""
 
     Accounts = StrEnum(
         "Accounts",
@@ -48,7 +41,10 @@ class BalanceSheet(FinancialStatement):
             ]
         },
     )
+    """(Account.AccountType): The Account types allowed to be in included in the report."""
+
     config = "balance_sheet"
+    """(str): The configuration section for the report."""
 
     def __init__(self, session, end_date: datetime = None) -> None:
         from src.reports.income_statement import (  # pylint: disable=import-outside-toplevel

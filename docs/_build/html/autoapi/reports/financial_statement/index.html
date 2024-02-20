@@ -109,126 +109,167 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#reports.financial_statement.FinancialStatement" title="reports.financial_statement.FinancialStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FinancialStatement</span></code></a></p></td>
-<td><p>This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP</p></td>
+<td><p>This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.financial_statement.</span></span><span class="sig-name descname"><span class="pre">FinancialStatement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.financial_statement.FinancialStatement" title="Link to this definition"></a></dt>
-<dd><p>This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP</p>
+<dd><p>This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.config">
-<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.config" title="Link to this definition"></a></dt>
 <dd><p>The configuration section for the report.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.end_date">
-<span class="sig-name descname"><span class="pre">end_date</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.end_date" title="Link to this definition"></a></dt>
-<dd><p>The latest transaction date for Transaction amounts to be included
-in the report.</p>
+<span class="sig-name descname"><span class="pre">end_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.end_date" title="Link to this definition"></a></dt>
+<dd><p>The latest transaction date for Transaction amounts to be included in the report.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
+<dd class="field-odd"><p>(datetime)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.printout">
-<span class="sig-name descname"><span class="pre">printout</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.printout" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">printout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.printout" title="Link to this definition"></a></dt>
 <dd><p>The sections to be printed out.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p>(tuple)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.width">
-<span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.width" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.width" title="Link to this definition"></a></dt>
 <dd><p>The width of the report printout.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>(int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.indent">
-<span class="sig-name descname"><span class="pre">indent</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.indent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">indent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.indent" title="Link to this definition"></a></dt>
 <dd><p>The indent between report sections.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.subtotal">
-<span class="sig-name descname"><span class="pre">subtotal</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.subtotal" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">subtotal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.subtotal" title="Link to this definition"></a></dt>
 <dd><p>The underline for report subtotals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.grandtotal">
-<span class="sig-name descname"><span class="pre">grandtotal</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.grandtotal" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">grandtotal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#reports.financial_statement.FinancialStatement.grandtotal" title="Link to this definition"></a></dt>
 <dd><p>The underline for report grand totals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.sections">
+<span class="sig-name descname"><span class="pre">sections</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.sections" title="Link to this definition"></a></dt>
+<dd><p>The sections of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(StrEnum)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">end_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.results">
+<span class="sig-name descname"><span class="pre">results</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.results" title="Link to this definition"></a></dt>
+<dd><p>The results of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(StrEnum)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">printout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.section_names">
+<span class="sig-name descname"><span class="pre">section_names</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.section_names" title="Link to this definition"></a></dt>
+<dd><p>The names of the sections of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.accounts">
+<span class="sig-name descname"><span class="pre">accounts</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.accounts" title="Link to this definition"></a></dt>
+<dd><p>The Accounts in the sections of the report, by Account category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">indent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.balances">
+<span class="sig-name descname"><span class="pre">balances</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.balances" title="Link to this definition"></a></dt>
+<dd><p>The total balances of the Accounts in the sections of the report, by Account category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">subtotal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.totals">
+<span class="sig-name descname"><span class="pre">totals</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.totals" title="Link to this definition"></a></dt>
+<dd><p>The Total balances of Accounts in the sections of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">grandtotal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.result_amounts">
+<span class="sig-name descname"><span class="pre">result_amounts</span></span><a class="headerlink" href="#reports.financial_statement.FinancialStatement.result_amounts" title="Link to this definition"></a></dt>
+<dd><p>The amounts results of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="reports.financial_statement.FinancialStatement.__str__">

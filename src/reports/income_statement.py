@@ -20,13 +20,7 @@ from src.utils.dates import get_dates
 
 class IncomeStatement(FinancialStatement):
     """
-    This class represents the Income Statement/Profit and Loss of a given Entity.
-
-    Attributes:
-        Accounts (Account.AccountType): The Account types allowed to be in included in the report.
-        config (str): The configuration section for the report.
-
-    """
+    This class represents the Income Statement/Profit and Loss of a given Entity."""
 
     Accounts = StrEnum(
         "Accounts",
@@ -42,7 +36,10 @@ class IncomeStatement(FinancialStatement):
             ]
         },
     )
+    """(Account.AccountType): The Account types allowed to be in included in the report."""
+
     config = "income_statement"
+    """(str): The configuration section for the report."""
 
     def __init__(
         self, session, start_date: datetime = None, end_date: datetime = None
@@ -101,10 +98,8 @@ class IncomeStatement(FinancialStatement):
 
         Args:
             session (Session): The accounting session to which the report belongs.
-            start_date (datetime): The earliest transaction date for Transaction amounts to be
-                included in the report.
-            end_date (datetime): The latest transaction date for Transaction amounts to be included
-                in the report.
+            start_date (datetime): The earliest transaction date for Transaction amounts to be included in the report.
+            end_date (datetime): The latest transaction date for Transaction amounts to be included in the report.
 
         Returns:
             Decimal: The net profit or loss for the Entity for the period.

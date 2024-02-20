@@ -27,28 +27,20 @@ Classes
 
    Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
 
-   This class represents the Statement of Financial Position/Balance Sheet of a given Entity.
-
-   .. attribute:: Accounts
-
-      The Account types allowed to be in included in the report.
-
-      :type: Account.AccountType
-
-   .. attribute:: config
-
-      The configuration section for the report.
-
-      :type: str
+   This class represents Financial Position/Balance Sheet of a given Entity.
 
    .. py:attribute:: Accounts
 
-      
+      The Account types allowed to be in included in the report.
+
+      :type: (Account.AccountType)
 
    .. py:attribute:: config
       :value: 'balance_sheet'
 
-      
+      The configuration section for the report.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 

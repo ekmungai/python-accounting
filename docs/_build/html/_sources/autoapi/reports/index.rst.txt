@@ -47,26 +47,18 @@ Classes
 
    This class represents the Income Statement/Profit and Loss of a given Entity.
 
-   .. attribute:: Accounts
+   .. py:attribute:: Accounts
 
       The Account types allowed to be in included in the report.
 
-      :type: Account.AccountType
-
-   .. attribute:: config
-
-      The configuration section for the report.
-
-      :type: str
-
-   .. py:attribute:: Accounts
-
-      
+      :type: (Account.AccountType)
 
    .. py:attribute:: config
       :value: 'income_statement'
 
-      
+      The configuration section for the report.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 
@@ -78,11 +70,9 @@ Classes
 
       :param session: The accounting session to which the report belongs.
       :type session: Session
-      :param start_date: The earliest transaction date for Transaction amounts to be
-                         included in the report.
+      :param start_date: The earliest transaction date for Transaction amounts to be included in the report.
       :type start_date: datetime
-      :param end_date: The latest transaction date for Transaction amounts to be included
-                       in the report.
+      :param end_date: The latest transaction date for Transaction amounts to be included in the report.
       :type end_date: datetime
 
       :returns: The net profit or loss for the Entity for the period.
@@ -95,28 +85,20 @@ Classes
 
    Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
 
-   This class represents the Statement of Financial Position/Balance Sheet of a given Entity.
-
-   .. attribute:: Accounts
-
-      The Account types allowed to be in included in the report.
-
-      :type: Account.AccountType
-
-   .. attribute:: config
-
-      The configuration section for the report.
-
-      :type: str
+   This class represents Financial Position/Balance Sheet of a given Entity.
 
    .. py:attribute:: Accounts
 
-      
+      The Account types allowed to be in included in the report.
+
+      :type: (Account.AccountType)
 
    .. py:attribute:: config
       :value: 'balance_sheet'
 
-      
+      The configuration section for the report.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 
@@ -125,62 +107,58 @@ Classes
 .. py:class:: AgingSchedule(session, account_type: src.models.Account.AccountType, end_date: datetime.datetime = None)
 
 
-   This class displays the outstanding balances for recievables and payables categorised
-       by how long they have been outstanding.
-
-   .. attribute:: brackets
-
-      Categories of ages in days and their labels.
-
-      :type: dict
-
-   .. attribute:: balances
-
-      The total outstanding amounts per age bracket.
-
-      :type: str
-
-   .. attribute:: accounts
-
-      The Account who's outsanding transactions constitue the balances.
-
-      :type: list
-
-   .. attribute:: account_type
-
-      The Account type to get aged balances for. Can only be Receivable or Payable.
-
-      :type: Account.AccountType.RECEIVABLE|Account.AccountType.RECEIVABLE
-
-   .. attribute:: end_date
-
-      The latest transaction date for Transaction amounts to be included
-      in the balances.
-
-      :type: datetime
+   This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding.
 
    .. py:attribute:: brackets
 
-      
+      Categories of ages in days and their labels.
+      ::
+          {
+              current (int): Days in the current bracket. Defaults to 30.
+              31 - 90 days (int): Days in the quarter bracket. Defaults to 90.
+              91 - 180 days (int): Days in the half year bracket. Defaults to 180.
+              181 - 270 days (int): Days in the three quarters bracket. Defaults to 270.
+              271 - 365 days (int): Days in the whole year bracket. Defaults to 365.
+              365+ Bad Debts (int): Days in the year plus bracket. Defaults to 1000000000 (infinity).
+          }
+
+      :type: (dict)
 
    .. py:attribute:: balances
       :type: dict
 
-      
+      The total outstanding amounts per age bracket.
+      ::
+          {
+              current (Decimal): Balances not yet due.
+              31 - 90 days (Decimal): Balances outstanding for up to 90 days.
+              91 - 180 days (Decimal): Balances outstanding for up to 180 days.
+              181 - 270 days (Decimal): Balances outstanding for up to 270 days.
+              271 - 365 days (Decimal): Balances outstanding for up to 365 days.
+              365+ Bad Debts (Decimal): Balances over a year old.
+          }
+
+      :type: (dict)
 
    .. py:attribute:: accounts
       :type: list
 
-      
+      The Account who's outsanding transactions constitue the balances.
+
+      :type: (list)
 
    .. py:attribute:: account_type
 
-      
+      (`Account.AccountType.RECEIVABLE|Account.AccountType.PAYABLE`):
+      The Account type to get aged balances for. Can only be Receivable or Payable.
 
    .. py:attribute:: end_date
       :type: datetime.datetime
 
-      
+      The latest transaction date for Transaction amounts to be included
+      in the balances.
+
+      :type: (datetime)
 
    .. py:method:: __repr__() -> str
 
@@ -198,27 +176,19 @@ Classes
 
    This class represents the movement of balances of Balance Sheet accounts during the given period.
 
-   .. attribute:: config
-
-      The configuration section for the report.
-
-      :type: str
-
-   .. attribute:: sub_sections
-
-      The categories of the contents of the sections of the report.
-
-      :type: dict
-
    .. py:attribute:: config
       :value: 'cashflow_statement'
 
-      
+      The configuration section for the report.
+
+      :type: config (str)
 
    .. py:attribute:: sub_sections
       :type: dict
 
-      
+      The categories of the contents of the sections of the report.
+
+      :type: sub_sections (dict)
 
    .. py:method:: __repr__() -> str
 

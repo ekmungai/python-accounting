@@ -29,27 +29,19 @@ Classes
 
    This class represents the movement of balances of Balance Sheet accounts during the given period.
 
-   .. attribute:: config
-
-      The configuration section for the report.
-
-      :type: str
-
-   .. attribute:: sub_sections
-
-      The categories of the contents of the sections of the report.
-
-      :type: dict
-
    .. py:attribute:: config
       :value: 'cashflow_statement'
 
-      
+      The configuration section for the report.
+
+      :type: config (str)
 
    .. py:attribute:: sub_sections
       :type: dict
 
-      
+      The categories of the contents of the sections of the report.
+
+      :type: sub_sections (dict)
 
    .. py:method:: __repr__() -> str
 

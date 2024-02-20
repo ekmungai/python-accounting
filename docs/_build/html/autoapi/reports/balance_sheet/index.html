@@ -109,7 +109,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#reports.balance_sheet.BalanceSheet" title="reports.balance_sheet.BalanceSheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BalanceSheet</span></code></a></p></td>
-<td><p>This class represents the Statement of Financial Position/Balance Sheet of a given Entity.</p></td>
+<td><p>This class represents Financial Position/Balance Sheet of a given Entity.</p></td>
 </tr>
 </tbody>
 </table>
@@ -117,38 +117,28 @@
 <dt class="sig sig-object py" id="reports.balance_sheet.BalanceSheet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.balance_sheet.</span></span><span class="sig-name descname"><span class="pre">BalanceSheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.balance_sheet.BalanceSheet" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.reports.financial_statement.FinancialStatement</span></code></p>
-<p>This class represents the Statement of Financial Position/Balance Sheet of a given Entity.</p>
+<p>This class represents Financial Position/Balance Sheet of a given Entity.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.balance_sheet.BalanceSheet.Accounts">
 <span class="sig-name descname"><span class="pre">Accounts</span></span><a class="headerlink" href="#reports.balance_sheet.BalanceSheet.Accounts" title="Link to this definition"></a></dt>
 <dd><p>The Account types allowed to be in included in the report.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Account.AccountType</p>
+<dd class="field-odd"><p>(Account.AccountType)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reports.balance_sheet.BalanceSheet.config">
-<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#reports.balance_sheet.BalanceSheet.config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'balance_sheet'</span></em><a class="headerlink" href="#reports.balance_sheet.BalanceSheet.config" title="Link to this definition"></a></dt>
 <dd><p>The configuration section for the report.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">Accounts</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'balance_sheet'</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="reports.balance_sheet.BalanceSheet.__repr__">

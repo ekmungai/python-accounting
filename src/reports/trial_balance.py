@@ -16,15 +16,10 @@ from src.utils.dates import get_dates
 
 
 class TrialBalance(FinancialStatement):
-    """
-    This class represents all the balances of the chart of accounts, compared against each other.
-
-     Attributes:
-        config (str): The configuration section for the report.
-
-    """
+    """This class represents all the balances of the chart of accounts, compared against each other."""
 
     config = "trial_balance"
+    """(str): The configuration section for the report."""
 
     def __init__(self, session, end_date: datetime = None) -> None:
         self.start_date, self.end_date, _, _ = get_dates(session, None, end_date)

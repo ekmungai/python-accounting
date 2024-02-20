@@ -29,26 +29,18 @@ Classes
 
    This class represents the Income Statement/Profit and Loss of a given Entity.
 
-   .. attribute:: Accounts
+   .. py:attribute:: Accounts
 
       The Account types allowed to be in included in the report.
 
-      :type: Account.AccountType
-
-   .. attribute:: config
-
-      The configuration section for the report.
-
-      :type: str
-
-   .. py:attribute:: Accounts
-
-      
+      :type: (Account.AccountType)
 
    .. py:attribute:: config
       :value: 'income_statement'
 
-      
+      The configuration section for the report.
+
+      :type: (str)
 
    .. py:method:: __repr__() -> str
 
@@ -60,11 +52,9 @@ Classes
 
       :param session: The accounting session to which the report belongs.
       :type session: Session
-      :param start_date: The earliest transaction date for Transaction amounts to be
-                         included in the report.
+      :param start_date: The earliest transaction date for Transaction amounts to be included in the report.
       :type start_date: datetime
-      :param end_date: The latest transaction date for Transaction amounts to be included
-                       in the report.
+      :param end_date: The latest transaction date for Transaction amounts to be included in the report.
       :type end_date: datetime
 
       :returns: The net profit or loss for the Entity for the period.
