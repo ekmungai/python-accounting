@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="installation.html" /> 
+    <link rel="next" title="Reports" href="reports.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,9 +44,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Accounting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -66,7 +67,7 @@
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Python Accounting</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -74,40 +75,437 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="python-accounting">
+  <div class="toctree-wrapper compound">
+</div>
+<section id="python-accounting">
 <h1>Python Accounting<a class="headerlink" href="#python-accounting" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/exceptions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/mixins/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mixins</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/reports/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reports</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/transactions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transactions</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code></a></li>
-</ul>
-</li>
-</ul>
+<p>Python Accounting is the world’s most comprehensive Double Entry Bookkeeping python library.
+Unlike other similar libraries, Python Accounting focuses on the generation of Financial Reports
+compatible with both IFRS and GAAP standards.</p>
+<p>The library is designed to be fully customizable, supports multiple Entities (Companies), Account
+Categorization, Transaction assignment, Opening Balances and Taxation. Transactions are also protected
+against tampering via direct database changes ensuring the integrity of the Ledger. Apart from the standard
+set of Financial Reports, the Library also provides convenient Receivable (Client) and Payabale (Supplier)
+such as Account Statements and Schedules, as well as an Aging Schedule for all outstating balances grouped
+by configurable time periods (Current, 31 - 90 days, 91 - 180 days etc).</p>
+<p>This library is a community initiative of <a class="reference external" href="https://microbooks.io">microbooks.io</a>.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>You can use <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> to install.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>python-accounting
+</pre></div>
 </div>
 </section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>To use the Library, we first need to configure it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">python_accounting.database.session</span> <span class="kn">import</span> <span class="n">get_session</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">database</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">database</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">database</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">])</span>
+
+<span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="c1"># run migrations to create tables</span>
+</pre></div>
+</div>
+<p>Now we can create the reporting Entity and its reporting Currency.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">entity</span> <span class="o">=</span> <span class="n">Entity</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Example Company&quot;</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span> <span class="c1"># This automatically sets up a Reporting Period for the Entity</span>
+
+    <span class="n">currency</span> <span class="o">=</span> <span class="n">Currency</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;US Dollars&quot;</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;USD&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">currency</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Next we’ll setup the chart of Accounts.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Account</span>
+
+<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">tax_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Tax Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">CONTROL</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">bank_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bank Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">BANK</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">revenue_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Revenue Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">OPERATING_REVENUE</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">client_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Client Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">RECEVABLE</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">supplier_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Supplier Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">PAYABLE</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">opex_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Opex Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">OPERATING_EXPENSE</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">asset_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Asset Account&quot;</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">NON_CURRENT_ASSET</span><span class="p">,</span>
+        <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>    
+
+    <span class="n">session</span><span class="o">.</span><span class="n">add_all</span><span class="p">([</span>
+        <span class="n">tax_account</span><span class="p">,</span> 
+        <span class="n">bank_account</span><span class="p">,</span> 
+        <span class="n">revenue_account</span><span class="p">,</span> 
+        <span class="n">client_account</span><span class="p">,</span> 
+        <span class="n">supplier_account</span><span class="p">,</span> 
+        <span class="n">opex_account</span><span class="p">,</span> 
+        <span class="n">asset_account</span>
+    <span class="p">])</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Before we can start creating Transactions, we need some Taxes.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Tax</span>
+
+<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">output_tax</span> <span class="o">=</span> <span class="n">Tax</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Output Vat&quot;</span><span class="p">,</span>
+        <span class="n">code</span><span class="o">=</span><span class="s2">&quot;OTPT&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">tax_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="c1"># This account was created earlier</span>
+        <span class="n">rate</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">input_tax</span> <span class="o">=</span> <span class="n">Tax</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Input Vat&quot;</span><span class="p">,</span>
+        <span class="n">code</span><span class="o">=</span><span class="s2">&quot;INPT&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">tax_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">rate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add_all</span><span class="p">(</span><span class="n">output_tax</span><span class="p">,</span> <span class="n">input_tax</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<p>With the Accounts and Taxes in place, we can now prepare some Transactions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> 
+<span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Transaction</span>
+<span class="kn">from</span> <span class="nn">python_accounting.transactions</span> <span class="kn">import</span> <span class="n">CashSale</span>
+
+<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">cash_sale</span> <span class="o">=</span> <span class="n">CashSale</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Cash Sale Transaction&quot;</span><span class="p">,</span>
+        <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">bank_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_sale</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span> <span class="c1"># Intermediate save does not record the transaction in the Ledger</span>
+
+</pre></div>
+</div>
+<p>So far the Transaction has only one side of the double entry, so we create a Line Item for the other side:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">LineItem</span>
+
+<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">cash_sale_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Cash Sale line item&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">revenue_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">tax_id</span><span class="o">=</span><span class="n">output_tax</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_sale_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="n">cash_sale</span><span class="o">.</span><span class="n">line_items</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_sale_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_sale</span><span class="p">)</span>
+    <span class="n">cash_sale</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">session</span><span class="p">)</span> <span class="c1"># This posts the Transaction to the Ledger</span>
+
+</pre></div>
+</div>
+<p>Now the rest of the Transactions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.transactions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CashSale</span><span class="p">,</span>
+    <span class="n">ClientInvoice</span><span class="p">,</span>
+    <span class="n">CashPurchase</span><span class="p">,</span>
+    <span class="n">SupplierBill</span><span class="p">,</span>
+    <span class="n">ClientReceipt</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">client_invoice</span> <span class="o">=</span> <span class="n">ClientInvoice</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Client Invoice Transaction&quot;</span><span class="p">,</span>
+        <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">client_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_invoice</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    
+    <span class="n">client_invoice_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Client Invoice line item&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">revenue_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">tax_id</span><span class="o">=</span><span class="n">output_tax</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_invoice_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="n">client_invoice</span><span class="o">.</span><span class="n">line_items</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_invoice_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_invoice</span><span class="p">)</span>
+    <span class="n">client_invoice</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+    <span class="n">cash_purchase</span> <span class="o">=</span> <span class="n">CashPurchase</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Cash Purchase Transaction&quot;</span><span class="p">,</span>
+        <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">bank_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_purchase</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    
+    <span class="n">cash_purchase_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Cash Purchase line item&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">opex_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">tax_id</span><span class="o">=</span><span class="n">output_tax</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_purchase_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="n">cash_purchase</span><span class="o">.</span><span class="n">line_items</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_purchase_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cash_purchase</span><span class="p">)</span>
+    <span class="n">cash_purchase</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+    <span class="n">supplier_bill</span> <span class="o">=</span> <span class="n">SupplierBill</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Credit Purchase Transaction&quot;</span><span class="p">,</span>
+        <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">supplier_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">supplier_bill</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    
+    <span class="n">supplier_bill_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Credit Purchase line item&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">asset_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">tax_id</span><span class="o">=</span><span class="n">output_tax</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">supplier_bill_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="n">supplier_bill</span><span class="o">.</span><span class="n">line_items</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">supplier_bill_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">supplier_bill</span><span class="p">)</span>
+    <span class="n">supplier_bill</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+    <span class="n">client_receipt</span> <span class="o">=</span> <span class="n">ClientReceipt</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Client Receipt Transaction&quot;</span><span class="p">,</span>
+        <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">client_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_receipt</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    
+    <span class="n">client_receipt_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
+        <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Client Receipt line item&quot;</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">bank_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">tax_id</span><span class="o">=</span><span class="n">output_tax</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_receipt_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="n">client_receipt</span><span class="o">.</span><span class="n">line_items</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_receipt_line_item</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">client_receipt</span><span class="p">)</span>
+    <span class="n">client_receipt</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can assign the Receipt to partially clear the Invoice above:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Assignment</span>
+
+<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">client_invoice</span><span class="o">.</span><span class="n">cleared</span><span class="p">(</span><span class="n">session</span><span class="p">))</span> <span class="c1"># 0: The Invoice has not been cleared at all</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">client_receipt</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="n">session</span><span class="p">))</span> <span class="c1"># 50: The Receipt has not been assigned</span>
+
+    <span class="n">assignment</span> <span class="o">=</span> <span class="n">Assignment</span><span class="p">(</span>
+        <span class="n">assignment_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="n">transaction_id</span><span class="o">=</span><span class="n">client_receipt</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">assigned_id</span><span class="o">=</span><span class="n">client_invoice</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">assigned_type</span><span class="o">=</span><span class="n">client_invoice</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+        <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">amount</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">assignment</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">client_invoice</span><span class="o">.</span><span class="n">cleared</span><span class="p">(</span><span class="n">session</span><span class="p">))</span> <span class="c1"># 15 </span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">client_receipt</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="n">session</span><span class="p">))</span> <span class="c1"># 35</span>
+
+</pre></div>
+</div>
+<p>We are now ready to generate some reports, starting with the Income Statement (Profit and Loss).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.reports</span> <span class="kn">import</span> <span class="n">IncomeStatement</span>
+
+<span class="n">income_statement</span> <span class="o">=</span> <span class="n">IncomeStatement</span><span class="p">(</span><span class="n">session</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="n">income_statement</span><span class="p">)</span>
+
+               <span class="n">Example</span> <span class="n">Company</span>
+               <span class="n">Income</span> <span class="n">Statement</span>
+ <span class="n">For</span> <span class="n">the</span> <span class="n">period</span><span class="p">:</span> <span class="mi">01</span><span class="p">,</span> <span class="n">Jan</span> <span class="mi">2024</span> <span class="n">to</span> <span class="mi">23</span><span class="p">,</span> <span class="n">Feb</span> <span class="mi">2024</span>
+
+<span class="n">Operating</span> <span class="n">Revenues</span>
+    <span class="n">Operating</span> <span class="n">Revenue</span>                <span class="mf">200.0000</span> <span class="p">(</span><span class="mi">100</span> <span class="n">cash</span> <span class="n">sales</span> <span class="o">+</span> <span class="mi">100</span> <span class="n">credit</span> <span class="n">sales</span><span class="p">)</span>
+
+<span class="n">Operating</span> <span class="n">Expenses</span>
+    <span class="n">Operating</span> <span class="n">Expense</span>                <span class="mf">100.0000</span> <span class="p">(</span><span class="n">cash</span> <span class="n">purchase</span><span class="p">)</span>
+                              <span class="n">_______________</span>
+<span class="n">Gross</span> <span class="n">Profit</span>                         <span class="mf">100.0000</span>
+
+
+<span class="n">Non</span> <span class="n">Operating</span> <span class="n">Revenues</span>
+    <span class="n">Non</span> <span class="n">Operating</span> <span class="n">Revenue</span>              <span class="mf">0.0000</span>
+                              <span class="n">_______________</span>
+<span class="n">Total</span> <span class="n">Revenue</span>                        <span class="mf">100.0000</span>
+
+
+<span class="n">Non</span> <span class="n">Operating</span> <span class="n">Expenses</span>
+                              <span class="n">_______________</span>
+<span class="n">Total</span> <span class="n">Expenses</span>                         <span class="mf">0.0000</span>
+
+                              <span class="n">_______________</span>
+<span class="n">Net</span> <span class="n">Profit</span>                           <span class="mf">100.0000</span>
+                              <span class="o">===============</span>
+</pre></div>
+</div>
+<p>The Balance Sheet.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.reports</span> <span class="kn">import</span> <span class="n">BalanceSheet</span>
+
+<span class="n">balance_sheet</span> <span class="o">=</span> <span class="n">BalanceSheet</span><span class="p">(</span><span class="n">session</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="n">balance_sheet</span><span class="p">)</span>
+
+               <span class="n">Example</span> <span class="n">Company</span>
+                <span class="n">Balance</span> <span class="n">Sheet</span>
+ <span class="n">For</span> <span class="n">the</span> <span class="n">period</span><span class="p">:</span> <span class="mi">01</span><span class="p">,</span> <span class="n">Jan</span> <span class="mi">2024</span> <span class="n">to</span> <span class="mi">23</span><span class="p">,</span> <span class="n">Feb</span> <span class="mi">2024</span>
+
+<span class="n">Assets</span>
+    <span class="n">Non</span> <span class="n">Current</span> <span class="n">Asset</span>                <span class="mf">120.0000</span> <span class="p">(</span><span class="n">asset</span> <span class="n">purchase</span><span class="p">)</span>
+    <span class="n">Receivables</span>                       <span class="mf">70.0000</span> <span class="p">(</span><span class="mi">100</span> <span class="n">credit</span> <span class="n">sale</span> <span class="o">+</span> <span class="mi">20</span> <span class="n">VAT</span> <span class="o">-</span> <span class="mi">50</span> <span class="n">client</span> <span class="n">receipt</span><span class="p">)</span>
+    <span class="n">Bank</span>                              <span class="mf">50.0000</span> <span class="p">(</span><span class="mi">120</span> <span class="n">cash</span> <span class="n">sale</span> <span class="o">-</span> <span class="mi">120</span> <span class="n">cash</span> <span class="n">purchase</span> <span class="o">+</span> <span class="mi">50</span> 
+                                              <span class="n">client</span> <span class="n">receipt</span><span class="p">)</span>
+                              <span class="n">_______________</span>
+<span class="n">Total</span> <span class="n">Assets</span>                         <span class="mf">240.0000</span>
+
+
+<span class="n">Liabilities</span>
+    <span class="n">Control</span>                           <span class="mf">20.0000</span> <span class="p">(</span><span class="n">Taxes</span><span class="p">:</span> <span class="mi">20</span> <span class="n">cash</span> <span class="n">sale</span> <span class="o">+</span> <span class="mi">20</span> <span class="n">credit</span> <span class="n">sale</span> <span class="o">-</span> <span class="mi">10</span> <span class="n">cash</span> 
+                                              <span class="n">purchase</span> <span class="o">-</span> <span class="mi">10</span> <span class="n">credit</span> <span class="n">purchase</span><span class="p">)</span>
+    <span class="n">Payable</span>                          <span class="mf">120.0000</span> <span class="p">(</span><span class="mi">100</span> <span class="n">credit</span> <span class="n">purchase</span> <span class="o">+</span> <span class="mi">20</span> <span class="n">Tax</span><span class="p">)</span>
+                              <span class="n">_______________</span>
+<span class="n">Total</span> <span class="n">Liabilities</span>                    <span class="mf">140.0000</span>
+
+                              <span class="n">_______________</span>
+<span class="n">Net</span> <span class="n">Assets</span>                           <span class="mf">100.0000</span>
+                              <span class="o">===============</span>
+
+<span class="n">Equity</span>
+    <span class="n">Income</span> <span class="n">Statement</span>                 <span class="mf">100.0000</span>
+                              <span class="n">_______________</span>
+<span class="n">Total</span> <span class="n">Equity</span>                         <span class="mf">100.0000</span>
+                              <span class="o">===============</span>
+</pre></div>
+</div>
+<p>And finally The Cashflow Statement.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.reports</span> <span class="kn">import</span> <span class="n">BalanceSheet</span>
+
+<span class="n">cashflow_statememt</span> <span class="o">=</span> <span class="n">BalanceSheet</span><span class="p">(</span><span class="n">session</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="n">cashflow_statememt</span><span class="p">)</span>
+
+                 <span class="n">Test</span> <span class="n">Entity</span>
+              <span class="n">Cashflow</span> <span class="n">Statement</span>
+ <span class="n">For</span> <span class="n">the</span> <span class="n">period</span><span class="p">:</span> <span class="mi">01</span><span class="p">,</span> <span class="n">Jan</span> <span class="mi">2024</span> <span class="n">to</span> <span class="mi">23</span><span class="p">,</span> <span class="n">Feb</span> <span class="mi">2024</span>
+
+<span class="n">Operating</span> <span class="n">Cash</span> <span class="n">Flow</span>
+    <span class="n">Net</span> <span class="n">Profit</span>                       <span class="mf">100.0000</span>
+    <span class="n">Receivables</span>                      <span class="o">-</span><span class="mf">70.0000</span>
+    <span class="n">Payables</span>                         <span class="mf">120.0000</span>
+    <span class="n">Taxation</span>                          <span class="mf">20.0000</span>
+                              <span class="n">_______________</span>
+ <span class="n">Total</span> <span class="n">Operating</span> <span class="n">Cash</span> <span class="n">Flow</span>           <span class="mf">170.0000</span>
+
+
+<span class="n">Investment</span> <span class="n">Cash</span> <span class="n">Flow</span>
+    <span class="n">Non</span> <span class="n">Current</span> <span class="n">Assets</span>              <span class="o">-</span><span class="mf">120.0000</span>
+                              <span class="n">_______________</span>
+ <span class="n">Total</span> <span class="n">Investment</span> <span class="n">Cash</span> <span class="n">Flow</span>         <span class="o">-</span><span class="mf">120.0000</span>
+
+
+<span class="n">Financing</span> <span class="n">Cash</span> <span class="n">Flow</span>
+    <span class="n">Equity</span>                             <span class="mf">0.0000</span>
+                              <span class="n">_______________</span>
+ <span class="n">Total</span> <span class="n">Financing</span> <span class="n">Cash</span> <span class="n">Flow</span>             <span class="mf">0.0000</span>
+
+
+<span class="n">Net</span> <span class="n">Cash</span> <span class="n">Flow</span>
+    <span class="n">Beginning</span> <span class="n">Cash</span> <span class="n">Balance</span>             <span class="mf">0.0000</span>
+    <span class="n">Net</span> <span class="n">Cash</span> <span class="n">Flow</span>                     <span class="mf">50.0000</span>
+                              <span class="n">_______________</span>
+<span class="n">Ending</span> <span class="n">Cash</span> <span class="n">Balance</span>                   <span class="mf">50.0000</span>
+                              <span class="o">===============</span>
+                              <span class="n">_______________</span>
+<span class="n">Cashbook</span> <span class="n">Balance</span>                      <span class="mf">50.0000</span>
+                              <span class="o">===============</span>
+</pre></div>
+</div>
+</section>
+<section id="changelog">
+<h2>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h2>
+<p>Please see <a class="reference external" href="https://github.com/ekmungai/python-accounting/blob/main/CHANGELOG">CHANGELOG</a> for more information about recent changes.</p>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h2>
+<p>Please see <a class="reference external" href="https://github.com/ekmungai/python-accounting/blob/main/CONTRIBUTING">CONTRIBUTING</a> for more information about how to get involved.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>This software is distributed for free under the MIT License. Please see <a class="reference external" href="https://github.com/ekmungai/python-accounting/blob/main/LICENSE">LICENCE</a> for more information.</p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="reports.html" class="btn btn-neutral float-right" title="Reports" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

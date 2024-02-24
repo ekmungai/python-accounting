@@ -45,7 +45,6 @@ def test_account_entity(session, entity, currency):
     session.add(account)
     session.commit()
 
-    print(session.entity.currency)
     account = session.get(Account, account.id)
     assert account.entity.name == "Test Entity"
     assert account.name == "Test Account"

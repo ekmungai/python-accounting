@@ -88,12 +88,6 @@ Classes
 
       :type: (StrEnum)
 
-   .. py:attribute:: section_names
-
-      The names of the sections of the report.
-
-      :type: (list)
-
    .. py:attribute:: accounts
 
       The Accounts in the sections of the report, by Account category.

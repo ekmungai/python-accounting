@@ -145,7 +145,6 @@ def test_compound_journal_entry_ledgers(session, entity, currency):
         narration="Test line item two",
         account_id=account3.id,
         amount=150,
-        credited=False,
         entity_id=entity.id,
     )
 

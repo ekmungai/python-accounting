@@ -1,0 +1,14 @@
+
+## Getting Involved
+
+I am acutely aware that as a professionally trained Accountant I may have used some conventions, definitions and styles that while seemingly obvious to me, might not be so clear to another developer. I would therefore welcome and greatly appreciate any feedback on the ease of use of the package so I can make it more useful to as many people as possible.
+
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Write tests for the feature
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request

@@ -66,12 +66,12 @@ class AgingSchedule:
         self.account_type = account_type
         self.accounts = []
         self.balances = {k: 0 for k, v in self.brackets.items()}
-        _, end_date, _, _ = get_dates(session, None, end_date)
+        _, self.end_date, _, _ = get_dates(session, None, end_date)
 
         for account, transactions in [
             (
                 account,
-                account.statement(session, None, end_date, True)["transactions"],
+                account.statement(session, None, self.end_date, True)["transactions"],
             )
             for account in session.query(Account)
             .filter(Account.account_type == account_type)

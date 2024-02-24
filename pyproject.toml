@@ -12,6 +12,7 @@ sqlalchemy = "^2.0.23"
 python-dateutil = "^2.8.2"
 strenum = "^0.4.15"
 toml = "^0.10.2"
+myst-parser = "^2.0.0"
 
 
 [tool.poetry.group.test.dependencies]

@@ -19,8 +19,8 @@ def test_entity_reporting_currency(session, entity):
     assert entity.currency.code == "USD"
 
 
-def test_entity_reporting_period(session, entity):
-    """Tests the relationship between an entity and its current reporting period"""
+def test_entity_reporting_period_and_users(session, entity):
+    """Tests the relationship between an entity, its current reporting period and users"""
     year = datetime.today().year
     assert entity.reporting_period.calendar_year == year
     assert entity.reporting_period.period_count == 1
@@ -29,13 +29,13 @@ def test_entity_reporting_period(session, entity):
     session.flush()
 
     assert entity.reporting_period.calendar_year == year - 1
-    session.flush()
 
-    session.add(
-        User(name="Test User 1", email="one@microbooks.io", entity_id=entity.id)
-    )
+    user = User(name="Test User 1", email="one@microbooks.io", entity_id=entity.id)
+    session.add(user)
+    session.flush()
     entity = session.get(Entity, entity.id)
     assert entity.reporting_period.period_count == 2
+    assert entity.users[0] == user
 
 
 def test_entity_isolation(session, entity):

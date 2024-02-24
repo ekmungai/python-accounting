@@ -45,9 +45,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Python Accounting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-contents">Module Contents</a><ul>
@@ -97,9 +98,9 @@
 <span id="config"></span><h1><a class="reference internal" href="#module-config" title="config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a><a class="headerlink" href="#module-config" title="Link to this heading"></a></h1>
 <p>This module provides the configuration for python accounting. Its properties are populated from
 <a class="reference external" href="https://github.com/ekmungai/python-accounting/blob/main/config.toml">config.toml</a> by default and
-should be adequate for most settings (except maybe the database configuration), but being a plain
-python object any of the attributes may be overriden by assingment at any point. For more extensive
-custom configurations, you can initialize the class with a custom config.tml file.</p>
+should be adequate for most settings, but there are a few methods for overriding the database,
+hashing and dates configurations. For more extensive custom configurations, you can initialize
+the class with a custom config.tml file.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <section id="classes">
@@ -135,7 +136,7 @@ custom configurations, you can initialize the class with a custom config.tml fil
     <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
     <span class="n">include_deleted</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">soft</span> <span class="n">deleted</span> <span class="n">records</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
     <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
-    <span class="n">echo</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">records</span> <span class="kn">from</span> <span class="nn">all</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
+    <span class="n">ignore_isolation</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">records</span> <span class="kn">from</span> <span class="nn">all</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
     <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
 <span class="p">}</span>
 </pre></div>
@@ -211,6 +212,50 @@ custom configurations, you can initialize the class with a custom config.tml fil
 }
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.Config.configure_database">
+<span class="sig-name descname"><span class="pre">configure_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">echo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_deleted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_isolation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#config.Config.configure_database" title="Link to this definition"></a></dt>
+<dd><p>Configures the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str</em>) – The database connection string.</p></li>
+<li><p><strong>echo</strong> (<em>bool</em>) – Whether to output the SqlAlchemy generated queries to the console. Defaults to false.</p></li>
+<li><p><strong>include_deleted</strong> (<em>bool</em>) – Whether to include soft deleted records in query results. Defaults to false.</p></li>
+<li><p><strong>ignore_isolation</strong> (<em>bool</em>) – Whether to include records from all entities in query results. Defaults to false.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.Config.configure_hashing">
+<span class="sig-name descname"><span class="pre">configure_hashing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">salt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hashing</span> <span class="pre">salt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sha256'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#config.Config.configure_hashing" title="Link to this definition"></a></dt>
+<dd><p>Configures hashing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>salt</strong> (<em>str</em>) – The initial value for the ledger hashing. Defaults to ‘hashing salt’.</p></li>
+<li><p><strong>algorithm</strong> (<em>str</em>) – The Algorithm to use for encoding the hashes. Defaults to ‘sha256’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.Config.configure_dates">
+<span class="sig-name descname"><span class="pre">configure_dates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">short</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y-%m-%d'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%d,</span> <span class="pre">%b</span> <span class="pre">%Y'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#config.Config.configure_dates" title="Link to this definition"></a></dt>
+<dd><p>Configures dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>short</strong> (<em>str</em>) – The format for short dates. Defaults to ‘%Y-%m-%d’.</p></li>
+<li><p><strong>long</strong> (<em>str</em>) – The format for long dates. Defaults to ‘%d, %b %Y’.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

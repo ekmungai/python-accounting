@@ -7,9 +7,9 @@
 
    This module provides the configuration for python accounting. Its properties are populated from
    `config.toml <https://github.com/ekmungai/python-accounting/blob/main/config.toml>`__ by default and
-   should be adequate for most settings (except maybe the database configuration), but being a plain
-   python object any of the attributes may be overriden by assingment at any point. For more extensive
-   custom configurations, you can initialize the class with a custom config.tml file.
+   should be adequate for most settings, but there are a few methods for overriding the database,
+   hashing and dates configurations. For more extensive custom configurations, you can initialize
+   the class with a custom config.tml file.
 
 
 
@@ -50,7 +50,7 @@ Attributes
               Defaults to false.
               include_deleted (bool): Whether to include soft deleted records in query results.
               Defaults to false.
-              echo (bool): Whether to include records from all entities in query results.
+              ignore_isolation (bool): Whether to include records from all entities in query results.
               Defaults to false.
           }
 
@@ -114,6 +114,40 @@ Attributes
               aging_schedule_brackets (`dict`): The labels and max age in days for aging schedule
               brackets.
           }
+
+   .. py:method:: configure_database(url, echo=False, include_deleted=False, ignore_isolation=False) -> None
+
+      Configures the database.
+
+      :param url: The database connection string.
+      :type url: str
+      :param echo: Whether to output the SqlAlchemy generated queries to the console. Defaults to false.
+      :type echo: bool
+      :param include_deleted: Whether to include soft deleted records in query results. Defaults to false.
+      :type include_deleted: bool
+      :param ignore_isolation: Whether to include records from all entities in query results. Defaults to false.
+      :type ignore_isolation: bool
+
+
+   .. py:method:: configure_hashing(salt='hashing salt', algorithm='sha256') -> None
+
+      Configures hashing.
+
+      :param salt: The initial value for the ledger hashing. Defaults to 'hashing salt'.
+      :type salt: str
+      :param algorithm: The Algorithm to use for encoding the hashes. Defaults to 'sha256'.
+      :type algorithm: str
+
+
+   .. py:method:: configure_dates(short='%Y-%m-%d', long='%d, %b %Y') -> None
+
+      Configures dates.
+
+      :param short: The format for short dates. Defaults to '%Y-%m-%d'.
+      :type short: str
+      :param long: The format for long dates. Defaults to '%d, %b %Y'.
+      :type long: str
+
 
 
 .. py:data:: config

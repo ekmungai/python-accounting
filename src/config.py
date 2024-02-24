@@ -8,9 +8,9 @@
 """
 This module provides the configuration for python accounting. Its properties are populated from 
 `config.toml <https://github.com/ekmungai/python-accounting/blob/main/config.toml>`__ by default and 
-should be adequate for most settings (except maybe the database configuration), but being a plain
-python object any of the attributes may be overriden by assingment at any point. For more extensive
-custom configurations, you can initialize the class with a custom config.tml file.
+should be adequate for most settings, but there are a few methods for overriding the database, 
+hashing and dates configurations. For more extensive custom configurations, you can initialize 
+the class with a custom config.tml file.
 
 """
 import toml
@@ -31,7 +31,7 @@ class Config:
             Defaults to false.
             include_deleted (bool): Whether to include soft deleted records in query results.
             Defaults to false. 
-            echo (bool): Whether to include records from all entities in query results.
+            ignore_isolation (bool): Whether to include records from all entities in query results.
             Defaults to false.
         }
     """
@@ -97,6 +97,45 @@ class Config:
             configuration = toml.load(f)
             for k, v in configuration.items():
                 setattr(self, k, v)
+
+    def configure_database(
+        self, url, echo=False, include_deleted=False, ignore_isolation=False
+    ) -> None:
+        """
+        Configures the database.
+
+        Args:
+            url (str): The database connection string.
+            echo (bool): Whether to output the SqlAlchemy generated queries to the console. Defaults to false.
+            include_deleted (bool): Whether to include soft deleted records in query results. Defaults to false.
+            ignore_isolation (bool): Whether to include records from all entities in query results. Defaults to false.
+        """
+        self.database["url"] = url
+        self.database["echo"] = echo
+        self.database["include_deleted"] = include_deleted
+        self.database["ignore_isolation"] = ignore_isolation
+
+    def configure_hashing(self, salt="hashing salt", algorithm="sha256") -> None:
+        """
+        Configures hashing.
+
+        Args:
+            salt (str): The initial value for the ledger hashing. Defaults to 'hashing salt'.
+            algorithm (str): The Algorithm to use for encoding the hashes. Defaults to 'sha256'.
+        """
+        self.hashing["salt"] = salt
+        self.hashing["algorithm"] = algorithm
+
+    def configure_dates(self, short="%Y-%m-%d", long="%d, %b %Y") -> None:
+        """
+        Configures dates.
+
+        Args:
+            short (str): The format for short dates. Defaults to '%Y-%m-%d'.
+            long (str): The format for long dates. Defaults to '%d, %b %Y'.
+        """
+        self.hashing["short"] = short
+        self.hashing["long"] = long
 
 
 config = Config()

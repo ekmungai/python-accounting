@@ -54,13 +54,13 @@ class FinancialStatement:
         )
         """(StrEnum): The results of the report."""
 
-        self.section_names = [section.name for section in self.sections]
-        """(list): The names of the sections of the report."""
-        self.accounts = {k: {} for k in self.section_names}
+        section_names = [section.name for section in self.sections]
+
+        self.accounts = {k: {} for k in section_names}
         """(dict): The Accounts in the sections of the report, by Account category."""
-        self.balances = {k: {} for k in self.section_names}
+        self.balances = {k: {} for k in section_names}
         """(dict): The total balances of the Accounts in the sections of the report, by Account category."""
-        self.totals = {k: 0 for k in self.section_names}
+        self.totals = {k: 0 for k in section_names}
         """(dict): The Total balances of Accounts in the sections of the report."""
         self.result_amounts = {}
         """(dict): The amounts results of the report."""
@@ -93,15 +93,12 @@ class FinancialStatement:
 
     def _print_title(self) -> str:
         period = (
-            f"""For the period: {self.start_date.strftime(configuration.dates["long"])}
-             to {self.end_date.strftime(configuration.dates["long"])}"""
+            f"""For the period: {self.start_date.strftime(configuration.dates["long"])} to {self.end_date.strftime(configuration.dates["long"])}"""
             if hasattr(self, "start_date")
             else f"As at {self.end_date.strftime(configuration.dates["long"])}"
         )
         self.width = max(len(period), 45)
-        return f"""\n{self.session.entity.name.center(self.width)}\n
-{self.title.center(self.width)}\n
-{period.center(self.width)}"""
+        return f"""\n{self.session.entity.name.center(self.width)}\n{self.title.center(self.width)}\n{period.center(self.width)}"""
     
     def _print_section(self, section, factor = 1) -> str:
         content = f"\n{section.value}"
@@ -112,13 +109,9 @@ class FinancialStatement:
         return content
 
     def _print_result(self, result, grandtotal = False) -> str:
-        return f"""{f"{self.subtotal:>{self.width}}"}\n
-{result}{f"{self.result_amounts[result.name]:>{self.width - len(result)}}"}\n
-{f"{self.grandtotal:>{self.width}}" if grandtotal else ""}"""
+        return f"""{f"{self.subtotal:>{self.width}}"}\n{result}{f"{self.result_amounts[result.name]:>{self.width - len(result)}}"}\n{f"{self.grandtotal:>{self.width}}" if grandtotal else ""}"""
     
 
     def _print_total(self, section, factor = 1, grandtotal = False) -> str:
         label = f"Total {section.value}"
-        return f"""{f"{self.subtotal:>{self.width}}"}\n
-{label}{f"{self.totals[section.name] * factor:>{self.width - len(label)}}"}\n
-{f"{self.grandtotal:>{self.width}}" if grandtotal else ""}"""
+        return f"""{f"{self.subtotal:>{self.width}}"}\n{label}{f"{self.totals[section.name] * factor:>{self.width - len(label)}}"}\n{f"{self.grandtotal:>{self.width}}" if grandtotal else ""}"""
