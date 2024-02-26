@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import create_engine
 from python_accounting.models import Entity, Base, Currency
-from python_accounting.database.session import get_ession
+from python_accounting.database.session import get_session
 from python_accounting.config import config
 
 
@@ -15,7 +15,7 @@ def engine():
 
 @pytest.fixture
 def session(engine):
-    with get_ession(engine) as session:
+    with get_session(engine) as session:
         yield session
 
 

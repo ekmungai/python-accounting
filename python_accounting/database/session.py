@@ -34,7 +34,7 @@ class AccountingSession(
         super(AccountingSession, self).__init__(bind=bind, info=info)
 
 
-def get_ession(engine) -> Session:
+def get_session(engine) -> Session:
     """
     Construct the accounting session.
 

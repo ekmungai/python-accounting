@@ -7,7 +7,7 @@ This Transaction will have the Tax amount added on top of the Transaction amount
 ```python
 from python_accounting.models import Account
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     tax_account = Account(
         name="Tax Account",
         account_type=Account.AccountType.CONTROL,
@@ -39,7 +39,7 @@ Next we'll create the Tax.
 ```python
 from python_accounting.models import Tax
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     output_tax = Tax(
         name="Input Vat",
         code="INPT",
@@ -57,7 +57,7 @@ from datetime import datetime
 from python_accounting.models import Transaction, LineItem
 from python_accounting.transactions import CashSale
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     cash_sale = CashSale(
         narration="Cash Sale Transaction",
         transaction_date=datetime.now(),
@@ -95,7 +95,7 @@ from datetime import datetime
 from python_accounting.models import Transaction, LineItem
 from python_accounting.transactions import CashSale
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     cash_sale = CashSale(
         narration="Cash Sale Transaction",
         transaction_date=datetime.now(),

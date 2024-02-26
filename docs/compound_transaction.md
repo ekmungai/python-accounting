@@ -13,7 +13,7 @@ First we'll create some Accounts.
 ```python
 from python_accounting.models import Account
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     bank_account = Account(
         name="Bank Account",
         account_type=Account.AccountType.BANK,
@@ -22,7 +22,7 @@ with get_ession(engine) as session:
     )
     client_account = Account(
         name="Client Account",
-        account_type=Account.AccountType.RECEVABLE,
+        account_type=Account.AccountType.RECEIVABLE,
         currency_id=currency.id,
         entity_id=entity.id,
     )
@@ -54,7 +54,7 @@ from datetime import datetime
 from python_accounting.models import Transaction, LineItem
 from python_accounting.transactions import JournalEntry
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     journal_entry = JournalEntry(
         narration="Journal Entry Transaction",
         transaction_date=datetime.now(),
@@ -73,7 +73,7 @@ with get_ession(engine) as session:
     )
     supplier_account_line_item = LineItem(
         narration="Supplier Account line item",
-        account_id=client_account.id,
+        account_id=supplier_account.id,
         amount=15,
         entity_id=entity.id,
     )
@@ -113,14 +113,14 @@ from datetime import datetime
 from python_accounting.models import Transaction, LineItem
 from python_accounting.transactions import JournalEntry
 
-with get_ession(engine) as session:
+with get_session(engine) as session:
     journal_entry = JournalEntry(
         narration="Journal Entry Transaction",
         transaction_date=datetime.now(),
         account_id=bank_account.id,
         entity_id=entity.id,
         compound=True, # <- Turn on compound flag
-        credited=False 
+        credited=False, 
         main_account_amount=25, # <- Specify how much to post to the main (bank) account
     )
     session.add(journal_entry)
@@ -141,7 +141,7 @@ with get_ession(engine) as session:
     )
     asset_account_line_item = LineItem(
         narration="Asset Account line item",
-        account_id=asset_account.id,,
+        account_id=asset_account.id,
         credited=True, # <- Specify to credit this line item's amount to is account
         amount=10,
         entity_id=entity.id,
