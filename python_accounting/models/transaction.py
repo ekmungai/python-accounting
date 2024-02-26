@@ -63,7 +63,7 @@ class Transaction(IsolatingMixin, Recyclable):
     """(str): Serially generated indentifier for the Transaction"""
     transaction_type: Mapped[StrEnum] = mapped_column(Enum(TransactionType))
     """(TransactionType): The Transaction type of the Transaction."""
-    narration: Mapped[str] = mapped_column(Text(1000))
+    narration: Mapped[str] = mapped_column(String(1000))
     """(str): A short description of the purpose of the Transaction."""
     reference: Mapped[str] = mapped_column(String(255), nullable=True)
     """(`str`, optional): Identifying information about the Transaction."""

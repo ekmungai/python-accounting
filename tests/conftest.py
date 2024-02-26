@@ -8,9 +8,7 @@ from python_accounting.config import config
 @pytest.fixture
 def engine():
     database = config.database
-    engine = create_engine(
-        "mysql+mysqldb://root:chapati@localhost/pyacc", echo=database["echo"]
-    )
+    engine = create_engine(database["url"], echo=database["echo"])
     Base.metadata.create_all(engine)
     return engine
 

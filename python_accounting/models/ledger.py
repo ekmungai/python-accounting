@@ -243,7 +243,7 @@ class Ledger(IsolatingMixin, Recyclable):
                     map(
                         str,
                         [
-                            self.transaction_date,
+                            self.transaction_date.replace(microsecond=0),
                             self.entry_type,
                             round(Decimal(self.amount), 4).normalize(),
                             last.hash if last else config.hashing["salt"],

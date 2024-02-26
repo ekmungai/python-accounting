@@ -426,6 +426,12 @@ Ending Cash Balance                   50.0000
 Cashbook Balance                      50.0000
                               ===============
 ```
+## Supported Databases (Fully tested)
+
+- MySql/MariaDb
+- Postgres
+- Sqlite (testing)
+
 ## Changelog
 
 Please see [CHANGELOG](https://github.com/ekmungai/python-accounting/blob/main/CHANGELOG) for more information about recent changes.

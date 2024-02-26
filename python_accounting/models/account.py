@@ -13,7 +13,7 @@ from decimal import Decimal
 from datetime import datetime
 from strenum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship, aliased
-from sqlalchemy import String, ForeignKey, Enum, func, inspect, Text, select, or_, exc
+from sqlalchemy import String, ForeignKey, Enum, func, inspect, select, or_, exc
 from python_accounting.models.recyclable import Recyclable
 from python_accounting.models.reporting_period import ReportingPeriod
 from python_accounting.mixins import IsolatingMixin
@@ -52,7 +52,7 @@ class Account(IsolatingMixin, Recyclable):
     """(int): The primary key of the Account database record."""
     name: Mapped[str] = mapped_column(String(255))
     """(str): The label of the Account."""
-    description: Mapped[str] = mapped_column(Text(1000), nullable=True)
+    description: Mapped[str] = mapped_column(String(1000), nullable=True)
     """(`str`, optional): A narration of the purpose of the Account."""
     account_code: Mapped[int] = mapped_column()
     """(int): A serially generated code based on the type of the Account."""
