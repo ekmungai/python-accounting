@@ -30,7 +30,7 @@ jobs:
         poetry install
     - name: Lint with pylint
       run: |
-        poetry run pylint ./python_accounting -ry
+        poetry run pylint ./python_accounting
     - name: Test with pytest
       run: |
         poetry run pytest
