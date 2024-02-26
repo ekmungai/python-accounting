@@ -1,5 +1,5 @@
 ## Aging Schedule
-The Aging Schedule shows amounts receivable frome clients and payable to suppliers categorized by how long they have been outstanding. The time period brackets can be configured to any arbitrary number of days each.
+The Aging Schedule shows amounts receivable from clients and payable to suppliers categorized by how long they have been outstanding. The time period brackets can be configured to any arbitrary number of days each.
 
 **Parameters**: 
 - session (Session): The accounting session.

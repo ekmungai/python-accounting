@@ -1,5 +1,5 @@
 ## Tax Inclusive Transactions
-Under ordinary circumstances, the Tax amount is added to the amount of the Transaction to arrive at the total. In some cases however, the tax amount is incldued in the Transaction amount already which requires different accounting treatment. This Example will demonstrate how to create one of each kind of transaction.
+Under ordinary circumstances, the Tax amount is added to the amount of the Transaction to arrive at the total. In some cases however, the tax amount is included in the Transaction amount already which requires different accounting treatment. This Example will demonstrate how to create one of each kind of transaction.
 
 **Tax Exclusive**  
 This Transaction will have the Tax amount added on top of the Transaction amount. We first need the Accounts involved.
