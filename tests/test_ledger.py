@@ -1,5 +1,5 @@
 from datetime import datetime
-from src.models import (
+from python_accounting.models import (
     Ledger,
     Account,
     Transaction,

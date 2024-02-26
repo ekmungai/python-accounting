@@ -1,9 +1,9 @@
 import pytest
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from src.transactions import ClientReceipt, ClientInvoice, JournalEntry
-from src.models import Account, Assignment, Balance, LineItem, Transaction
-from src.exceptions import (
+from python_accounting.transactions import ClientReceipt, ClientInvoice, JournalEntry
+from python_accounting.models import Account, Assignment, Balance, LineItem, Transaction
+from python_accounting.exceptions import (
     UnassignableTransactionError,
     UnclearableTransactionError,
     NegativeValueError,

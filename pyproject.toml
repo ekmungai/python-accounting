@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "The world's most comprehensive python Double Entry Accounting Library"
 authors = ["Edward Mungai <emungai@pinecrest.co.ke>"]
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{include = "python_accounting"}, {include = "config.toml"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -12,6 +12,7 @@ sqlalchemy = "^2.0.23"
 python-dateutil = "^2.8.2"
 strenum = "^0.4.15"
 toml = "^0.10.2"
+mysqlclient = "^2.2.4"
 
 
 [tool.poetry.group.test.dependencies]

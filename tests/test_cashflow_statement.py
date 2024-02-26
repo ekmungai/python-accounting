@@ -1,6 +1,6 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from src.models import (
+from python_accounting.models import (
     Account,
     Tax,
     LineItem,
@@ -8,7 +8,7 @@ from src.models import (
     Balance,
     Transaction,
 )
-from src.transactions import (
+from python_accounting.transactions import (
     CashSale,
     ClientInvoice,
     CreditNote,
@@ -16,7 +16,7 @@ from src.transactions import (
     SupplierBill,
     CashPurchase,
 )
-from src.reports import CashflowStatement
+from python_accounting.reports import CashflowStatement
 
 
 def test_cashflow_statement(session, entity, currency):

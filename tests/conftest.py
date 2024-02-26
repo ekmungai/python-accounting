@@ -1,14 +1,16 @@
 import pytest
 from sqlalchemy import create_engine
-from src.models import Entity, Base, Currency
-from src.database.session import get_ession
-from src.config import config
+from python_accounting.models import Entity, Base, Currency
+from python_accounting.database.session import get_ession
+from python_accounting.config import config
 
 
 @pytest.fixture
 def engine():
     database = config.database
-    engine = create_engine(database["url"], echo=database["echo"])
+    engine = create_engine(
+        "mysql+mysqldb://root:chapati@localhost/pyacc", echo=database["echo"]
+    )
     Base.metadata.create_all(engine)
     return engine
 

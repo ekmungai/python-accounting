@@ -1,9 +1,9 @@
 import pytest
 from datetime import datetime
 from sqlalchemy import select
-from src.models import Tax, Entity, Account, LineItem
-from src.transactions import ClientInvoice
-from src.exceptions import (
+from python_accounting.models import Tax, Entity, Account, LineItem
+from python_accounting.transactions import ClientInvoice
+from python_accounting.exceptions import (
     InvalidTaxAccountError,
     NegativeValueError,
     MissingTaxAccountError,

@@ -1,14 +1,14 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from src.reports import BalanceSheet
-from src.models import (
+from python_accounting.reports import BalanceSheet
+from python_accounting.models import (
     Account,
     Tax,
     LineItem,
     Transaction,
     Balance,
 )
-from src.transactions import SupplierBill, CashSale, JournalEntry
+from python_accounting.transactions import SupplierBill, CashSale, JournalEntry
 
 
 def test_balance_sheet(session, entity, currency):

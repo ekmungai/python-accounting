@@ -2,13 +2,13 @@ import pytest
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
-from src.models import (
+from python_accounting.models import (
     Balance,
     Entity,
     Transaction,
     Account,
 )
-from src.exceptions import (
+from python_accounting.exceptions import (
     InvalidBalanceAccountError,
     InvalidBalanceTransactionError,
     NegativeValueError,
@@ -40,7 +40,7 @@ def test_balance_entity(session, entity, currency):
     session.commit()
 
     balance = session.get(Balance, balance.id)
-    assert balance.transaction_no == f"4USD{datetime.today().year}"
+    assert balance.transaction_no == f"{account.id}USD{datetime.today().year}"
     assert balance.entity.name == "Test Entity"
 
 
