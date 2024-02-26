@@ -9,7 +9,7 @@ The library is designed to be fully customizable, supports multiple Entities (Co
 Categorization, Transaction assignment, Opening Balances and Taxation. Transactions are also protected 
 against tampering via direct database changes ensuring the integrity of the Ledger. Apart from the standard
 set of Financial Reports, the Library also provides convenient Receivable (Client) and Payabale (Supplier) 
-such as Account Statements and Schedules, as well as an Aging Schedule for all outstating balances grouped 
+such as Account Statements and Schedules, as well as an Aging Schedule for all outstanding balances grouped 
 by configurable time periods (Current, 31 - 90 days, 91 - 180 days etc).
 
 This library is a community initiative of [microbooks.io](https://microbooks.io).
@@ -23,6 +23,8 @@ pip install python-accounting
 ```
 
 ## Usage
+Full documemntation for the library can be found on [readthedocs](https://python-accounting.readthedocs.io/en/latest/).
+
 To use the Library, we first need to configure it.
 
 ```python

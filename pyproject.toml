@@ -12,7 +12,6 @@ sqlalchemy = "^2.0.23"
 python-dateutil = "^2.8.2"
 strenum = "^0.4.15"
 toml = "^0.10.2"
-myst-parser = "^2.0.0"
 
 
 [tool.poetry.group.test.dependencies]
@@ -23,6 +22,7 @@ pytest = "^7.4.3"
 sphinx-autoapi = "^3.0.0"
 sphinx-rtd-theme = "^2.0.0"
 sphinx = "^7.2.6"
+myst-parser = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core"]
