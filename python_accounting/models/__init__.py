@@ -13,7 +13,7 @@ from .base import Base
 from .recyclable import Recyclable
 from .currency import Currency
 from .user import User
-from .recyled import Recycled
+from .recycled import Recycled
 from .reporting_period import ReportingPeriod
 from .entity import Entity
 from .account import Account

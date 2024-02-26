@@ -22,7 +22,9 @@ from python_accounting.config import config
 from python_accounting.models import Recyclable, Balance, Transaction
 
 
-class Ledger(IsolatingMixin, Recyclable):
+class Ledger(  # pylint: disable=too-many-instance-attributes
+    IsolatingMixin, Recyclable
+):
     """Represents an entry in the Ledger. (Should never have to be invoked directly)."""
 
     __mapper_args__ = {"polymorphic_identity": "Ledger"}
@@ -81,7 +83,7 @@ class Ledger(IsolatingMixin, Recyclable):
          {self.amount}"""
 
     @staticmethod
-    def _allocate_amount(
+    def _allocate_amount(  # pylint: disable=too-many-arguments
         session, post, amount, posts, folios, transaction, entry_type
     ) -> None:
         if amount == 0:
@@ -125,7 +127,7 @@ class Ledger(IsolatingMixin, Recyclable):
         entry_type: Balance.BalanceType,
     ) -> None:
         if posts == []:
-            return
+            return None
         post, post_amount = posts[0]
         return Ledger._allocate_amount(
             session, post, post_amount, posts, folios, transaction, entry_type
@@ -134,15 +136,23 @@ class Ledger(IsolatingMixin, Recyclable):
     @staticmethod
     def _post_compound(session, transaction: Transaction) -> None:
         # Debit amounts ledgers
-        debits, credits = transaction.get_compound_entries()
+        debit_ledgers, credit_ledgers = transaction.get_compound_entries()
         Ledger._make_compound_ledgers(
-            session, debits, credits, transaction, Balance.BalanceType.DEBIT
+            session,
+            debit_ledgers,
+            credit_ledgers,
+            transaction,
+            Balance.BalanceType.DEBIT,
         )
 
         # Credit amounts ledgers
-        debits, credits = transaction.get_compound_entries()
+        debit_ledgers, credit_ledgers = transaction.get_compound_entries()
         Ledger._make_compound_ledgers(
-            session, credits, debits, transaction, Balance.BalanceType.CREDIT
+            session,
+            credit_ledgers,
+            debit_ledgers,
+            transaction,
+            Balance.BalanceType.CREDIT,
         )
 
     @staticmethod

@@ -93,6 +93,7 @@ class IncomeStatement(FinancialStatement):
     def net_profit(
         session, start_date: datetime = None, end_date: datetime = None
     ) -> Decimal:
+        # pylint: disable=line-too-long
         """
         Get the value of net profit for the given period.
 
@@ -105,6 +106,7 @@ class IncomeStatement(FinancialStatement):
             Decimal: The net profit or loss for the Entity for the period.
 
         """
+        # pylint: enable=line-too-long
         return (
             Account.section_balances(
                 session,

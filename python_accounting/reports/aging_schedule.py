@@ -16,8 +16,9 @@ from python_accounting.config import config
 from python_accounting.utils.dates import get_dates
 
 
+# pylint: disable=too-few-public-methods
 class AgingSchedule:
-    """This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding."""
+    """This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding."""  # pylint: disable=line-too-long
 
     brackets = config.reports["aging_schedule_brackets"]
     """

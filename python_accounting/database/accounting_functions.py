@@ -9,6 +9,7 @@
 This mixin providses accounting specific functionality to the standard sqlachemy session.
 """
 
+# pylint: disable=too-few-public-methods
 from datetime import datetime
 from sqlalchemy import orm, select, func
 from python_accounting.models import ReportingPeriod

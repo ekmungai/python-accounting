@@ -84,7 +84,7 @@ This Transaction will post the total amount to the debit side of the main Accoun
 <p>First we’ll create some Accounts.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Account</span>
 
-<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">get_session</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
     <span class="n">bank_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bank Account&quot;</span><span class="p">,</span>
         <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">BANK</span><span class="p">,</span>
@@ -93,7 +93,7 @@ This Transaction will post the total amount to the debit side of the main Accoun
     <span class="p">)</span>
     <span class="n">client_account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Client Account&quot;</span><span class="p">,</span>
-        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">RECEVABLE</span><span class="p">,</span>
+        <span class="n">account_type</span><span class="o">=</span><span class="n">Account</span><span class="o">.</span><span class="n">AccountType</span><span class="o">.</span><span class="n">RECEIVABLE</span><span class="p">,</span>
         <span class="n">currency_id</span><span class="o">=</span><span class="n">currency</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
         <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
     <span class="p">)</span>
@@ -119,12 +119,12 @@ This Transaction will post the total amount to the debit side of the main Accoun
     <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The Journal Entry’s <code class="docutils literal notranslate"><span class="pre">credited</span></code> property is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> by default, so for this example we’ll turn it to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<p>The Journal Entry’s <code class="docutils literal notranslate"><span class="pre">credited</span></code> property is set to True by default, so for this example we’ll turn it to False.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> 
 <span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Transaction</span><span class="p">,</span> <span class="n">LineItem</span>
 <span class="kn">from</span> <span class="nn">python_accounting.transactions</span> <span class="kn">import</span> <span class="n">JournalEntry</span>
 
-<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">get_session</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
     <span class="n">journal_entry</span> <span class="o">=</span> <span class="n">JournalEntry</span><span class="p">(</span>
         <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Journal Entry Transaction&quot;</span><span class="p">,</span>
         <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
@@ -143,7 +143,7 @@ This Transaction will post the total amount to the debit side of the main Accoun
     <span class="p">)</span>
     <span class="n">supplier_account_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
         <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Supplier Account line item&quot;</span><span class="p">,</span>
-        <span class="n">account_id</span><span class="o">=</span><span class="n">client_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">supplier_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
         <span class="n">amount</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
         <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
     <span class="p">)</span>
@@ -173,20 +173,20 @@ This Transaction will post the total amount to the debit side of the main Accoun
 </pre></div>
 </div>
 <p><strong>Compound Journal Entry</strong><br />
-Sometimes however, you might want to post line item amounts to different sides of the ledger for different accounts. To accomplish this, you turn on the <code class="docutils literal notranslate"><span class="pre">compound</span></code> property of the Transaction and also specify a <code class="docutils literal notranslate"><span class="pre">main_account_amount</span></code>. This is because as opposed to the simple case above, different amounts are being posted to different sides of the ledger by the Line Items and its therefore not obvious what amount should be posted to the main account. On the other side, we specify the side to which each Line Item Account will have their amount posted, which is debit by defult.</p>
+Sometimes however, you might want to post line item amounts to different sides of the ledger for different accounts. To accomplish this, you turn on the <code class="docutils literal notranslate"><span class="pre">compound</span></code> property of the Transaction and also specify a <code class="docutils literal notranslate"><span class="pre">main_account_amount</span></code>. This is because as opposed to the simple case above, different amounts are being posted to different sides of the ledger by the Line Items and its therefore not obvious what amount should be posted to the main account. On the other side, we specify the side to which each Line Item Account will have their amount posted, which is debit by default.</p>
 <p>Needless to say the totals of amounts posted to the debit and credit side of the ledger must equal exactly otherwise the Transaction will throw an error.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> 
 <span class="kn">from</span> <span class="nn">python_accounting.models</span> <span class="kn">import</span> <span class="n">Transaction</span><span class="p">,</span> <span class="n">LineItem</span>
 <span class="kn">from</span> <span class="nn">python_accounting.transactions</span> <span class="kn">import</span> <span class="n">JournalEntry</span>
 
-<span class="k">with</span> <span class="n">get_ession</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">get_session</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
     <span class="n">journal_entry</span> <span class="o">=</span> <span class="n">JournalEntry</span><span class="p">(</span>
         <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Journal Entry Transaction&quot;</span><span class="p">,</span>
         <span class="n">transaction_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
         <span class="n">account_id</span><span class="o">=</span><span class="n">bank_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
         <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
         <span class="n">compound</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># &lt;- Turn on compound flag</span>
-        <span class="n">credited</span><span class="o">=</span><span class="kc">False</span> 
+        <span class="n">credited</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
         <span class="n">main_account_amount</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="c1"># &lt;- Specify how much to post to the main (bank) account</span>
     <span class="p">)</span>
     <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">journal_entry</span><span class="p">)</span>
@@ -207,7 +207,7 @@ Sometimes however, you might want to post line item amounts to different sides o
     <span class="p">)</span>
     <span class="n">asset_account_line_item</span> <span class="o">=</span> <span class="n">LineItem</span><span class="p">(</span>
         <span class="n">narration</span><span class="o">=</span><span class="s2">&quot;Asset Account line item&quot;</span><span class="p">,</span>
-        <span class="n">account_id</span><span class="o">=</span><span class="n">asset_account</span><span class="o">.</span><span class="n">id</span><span class="p">,,</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">asset_account</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
         <span class="n">credited</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># &lt;- Specify to credit this line item&#39;s amount to is account</span>
         <span class="n">amount</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">entity_id</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>

@@ -7,6 +7,7 @@ This page contains auto-generated API reference documentation [#f1]_.
    :titlesonly:
 
    /autoapi/config/index
+   /autoapi/__ini__/index
    /autoapi/database/index
    /autoapi/exceptions/index
    /autoapi/mixins/index

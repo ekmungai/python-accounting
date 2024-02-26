@@ -30,7 +30,9 @@ class ClearingMixin:
         Returns:
             Decimal: The total amount of assignments made against Transaction.
         """
-        from python_accounting.models import Assignment
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Assignment,
+        )
 
         return (
             session.query(

@@ -25,7 +25,7 @@ Classes
 .. py:class:: CashPurchase(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.BuyingMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Cash Purchase Transaction.
 

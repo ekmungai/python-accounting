@@ -25,7 +25,7 @@ Classes
 .. py:class:: Category
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a grouping of Accounts of the same type.
 
@@ -55,7 +55,7 @@ Classes
       :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: accounts
-      :type: sqlalchemy.orm.Mapped[List[src.models.Account]]
+      :type: sqlalchemy.orm.Mapped[List[python_accounting.models.Account]]
 
       Accounts that belong to the Category.
 

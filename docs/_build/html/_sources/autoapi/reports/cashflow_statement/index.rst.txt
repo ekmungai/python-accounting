@@ -25,7 +25,7 @@ Classes
 .. py:class:: CashflowStatement(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None)
 
 
-   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+   Bases: :py:obj:`python_accounting.reports.financial_statement.FinancialStatement`
 
    This class represents the movement of balances of Balance Sheet accounts during the given period.
 

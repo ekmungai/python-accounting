@@ -25,7 +25,7 @@ Classes
 .. py:class:: CreditNote(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.SellingMixin`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Credit Note Transaction.
 

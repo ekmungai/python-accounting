@@ -15,7 +15,12 @@ from python_accounting.mixins.trading import TradingMixin
 from python_accounting.mixins import AssigningMixin
 
 
-class SupplierPayment(TradingMixin, AssigningMixin, Transaction):
+class SupplierPayment(
+    # pylint: disable=too-many-ancestors
+    TradingMixin,
+    AssigningMixin,
+    Transaction,
+):
     """Class for the Supplier Payment Transaction."""
 
     __tablename__ = None

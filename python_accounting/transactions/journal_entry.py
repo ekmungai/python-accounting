@@ -20,7 +20,9 @@ from python_accounting.exceptions import (
 )
 
 
-class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
+class JournalEntry(  # pylint: disable=too-many-ancestors
+    Transaction, AssigningMixin, ClearingMixin
+):
     """Class for the Journal Entry Transaction."""
 
     __tablename__ = None
@@ -48,7 +50,7 @@ class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
         if not self.compound:
             return (0, 0)
 
-        compound_entries = dict(Debit=[], Credit=[])
+        compound_entries = {"Debit": [], "Credit": []}
         compound_entries["Credit" if self.credited else "Debit"].append(
             [self.account_id, self.main_account_amount]
         )
@@ -78,10 +80,10 @@ class JournalEntry(Transaction, AssigningMixin, ClearingMixin):
             if not self.main_account_amount:
                 raise MissingMainAccountAmountError
 
-            debits, credits = self.get_compound_entries()
+            debit_amounts, credit_amounts = self.get_compound_entries()
 
             if (
-                sum([d[1] for d in debits]) != sum([c[1] for c in credits])
+                sum(d[1] for d in debit_amounts) != sum(c[1] for c in credit_amounts)
                 and len(self.line_items) > 0
             ):
                 raise UnbalancedTransactionError

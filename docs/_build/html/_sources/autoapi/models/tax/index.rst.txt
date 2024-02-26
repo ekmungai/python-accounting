@@ -25,7 +25,7 @@ Classes
 .. py:class:: Tax
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Tax applied to a Transaction's Line Item.
 
@@ -69,7 +69,7 @@ Classes
       :type: (int)
 
    .. py:attribute:: account
-      :type: sqlalchemy.orm.Mapped[src.models.Account]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Account]
 
       The Account model to which Tax amounts are posted.
 

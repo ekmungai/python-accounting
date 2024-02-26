@@ -25,7 +25,7 @@ Classes
 .. py:class:: Entity
 
 
-   Bases: :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.models.Recyclable`
 
    Represents the Reporting Entity.
 
@@ -103,7 +103,7 @@ Classes
       :type: (Currency)
 
    .. py:attribute:: reporting_period
-      :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.ReportingPeriod]
 
       The current Reporting Period of the Entity.
 

@@ -13,6 +13,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship, declared_attr
 from sqlalchemy import ForeignKey
 
 
+# pylint: disable=too-few-public-methods
 class IsolatingMixin:
     """
     This class enables isolating by Entity for accounting objects.

@@ -48,6 +48,7 @@ class Tax(IsolatingMixin, Recyclable):
         return f"{self.name} <{self.code}>: {self.rate}"
 
     def validate(self, session) -> None:
+        # pylint: disable=line-too-long
         """
         Validates the Tax properties.
 
@@ -62,7 +63,7 @@ class Tax(IsolatingMixin, Recyclable):
         Returns:
             None
         """
-
+        # pylint: enable=line-too-long
         if self.rate == 0:
             self.account_id = None
 
@@ -79,6 +80,7 @@ class Tax(IsolatingMixin, Recyclable):
             raise InvalidTaxAccountError
 
     def validate_delete(self, session) -> None:
+        # pylint: disable=line-too-long
         """
         Validates if the Tax can be deleted.
 
@@ -91,6 +93,7 @@ class Tax(IsolatingMixin, Recyclable):
         Returns:
             None
         """
+        # pylint: enable=line-too-long
         from python_accounting.models import (  # pylint: disable=import-outside-toplevel
             Ledger,
         )

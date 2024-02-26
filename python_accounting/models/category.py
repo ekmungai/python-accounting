@@ -62,6 +62,7 @@ class Category(IsolatingMixin, Recyclable):
             )
 
     def account_balances(self, session, end_date: datetime = None) -> dict:
+        # pylint: disable=line-too-long
         """
         Returns the Accounts belonging to the Category and their balances.
 
@@ -75,10 +76,10 @@ class Category(IsolatingMixin, Recyclable):
                 - total (Decimal): The total of the closing balances of the Category accounts as at the end date.
                 - accounts (list): The Accounts belonging to the Category.
         """
-
+        # pylint: enable=line-too-long
         _, end_date, _, _ = get_dates(session, None, end_date)
 
-        balances = dict(total=0, accounts=[])
+        balances = {"total": 0, "accounts": []}
 
         for account in self.accounts:
             account.balance = account.closing_balance(session, end_date)

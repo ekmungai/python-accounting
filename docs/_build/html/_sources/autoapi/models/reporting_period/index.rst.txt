@@ -25,7 +25,7 @@ Classes
 .. py:class:: ReportingPeriod
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a financial cycle for the Reporting Entity.
 

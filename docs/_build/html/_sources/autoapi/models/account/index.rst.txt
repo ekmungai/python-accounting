@@ -37,7 +37,7 @@ Attributes
 .. py:class:: Account
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.recyclable.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.recyclable.Recyclable`
 
    Represents an account which groups related Transactions.
 

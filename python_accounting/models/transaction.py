@@ -19,7 +19,6 @@ from sqlalchemy import (
     ForeignKey,
     Enum,
     Boolean,
-    Text,
     func,
     UniqueConstraint,
     inspect,
@@ -106,7 +105,8 @@ class Transaction(IsolatingMixin, Recyclable):
     """(list): The Ledger models associated with the Transaction."""
 
     @validates("line_items", include_removes=True)
-    def validate_line_items(self, key, line_item, is_remove):
+    def validate_line_items(self, _, line_item, is_remove):
+        # pylint: disable=line-too-long
         """
         Validates adding or removing of Transaction Line Items.
 
@@ -114,6 +114,7 @@ class Transaction(IsolatingMixin, Recyclable):
             PostedTransactionError: If the Transaction is posted and Line Items are added or removed from it.
             ValueError: If the unsaved Line Item are added or removed from the Transaction.
         """
+        # pylint: enable=line-too-long
         if hasattr(self, "_validate_subclass_line_items"):
             self._validate_subclass_line_items(line_item)
 
@@ -150,7 +151,7 @@ class Transaction(IsolatingMixin, Recyclable):
             - taxes (dict): The taxes applied to the Transaction and their amounts.
             - amount (str): The total tax applied to the Transaction.
         """
-        taxes = dict()
+        taxes = {}
         total = 0
         for line_item in iter(self.line_items):
             if line_item.tax_id:
@@ -166,14 +167,14 @@ class Transaction(IsolatingMixin, Recyclable):
                 else:
                     taxes.update(
                         {
-                            line_item.tax.code: dict(
-                                name=line_item.tax.name,
-                                rate=f"{round(line_item.tax.rate, 2)}%",
-                                amount=amount,
-                            )
+                            line_item.tax.code: {
+                                "name": line_item.tax.name,
+                                "rate": f"{round(line_item.tax.rate, 2)}%",
+                                "amount": amount,
+                            }
                         }
                     )
-        return dict(total=total, taxes=taxes)
+        return {"total": total, "taxes": taxes}
 
     @property
     def is_posted(self) -> bool:
@@ -185,16 +186,14 @@ class Transaction(IsolatingMixin, Recyclable):
         """The amount of the Transaction."""
 
         return sum(
-            [
-                l.amount * l.quantity
-                + (
-                    (l.amount * l.quantity * l.tax.rate / 100)
-                    if l.tax_id and not l.tax_inclusive
-                    else 0
-                )
-                for l in iter(self.line_items)
-                if l.credited != self.credited
-            ]
+            l.amount * l.quantity
+            + (
+                (l.amount * l.quantity * l.tax.rate / 100)
+                if l.tax_id and not l.tax_inclusive
+                else 0
+            )
+            for l in iter(self.line_items)
+            if l.credited != self.credited
         )
 
     def __repr__(self) -> str:

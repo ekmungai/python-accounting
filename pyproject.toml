@@ -19,12 +19,12 @@ psycopg2 = "^2.9.9"
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.3"
 
-
 [tool.poetry.group.dev.dependencies]
 sphinx-autoapi = "^3.0.0"
 sphinx-rtd-theme = "^2.0.0"
 sphinx = "^7.2.6"
 myst-parser = "^2.0.0"
+pylint = "^3.1.0"
 
 [build-system]
 requires = ["poetry-core"]

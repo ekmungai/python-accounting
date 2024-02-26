@@ -157,8 +157,7 @@ class Account(IsolatingMixin, Recyclable):
                 - closing (Decimal): The sum of opening closing of Accounts in the section.
                 - categories (dict): The Accounts belonging to the section separated by Category.
         """
-        balances = dict(opening=0, movement=0, closing=0, categories={})
-
+        balances = {"opening": 0, "movement": 0, "closing": 0, "categories": {}}
         start_date, end_date, period_start, _ = get_dates(session, start_date, end_date)
 
         for account in session.scalars(
@@ -187,11 +186,11 @@ class Account(IsolatingMixin, Recyclable):
                 else:
                     balances["categories"].update(
                         {
-                            category_name: dict(
-                                id=category_id,
-                                total=account.closing,
-                                accounts=[account],
-                            )
+                            category_name: {
+                                "id": category_id,
+                                "total": account.closing,
+                                "accounts": [account],
+                            }
                         }
                     )
                 balances["opening"] += account.opening
@@ -259,13 +258,14 @@ class Account(IsolatingMixin, Recyclable):
             session, start_date, end_date
         )
 
-    def statement(
+    def statement(  # pylint: disable=too-many-locals
         self,
         session,
         start_date: datetime = None,
         end_date: datetime = None,
         schedule: bool = False,
     ) -> dict:
+        # pylint: disable=line-too-long
         """
         Gets a chronological listing of the Transactions posted to the Account between
             the dates given.
@@ -297,6 +297,7 @@ class Account(IsolatingMixin, Recyclable):
                 - cleared_amount (Decimal): The amount of the Transactions in the Schdeule that has been cleared.
                 - uncleared_amount (Decimal): The amount of the Transactions in the Schdeule that is still outstanding.
         """
+        # pylint: enable=line-too-long
         from python_accounting.models import (  # pylint: disable=import-outside-toplevel
             Transaction,
             Ledger,
@@ -314,18 +315,18 @@ class Account(IsolatingMixin, Recyclable):
         start_date, end_date, _, period_id = get_dates(session, start_date, end_date)
 
         statement = (
-            dict(
-                transactions=[],
-                total_amount=0,
-                cleared_amount=0,
-                uncleared_amount=0,
-            )
+            {
+                "transactions": [],
+                "total_amount": 0,
+                "cleared_amount": 0,
+                "uncleared_amount": 0,
+            }
             if schedule
-            else dict(
-                opening_balance=self.opening_balance(session, end_date.year),
-                transactions=[],
-                closing_balance=0,
-            )
+            else {
+                "opening_balance": self.opening_balance(session, end_date.year),
+                "transactions": [],
+                "closing_balance": 0,
+            }
         )
         balances = []
 
@@ -371,17 +372,22 @@ class Account(IsolatingMixin, Recyclable):
             ):
                 if schedule:
                     cleared = transaction.cleared(session)
-                    if transaction.amount - cleared == 0 or (
-                        transaction.transaction_type
-                        == Transaction.TransactionType.JOURNAL_ENTRY
-                        and (
-                            (
-                                self.account_type == Account.AccountType.RECEIVABLE
-                                and transaction.credited
-                            )
-                            or (
-                                self.account_type == Account.AccountType.PAYABLE
-                                and not transaction.credited
+                    if (
+                        transaction.amount  # pylint: disable=too-many-boolean-expressions
+                        - cleared
+                        == 0
+                        or (
+                            transaction.transaction_type
+                            == Transaction.TransactionType.JOURNAL_ENTRY
+                            and (
+                                (
+                                    self.account_type == Account.AccountType.RECEIVABLE
+                                    and transaction.credited
+                                )
+                                or (
+                                    self.account_type == Account.AccountType.PAYABLE
+                                    and not transaction.credited
+                                )
                             )
                         )
                     ):

@@ -16,7 +16,9 @@ from python_accounting.mixins import AssigningMixin
 from python_accounting.mixins.trading import TradingMixin
 
 
-class ClientReceipt(TradingMixin, AssigningMixin, Transaction):
+class ClientReceipt(  # pylint: disable=too-many-ancestors
+    TradingMixin, AssigningMixin, Transaction
+):
     """Class for the Client Receipt Transaction."""
 
     __tablename__ = None

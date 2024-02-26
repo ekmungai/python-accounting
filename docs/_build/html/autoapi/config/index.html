@@ -22,7 +22,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="database" href="../database/index.html" />
+    <link rel="next" title="__ini__" href="../__ini__/index.html" />
     <link rel="prev" title="API Reference" href="../index.html" /> 
 </head>
 
@@ -58,6 +58,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../__ini__/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__ini__</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../mixins/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mixins</span></code></a></li>
@@ -117,14 +118,17 @@ the class with a custom config.tml file.</p>
 <h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#config.config" title="config.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#config.default_configuration" title="config.default_configuration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_configuration</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#config.config" title="config.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
 <td><p>The default configuration</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="config.Config">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config.toml'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.Config" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.Config" title="Link to this definition"></a></dt>
 <dd><p>Python Accounting configuration class.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="config.Config.database">
@@ -136,7 +140,8 @@ the class with a custom config.tml file.</p>
     <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
     <span class="n">include_deleted</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">soft</span> <span class="n">deleted</span> <span class="n">records</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
     <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
-    <span class="n">ignore_isolation</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">records</span> <span class="kn">from</span> <span class="nn">all</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">query</span> <span class="n">results</span><span class="o">.</span>
+    <span class="n">ignore_isolation</span> <span class="p">(</span><span class="nb">bool</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="n">include</span> <span class="n">records</span> <span class="kn">from</span> <span class="nn">all</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">query</span>
+    <span class="n">results</span><span class="o">.</span>
     <span class="n">Defaults</span> <span class="n">to</span> <span class="n">false</span><span class="o">.</span>
 <span class="p">}</span>
 </pre></div>
@@ -222,9 +227,12 @@ the class with a custom config.tml file.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>url</strong> (<em>str</em>) – The database connection string.</p></li>
-<li><p><strong>echo</strong> (<em>bool</em>) – Whether to output the SqlAlchemy generated queries to the console. Defaults to false.</p></li>
-<li><p><strong>include_deleted</strong> (<em>bool</em>) – Whether to include soft deleted records in query results. Defaults to false.</p></li>
-<li><p><strong>ignore_isolation</strong> (<em>bool</em>) – Whether to include records from all entities in query results. Defaults to false.</p></li>
+<li><p><strong>echo</strong> (<em>bool</em>) – Whether to output the SqlAlchemy generated queries to the console.</p></li>
+<li><p><strong>false.</strong> (<em>results. Defaults to</em>) – </p></li>
+<li><p><strong>include_deleted</strong> (<em>bool</em>) – Whether to include soft deleted records in query results.</p></li>
+<li><p><strong>false.</strong> – </p></li>
+<li><p><strong>ignore_isolation</strong> (<em>bool</em>) – Whether to include records from all entities in query</p></li>
+<li><p><strong>false.</strong> – </p></li>
 </ul>
 </dd>
 </dl>
@@ -261,6 +269,11 @@ the class with a custom config.tml file.</p>
 </dd></dl>
 
 <dl class="py data">
+<dt class="sig sig-object py" id="config.default_configuration">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">default_configuration</span></span><a class="headerlink" href="#config.default_configuration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
 <dt class="sig sig-object py" id="config.config">
 <span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#config.config" title="Link to this definition"></a></dt>
 <dd><p>The default configuration</p>
@@ -275,7 +288,7 @@ the class with a custom config.tml file.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../database/index.html" class="btn btn-neutral float-right" title="database" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../__ini__/index.html" class="btn btn-neutral float-right" title="__ini__" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

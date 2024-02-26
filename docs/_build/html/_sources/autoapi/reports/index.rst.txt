@@ -43,7 +43,7 @@ Classes
 .. py:class:: IncomeStatement(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None)
 
 
-   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+   Bases: :py:obj:`python_accounting.reports.financial_statement.FinancialStatement`
 
    This class represents the Income Statement/Profit and Loss of a given Entity.
 
@@ -83,7 +83,7 @@ Classes
 .. py:class:: BalanceSheet(session, end_date: datetime.datetime = None)
 
 
-   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+   Bases: :py:obj:`python_accounting.reports.financial_statement.FinancialStatement`
 
    This class represents Financial Position/Balance Sheet of a given Entity.
 
@@ -104,7 +104,7 @@ Classes
 
 
 
-.. py:class:: AgingSchedule(session, account_type: src.models.Account.AccountType, end_date: datetime.datetime = None)
+.. py:class:: AgingSchedule(session, account_type: python_accounting.models.Account.AccountType, end_date: datetime.datetime = None)
 
 
    This class displays the outstanding balances for recievables and payables categorised by how long they have been outstanding.
@@ -165,14 +165,14 @@ Classes
       Return repr(self).
 
 
-   .. py:method:: _allocate_balances(transactions: list, account: src.models.Account) -> None
+   .. py:method:: _allocate_balances(transactions: list, account: python_accounting.models.Account) -> None
 
 
 
 .. py:class:: CashflowStatement(session, start_date: datetime.datetime = None, end_date: datetime.datetime = None)
 
 
-   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+   Bases: :py:obj:`python_accounting.reports.financial_statement.FinancialStatement`
 
    This class represents the movement of balances of Balance Sheet accounts during the given period.
 
@@ -203,7 +203,7 @@ Classes
 .. py:class:: TrialBalance(session, end_date: datetime.datetime = None)
 
 
-   Bases: :py:obj:`src.reports.financial_statement.FinancialStatement`
+   Bases: :py:obj:`python_accounting.reports.financial_statement.FinancialStatement`
 
    This class represents all the balances of the chart of accounts, compared against each other.
 

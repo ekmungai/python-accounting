@@ -25,7 +25,7 @@ Classes
 .. py:class:: Ledger
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents an entry in the Ledger. (Should never have to be invoked directly).
 
@@ -111,7 +111,7 @@ Classes
       :type: (`int`, optional)
 
    .. py:attribute:: transaction
-      :type: sqlalchemy.orm.Mapped[src.models.Transaction]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Transaction]
 
       The Transaction associated with the Ledger.
 
@@ -152,23 +152,23 @@ Classes
       :staticmethod:
 
 
-   .. py:method:: _make_compound_ledgers(session, posts: list, folios: list, transaction: src.models.Transaction, entry_type: src.models.Balance.BalanceType) -> None
+   .. py:method:: _make_compound_ledgers(session, posts: list, folios: list, transaction: python_accounting.models.Transaction, entry_type: python_accounting.models.Balance.BalanceType) -> None
       :staticmethod:
 
 
-   .. py:method:: _post_compound(session, transaction: src.models.Transaction) -> None
+   .. py:method:: _post_compound(session, transaction: python_accounting.models.Transaction) -> None
       :staticmethod:
 
 
-   .. py:method:: _transaction_ledgers(transaction: src.models.Transaction) -> tuple
+   .. py:method:: _transaction_ledgers(transaction: python_accounting.models.Transaction) -> tuple
       :staticmethod:
 
 
-   .. py:method:: _post_simple(session, transaction: src.models.Transaction) -> None
+   .. py:method:: _post_simple(session, transaction: python_accounting.models.Transaction) -> None
       :staticmethod:
 
 
-   .. py:method:: post(session, transaction: src.models.Transaction) -> None
+   .. py:method:: post(session, transaction: python_accounting.models.Transaction) -> None
       :staticmethod:
 
       Posts the Transaction to the ledger.

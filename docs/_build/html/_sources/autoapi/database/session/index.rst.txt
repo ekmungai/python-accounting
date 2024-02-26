@@ -26,14 +26,14 @@ Functions
 
 .. autoapisummary::
 
-   database.session.get_ession
+   database.session.get_session
 
 
 
 .. py:class:: AccountingSession(bind=None, info=None)
 
 
-   Bases: :py:obj:`src.database.session_overrides.SessionOverridesMixin`, :py:obj:`src.database.event_listeners.EventListenersMixin`, :py:obj:`src.database.accounting_functions.AccountingFunctionsMixin`, :py:obj:`sqlalchemy.orm.session.Session`
+   Bases: :py:obj:`python_accounting.database.session_overrides.SessionOverridesMixin`, :py:obj:`python_accounting.database.event_listeners.EventListenersMixin`, :py:obj:`python_accounting.database.accounting_functions.AccountingFunctionsMixin`, :py:obj:`sqlalchemy.orm.session.Session`
 
    Custom methods specific to accounting.
 
@@ -45,12 +45,12 @@ Functions
       :type: Entity
 
    .. py:attribute:: entity
-      :type: src.models.Entity
+      :type: python_accounting.models.Entity
 
       
 
 
-.. py:function:: get_ession(engine) -> sqlalchemy.orm.session.Session
+.. py:function:: get_session(engine) -> sqlalchemy.orm.session.Session
 
    Construct the accounting session.
 

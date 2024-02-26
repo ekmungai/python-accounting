@@ -182,7 +182,7 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
             0,
         )
 
-        return dict(
-            start=start,
-            end=start + relativedelta(years=1) - relativedelta(seconds=1),
-        )
+        return {
+            "start": start,
+            "end": start + relativedelta(years=1) - relativedelta(seconds=1),
+        }

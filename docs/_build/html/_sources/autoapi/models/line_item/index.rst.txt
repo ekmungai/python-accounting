@@ -25,7 +25,7 @@ Classes
 .. py:class:: LineItem(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents the other side of the double entry from the main account of a Transaction.
 

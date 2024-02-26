@@ -94,7 +94,7 @@ Classes
 .. py:class:: Recyclable
 
 
-   Bases: :py:obj:`src.models.Base`
+   Bases: :py:obj:`python_accounting.models.Base`
 
    Interface for associating recycled objects with its models.
 
@@ -134,7 +134,7 @@ Classes
 .. py:class:: Currency
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Currency in terms of a label and an ISO Currency Code.
 
@@ -170,7 +170,7 @@ Classes
 .. py:class:: User
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
 
    Represents an authenticatable User with access to an Entity.
 
@@ -190,12 +190,14 @@ Classes
 
    .. py:method:: __repr__() -> str
 
+      Return repr(self).
+
 
 
 .. py:class:: Recycled
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
 
    Represents an accounting model that has been recycled.
 
@@ -222,12 +224,14 @@ Classes
 
    .. py:method:: __repr__() -> str
 
+      Return repr(self).
+
 
 
 .. py:class:: ReportingPeriod
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a financial cycle for the Reporting Entity.
 
@@ -371,7 +375,7 @@ Classes
 .. py:class:: Entity
 
 
-   Bases: :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.models.Recyclable`
 
    Represents the Reporting Entity.
 
@@ -449,7 +453,7 @@ Classes
       :type: (Currency)
 
    .. py:attribute:: reporting_period
-      :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.ReportingPeriod]
 
       The current Reporting Period of the Entity.
 
@@ -469,7 +473,7 @@ Classes
 .. py:class:: Account
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.recyclable.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.recyclable.Recyclable`
 
    Represents an account which groups related Transactions.
 
@@ -698,7 +702,7 @@ Classes
 .. py:class:: Category
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a grouping of Accounts of the same type.
 
@@ -728,7 +732,7 @@ Classes
       :type: (`list` of `Account.AccountType`)
 
    .. py:attribute:: accounts
-      :type: sqlalchemy.orm.Mapped[List[src.models.Account]]
+      :type: sqlalchemy.orm.Mapped[List[python_accounting.models.Account]]
 
       Accounts that belong to the Category.
 
@@ -769,7 +773,7 @@ Classes
 .. py:class:: LineItem(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents the other side of the double entry from the main account of a Transaction.
 
@@ -907,7 +911,7 @@ Classes
 .. py:class:: Transaction
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Transaction in the sense of an original source document.
 
@@ -1036,14 +1040,14 @@ Classes
       :type: (Currency)
 
    .. py:attribute:: account
-      :type: sqlalchemy.orm.Mapped[src.models.Account]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Account]
 
       The Account model to which Transaction amounts are to be posted.
 
       :type: (Account)
 
    .. py:attribute:: line_items
-      :type: sqlalchemy.orm.Mapped[Set[src.models.LineItem]]
+      :type: sqlalchemy.orm.Mapped[Set[python_accounting.models.LineItem]]
 
       The Line Items models associated with the Transaction.
 
@@ -1074,7 +1078,7 @@ Classes
    .. py:method:: __repr__() -> str
 
 
-   .. py:method:: _get_main_account(session) -> src.models.Account
+   .. py:method:: _get_main_account(session) -> python_accounting.models.Account
 
 
    .. py:method:: _transaction_no(session, transaction_type, reporting_period) -> str
@@ -1098,7 +1102,7 @@ Classes
       :returns: None
 
 
-   .. py:method:: contribution(session, account: src.models.Account) -> decimal.Decimal
+   .. py:method:: contribution(session, account: python_accounting.models.Account) -> decimal.Decimal
 
       Gets the amount contributed by the account to the transaction total.
 
@@ -1149,7 +1153,7 @@ Classes
 .. py:class:: Balance
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.mixins.ClearingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Balance brought down from previous Reporting Periods.
 
@@ -1255,21 +1259,21 @@ Classes
       :type: (int)
 
    .. py:attribute:: currency
-      :type: sqlalchemy.orm.Mapped[src.models.Currency]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Currency]
 
       The Currency model associated with the Balance.
 
       :type: (Currency)
 
    .. py:attribute:: account
-      :type: sqlalchemy.orm.Mapped[src.models.Account]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Account]
 
       The Account model to which the Balance belongs.
 
       :type: (Account)
 
    .. py:attribute:: reporting_period
-      :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.ReportingPeriod]
 
       The Reporting Period model to which the Balance belongs.
 
@@ -1317,7 +1321,7 @@ Classes
 .. py:class:: Tax
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Tax applied to a Transaction's Line Item.
 
@@ -1361,7 +1365,7 @@ Classes
       :type: (int)
 
    .. py:attribute:: account
-      :type: sqlalchemy.orm.Mapped[src.models.Account]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Account]
 
       The Account model to which Tax amounts are posted.
 
@@ -1400,7 +1404,7 @@ Classes
 .. py:class:: Ledger
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents an entry in the Ledger. (Should never have to be invoked directly).
 
@@ -1486,7 +1490,7 @@ Classes
       :type: (`int`, optional)
 
    .. py:attribute:: transaction
-      :type: sqlalchemy.orm.Mapped[src.models.Transaction]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Transaction]
 
       The Transaction associated with the Ledger.
 
@@ -1527,23 +1531,23 @@ Classes
       :staticmethod:
 
 
-   .. py:method:: _make_compound_ledgers(session, posts: list, folios: list, transaction: src.models.Transaction, entry_type: src.models.Balance.BalanceType) -> None
+   .. py:method:: _make_compound_ledgers(session, posts: list, folios: list, transaction: python_accounting.models.Transaction, entry_type: python_accounting.models.Balance.BalanceType) -> None
       :staticmethod:
 
 
-   .. py:method:: _post_compound(session, transaction: src.models.Transaction) -> None
+   .. py:method:: _post_compound(session, transaction: python_accounting.models.Transaction) -> None
       :staticmethod:
 
 
-   .. py:method:: _transaction_ledgers(transaction: src.models.Transaction) -> tuple
+   .. py:method:: _transaction_ledgers(transaction: python_accounting.models.Transaction) -> tuple
       :staticmethod:
 
 
-   .. py:method:: _post_simple(session, transaction: src.models.Transaction) -> None
+   .. py:method:: _post_simple(session, transaction: python_accounting.models.Transaction) -> None
       :staticmethod:
 
 
-   .. py:method:: post(session, transaction: src.models.Transaction) -> None
+   .. py:method:: post(session, transaction: python_accounting.models.Transaction) -> None
       :staticmethod:
 
       Posts the Transaction to the ledger.
@@ -1569,7 +1573,7 @@ Classes
 .. py:class:: Assignment
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Base`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Base`
 
    Represents an assigment of a clearable type to an assignable Transaction.
 
@@ -1630,7 +1634,7 @@ Classes
       :type: (Decimal)
 
    .. py:attribute:: transaction
-      :type: sqlalchemy.orm.Mapped[src.models.Transaction]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Transaction]
 
       The assignable Transaction in the Assignment.
 
@@ -1639,7 +1643,7 @@ Classes
    .. py:method:: __repr__() -> str
 
 
-   .. py:method:: assigned(session) -> src.models.Transaction | src.models.Balance
+   .. py:method:: assigned(session) -> python_accounting.models.Transaction | python_accounting.models.Balance
 
       Get the clearable Transaction|Balance assigned to this assigment's transaction.
 

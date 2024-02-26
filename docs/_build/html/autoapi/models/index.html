@@ -51,6 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../__ini__/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__ini__</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../mixins/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mixins</span></code></a></li>
@@ -237,7 +238,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Recyclable">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Recyclable</span></span><a class="headerlink" href="#models.Recyclable" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Base</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Base</span></code></p>
 <p>Interface for associating recycled objects with its models.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Recyclable.deleted_at">
@@ -293,7 +294,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Currency">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Currency</span></span><a class="headerlink" href="#models.Currency" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents a Currency in terms of a label and an ISO Currency Code.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Currency.__mapper_args__">
@@ -343,7 +344,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="models.User">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">User</span></span><a class="headerlink" href="#models.User" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <a class="reference internal" href="base/index.html#models.base.Base" title="models.base.Base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">models.base.Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <a class="reference internal" href="base/index.html#models.base.Base" title="models.base.Base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">models.base.Base</span></code></a></p>
 <p>Represents an authenticatable User with access to an Entity.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.User.name">
@@ -370,14 +371,15 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="models.User.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.User.__repr__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Return repr(self).</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Recycled">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Recycled</span></span><a class="headerlink" href="#models.Recycled" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <a class="reference internal" href="base/index.html#models.base.Base" title="models.base.Base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">models.base.Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <a class="reference internal" href="base/index.html#models.base.Base" title="models.base.Base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">models.base.Base</span></code></a></p>
 <p>Represents an accounting model that has been recycled.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Recycled.recycled_id">
@@ -415,14 +417,15 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Recycled.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#models.Recycled.__repr__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Return repr(self).</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="models.ReportingPeriod">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">ReportingPeriod</span></span><a class="headerlink" href="#models.ReportingPeriod" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents a financial cycle for the Reporting Entity.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.ReportingPeriod.Status">
@@ -614,7 +617,7 @@ given date.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Entity">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><a class="headerlink" href="#models.Entity" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents the Reporting Entity.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Entity.__mapper_args__">
@@ -728,7 +731,7 @@ Periods begin, expressed as a number between 1 and 12. Defaults to 1
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Entity.reporting_period">
-<span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Entity.reporting_period" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Entity.reporting_period" title="Link to this definition"></a></dt>
 <dd><p>The current Reporting Period of the Entity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -758,7 +761,7 @@ Periods begin, expressed as a number between 1 and 12. Defaults to 1
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Account">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Account</span></span><a class="headerlink" href="#models.Account" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.recyclable.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.recyclable.Recyclable</span></code></p>
 <p>Represents an account which groups related Transactions.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Account.AccountType">
@@ -1089,7 +1092,7 @@ current Reporting period.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Category">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Category</span></span><a class="headerlink" href="#models.Category" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents a grouping of Accounts of the same type.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Category.__mapper_args__">
@@ -1131,7 +1134,7 @@ current Reporting period.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Category.accounts">
-<span class="sig-name descname"><span class="pre">accounts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Category.accounts" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">accounts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Account</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Category.accounts" title="Link to this definition"></a></dt>
 <dd><p>Accounts that belong to the Category.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1195,7 +1198,7 @@ of the Accounts themselves.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.LineItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">LineItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#models.LineItem" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents the other side of the double entry from the main account of a Transaction.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.LineItem.__tablename__">
@@ -1396,7 +1399,7 @@ Line Item is included in the Line Item amount. Defaults to False.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Transaction">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Transaction</span></span><a class="headerlink" href="#models.Transaction" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents a Transaction in the sense of an original source document.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="models.Transaction.tax">
@@ -1581,7 +1584,7 @@ can have Line Items on both sides of the double entry.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Transaction.account">
-<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Transaction.account" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Transaction.account" title="Link to this definition"></a></dt>
 <dd><p>The Account model to which Transaction amounts are to be posted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1592,7 +1595,7 @@ can have Line Items on both sides of the double entry.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Transaction.line_items">
-<span class="sig-name descname"><span class="pre">line_items</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.LineItem</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Transaction.line_items" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">line_items</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.LineItem</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Transaction.line_items" title="Link to this definition"></a></dt>
 <dd><p>The Line Items models associated with the Transaction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1644,7 +1647,7 @@ can have Line Items on both sides of the double entry.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Transaction._get_main_account">
-<span class="sig-name descname"><span class="pre">_get_main_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">src.models.Account</span></span></span><a class="headerlink" href="#models.Transaction._get_main_account" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_get_main_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">python_accounting.models.Account</span></span></span><a class="headerlink" href="#models.Transaction._get_main_account" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1678,7 +1681,7 @@ belongs.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Transaction.contribution">
-<span class="sig-name descname"><span class="pre">contribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Account</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">decimal.Decimal</span></span></span><a class="headerlink" href="#models.Transaction.contribution" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">contribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Account</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">decimal.Decimal</span></span></span><a class="headerlink" href="#models.Transaction.contribution" title="Link to this definition"></a></dt>
 <dd><p>Gets the amount contributed by the account to the transaction total.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1747,7 +1750,7 @@ Line Items Accounts.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Balance">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Balance</span></span><a class="headerlink" href="#models.Balance" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.ClearingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.ClearingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents a Balance brought down from previous Reporting Periods.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="models.Balance.is_posted">
@@ -1906,7 +1909,7 @@ Line Items Accounts.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Balance.currency">
-<span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Currency</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Balance.currency" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">currency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Currency</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Balance.currency" title="Link to this definition"></a></dt>
 <dd><p>The Currency model associated with the Balance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1917,7 +1920,7 @@ Line Items Accounts.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Balance.account">
-<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Balance.account" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Balance.account" title="Link to this definition"></a></dt>
 <dd><p>The Account model to which the Balance belongs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1928,7 +1931,7 @@ Line Items Accounts.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Balance.reporting_period">
-<span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Balance.reporting_period" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reporting_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.ReportingPeriod</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Balance.reporting_period" title="Link to this definition"></a></dt>
 <dd><p>The Reporting Period model to which the Balance belongs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2000,7 +2003,7 @@ together with a list of the Accounts themselves.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Tax">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Tax</span></span><a class="headerlink" href="#models.Tax" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents a Tax applied to a Transaction’s Line Item.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Tax.__mapper_args__">
@@ -2064,7 +2067,7 @@ together with a list of the Accounts themselves.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Tax.account">
-<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Tax.account" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Account</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Tax.account" title="Link to this definition"></a></dt>
 <dd><p>The Account model to which Tax amounts are posted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2121,7 +2124,7 @@ together with a list of the Accounts themselves.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Ledger">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Ledger</span></span><a class="headerlink" href="#models.Ledger" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Recyclable</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Recyclable</span></code></p>
 <p>Represents an entry in the Ledger. (Should never have to be invoked directly).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Ledger.__mapper_args__">
@@ -2251,7 +2254,7 @@ together with a list of the Accounts themselves.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Ledger.transaction">
-<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Ledger.transaction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Ledger.transaction" title="Link to this definition"></a></dt>
 <dd><p>The Transaction associated with the Ledger.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2316,27 +2319,27 @@ together with a list of the Accounts themselves.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Ledger._make_compound_ledgers">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_make_compound_ledgers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folios</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Transaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Balance.BalanceType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger._make_compound_ledgers" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_make_compound_ledgers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folios</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Transaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Balance.BalanceType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger._make_compound_ledgers" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Ledger._post_compound">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_post_compound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger._post_compound" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_post_compound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger._post_compound" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Ledger._transaction_ledgers">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_transaction_ledgers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#models.Ledger._transaction_ledgers" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_transaction_ledgers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#models.Ledger._transaction_ledgers" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Ledger._post_simple">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_post_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger._post_simple" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_post_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger._post_simple" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Ledger.post">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">src.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger.post" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">python_accounting.models.Transaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#models.Ledger.post" title="Link to this definition"></a></dt>
 <dd><p>Posts the Transaction to the ledger.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2370,7 +2373,7 @@ together with a list of the Accounts themselves.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.Assignment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.</span></span><span class="sig-name descname"><span class="pre">Assignment</span></span><a class="headerlink" href="#models.Assignment" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Base</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Base</span></code></p>
 <p>Represents an assigment of a clearable type to an assignable Transaction.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Assignment.clearables">
@@ -2464,7 +2467,7 @@ that can have cleareable Transactions assigned to them.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.Assignment.transaction">
-<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Assignment.transaction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.Assignment.transaction" title="Link to this definition"></a></dt>
 <dd><p>The assignable Transaction in the Assignment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2480,7 +2483,7 @@ that can have cleareable Transactions assigned to them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.Assignment.assigned">
-<span class="sig-name descname"><span class="pre">assigned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">src.models.Transaction</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">src.models.Balance</span></span></span><a class="headerlink" href="#models.Assignment.assigned" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">assigned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">python_accounting.models.Transaction</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">python_accounting.models.Balance</span></span></span><a class="headerlink" href="#models.Assignment.assigned" title="Link to this definition"></a></dt>
 <dd><p>Get the clearable Transaction|Balance assigned to this assigment’s transaction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

@@ -9,7 +9,7 @@
 Database initialization based on the engine and PythonAccounting models.
 """
 from python_accounting.database.engine import engine
-from src import models
+from python_accounting import models
 
 
 def database_init() -> None:

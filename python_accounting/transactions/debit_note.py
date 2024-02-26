@@ -14,7 +14,9 @@ from python_accounting.models import Transaction
 from python_accounting.mixins import BuyingMixin, AssigningMixin
 
 
-class DebitNote(BuyingMixin, AssigningMixin, Transaction):
+class DebitNote(  # pylint: disable=too-many-ancestors
+    BuyingMixin, AssigningMixin, Transaction
+):
     """Class for the Debit Note Transaction."""
 
     __tablename__ = None

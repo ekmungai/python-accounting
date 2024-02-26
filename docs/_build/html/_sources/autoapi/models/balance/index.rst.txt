@@ -25,7 +25,7 @@ Classes
 .. py:class:: Balance
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.mixins.ClearingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Balance brought down from previous Reporting Periods.
 
@@ -131,21 +131,21 @@ Classes
       :type: (int)
 
    .. py:attribute:: currency
-      :type: sqlalchemy.orm.Mapped[src.models.Currency]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Currency]
 
       The Currency model associated with the Balance.
 
       :type: (Currency)
 
    .. py:attribute:: account
-      :type: sqlalchemy.orm.Mapped[src.models.Account]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.Account]
 
       The Account model to which the Balance belongs.
 
       :type: (Account)
 
    .. py:attribute:: reporting_period
-      :type: sqlalchemy.orm.Mapped[src.models.ReportingPeriod]
+      :type: sqlalchemy.orm.Mapped[python_accounting.models.ReportingPeriod]
 
       The Reporting Period model to which the Balance belongs.
 

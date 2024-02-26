@@ -96,7 +96,8 @@ class Assignment(IsolatingMixin, Base):
         )
         return session.get(getattr(module, self.assigned_type), self.assigned_id)
 
-    def validate(self, session) -> None:
+    def validate(self, session) -> None:  # pylint: disable=too-many-branches
+        # pylint: disable=line-too-long
         """
         Validates the Assignment properties.
 
@@ -118,7 +119,7 @@ class Assignment(IsolatingMixin, Base):
         Returns:
             None
         """
-
+        # pylint: enable=line-too-long
         if self.amount < 0:
             raise NegativeValueError(self.__class__.__name__)
 

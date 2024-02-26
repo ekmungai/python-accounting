@@ -18,6 +18,7 @@ from python_accounting.reports.financial_statement import FinancialStatement
 from python_accounting.models import Account
 
 
+# pylint: disable=too-few-public-methods
 class BalanceSheet(FinancialStatement):
     """This class represents Financial Position/Balance Sheet of a given Entity."""
 
@@ -83,6 +84,6 @@ class BalanceSheet(FinancialStatement):
         )
 
     def __repr__(self) -> str:
-        return f"""Assets: {abs(self.totals[self.sections.ASSETS.name])}, 
-        Liabilities: {abs(self.totals[self.sections.LIABILITIES.name])},
+        return f"""Assets: {abs(self.totals[self.sections.ASSETS.name])},
+         Liabilities: {abs(self.totals[self.sections.LIABILITIES.name])},
          Equity: {abs(self.result_amounts[self.results.TOTAL_EQUITY.name])}"""

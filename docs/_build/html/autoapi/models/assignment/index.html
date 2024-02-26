@@ -51,6 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../__ini__/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">__ini__</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../exceptions/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mixins/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mixins</span></code></a></li>
@@ -126,7 +127,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="models.assignment.Assignment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.assignment.</span></span><span class="sig-name descname"><span class="pre">Assignment</span></span><a class="headerlink" href="#models.assignment.Assignment" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src.models.Base</span></code></p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.mixins.IsolatingMixin</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">python_accounting.models.Base</span></code></p>
 <p>Represents an assigment of a clearable type to an assignable Transaction.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.assignment.Assignment.clearables">
@@ -220,7 +221,7 @@ that can have cleareable Transactions assigned to them.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="models.assignment.Assignment.transaction">
-<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">src.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.assignment.Assignment.transaction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transaction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sqlalchemy.orm.Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">python_accounting.models.Transaction</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#models.assignment.Assignment.transaction" title="Link to this definition"></a></dt>
 <dd><p>The assignable Transaction in the Assignment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -236,7 +237,7 @@ that can have cleareable Transactions assigned to them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="models.assignment.Assignment.assigned">
-<span class="sig-name descname"><span class="pre">assigned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">src.models.Transaction</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">src.models.Balance</span></span></span><a class="headerlink" href="#models.assignment.Assignment.assigned" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">assigned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">python_accounting.models.Transaction</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">python_accounting.models.Balance</span></span></span><a class="headerlink" href="#models.assignment.Assignment.assigned" title="Link to this definition"></a></dt>
 <dd><p>Get the clearable Transaction|Balance assigned to this assigment’s transaction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

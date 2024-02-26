@@ -120,7 +120,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
                 - accounts (Decimal): Accounts constituting the opening trial balance.
 
         """
-        balances = dict(debits=0, credits=0, accounts=[])
+        balances = {"debits": 0, "credits": 0, "accounts": []}
         year = session.entity.reporting_period.calendar_year if not year else year
 
         for account in session.scalars(select(Account)).all():
@@ -134,6 +134,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
         return balances
 
     def validate(self, session) -> None:
+        # pylint: disable=line-too-long
         """
         Validates the Balance properties.
 
@@ -149,7 +150,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
         Returns:
             None
         """
-
+        # pylint:enable=line-too-long
         reporting_period = session.entity.reporting_period
         account = session.get(Account, self.account_id)
         self.currency_id = account.currency_id

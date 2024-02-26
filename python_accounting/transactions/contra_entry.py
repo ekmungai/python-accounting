@@ -14,7 +14,7 @@ from python_accounting.models import Transaction
 from python_accounting.mixins.trading import TradingMixin
 
 
-class ContraEntry(TradingMixin, Transaction):
+class ContraEntry(TradingMixin, Transaction):  # pylint: disable=too-many-ancestors
     """Class for the Contra Entry Transaction."""
 
     __tablename__ = None

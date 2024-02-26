@@ -52,7 +52,7 @@ Classes
 .. py:class:: ClientInvoice(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.SellingMixin`, :py:obj:`python_accounting.mixins.ClearingMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Client Invoice Transaction.
 
@@ -68,7 +68,7 @@ Classes
 .. py:class:: CashSale(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.SellingMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Cash Sale Transaction.
 
@@ -84,7 +84,7 @@ Classes
 .. py:class:: SupplierBill(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.mixins.ClearingMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.BuyingMixin`, :py:obj:`python_accounting.mixins.ClearingMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Supplier Bill Transaction.
 
@@ -100,7 +100,7 @@ Classes
 .. py:class:: CashPurchase(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.BuyingMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Cash Purchase Transaction.
 
@@ -116,7 +116,7 @@ Classes
 .. py:class:: ClientReceipt(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.trading.TradingMixin`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Client Receipt Transaction.
 
@@ -132,7 +132,7 @@ Classes
 .. py:class:: CreditNote(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.SellingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.SellingMixin`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Credit Note Transaction.
 
@@ -148,7 +148,7 @@ Classes
 .. py:class:: SupplierPayment(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.trading.TradingMixin`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Supplier Payment Transaction.
 
@@ -164,7 +164,7 @@ Classes
 .. py:class:: DebitNote(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.BuyingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.BuyingMixin`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Debit Note Transaction.
 
@@ -180,7 +180,7 @@ Classes
 .. py:class:: ContraEntry(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.trading.TradingMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Contra Entry Transaction.
 
@@ -196,7 +196,7 @@ Classes
 .. py:class:: JournalEntry(**kw: Any)
 
 
-   Bases: :py:obj:`src.models.Transaction`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.mixins.ClearingMixin`
+   Bases: :py:obj:`python_accounting.models.Transaction`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.mixins.ClearingMixin`
 
    Class for the Journal Entry Transaction.
 

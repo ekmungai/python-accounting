@@ -25,7 +25,7 @@ Classes
 .. py:class:: SupplierPayment(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.trading.TradingMixin`, :py:obj:`src.mixins.AssigningMixin`, :py:obj:`src.models.Transaction`
+   Bases: :py:obj:`python_accounting.mixins.trading.TradingMixin`, :py:obj:`python_accounting.mixins.AssigningMixin`, :py:obj:`python_accounting.models.Transaction`
 
    Class for the Supplier Payment Transaction.
 

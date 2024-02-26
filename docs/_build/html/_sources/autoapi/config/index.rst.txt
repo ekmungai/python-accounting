@@ -31,10 +31,11 @@ Attributes
 
 .. autoapisummary::
 
+   config.default_configuration
    config.config
 
 
-.. py:class:: Config(config_file='config.toml')
+.. py:class:: Config(config_file)
 
 
    Python Accounting configuration class.
@@ -50,7 +51,8 @@ Attributes
               Defaults to false.
               include_deleted (bool): Whether to include soft deleted records in query results.
               Defaults to false.
-              ignore_isolation (bool): Whether to include records from all entities in query results.
+              ignore_isolation (bool): Whether to include records from all entities in query
+              results.
               Defaults to false.
           }
 
@@ -121,12 +123,15 @@ Attributes
 
       :param url: The database connection string.
       :type url: str
-      :param echo: Whether to output the SqlAlchemy generated queries to the console. Defaults to false.
+      :param echo: Whether to output the SqlAlchemy generated queries to the console.
       :type echo: bool
-      :param include_deleted: Whether to include soft deleted records in query results. Defaults to false.
+      :param Defaults to false.:
+      :param include_deleted: Whether to include soft deleted records in query results.
       :type include_deleted: bool
-      :param ignore_isolation: Whether to include records from all entities in query results. Defaults to false.
+      :param Defaults to false.:
+      :param ignore_isolation: Whether to include records from all entities in query
       :type ignore_isolation: bool
+      :param results. Defaults to false.:
 
 
    .. py:method:: configure_hashing(salt='hashing salt', algorithm='sha256') -> None
@@ -149,6 +154,10 @@ Attributes
       :type long: str
 
 
+
+.. py:data:: default_configuration
+
+   
 
 .. py:data:: config
 

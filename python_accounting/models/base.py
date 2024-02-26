@@ -13,6 +13,7 @@ from datetime import datetime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
 
+# pylint: disable=too-few-public-methods
 class Base(DeclarativeBase):
     """The accounting model base class"""
 

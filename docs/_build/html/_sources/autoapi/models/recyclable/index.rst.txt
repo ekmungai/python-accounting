@@ -25,7 +25,7 @@ Classes
 .. py:class:: Recyclable
 
 
-   Bases: :py:obj:`src.models.Base`
+   Bases: :py:obj:`python_accounting.models.Base`
 
    Interface for associating recycled objects with its models.
 

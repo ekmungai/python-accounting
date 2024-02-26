@@ -31,7 +31,7 @@ class AccountingSession(
     entity: Entity
 
     def __init__(self, bind=None, info=None) -> None:
-        super(AccountingSession, self).__init__(bind=bind, info=info)
+        super().__init__(bind=bind, info=info)
 
 
 def get_session(engine) -> Session:

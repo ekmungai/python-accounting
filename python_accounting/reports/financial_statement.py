@@ -15,8 +15,10 @@ from sqlalchemy.orm.session import Session
 from python_accounting.config import config as configuration
 from python_accounting.models import Account
 
-
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-instance-attributes
 class FinancialStatement:
+    # pylint: disable=line-too-long
     """This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP."""
 
     config: dict
@@ -50,7 +52,7 @@ class FinancialStatement:
         # Financial Statement Results
         self.results = StrEnum(
             "Results",
-            {k: v for k, v in configuration.reports[self.config]["results"].items()},
+            dict(configuration.reports[self.config]['results'].items()) ,
         )
         """(StrEnum): The results of the report."""
 
@@ -92,6 +94,7 @@ class FinancialStatement:
                     ] += balances["closing"]
 
     def _print_title(self) -> str:
+        # pylint: disable=line-too-long
         period = (
             f"""For the period: {self.start_date.strftime(configuration.dates["long"])} to {self.end_date.strftime(configuration.dates["long"])}"""
             if hasattr(self, "start_date")
@@ -99,19 +102,18 @@ class FinancialStatement:
         )
         self.width = max(len(period), 45)
         return f"""\n{self.session.entity.name.center(self.width)}\n{self.title.center(self.width)}\n{period.center(self.width)}"""
-    
+
     def _print_section(self, section, factor = 1) -> str:
         content = f"\n{section.value}"
 
         for account_type, balance in self.balances[section.name].items():
-            label = f"\n{self.indent}{account_type}" 
+            label = f"\n{self.indent}{account_type}"
             content += f"{label}{balance * factor:>{self.width - len(label) + 1}}"
-        return content
+            return content
 
     def _print_result(self, result, grandtotal = False) -> str:
         return f"""{f"{self.subtotal:>{self.width}}"}\n{result}{f"{self.result_amounts[result.name]:>{self.width - len(result)}}"}\n{f"{self.grandtotal:>{self.width}}" if grandtotal else ""}"""
-    
-
+# pylint: disable=trailing-whitespace    
     def _print_total(self, section, factor = 1, grandtotal = False) -> str:
         label = f"Total {section.value}"
         return f"""{f"{self.subtotal:>{self.width}}"}\n{label}{f"{self.totals[section.name] * factor:>{self.width - len(label)}}"}\n{f"{self.grandtotal:>{self.width}}" if grandtotal else ""}"""

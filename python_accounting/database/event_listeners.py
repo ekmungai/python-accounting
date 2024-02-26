@@ -29,6 +29,7 @@ def _filter_options(execute_state, option) -> bool:
     )
 
 
+# pylint: disable=too-few-public-methods
 class EventListenersMixin:
     """
     Event Listeners class.
@@ -85,9 +86,7 @@ class EventListenersMixin:
 
     @event.listens_for(Session, "transient_to_pending")
     def _set_object_index(self, object_) -> None:
-        if (
-            isinstance(object_, Transaction) or isinstance(object_, Account)
-        ) and object_.id is None:
+        if (isinstance(object_, (Account, Transaction))) and object_.id is None:
             object_.session_index = (
                 len(
                     [
@@ -119,7 +118,7 @@ class EventListenersMixin:
         )
 
     @event.listens_for(Session, "before_flush")
-    def _validate_model(self, flush_context, instances) -> None:
+    def _validate_model(self, _, __) -> None:
         for model in list(self.new) + list(self.dirty):
             if hasattr(model, "validate"):
                 model.validate(self)

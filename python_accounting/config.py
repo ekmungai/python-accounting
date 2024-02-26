@@ -33,7 +33,8 @@ class Config:
             Defaults to false.
             include_deleted (bool): Whether to include soft deleted records in query results.
             Defaults to false. 
-            ignore_isolation (bool): Whether to include records from all entities in query results.
+            ignore_isolation (bool): Whether to include records from all entities in query
+            results.
             Defaults to false.
         }
     """
@@ -103,6 +104,7 @@ class Config:
     def configure_database(
         self, url, echo=False, include_deleted=False, ignore_isolation=False
     ) -> None:
+        # pylint: disable = line-too-long
         """
         Configures the database.
 
@@ -112,6 +114,7 @@ class Config:
             include_deleted (bool): Whether to include soft deleted records in query results. Defaults to false.
             ignore_isolation (bool): Whether to include records from all entities in query results. Defaults to false.
         """
+        # pylint: enable = line-too-long
         self.database["url"] = url
         self.database["echo"] = echo
         self.database["include_deleted"] = include_deleted

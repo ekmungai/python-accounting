@@ -25,7 +25,7 @@ Classes
 .. py:class:: Currency
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`src.models.Recyclable`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`python_accounting.models.Recyclable`
 
    Represents a Currency in terms of a label and an ISO Currency Code.
 

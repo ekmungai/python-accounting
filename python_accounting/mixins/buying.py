@@ -14,6 +14,7 @@ from typing import Any
 from python_accounting.mixins.trading import TradingMixin
 
 
+# pylint: disable=too-few-public-methods
 class BuyingMixin(TradingMixin):
     """
     This class provides validation for Transaction that buy goods and services for an Entity.

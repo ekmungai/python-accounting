@@ -15,7 +15,9 @@ from python_accounting.reports.financial_statement import FinancialStatement
 from python_accounting.utils.dates import get_dates
 
 
+# pylint: disable=too-few-public-methods
 class TrialBalance(FinancialStatement):
+    # pylint: disable=line-too-long
     """This class represents all the balances of the chart of accounts, compared against each other."""
 
     config = "trial_balance"

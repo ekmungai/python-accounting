@@ -28,7 +28,7 @@ Classes
    Accounting functions class.
 
 
-   .. py:method:: _year_period(year: int) -> sqlalchemy.orm.Mapped[src.models.ReportingPeriod] | None
+   .. py:method:: _year_period(year: int) -> sqlalchemy.orm.Mapped[python_accounting.models.ReportingPeriod] | None
 
 
    .. py:method:: _set_reporting_period() -> None

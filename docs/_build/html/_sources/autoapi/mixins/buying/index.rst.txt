@@ -25,7 +25,7 @@ Classes
 .. py:class:: BuyingMixin(**kw: Any)
 
 
-   Bases: :py:obj:`src.mixins.trading.TradingMixin`
+   Bases: :py:obj:`python_accounting.mixins.trading.TradingMixin`
 
    This class provides validation for Transaction that buy goods and services for an Entity.
 

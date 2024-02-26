@@ -25,7 +25,7 @@ Classes
 .. py:class:: User
 
 
-   Bases: :py:obj:`src.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
+   Bases: :py:obj:`python_accounting.mixins.IsolatingMixin`, :py:obj:`models.base.Base`
 
    Represents an authenticatable User with access to an Entity.
 
@@ -44,6 +44,8 @@ Classes
       :type: (str)
 
    .. py:method:: __repr__() -> str
+
+      Return repr(self).
 
 
 

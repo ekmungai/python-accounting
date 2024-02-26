@@ -16,6 +16,7 @@ from python_accounting.exceptions import (
 )
 
 
+# pylint: disable=too-few-public-methods
 class TradingMixin:
     """
     This class provides validation for transactions that trade goods and services
