@@ -79,7 +79,7 @@ class Assignment(IsolatingMixin, Base):
         on {self.assignment_date}
         for {self.amount}"""
 
-    def assigned(self, session) -> Transaction | Balance:
+    def assigned(self, session) -> Transaction:
         """
         Get the clearable Transaction|Balance assigned to this assigment's transaction.
 

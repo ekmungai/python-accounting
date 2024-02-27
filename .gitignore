@@ -2,3 +2,4 @@
 .pytest_cache
 _pycache_
 *.sqlite
+.tox

@@ -79,6 +79,7 @@ def test_balance_validation(session, entity, currency):
     account.account_type = Account.AccountType.OPERATING_REVENUE
     session.add(account)
 
+    print(account.account_type)
     with pytest.raises(InvalidBalanceAccountError) as e:
         session.commit()
     assert str(e.value) == "Income Statement Accounts cannot have an opening balance."

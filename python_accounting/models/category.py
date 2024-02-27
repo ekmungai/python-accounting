@@ -56,7 +56,7 @@ class Category(IsolatingMixin, Recyclable):
             None
         """
 
-        if self.category_account_type not in Account.AccountType:
+        if self.category_account_type not in [t.value for t in Account.AccountType]:
             raise InvalidAccountTypeError(
                 f"category_account_type must be one of: {', '.join(list(Account.AccountType))}.",
             )

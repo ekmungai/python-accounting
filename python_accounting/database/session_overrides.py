@@ -24,7 +24,7 @@ class SessionOverridesMixin:
     Session overrides class.
     """
 
-    def get(self, model, primary_key, **kwargs) -> Mapped["Base"] | None:
+    def get(self, model, primary_key, **kwargs) -> Mapped["Base"]:
         """
         Overrides sqlalchemy the get method to use select thereby ensuring global filters
         are applied.

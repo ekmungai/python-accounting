@@ -21,7 +21,7 @@ class AccountingFunctionsMixin:
 
     """
 
-    def _year_period(self, year: int) -> orm.Mapped["ReportingPeriod"] | None:
+    def _year_period(self, year: int) -> orm.Mapped["ReportingPeriod"]:
         return self.scalars(
             select(ReportingPeriod)
             .where(ReportingPeriod.calendar_year == year)
