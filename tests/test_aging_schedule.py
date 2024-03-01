@@ -81,7 +81,7 @@ def test_receivables_aging_schedule(session, entity, currency):
             ),
             Balance(
                 transaction_date=datetime.now()
-                - relativedelta(years=1),  # 271 - 365 days transaction
+                - relativedelta(days=365),  # 271 - 365 days transaction
                 transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
                 amount=70,
                 balance_type=Balance.BalanceType.DEBIT,
@@ -354,7 +354,7 @@ def test_payables_aging_schedule(session, entity, currency):
             ),
             Balance(
                 transaction_date=datetime.now()
-                - relativedelta(years=1),  # 271 - 365 days transaction
+                - relativedelta(days=365),  # 271 - 365 days transaction
                 transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
                 amount=83,
                 balance_type=Balance.BalanceType.CREDIT,
@@ -512,7 +512,7 @@ def test_payables_aging_schedule(session, entity, currency):
 
     transaction5.post(session)
 
-    # 181 - 270 days transaction
+    # 271 - 365 days transaction
     transaction6 = JournalEntry(
         narration="Test transaction six",
         transaction_date=datetime.now() - relativedelta(months=10),

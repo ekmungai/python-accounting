@@ -267,7 +267,7 @@ def test_account_opening_balance(session, entity, currency):
     session.add_all([account1, account2])
     session.flush()
 
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     session.add_all(
         [
             Balance(
@@ -307,7 +307,7 @@ def test_account_opening_balance(session, entity, currency):
     assert account1.opening_balance(session) == 90
     assert account2.opening_balance(session) == -50
 
-    date -= relativedelta(years=1)
+    date -= relativedelta(days=365)
     new_reporting_period = ReportingPeriod(
         calendar_year=date.year,
         period_count=2,
@@ -336,7 +336,7 @@ def test_account_closing_balance(session, entity, currency):
     session.add_all([account1, account2])
     session.flush()
 
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     session.add_all(
         [
             Balance(
@@ -457,7 +457,7 @@ def test_account_section_balances(session, entity, currency):
     session.add_all([account1, account2, account3, account4])
     session.flush()
 
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     session.add_all(
         [
             Balance(
@@ -593,7 +593,7 @@ def test_bank_account_statement(session, entity, currency):
     session.commit()
 
     # opening balances
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     session.add_all(
         [
             Balance(
@@ -860,7 +860,7 @@ def test_receivable_account_statement(session, entity, currency):
     session.commit()
 
     # opening balances
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     session.add_all(
         [
             Balance(
@@ -1058,7 +1058,7 @@ def test_supplier_account_statement(session, entity, currency):
     session.commit()
 
     # opening balances
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     session.add_all(
         [
             Balance(
@@ -1251,7 +1251,7 @@ def test_receivable_account_schedule(session, entity, currency):
     session.commit()
 
     # opening balances
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     balance = Balance(
         transaction_date=date,
         transaction_type=Transaction.TransactionType.CLIENT_INVOICE,
@@ -1473,7 +1473,7 @@ def test_supplier_account_schedule(session, entity, currency):
     session.commit()
 
     # opening balances
-    date = datetime.now() - relativedelta(years=1)
+    date = datetime.now() - relativedelta(days=365)
     balance = Balance(
         transaction_date=date,
         transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
