@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-accounting"
-version = "1.0.0"
+version = "1.0.1"
 description = "The world's most comprehensive python Double Entry Accounting Library"
 authors = ["Edward Mungai <emungai@microbooks.io>"]
 readme = "README.md"
