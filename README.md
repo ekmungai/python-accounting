@@ -30,7 +30,7 @@ Full documemntation for the library can be found on [readthedocs](https://python
 To use the Library, we first need to configure it.
 
 ```python
-from python_accounting import config
+from python_accounting.config import config
 from python_accounting.models import Base
 from sqlalchemy import create_engine
 
