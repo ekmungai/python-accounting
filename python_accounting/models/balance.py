@@ -29,7 +29,6 @@ from python_accounting.exceptions import (
     InvalidBalanceDateError,
 )
 from python_accounting.mixins import IsolatingMixin, ClearingMixin
-from python_accounting.reports import IncomeStatement
 
 
 class Balance(IsolatingMixin, ClearingMixin, Recyclable):
@@ -151,6 +150,9 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
             None
         """
         # pylint:enable=line-too-long
+
+        from python_accounting.reports import IncomeStatement
+
         reporting_period = session.entity.reporting_period
         account = session.get(Account, self.account_id)
         self.currency_id = account.currency_id
