@@ -10,6 +10,17 @@ Provides exceptions arising from accounting operations.
 
 """
 
+class InvalidAccountReferenceError(AccountingExeption):
+    """
+    The referenced Account ID does not exist in the system.
+
+    Args:
+        account_id (int): The ID of the missing account.
+    """
+
+    def __init__(self, account_id: int) -> None:
+        self.message = f"The referenced Account with ID {account_id} does not exist."
+        super().__init__()
 
 class AccountingExeption(Exception):
     """Base accounting exception
