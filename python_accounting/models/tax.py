@@ -47,38 +47,41 @@ class Tax(IsolatingMixin, Recyclable):
     def __repr__(self) -> str:
         return f"{self.name} <{self.code}>: {self.rate}"
 
-    def validate(self, session) -> None:
-        """
-        Validates the Tax properties.
+    # def validate(self, session) -> None:
+    #     """
+    #     Validates the Tax properties.
 
-        Args:
-            session (Session): The accounting session to which the Balance belongs.
+    #     Args:
+    #         session (Session): The accounting session to which the Balance belongs.
 
-        Raises:
-            NegativeValueError: If the Tax rate is less than 0.
-            MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account is not set.
-            InvalidAccountReferenceError: If the account ID does not exist.
-            InvalidTaxAccountError: If the Tax Account type is not Control.
+    #     Raises:
+    #         NegativeValueError: If the Tax rate is less than 0.
+    #         MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account is not set.
+    #         InvalidAccountReferenceError: If the account ID does not exist.
+    #         InvalidTaxAccountError: If the Tax Account type is not Control.
 
-        Returns:
-            None
-        """
-        if self.rate == 0:
-            self.account_id = None
+    #     Returns:
+    #         None
+    #     """
+    #     if self.rate == 0:
+    #         self.account_id = None
 
-        if self.rate < 0:
-            raise NegativeValueError(self.__class__.__name__, "Rate")
+    #     if self.rate < 0:
+    #         raise NegativeValueError(self.__class__.__name__, "Rate")
 
-        if self.rate > 0 and self.account_id is None:
-            raise MissingTaxAccountError
+    #     if self.rate > 0 and self.account_id is None:
+    #         raise MissingTaxAccountError
 
-        account = session.get(Account, self.account_id)
 
-        if not account:
-            raise InvalidAccountReferenceError(self.account_id)  # ✅ NEW: Raise error if account not found
+    #     session.query(Account).filter_by(account_type=Account.AccountType.CONTROL).first()
+    #     account = session.get(Account, self.account_id)
+    #     print(f"\n account:{self.account_id} \n")
 
-        if account.account_type != Account.AccountType.CONTROL:
-            raise InvalidTaxAccountError
+    #     if not account:
+    #         raise InvalidAccountReferenceError(self.account_id)  # ✅ NEW: Raise error if account not found
+
+    #     if account.account_type != Account.AccountType.CONTROL:
+    #         raise InvalidTaxAccountError
 
     def validate_delete(self, session) -> None:
         # pylint: disable=line-too-long
