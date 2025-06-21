@@ -7,7 +7,6 @@
 
 """
 Represents a Tax that is applied to the Line Item of a Transaction.
-
 """
 
 from decimal import Decimal
@@ -73,10 +72,12 @@ class Tax(IsolatingMixin, Recyclable):
         if self.rate > 0 and self.account_id is None:
             raise MissingTaxAccountError
 
-        if (
-            session.get(Account, self.account_id).account_type
-            != Account.AccountType.CONTROL
-        ):
+        account = session.get(Account, self.account_id)
+
+        if not account:
+            raise MissingTaxAccountError
+
+        if account.account_type != Account.AccountType.CONTROL:
             raise InvalidTaxAccountError
 
     def validate_delete(self, session) -> None:
