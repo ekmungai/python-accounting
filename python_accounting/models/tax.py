@@ -20,6 +20,7 @@ from python_accounting.exceptions import (
     MissingTaxAccountError,
     InvalidTaxAccountError,
     HangingTransactionsError,
+    InvalidAccountReferenceError
 )
 
 
@@ -47,7 +48,6 @@ class Tax(IsolatingMixin, Recyclable):
         return f"{self.name} <{self.code}>: {self.rate}"
 
     def validate(self, session) -> None:
-        # pylint: disable=line-too-long
         """
         Validates the Tax properties.
 
@@ -57,12 +57,12 @@ class Tax(IsolatingMixin, Recyclable):
         Raises:
             NegativeValueError: If the Tax rate is less than 0.
             MissingTaxAccountError: If the Tax rate is greater than 0 and the Tax Account is not set.
+            InvalidAccountReferenceError: If the account ID does not exist.
             InvalidTaxAccountError: If the Tax Account type is not Control.
 
         Returns:
             None
         """
-        # pylint: enable=line-too-long
         if self.rate == 0:
             self.account_id = None
 
@@ -75,7 +75,7 @@ class Tax(IsolatingMixin, Recyclable):
         account = session.get(Account, self.account_id)
 
         if not account:
-            raise MissingTaxAccountError
+            raise InvalidAccountReferenceError(self.account_id)  # ✅ NEW: Raise error if account not found
 
         if account.account_type != Account.AccountType.CONTROL:
             raise InvalidTaxAccountError
