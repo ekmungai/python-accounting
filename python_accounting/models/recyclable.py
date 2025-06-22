@@ -13,7 +13,7 @@ Represents an interface that relates recycled objects with the recycled models.
 from datetime import datetime
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String
+from sqlalchemy import String, Integer
 from python_accounting.models import Base
 
 
@@ -22,6 +22,7 @@ class Recyclable(Base):
     """
     Interface for associating recycled objects with its models.
     """
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
 
     deleted_at: Mapped[datetime] = mapped_column(nullable=True)
     """(`datetime`, optional): The time the model was recycled."""

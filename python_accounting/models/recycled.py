@@ -27,7 +27,7 @@ class Recycled(IsolatingMixin, Base):
 
     # relationships
     subject: Mapped["Recyclable"] = relationship(
-        cascade="all,delete", back_populates="history"
+        back_populates="history"
     )
     """(Recyclable): The model that was recycled/restored."""
 

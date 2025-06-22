@@ -20,7 +20,7 @@ from python_accounting.exceptions import (
     MissingTaxAccountError,
     InvalidTaxAccountError,
     HangingTransactionsError,
-    InvalidAccountReferenceError
+    InvalidAccountReferenceError,
 )
 
 
@@ -71,7 +71,6 @@ class Tax(IsolatingMixin, Recyclable):
 
     #     if self.rate > 0 and self.account_id is None:
     #         raise MissingTaxAccountError
-
 
     #     session.query(Account).filter_by(account_type=Account.AccountType.CONTROL).first()
     #     account = session.get(Account, self.account_id)
