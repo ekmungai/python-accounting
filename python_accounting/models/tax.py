@@ -33,7 +33,7 @@ class Tax(IsolatingMixin, Recyclable):
     """(int): The primary key of the Tax database record."""
     name: Mapped[str] = mapped_column(String(255))
     """(str): The label of the Tax."""
-    code: Mapped[str] = mapped_column(String(5))
+    code: Mapped[str] = mapped_column(String(10))
     """(str): A shorthand representation of the Tax."""
     rate: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
     """(Decimal): The percentage rate of the Tax."""
