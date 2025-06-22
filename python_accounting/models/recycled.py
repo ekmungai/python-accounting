@@ -26,9 +26,7 @@ class Recycled(IsolatingMixin, Base):
     """(`datetime`, optional): The time the model was restored."""
 
     # relationships
-    subject: Mapped["Recyclable"] = relationship(
-        back_populates="history"
-    )
+    subject: Mapped["Recyclable"] = relationship(back_populates="history")
     """(Recyclable): The model that was recycled/restored."""
 
     def __repr__(self) -> str:

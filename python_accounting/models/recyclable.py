@@ -22,6 +22,7 @@ class Recyclable(Base):
     """
     Interface for associating recycled objects with its models.
     """
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
 
     deleted_at: Mapped[datetime] = mapped_column(nullable=True)

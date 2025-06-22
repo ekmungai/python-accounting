@@ -1,23 +1,13 @@
-# database/database_init.py
-# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
-# <see AUTHORS file>
-#
-# This module is part of PythonAccounting and is released under
-# the MIT License: https://www.opensource.org/licenses/mit-license.php
+# database_init.py
 
-"""
-Database initialization based on the engine and PythonAccounting models.
-"""
 from python_accounting.database.engine import engine
-from python_accounting import models
+from python_accounting.database.session import AccountingSession
+from python_accounting.database.base import Base
+from python_accounting.database.event_listeners import register_accounting_event_listeners
 
-
-def database_init() -> None:
+def init_database():
     """
-    Initializes the database by setting up all tables that do not currently exist.
-
-    Returns:
-        None
+    Initialise the database and attach event listeners.
     """
-
-    models.Base.metadata.create_all(engine)
+    Base.metadata.create_all(bind=engine)
+    register_accounting_event_listeners(AccountingSession)

@@ -1,5 +1,5 @@
 # database/session.py
-# Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
+# Copyright (C) 22024 - 2028 the PythonAccounting authors and contributors
 # <see AUTHORS file>
 #
 # This module is part of PythonAccounting and is released under
@@ -14,18 +14,17 @@ from sqlalchemy.orm.session import Session
 from python_accounting.models import Entity
 from python_accounting.database.session_overrides import SessionOverridesMixin
 from python_accounting.database.accounting_functions import AccountingFunctionsMixin
-from python_accounting.database.event_listeners import EventListenersMixin
 
 
 class AccountingSession(
-    SessionOverridesMixin, EventListenersMixin, AccountingFunctionsMixin, Session
+    SessionOverridesMixin, AccountingFunctionsMixin, Session
 ):
     """
     Custom methods specific to accounting.
 
     Attributes:
-        entity (Entity): The Entity currently associated with the session. All database
-            queries will be scoped to this entity.
+    entity (Entity): The Entity currently associated with the session. All database
+    queries will be scoped to this entity.
     """
 
     entity: Entity
@@ -39,10 +38,10 @@ def get_session(engine) -> Session:
     Construct the accounting session.
 
     Args:
-        engine: The database engine to create a session for.
+    engine: The database engine to create a session for.
 
     Returns:
-        AccountingSession.
+    AccountingSession.
 
     """
 
