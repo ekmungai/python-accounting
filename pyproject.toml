@@ -14,6 +14,7 @@ strenum = "^0.4.15"
 toml = "^0.10.2"
 mysqlclient = "^2.2.4"
 psycopg2 = "^2.9.9"
+cd ..
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.3"

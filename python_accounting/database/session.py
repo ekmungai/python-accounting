@@ -16,9 +16,7 @@ from python_accounting.database.session_overrides import SessionOverridesMixin
 from python_accounting.database.accounting_functions import AccountingFunctionsMixin
 
 
-class AccountingSession(
-    SessionOverridesMixin, AccountingFunctionsMixin, Session
-):
+class AccountingSession(SessionOverridesMixin, AccountingFunctionsMixin, Session):
     """
     Custom methods specific to accounting.
 

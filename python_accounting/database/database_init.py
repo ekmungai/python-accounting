@@ -3,7 +3,10 @@
 from python_accounting.database.engine import engine
 from python_accounting.database.session import AccountingSession
 from python_accounting.database.base import Base
-from python_accounting.database.event_listeners import register_accounting_event_listeners
+from python_accounting.database.event_listeners import (
+    register_accounting_event_listeners,
+)
+
 
 def init_database():
     """

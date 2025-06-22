@@ -36,18 +36,16 @@ def _add_filtering_criteria(execute_state):
         and not execute_state.is_relationship_load
     ):
         entity_id = (
-            execute_state.session.entity.id
-            if execute_state.session.entity
-            else None
+            execute_state.session.entity.id if execute_state.session.entity else None
         )
         execute_state.statement = execute_state.statement.options(
             Query.selectable_entity_from_alias_callable(
-                lambda alias: alias.filter(
-                    alias.original.entity_id == entity_id
+                lambda alias: (
+                    alias.filter(alias.original.entity_id == entity_id)
+                    if issubclass(alias.original.class_, Entity)
+                    and hasattr(alias.original.class_, "entity_id")
+                    else alias.original
                 )
-                if issubclass(alias.original.class_, Entity)
-                and hasattr(alias.original.class_, "entity_id")
-                else alias.original
             )
         )
 
