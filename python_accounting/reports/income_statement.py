@@ -117,3 +117,33 @@ class IncomeStatement(FinancialStatement):
             )["closing"]
             * -1
         )
+
+    def to_dict(self) -> dict:
+        """
+        Return the Income Statement data as a dictionary.
+
+        Returns:
+            dict: Dictionary representation of the income statement results.
+        """
+        return {
+            "start_date": self.start_date.isoformat() if self.start_date else None,
+            "end_date": self.end_date.isoformat() if self.end_date else None,
+            "gross_profit": self.result_amounts.get(self.results.GROSS_PROFIT.name, Decimal("0.00")),
+            "total_revenue": self.result_amounts.get(self.results.TOTAL_REVENUE.name, Decimal("0.00")),
+            "total_expenses": self.result_amounts.get(self.results.TOTAL_EXPENSES.name, Decimal("0.00")),
+            "net_profit": self.result_amounts.get(self.results.NET_PROFIT.name, Decimal("0.00")),
+            "sections": {
+                section.name: {
+                    "accounts": [
+                        {
+                            "account_code": acc.code,
+                            "account_name": acc.name,
+                            "amount": self.amounts.get(acc.id, Decimal("0.00")),
+                        }
+                        for acc in self.section_accounts.get(section.name, [])
+                    ],
+                    "total": self.totals.get(section.name, Decimal("0.00")),
+                }
+                for section in self.sections
+            },
+        }
