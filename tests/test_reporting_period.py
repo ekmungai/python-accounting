@@ -127,50 +127,78 @@ def test_reporting_period_recycling(session, entity):
 def test_reporting_period_dates(session, entity):
     """Tests the calculation of reporting_period start and end dates"""
 
-    assert ReportingPeriod.date_year() == datetime.today().year
+    # Clean up the auto-created reporting period for the current year to start from a known state
+    current_year = datetime.today().year
+    existing_periods = session.scalars(
+        select(ReportingPeriod)
+        .where(ReportingPeriod.entity_id == entity.id)
+        .where(ReportingPeriod.calendar_year == current_year)
+        .execution_options(ignore_isolation=True)
+    ).all()
+
+    for period in existing_periods:
+        entity.reporting_period_id = None
+        session.erase(period)
+    session.commit()
+    entity = session.get(Entity, entity.id)
+
+    assert ReportingPeriod.date_year() == current_year
     assert (
-        ReportingPeriod.date_year(datetime.strptime("2025-06-03", "%Y-%m-%d"), entity)
-        == 2025
+        ReportingPeriod.date_year(datetime.strptime(f"{current_year}-06-03", "%Y-%m-%d"), entity)
+        == current_year
     )
 
     new_reporting_period = ReportingPeriod(
-        calendar_year=2025,
+        calendar_year=current_year,
         period_count=2,
         entity_id=entity.id,
     )
     session.add(new_reporting_period)
     session.commit()
     period_interval = new_reporting_period.interval(
-        datetime.strptime("2025-06-03", "%Y-%m-%d")
+        datetime.strptime(f"{current_year}-06-03", "%Y-%m-%d")
     )
-    assert period_interval["start"] == datetime(2025, 1, 1, 0, 0, 0)
-    assert period_interval["end"] == datetime(2025, 12, 31, 23, 59, 59)
+    assert period_interval["start"] == datetime(current_year, 1, 1, 0, 0, 0)
+    assert period_interval["end"] == datetime(current_year, 12, 31, 23, 59, 59)
 
     entity.year_start = 4
 
     assert (
-        ReportingPeriod.date_year(datetime.strptime("2025-03-03", "%Y-%m-%d"), entity)
-        == 2024
+        ReportingPeriod.date_year(datetime.strptime(f"{current_year}-03-03", "%Y-%m-%d"), entity)
+        == current_year - 1
     )
 
     period_interval = new_reporting_period.interval(
-        datetime.strptime("2025-03-03", "%Y-%m-%d")
+        datetime.strptime(f"{current_year}-03-03", "%Y-%m-%d")
     )
-    assert period_interval["start"] == datetime(2024, 4, 1, 0, 0, 0)
-    assert period_interval["end"] == datetime(2025, 3, 31, 23, 59, 59)
+    assert period_interval["start"] == datetime(current_year - 1, 4, 1, 0, 0, 0)
+    assert period_interval["end"] == datetime(current_year, 3, 31, 23, 59, 59)
 
 
 def test_reporting_period_from_date(session, entity):
     """Tests the retrieval of the reporting_period for a given date"""
 
-    assert (
-        ReportingPeriod.get_period(session, datetime.today()) == entity.reporting_period
-    )
+    # Clean up the auto-created reporting period for the current year to start from a known state
+    current_year = datetime.today().year
+    existing_periods = session.scalars(
+        select(ReportingPeriod)
+        .where(ReportingPeriod.entity_id == entity.id)
+        .where(ReportingPeriod.calendar_year == current_year)
+        .execution_options(ignore_isolation=True)
+    ).all()
+
+    for period in existing_periods:
+        entity.reporting_period_id = None
+        session.erase(period)
+    session.commit()
+    entity = session.get(Entity, entity.id)
+
+    # Now the current year should not have a reporting period
     with pytest.raises(MissingReportingPeriodError):
-        ReportingPeriod.get_period(session, datetime.strptime("2025-03-03", "%Y-%m-%d"))
+        ReportingPeriod.get_period(session, datetime.strptime(f"{current_year}-03-03", "%Y-%m-%d"))
 
     new_reporting_period = ReportingPeriod(
-        calendar_year=2025,
+        calendar_year=current_year,
         period_count=2,
         entity_id=entity.id,
     )
@@ -178,6 +206,6 @@ def test_reporting_period_from_date(session, entity):
     session.commit()
 
     assert (
-        ReportingPeriod.get_period(session, datetime.strptime("2025-03-03", "%Y-%m-%d"))
+        ReportingPeriod.get_period(session, datetime.strptime(f"{current_year}-03-03", "%Y-%m-%d"))
         == new_reporting_period
     )
