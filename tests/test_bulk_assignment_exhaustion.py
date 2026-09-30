@@ -203,3 +203,47 @@ def test_exhausted_source_still_evaluates_schedule(
     assert payment.bulk_assign(session) is None
     assert calls == [invoices[0].id]
     assert len(payment.assignments(session)) == 1
+
+
+@pytest.mark.parametrize("amount,expected", [("50", ["50"]), ("70", ["60", "10"])])
+def test_exhaustion_preserves_future_target_reservations(
+    session, invoices, allocation_day, amount, expected
+):
+    """Source exhaustion and historical reports both retain lifetime target capacity."""
+    account, bank, documents, _ = invoices
+    revenue = session.get(Account, next(iter(documents[0].line_items)).account_id)
+    documents.append(_post(
+        session, ClientInvoice, account, revenue,
+        datetime(allocation_day.year, 1, 8), "100",
+    ))
+    future_date = datetime(allocation_day.year, 2, 15)
+    for document, reserved in zip(documents, ["100", "40"]):
+        reservation = _post(session, ClientReceipt, account, bank, future_date, reserved)
+        session.add(Assignment(
+            assignment_date=future_date,
+            transaction_id=reservation.id,
+            assigned_id=document.id,
+            assigned_type=ClientInvoice.__name__,
+            entity_id=account.entity_id,
+            amount=Decimal(reserved),
+        ))
+        session.flush()
+        assert document.cleared(session, end_date=allocation_day) == 0
+
+    payment = _post(session, ClientReceipt, account, bank, allocation_day, amount)
+    ledger_before = _ledger_values(session)
+    assert payment.bulk_assign(session) is None
+    assignments = _assignments(payment, session)
+    expected_amounts = [Decimal(value) for value in expected]
+    assert [(a.assigned_id, a.amount) for a in assignments] == [
+        (document.id, value)
+        for document, value in zip(documents[1:], expected_amounts)
+    ]
+    assert all(a.amount > 0 for a in assignments)
+    assert payment.balance(session) == 0
+    assert sum(a.amount for a in assignments) == Decimal(amount)
+    assert [document.cleared(session) for document in documents] == [
+        100, 40 + expected_amounts[0],
+        expected_amounts[1] if len(expected_amounts) > 1 else 0, 0,
+    ]
+    assert _ledger_values(session) == ledger_before
