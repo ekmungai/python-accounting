@@ -86,6 +86,7 @@ class AssigningMixin:
         """
         Assigns the Transaction's amount to all outstanding clearable Transactions for the
         main account on a FIFO basis.
+        Remaining allocation capacity includes all assignments, including future dates.
 
         Args:
             session (Session): The accounting session to which the Transaction belongs.
@@ -103,6 +104,10 @@ class AssigningMixin:
         for clearable in self.account.statement(session, None, None, True)[
             "transactions"
         ]:
+            uncleared_amount = clearable.amount - clearable.cleared(session)
+            if uncleared_amount == 0:
+                continue
+
             assignment = Assignment(
                 assignment_date=datetime.now(),
                 transaction_id=self.id,
@@ -113,9 +118,9 @@ class AssigningMixin:
 
             assignment.amount = (
                 balance
-                if clearable.uncleared_amount > balance
-                else clearable.uncleared_amount
+                if uncleared_amount > balance
+                else uncleared_amount
             )
-            balance -= clearable.uncleared_amount
+            balance -= uncleared_amount
             session.add(assignment)
             session.flush()

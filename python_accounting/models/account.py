@@ -277,7 +277,8 @@ class Account(IsolatingMixin, Recyclable):
             end_date (datetime): The latest transaction date for Transaction amounts to
                 be included in the statement.
             schedule (bool): Whether to exclude assignable Transactions and only list
-                clearable Transactions with outstanding amounts.
+                clearable Transactions with outstanding amounts. Assignments are included
+                through the end date.
 
         Raises:
             InvalidAccountTypeError: If the Account type is not Receivable or Payable.
@@ -371,7 +372,7 @@ class Account(IsolatingMixin, Recyclable):
                 transactions.order_by(Transaction.transaction_date).distinct()
             ):
                 if schedule:
-                    cleared = transaction.cleared(session)
+                    cleared = transaction.cleared(session, end_date=end_date)
                     if (
                         transaction.amount  # pylint: disable=too-many-boolean-expressions
                         - cleared

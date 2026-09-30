@@ -10,6 +10,7 @@ Provides functionality to clearable Transactions for assignment to assignable Tr
 
 """
 
+from datetime import datetime
 from decimal import Decimal
 from sqlalchemy import func, select
 
@@ -20,12 +21,14 @@ class ClearingMixin:
     assignable Transactions.
     """
 
-    def cleared(self, session) -> Decimal:
+    def cleared(self, session, end_date: datetime = None) -> Decimal:
         """
         Gets how much of the Transaction amount has been cleared by assignable Transactions.
 
         Args:
             session (Session): The accounting session to which the Transaction belongs.
+            end_date (datetime, optional): Include assignments at or before this timestamp.
+                Defaults to all assignments.
 
         Returns:
             Decimal: The total amount of assignments made against Transaction.
@@ -34,7 +37,7 @@ class ClearingMixin:
             Assignment,
         )
 
-        return (
+        query = (
             session.query(
                 func.sum(Assignment.amount).label(  # pylint: disable=not-callable
                     "amount"
@@ -43,7 +46,11 @@ class ClearingMixin:
             .filter(Assignment.entity_id == self.entity_id)
             .filter(Assignment.assigned_id == self.id)
             .filter(Assignment.assigned_type == self.__class__.__name__)
-        ).scalar() or 0
+        )
+        if end_date is not None:
+            query = query.filter(Assignment.assignment_date <= end_date)
+
+        return query.scalar() or 0
 
     def clearances(self, session) -> list:
         """
