@@ -104,6 +104,9 @@ class AssigningMixin:
         for clearable in self.account.statement(session, None, None, True)[
             "transactions"
         ]:
+            if balance == 0:
+                break
+
             uncleared_amount = clearable.amount - clearable.cleared(session)
             if uncleared_amount == 0:
                 continue
@@ -121,6 +124,6 @@ class AssigningMixin:
                 if uncleared_amount > balance
                 else uncleared_amount
             )
-            balance -= uncleared_amount
+            balance -= assignment.amount
             session.add(assignment)
             session.flush()
