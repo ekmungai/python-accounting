@@ -3,53 +3,12 @@ from decimal import Decimal
 
 import pytest
 
-from python_accounting.models import Account, Assignment, Ledger, LineItem
+from python_accounting.models import Account, Assignment, Ledger
 from python_accounting.transactions import ClientInvoice, ClientReceipt
 
 
-def _post(session, document_type, account, line_account, date, amount):
-    document = document_type(
-        narration="Test document",
-        transaction_date=date,
-        account_id=account.id,
-        entity_id=account.entity_id,
-    )
-    session.add(document)
-    session.flush()
-    line = LineItem(
-        narration="Test line",
-        account_id=line_account.id,
-        amount=Decimal(amount),
-        entity_id=account.entity_id,
-    )
-    session.add(line)
-    session.flush()
-    document.line_items.add(line)
-    session.flush()
-    document.post(session)
-    return document
-
-
 @pytest.fixture
-def allocation_day(monkeypatch):
-    year = datetime.now().year
-
-    class AllocationDateTime(datetime):
-        @classmethod
-        def now(cls, tz=None):
-            return cls(year, 1, 31, 12, tzinfo=tz)
-
-        @classmethod
-        def today(cls):
-            return cls.now()
-
-    monkeypatch.setattr("python_accounting.utils.dates.datetime", AllocationDateTime)
-    monkeypatch.setattr("python_accounting.mixins.assigning.datetime", AllocationDateTime)
-    return AllocationDateTime.today()
-
-
-@pytest.fixture
-def invoices(session, entity, currency, allocation_day):
+def invoices(session, entity, currency, post_document, fixed_today):
     account = Account(
         name="Test customer",
         account_type=Account.AccountType.RECEIVABLE,
@@ -78,15 +37,15 @@ def invoices(session, entity, currency, allocation_day):
     session.flush()
     # Create the documents out of date order to distinguish FIFO from insertion order.
     documents = {
-        day: _post(
-            session, ClientInvoice, account, revenue,
-            datetime(allocation_day.year, 1, day), "100",
+        day: post_document(
+            ClientInvoice, account, revenue,
+            datetime(fixed_today.year, 1, day), "100",
         )
         for day in (6, 7, 5)
     }
-    other_invoice = _post(
-        session, ClientInvoice, other_account, revenue,
-        datetime(allocation_day.year, 1, 2), "100",
+    other_invoice = post_document(
+        ClientInvoice, other_account, revenue,
+        datetime(fixed_today.year, 1, 2), "100",
     )
     return account, bank, [documents[day] for day in (5, 6, 7)], other_invoice
 
@@ -115,11 +74,11 @@ def _ledger_values(session):
     ],
 )
 def test_bulk_assignment_stops_at_available_funds(
-    session, invoices, allocation_day, amount, expected
+    session, invoices, post_document, fixed_today, amount, expected
 ):
     """Bulk allocation spends only available funds and leaves the ledger unchanged."""
     account, bank, documents, other_invoice = invoices
-    payment = _post(session, ClientReceipt, account, bank, allocation_day, amount)
+    payment = post_document(ClientReceipt, account, bank, fixed_today, amount)
     ledger_before = _ledger_values(session)
     balance_before = payment.balance(session)
 
@@ -143,11 +102,11 @@ def test_bulk_assignment_stops_at_available_funds(
     assert _ledger_values(session) == ledger_before
 
 
-def _reserved_payment(session, invoices, allocation_day, amount):
+def _reserved_payment(session, invoices, post_document, fixed_today, amount):
     account, bank, documents, _ = invoices
-    payment = _post(session, ClientReceipt, account, bank, allocation_day, amount)
+    payment = post_document(ClientReceipt, account, bank, fixed_today, amount)
     assignment = Assignment(
-        assignment_date=datetime(allocation_day.year, 2, 15),
+        assignment_date=datetime(fixed_today.year, 2, 15),
         transaction_id=payment.id,
         assigned_id=documents[0].id,
         assigned_type=ClientInvoice.__name__,
@@ -161,10 +120,10 @@ def _reserved_payment(session, invoices, allocation_day, amount):
 
 @pytest.mark.parametrize("amount,expected_new", [("100", []), ("150", ["50"])])
 def test_bulk_assignment_respects_lifetime_source_capacity(
-    session, invoices, allocation_day, amount, expected_new
+    session, invoices, post_document, fixed_today, amount, expected_new
 ):
     """Existing future allocations consume capacity before bulk allocation starts."""
-    payment = _reserved_payment(session, invoices, allocation_day, amount)
+    payment = _reserved_payment(session, invoices, post_document, fixed_today, amount)
     documents = invoices[2]
     before = [(a.id, a.assigned_id, a.amount) for a in _assignments(payment, session)]
     balance_before = payment.balance(session)
@@ -188,10 +147,10 @@ def test_bulk_assignment_respects_lifetime_source_capacity(
 
 
 def test_exhausted_source_still_evaluates_schedule(
-    session, invoices, allocation_day, monkeypatch
+    session, invoices, post_document, fixed_today, monkeypatch
 ):
     """An exhausted source still reaches the account's schedule validation boundary."""
-    payment = _reserved_payment(session, invoices, allocation_day, "100")
+    payment = _reserved_payment(session, invoices, post_document, fixed_today, "100")
     original_statement = Account.statement
     calls = []
 
@@ -207,18 +166,18 @@ def test_exhausted_source_still_evaluates_schedule(
 
 @pytest.mark.parametrize("amount,expected", [("50", ["50"]), ("70", ["60", "10"])])
 def test_exhaustion_preserves_future_target_reservations(
-    session, invoices, allocation_day, amount, expected
+    session, invoices, post_document, fixed_today, amount, expected
 ):
     """Source exhaustion and historical reports both retain lifetime target capacity."""
     account, bank, documents, _ = invoices
     revenue = session.get(Account, next(iter(documents[0].line_items)).account_id)
-    documents.append(_post(
-        session, ClientInvoice, account, revenue,
-        datetime(allocation_day.year, 1, 8), "100",
+    documents.append(post_document(
+        ClientInvoice, account, revenue,
+        datetime(fixed_today.year, 1, 8), "100",
     ))
-    future_date = datetime(allocation_day.year, 2, 15)
+    future_date = datetime(fixed_today.year, 2, 15)
     for document, reserved in zip(documents, ["100", "40"]):
-        reservation = _post(session, ClientReceipt, account, bank, future_date, reserved)
+        reservation = post_document(ClientReceipt, account, bank, future_date, reserved)
         session.add(Assignment(
             assignment_date=future_date,
             transaction_id=reservation.id,
@@ -228,9 +187,9 @@ def test_exhaustion_preserves_future_target_reservations(
             amount=Decimal(reserved),
         ))
         session.flush()
-        assert document.cleared(session, end_date=allocation_day) == 0
+        assert document.cleared(session, end_date=fixed_today) == 0
 
-    payment = _post(session, ClientReceipt, account, bank, allocation_day, amount)
+    payment = post_document(ClientReceipt, account, bank, fixed_today, amount)
     ledger_before = _ledger_values(session)
     assert payment.bulk_assign(session) is None
     assignments = _assignments(payment, session)
