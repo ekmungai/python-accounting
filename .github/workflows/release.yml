@@ -1,0 +1,109 @@
+name: Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    name: Test (Python ${{ matrix.python-version }})
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pipx install poetry
+          poetry install
+
+      - name: Lint with pylint
+        run: poetry run pylint ./python_accounting
+
+      - name: Test with pytest
+        run: poetry run pytest
+
+  build:
+    needs: test  # do not build a release whose tests failed
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      # PyPI versions cannot be replaced once uploaded, so refuse to publish a
+      # package whose version does not match the release it was published from.
+      - name: Check the package version matches the release tag
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          version="$(poetry version --short)"
+          if [ "${TAG#v}" != "$version" ]; then
+            echo "::error::Release tag $TAG does not match the pyproject.toml version $version. Bump the version before releasing."
+            exit 1
+          fi
+
+      - name: Build the package
+        run: poetry build
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/p/python-accounting
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for PyPI trusted publishing
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  # Attach the published distributions to the release, so that the release page
+  # carries exactly what was uploaded to PyPI.
+  release-assets:
+    needs: publish  # do not attach distributions that were not published
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to upload the distributions to the release
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Attach the distributions to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
