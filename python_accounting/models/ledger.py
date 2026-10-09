@@ -187,7 +187,7 @@ class Ledger(  # pylint: disable=too-many-instance-attributes
             if line_item.tax_id:
                 tax_post, tax_folio = deepcopy(post), deepcopy(folio)
                 tax_post.amount = tax_folio.amount = (
-                    amount - (amount / (1 + line_item.tax.rate / 100))
+                    amount - (amount / (1 + line_item.tax.rate / Decimal("100")))
                     if line_item.tax_inclusive
                     else amount * line_item.tax.rate / 100
                 )
