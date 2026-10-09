@@ -155,9 +155,13 @@ class Transaction(IsolatingMixin, Recyclable):
         total = 0
         for line_item in iter(self.line_items):
             if line_item.tax_id:
-                amount = (
-                    line_item.tax.rate * line_item.amount * line_item.quantity / 100
-                )
+                if line_item.tax_inclusive:
+                    gross = line_item.amount * line_item.quantity
+                    amount = gross - (gross / (1 + line_item.tax.rate / Decimal("100")))
+                else:
+                    amount = (
+                        line_item.tax.rate * line_item.amount * line_item.quantity / 100
+                    )
                 total += amount
                 if (
                     line_item.tax.code
