@@ -12,7 +12,7 @@ Represents the Base class for accounting models.
 
 from typing import List
 from datetime import datetime
-from strenum import StrEnum
+from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum
 from python_accounting.mixins import IsolatingMixin

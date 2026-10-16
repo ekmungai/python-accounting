@@ -13,10 +13,10 @@ import hashlib
 from datetime import datetime
 from copy import deepcopy
 from decimal import Decimal
+from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum, select
 from sqlalchemy.types import DECIMAL
-from strenum import StrEnum
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
 from python_accounting.models import Recyclable, Balance, Transaction
