@@ -11,7 +11,7 @@ Represents an Account, the basic unit of accounting that groups the transactions
 import warnings
 from decimal import Decimal
 from datetime import datetime
-from strenum import StrEnum
+from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship, aliased
 from sqlalchemy import String, ForeignKey, Enum, func, inspect, select, or_, exc
 from python_accounting.models.recyclable import Recyclable

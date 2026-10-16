@@ -12,7 +12,7 @@ Represents a financial Transaction.
 from typing import List, Set
 from datetime import datetime
 from decimal import Decimal
-from strenum import StrEnum
+from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy import (
     String,

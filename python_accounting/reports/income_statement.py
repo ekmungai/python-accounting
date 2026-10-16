@@ -12,7 +12,7 @@ Represents the financial performance of an Entity for a given period.
 
 from decimal import Decimal
 from datetime import datetime
-from strenum import StrEnum
+from enum import StrEnum
 from python_accounting.models import Account
 from python_accounting.reports.financial_statement import FinancialStatement
 from python_accounting.utils.dates import get_dates
