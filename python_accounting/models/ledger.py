@@ -83,7 +83,7 @@ class Ledger(  # pylint: disable=too-many-instance-attributes
          {self.amount}"""
 
     @staticmethod
-    def _allocate_amount(  # pylint: disable=too-many-arguments
+    def _allocate_amount(  # pylint: disable=too-many-arguments,too-many-positional-arguments
         session, post, amount, posts, folios, transaction, entry_type
     ) -> None:
         if amount == 0:

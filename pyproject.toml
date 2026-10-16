@@ -7,25 +7,28 @@ readme = "README.md"
 packages = [{include = "python_accounting"}, {include = "config.toml"}]
 
 [tool.poetry.dependencies]
-python = "~3.9.0|~3.10.0|~3.11.0|~3.12.0|~3.13.0"
-sqlalchemy = ">=2.0.23,<2.1"
-python-dateutil = "^2.8.2"
+python = ">=3.9"
+sqlalchemy = ">=2.0.23,<2.2"
+python-dateutil = "^2.9.0"
 strenum = "^0.4.15"
 toml = "^0.10.2"
-mysqlclient = "^2.2.4"
-psycopg2 = "^2.9.9"
+mysqlclient = "^2.2.7"
+psycopg2 = "^2.9.12"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4.3"
+pytest = ">=8.4.2"
+# Test against the newest SQLAlchemy that each Python supports, rather than the
+# oldest version that satisfies every Python. Not part of the published requirements.
+sqlalchemy = {version = ">=2.1", python = ">=3.11"}
 
 [tool.poetry.group.dev.dependencies]
-sphinx-autoapi = "^3.0.0"
-sphinx-rtd-theme = "^2.0.0"
-sphinx = "^7.2.6"
-myst-parser = "^2.0.0"
-pylint = "^3.1.0"
-tox = "^4.13.0"
-dill = "^0.3.8"
+sphinx-autoapi = ">=3.6.1"
+sphinx-rtd-theme = ">=3.1.0"
+sphinx = ">=7.4.7"
+myst-parser = ">=3.0.1"
+pylint = ">=3.3.9"
+tox = ">=4.30.3"
+dill = ">=0.4.1"
 
 [build-system]
 requires = ["poetry-core"]
