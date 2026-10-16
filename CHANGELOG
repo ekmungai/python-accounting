@@ -1,3 +1,19 @@
+## 2.0.0 - 2026-10-16
+
+### Breaking changes
+
+- Python 3.11 or later is required. 1.1.0 is the last release supporting Python 3.9 and 3.10 (#30).
+- SQLAlchemy 2.1 is required (>=2.1.4,<2.2) (#30).
+- The strenum and toml dependencies are replaced by enum.StrEnum and tomllib from the standard library. Enum members behave as before, but a custom config file must now be valid TOML 1.0 (#33).
+
+### Fixes
+
+- Config.configure_dates sets the report date formats. It previously wrote them to the hashing configuration and had no effect on reports (#32).
+
+### Maintenance
+
+- Every dependency is upgraded to its latest release, and the package metadata moves to the [project] table (#30).
+
 ## 1.1.0 - 2026-10-16
 
 The last minor release supporting Python 3.9 and 3.10.
