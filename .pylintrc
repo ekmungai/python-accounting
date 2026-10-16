@@ -1,2 +1,6 @@
 [MASTER]
 init-hook='import sys; sys.path.append(".")'
+
+[DESIGN]
+# SQLAlchemy 2.1 adds typing only classes to the ancestors of DeclarativeBase models.
+max-parents=9
