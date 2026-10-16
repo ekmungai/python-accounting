@@ -74,8 +74,7 @@ class Account(IsolatingMixin, Recyclable):
             session.query(Account)
             .filter(Account.entity_id == self.entity_id)
             .filter(Account.account_type == self.account_type)
-            .with_entities(func.count())  # pylint: disable=not-callable
-            .scalar()
+            .count()
         )
 
         return (

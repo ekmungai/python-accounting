@@ -210,10 +210,9 @@ class Transaction(IsolatingMixin, Recyclable):
             session.query(Transaction)
             .filter(Transaction.transaction_type == transaction_type)
             .filter(Transaction.transaction_date > reporting_period.interval()["start"])
-            .with_entities(func.count())  # pylint: disable=not-callable
             .execution_options(include_deleted=True)
             .filter(Transaction.entity_id == self.entity_id)
-            .scalar()
+            .count()
         ) + getattr(self, "session_index", 1)
 
         prefix = config.transactions["types"][transaction_type.name][

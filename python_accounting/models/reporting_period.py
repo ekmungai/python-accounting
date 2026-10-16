@@ -13,7 +13,7 @@ from enum import Enum
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import ForeignKey, UniqueConstraint, func, select
+from sqlalchemy import ForeignKey, UniqueConstraint, select
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import (
     DuplicateReportingPeriodError,
@@ -135,9 +135,8 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
                 session.query(ReportingPeriod)
                 .filter(ReportingPeriod.entity_id == self.entity_id)
                 .filter(ReportingPeriod.calendar_year == self.calendar_year)
-                .with_entities(func.count())  # pylint: disable=not-callable
                 .execution_options(ignore_isolation=True)
-                .scalar()
+                .count()
             ) > 0:
                 raise DuplicateReportingPeriodError
 
@@ -145,9 +144,8 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
                 session.query(ReportingPeriod)
                 .filter(ReportingPeriod.entity_id == self.entity_id)
                 .filter(ReportingPeriod.status == ReportingPeriod.Status.OPEN)
-                .with_entities(func.count())  # pylint: disable=not-callable
                 .execution_options(ignore_isolation=True)
-                .scalar()
+                .count()
             ) > 0 and self.status == ReportingPeriod.Status.OPEN:
                 raise MultipleOpenPeriodsError
 

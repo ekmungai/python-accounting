@@ -11,7 +11,7 @@ This mixin providses accounting specific functionality to the standard sqlachemy
 
 # pylint: disable=too-few-public-methods
 from datetime import datetime
-from sqlalchemy import orm, select, func
+from sqlalchemy import orm, select
 from python_accounting.models import ReportingPeriod
 
 
@@ -49,9 +49,8 @@ class AccountingFunctionsMixin:
             past_periods = (
                 self.query(ReportingPeriod)
                 .filter(ReportingPeriod.entity_id == self.entity.id)
-                .with_entities(func.count())  # pylint: disable=not-callable
                 .execution_options(ignore_isolation=True)
-                .scalar()
+                .count()
             )
 
             self.add(
