@@ -139,8 +139,8 @@ class Config:
             short (str): The format for short dates. Defaults to '%Y-%m-%d'.
             long (str): The format for long dates. Defaults to '%d, %b %Y'.
         """
-        self.hashing["short"] = short
-        self.hashing["long"] = long
+        self.dates["short"] = short
+        self.dates["long"] = long
 
 
 default_configuration = os.path.join(
