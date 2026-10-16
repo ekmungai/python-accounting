@@ -17,7 +17,9 @@ from sqlalchemy import String
 from python_accounting.models import Base
 
 
-# pylint: disable=too-few-public-methods
+# Depending on the order in which pylint reads the models, astroid can fail to infer
+# that Mapped is generic here, so unsubscriptable-object is a false positive.
+# pylint: disable=too-few-public-methods,unsubscriptable-object
 class Recyclable(Base):
     """
     Interface for associating recycled objects with its models.
