@@ -1,3 +1,16 @@
+## 1.1.0 - 2026-10-16
+
+The last minor release supporting Python 3.9 and 3.10.
+
+- Python 3.13 and 3.14 support. The Python requirement is now >=3.9 rather than a list of versions.
+- SQLAlchemy 2.1 support (now >=2.0.23,<2.2). Account codes, transaction numbers and reporting period counts were wrong on SQLAlchemy 2.1.
+- Fix bulk assignment raising NegativeValueError when the assignable transaction runs out before the last outstanding transaction (#22).
+- Account schedules and aging schedules only count assignments made up to the report end date (#21).
+- Fix inclusive tax in transaction summaries (#26) and inclusive tax posting with integer rates (#27).
+- Fix the indentation of the return statement in FinancialStatement._print_section (#17).
+- Fix the config import in the README (#6).
+- Releases are tested on Python 3.9 to 3.14 and published to PyPI from GitHub releases (#24).
+
 ## 1.0.0 - 2024-03-01
 
 - initial release
