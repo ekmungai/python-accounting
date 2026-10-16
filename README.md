@@ -18,7 +18,7 @@ This library is a community initiative of [microbooks.io](https://microbooks.io)
 
 ## Installation
 
-You can use [pip](https://pip.pypa.io/en/stable/) to install. The library requires python 3.9+.
+You can use [pip](https://pip.pypa.io/en/stable/) to install. The library requires python 3.11+.
 
 ```bash
 pip install python-accounting
