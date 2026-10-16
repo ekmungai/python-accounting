@@ -11,10 +11,10 @@ Represents the amount outstanding on a Transaction from a previous Reporting Per
 """
 from datetime import datetime
 from decimal import Decimal
+from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum, select
 from sqlalchemy.types import DECIMAL
-from strenum import StrEnum
 from python_accounting.models import (
     Recyclable,
     Account,

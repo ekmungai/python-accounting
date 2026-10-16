@@ -11,7 +11,7 @@ Represents the financial position of an Entity.
 """
 
 from datetime import datetime
-from strenum import StrEnum
+from enum import StrEnum
 from python_accounting.utils.dates import get_dates
 from python_accounting.reports.financial_statement import FinancialStatement
 

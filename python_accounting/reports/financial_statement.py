@@ -10,7 +10,7 @@ Represents an abstraction of a financial statement according to IFRS/GAAP.
 
 """
 from datetime import datetime
-from strenum import StrEnum
+from enum import StrEnum
 from sqlalchemy.orm.session import Session
 from python_accounting.config import config as configuration
 from python_accounting.models import Account
