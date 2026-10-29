@@ -15,7 +15,14 @@ from datetime import datetime
 from sqlalchemy.orm.session import Session
 from sqlalchemy import event, orm, and_, update
 
-from python_accounting.models import Entity, Recyclable, Transaction, Account, Ledger
+from python_accounting.models import (
+    Entity,
+    Recyclable,
+    Transaction,
+    Account,
+    Ledger,
+    ReportingPeriod,
+)
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.exceptions import MissingEntityError
 
@@ -80,7 +87,8 @@ class EventListenersMixin:
 
         if (
             self.entity.reporting_period is None
-            or self.entity.reporting_period.calendar_year != datetime.today().year
+            or self.entity.reporting_period.calendar_year
+            != ReportingPeriod.date_year(datetime.today(), self.entity)
         ):
             self._set_reporting_period()
 

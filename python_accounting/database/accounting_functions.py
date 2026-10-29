@@ -30,7 +30,7 @@ class AccountingFunctionsMixin:
         ).first()
 
     def _set_reporting_period(self) -> None:
-        year = datetime.today().year
+        year = ReportingPeriod.date_year(datetime.today(), self.entity)
         existing = self._year_period(year)
 
         if existing:
