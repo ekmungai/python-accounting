@@ -22,9 +22,7 @@ def get_dates(session, start_date: datetime = None, end_date: datetime = None) -
         end_date (datetime): The end date.
     """
     end_date = datetime.today() if not end_date else end_date
-    period = ReportingPeriod.get_period(
-        session, datetime(end_date.year, session.entity.year_start, 1, 0, 0, 0)
-    )
+    period = ReportingPeriod.get_period(session, end_date)
     period_start = period.interval()["start"]
     start_date = period_start if not start_date else start_date
 

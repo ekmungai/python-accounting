@@ -163,7 +163,7 @@ class Account(IsolatingMixin, Recyclable):
             select(Account).filter(Account.account_type.in_(account_types))
         ).all():
             account.opening = account.opening_balance(
-                session, end_date.year
+                session, period_start.year
             ) + account.balance_movement(session, period_start, start_date)
             movement = account.balance_movement(session, start_date, end_date)
             account.closing = account.opening + movement if full_balance else movement
@@ -251,9 +251,9 @@ class Account(IsolatingMixin, Recyclable):
 
         """
 
-        start_date, end_date, _, _ = get_dates(session, None, end_date)
+        start_date, end_date, period_start, _ = get_dates(session, None, end_date)
 
-        return self.opening_balance(session, end_date.year) + self.balance_movement(
+        return self.opening_balance(session, period_start.year) + self.balance_movement(
             session, start_date, end_date
         )
 
@@ -312,7 +312,9 @@ class Account(IsolatingMixin, Recyclable):
             raise InvalidAccountTypeError(
                 "Only Receivable and Payable Accounts can have a statement/schedule."
             )
-        start_date, end_date, _, period_id = get_dates(session, start_date, end_date)
+        start_date, end_date, period_start, period_id = get_dates(
+            session, start_date, end_date
+        )
 
         statement = (
             {
@@ -323,7 +325,7 @@ class Account(IsolatingMixin, Recyclable):
             }
             if schedule
             else {
-                "opening_balance": self.opening_balance(session, end_date.year),
+                "opening_balance": self.opening_balance(session, period_start.year),
                 "transactions": [],
                 "closing_balance": 0,
             }
