@@ -79,7 +79,10 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
             return today.year
 
         month, year = (date.month, date.year) if date else (today.month, today.year)
-        return year if month >= entity.year_start else year - 1
+        # An Entity that has not been flushed yet has no year_start; the
+        # column default is January.
+        year_start = 1 if entity.year_start is None else entity.year_start
+        return year if month >= year_start else year - 1
 
     @staticmethod
     def get_period(session, date: datetime) -> "ReportingPeriod":
