@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 from sqlalchemy import select
 from python_accounting.models import (
     Balance,
+    Currency,
     Entity,
     Transaction,
     Account,
@@ -287,3 +288,79 @@ def test_opening_trial_balance(session, entity, currency):
     assert opening_trial_balance["debits"] == 90
     assert opening_trial_balance["credits"] == -90
     assert opening_trial_balance["accounts"] == [account1, account2]
+
+
+def _last_years_balance(session, freeze_today):
+    """A Balance entered last year, seen after the Entity has moved on to this year."""
+
+    year = datetime.now().year
+    freeze_today(year - 1, 6, 15)
+    entity = Entity(name="Test Entity")
+    session.add(entity)
+    session.commit()
+    currency = Currency(name="US Dollars", code="USD", entity_id=entity.id)
+    session.add(currency)
+    session.flush()
+    account = Account(
+        name="Test Account",
+        account_type=Account.AccountType.RECEIVABLE,
+        currency_id=currency.id,
+        entity_id=entity.id,
+    )
+    session.add(account)
+    session.flush()
+    balance = Balance(
+        transaction_date=datetime(year - 2, 12, 1),
+        transaction_type=Transaction.TransactionType.JOURNAL_ENTRY,
+        amount=50,
+        balance_type=Balance.BalanceType.DEBIT,
+        account_id=account.id,
+        entity_id=entity.id,
+    )
+    session.add(balance)
+    session.commit()
+    period_id = balance.reporting_period_id
+
+    freeze_today(year, 6, 15)
+    session.add(Entity(name="Test Entity Two"))
+    session.commit()
+    assert entity.reporting_period_id != period_id
+
+    return balance, account, period_id
+
+
+def test_balance_stays_in_its_period_when_edited(session, freeze_today):
+    """Tests that saving a Balance does not move it to the current Reporting Period"""
+
+    balance, account, period_id = _last_years_balance(session, freeze_today)
+    year = datetime.now().year
+
+    balance.reference = "Corrected"
+    session.commit()
+
+    assert balance.reporting_period_id == period_id
+    assert account.opening_balance(session, year - 1) == 50
+    assert account.opening_balance(session, year) == 0
+
+
+def test_balance_stays_in_its_period_when_recycled(session, freeze_today):
+    """Tests that deleting and restoring a Balance leaves its Reporting Period alone"""
+
+    balance, _, period_id = _last_years_balance(session, freeze_today)
+
+    session.delete(balance)
+    session.commit()
+    assert session.restore(balance)
+
+    assert balance.reporting_period_id == period_id
+
+
+def test_edited_balance_date_is_checked_against_its_own_period(session, freeze_today):
+    """Tests that an edit cannot date a Balance within the period it opens"""
+
+    balance, _, _ = _last_years_balance(session, freeze_today)
+
+    balance.transaction_date = datetime(datetime.now().year - 1, 3, 1)
+    with pytest.raises(InvalidBalanceDateError):
+        session.commit()
+

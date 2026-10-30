@@ -5,6 +5,7 @@
 - For an Entity whose year does not start in January, the current Reporting Period follows `year_start`, and reports use the period containing their end date. Before the year start month these previously opened the next year's period early and rejected ordinary Transactions (#35, #36).
 - The opening balance of a report or statement no longer counts Transactions dated on its start date twice, and a statement's opening balance now includes movement between the period start and its start date.
 - A statement with no Transactions reports its opening balance as its closing balance, rather than 0.
+- A Balance stays in its Reporting Period when it is edited, deleted or restored. Each of those previously moved it to the current period, taking it out of the opening balances of its own year. Balances already moved stay where they are, as their original period is not recorded.
 - A report whose start date is before the Entity's first Reporting Period no longer raises `MissingReportingPeriodError`.
 - `ReportingPeriod.date_year` without an Entity returns the year of the given date, rather than the current year.
 - `python_accounting.reports` can be imported before `python_accounting.models`. It previously raised a circular `ImportError`.

@@ -144,7 +144,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
             NegativeValueError: If the Balance amount is less than 0.
             InvalidBalanceAccountError: If the Balance main Account is an Income Statement Account.
             InvalidBalanceTransactionError: If the Balance Transaction type is not one of the Balance Transaction types.
-            InvalidBalanceDateError: If the Balance Transaction date is within the current reporting period and the Entity does not allow mid year balances.
+            InvalidBalanceDateError: If the Balance Transaction date is within its reporting period and the Entity does not allow mid year balances.
 
         Returns:
             None
@@ -154,10 +154,15 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
             IncomeStatement,
         )
 
-        reporting_period = session.entity.reporting_period
+        # A Balance belongs to the period it was entered in, whenever it is next saved
+        if self.id is None:
+            reporting_period = session.entity.reporting_period
+            self.reporting_period_id = reporting_period.id
+        else:
+            reporting_period = session.get(ReportingPeriod, self.reporting_period_id)
+
         account = session.get(Account, self.account_id)
         self.currency_id = account.currency_id
-        self.reporting_period_id = reporting_period.id
 
         if not self.transaction_no:
             currency = session.get(Currency, self.currency_id)
