@@ -6,3 +6,7 @@ The following are a few examples to illustrate how to use the Library to accompl
 ```
 ```{include} compound_transaction.md
 ```
+```{include} bulk_assignment.md
+```
+```{include} reporting_period_repair.md
+```
