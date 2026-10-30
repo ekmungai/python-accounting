@@ -10,7 +10,7 @@ compatible with both IFRS and GAAP standards.
 The library is designed to be fully customizable, supports multiple Entities (Companies), Account 
 Categorization, Transaction assignment, Opening Balances and Taxation. Transactions are also protected 
 against tampering via direct database changes ensuring the integrity of the Ledger. Apart from the standard
-set of Financial Reports, the Library also provides convenient Receivable (Client) and Payabale (Supplier) 
+set of Financial Reports, the Library also provides convenient Receivable (Client) and Payable (Supplier) 
 such as Account Statements and Schedules, as well as an Aging Schedule for all outstanding balances grouped 
 by configurable time periods (Current, 31 - 90 days, 91 - 180 days etc).
 
@@ -24,8 +24,14 @@ You can use [pip](https://pip.pypa.io/en/stable/) to install. The library requir
 pip install python-accounting
 ```
 
+The MySQL and PostgreSQL drivers are installed with the library and are built from source, so a compiler and the client libraries of both databases are needed first. On Debian and Ubuntu:
+
+```bash
+apt-get install gcc pkg-config python3-dev libpq-dev default-libmysqlclient-dev
+```
+
 ## Usage
-Full documemntation for the library can be found on [readthedocs](https://python-accounting.readthedocs.io/en/latest/).
+Full documentation for the library can be found on [readthedocs](https://python-accounting.readthedocs.io/en/latest/).
 
 To use the Library, we first need to configure it.
 
@@ -46,15 +52,18 @@ Now we can create the reporting Entity and its reporting Currency.
 from python_accounting.database.session import get_session
 from python_accounting.models import Entity, Currency
 
-with get_session(engine) as session:
-    entity = Entity(name="Example Company")
-    session.add(entity)
-    session.commit() # This automatically sets up a Reporting Period for the Entity
+session = get_session(engine)
 
-    currency = Currency(name="US Dollars", code="USD", entity_id=entity.id)
-    session.add(currency)
-    session.commit()
+entity = Entity(name="Example Company")
+session.add(entity)
+session.commit() # This automatically sets up a Reporting Period for the Entity
+
+currency = Currency(name="US Dollars", code="USD", entity_id=entity.id)
+session.add(currency)
+session.commit()
 ```
+The session stays open for the rest of this guide. In an application, close it when you're done, for example by using `with get_session(engine) as session:` around the work.
+
 Next we'll setup the chart of Accounts.
 
 ```python
@@ -188,6 +197,7 @@ from python_accounting.transactions import (
     CashPurchase,
     SupplierBill,
     ClientReceipt,
+    JournalEntry,
 )
 
 client_invoice = ClientInvoice(
@@ -228,7 +238,7 @@ cash_purchase_line_item = LineItem(
     account_id=opex_account.id,
     amount=25,
     quantity=4,
-    tax_id=output_tax.id,
+    tax_id=input_tax.id,
     entity_id=entity.id,
 )
 session.add(cash_purchase_line_item)
@@ -252,7 +262,7 @@ supplier_bill_line_item = LineItem(
     account_id=asset_account.id,
     amount=25,
     quantity=4,
-    tax_id=output_tax.id,
+    tax_id=input_tax.id,
     entity_id=entity.id,
 )
 session.add(supplier_bill_line_item)
@@ -314,7 +324,7 @@ from python_accounting.models import Assignment
 
 
 print(client_invoice.cleared(session)) # 0: The Invoice has not been cleared at all
-print(client_receipt.balance(session)) # 60: The Receipt has not been assigned
+print(client_receipt.balance(session)) # 50: The Receipt has not been assigned
 
 assignment = Assignment(
     assignment_date=datetime.now(),
@@ -328,7 +338,7 @@ session.add(assignment)
 session.commit()
 
 print(client_invoice.cleared(session)) # 15 
-print(client_receipt.balance(session)) # 45
+print(client_receipt.balance(session)) # 35
 
 ```
 We are now ready to generate some reports, starting with the Income Statement (Profit and Loss).
@@ -354,7 +364,6 @@ Gross Profit                         150.0000
 
 
 Non Operating Revenues
-    Non Operating Revenue              0.0000
                               _______________
 Total Revenue                        150.0000
 
@@ -403,7 +412,6 @@ Net Assets                           120.0000
                               ===============
 
 Equity
-    Income Statement                 120.0000
                               _______________
 Total Equity                         120.0000
                               ===============
@@ -413,11 +421,11 @@ And finally The Cashflow Statement.
 ```python
 from python_accounting.reports import CashflowStatement
 
-cashflow_statememt = CashflowStatement(session) 
+cashflow_statement = CashflowStatement(session) 
 
-print(cashflow_statememt)
+print(cashflow_statement)
 
-                 Test Entity
+               Example Company
               Cashflow Statement
  For the period: 01, Jan 2024 to 23, Feb 2024
 
@@ -427,23 +435,22 @@ Operating Cash Flow
     Payables                         110.0000
     Taxation                          30.0000
                               _______________
- Total Operating Cash Flow           130.0000
+Total Operating Cash Flow            130.0000
 
 
 Investment Cash Flow
     Non Current Assets              -100.0000 (Asset Purchase)
                               _______________
- Total Investment Cash Flow         -100.0000
+Total Investment Cash Flow          -100.0000
 
 
 Financing Cash Flow
-    Equity                             0.0000
                               _______________
- Total Financing Cash Flow             0.0000
+Total Financing Cash Flow                   0
 
 
 Net Cash Flow
-    Beginning Cash Balance             0.0000
+    Beginning Cash Balance                  0
     Net Cash Flow                     30.0000
                               _______________
 Ending Cash Balance                   30.0000
@@ -452,11 +459,27 @@ Ending Cash Balance                   30.0000
 Cashbook Balance                      30.0000
                               ===============
 ```
-## Supported Databases (Fully tested)
+## Configuration
+
+The defaults come from [config.toml](https://github.com/ekmungai/python-accounting/blob/main/config.toml). Override them through the `config` object before creating the engine and posting any Transactions, as the hashing settings apply to every Ledger record.
+
+```python
+from python_accounting.config import config
+
+config.configure_database("postgresql+psycopg2://user:password@localhost/accounting")
+config.configure_hashing(salt="a secret salt")
+config.configure_dates(long="%d %B %Y")
+```
+
+Name the driver in PostgreSQL URLs, as SQLAlchemy takes a plain `postgresql://` URL to mean psycopg 3 rather than the psycopg2 driver that the library installs.
+
+## Supported Databases
 
 - MySql/MariaDb
 - Postgres
 - Sqlite (testing)
+
+Continuous integration runs the tests on Sqlite only.
 
 ## Changelog
 
@@ -468,5 +491,5 @@ Please see [CONTRIBUTING](https://github.com/ekmungai/python-accounting/blob/mai
 
 ## License
 
-This software is distributed for free under the MIT License. Please see [LICENCE](https://github.com/ekmungai/python-accounting/blob/main/LICENSE) for more information.
+This software is distributed for free under the MIT License. Please see [LICENSE](https://github.com/ekmungai/python-accounting/blob/main/LICENSE) for more information.
 

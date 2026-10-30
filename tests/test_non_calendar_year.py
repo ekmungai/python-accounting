@@ -8,9 +8,12 @@ from python_accounting.reports import BalanceSheet, IncomeStatement, TrialBalanc
 from python_accounting.transactions import CashSale
 
 
-def test_reports_in_second_half_of_a_non_calendar_year(session, entity, currency):
+def test_reports_in_second_half_of_a_non_calendar_year(
+    session, entity, currency, freeze_today
+):
     """Reports dated before the year start month use the period that contains them"""
 
+    freeze_today(datetime.now().year, 8, 15)
     entity.year_start = 7
     session.commit()
     period_start = entity.reporting_period.interval()["start"]

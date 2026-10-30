@@ -826,7 +826,7 @@ def test_bank_account_statement(session, entity, currency):
 
     assert statement["opening_balance"] == 70
     assert statement["transactions"] == []
-    assert statement["closing_balance"] == 0
+    assert statement["closing_balance"] == 70
 
 
 def test_receivable_account_statement(session, entity, currency):

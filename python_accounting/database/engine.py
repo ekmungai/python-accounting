@@ -1,4 +1,4 @@
-# database/database_init.py
+# database/engine.py
 # Copyright (C) 2024 - 2028 the PythonAccounting authors and contributors
 # <see AUTHORS file>
 #

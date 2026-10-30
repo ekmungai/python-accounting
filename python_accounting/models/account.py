@@ -104,19 +104,29 @@ class Account(IsolatingMixin, Recyclable):
             end date.
         """
         from python_accounting.models import (  # pylint: disable=import-outside-toplevel
-            Balance,
             Ledger,
         )
 
         start_date, end_date, _, _ = get_dates(session, start_date, end_date)
+
+        return self._ledger_movement(
+            session,
+            Ledger.transaction_date >= start_date,
+            Ledger.transaction_date <= end_date,
+        )
+
+    def _ledger_movement(self, session, *date_criteria) -> Decimal:
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Balance,
+            Ledger,
+        )
 
         query = (
             session.query(
                 func.sum(Ledger.amount).label("amount")  # pylint: disable=not-callable
             )
             .filter(Ledger.currency_id == self.currency_id)
-            .filter(Ledger.transaction_date >= start_date)
-            .filter(Ledger.transaction_date <= end_date)
+            .filter(*date_criteria)
             .filter(Ledger.post_account_id == self.id)
             .filter(Ledger.entity_id == self.entity_id)
         )
@@ -124,6 +134,23 @@ class Account(IsolatingMixin, Recyclable):
             query.filter(Ledger.entry_type == Balance.BalanceType.DEBIT).scalar() or 0
         ) - (
             query.filter(Ledger.entry_type == Balance.BalanceType.CREDIT).scalar() or 0
+        )
+
+    def _balance_before(
+        self, session, start_date: datetime, period_start: datetime
+    ) -> Decimal:
+        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
+            Ledger,
+        )
+
+        opening = self.opening_balance(session, period_start.year)
+        if start_date <= period_start:
+            return opening
+
+        return opening + self._ledger_movement(
+            session,
+            Ledger.transaction_date >= period_start,
+            Ledger.transaction_date < start_date,
         )
 
     @staticmethod
@@ -153,7 +180,7 @@ class Account(IsolatingMixin, Recyclable):
             details of totals by Category and the Accounts contained in each Category.
                 - opening (Decimal): The sum of opening balances of Accounts in the section.
                 - movement (Decimal): The movememt of the balances of Accounts in the section.
-                - closing (Decimal): The sum of opening closing of Accounts in the section.
+                - closing (Decimal): The sum of closing balances of Accounts in the section.
                 - categories (dict): The Accounts belonging to the section separated by Category.
         """
         balances = {"opening": 0, "movement": 0, "closing": 0, "categories": {}}
@@ -162,9 +189,9 @@ class Account(IsolatingMixin, Recyclable):
         for account in session.scalars(
             select(Account).filter(Account.account_type.in_(account_types))
         ).all():
-            account.opening = account.opening_balance(
-                session, period_start.year
-            ) + account.balance_movement(session, period_start, start_date)
+            account.opening = account._balance_before(  # pylint: disable=protected-access
+                session, start_date, period_start
+            )
             movement = account.balance_movement(session, start_date, end_date)
             account.closing = account.opening + movement if full_balance else movement
             account.movement = movement * -1  # cashflow statement display
@@ -199,7 +226,7 @@ class Account(IsolatingMixin, Recyclable):
 
     def opening_balance(self, session, year: int = None) -> Decimal:
         """
-        Gets the the opening balance for the account for the given year.
+        Gets the opening balance for the account for the given year.
 
         Args:
             session (Session): The accounting session to which the Account belongs.
@@ -239,7 +266,7 @@ class Account(IsolatingMixin, Recyclable):
 
     def closing_balance(self, session, end_date: datetime = None) -> Decimal:
         """
-        Gets the the closing balance of the Account as at the given date.
+        Gets the closing balance of the Account as at the given date.
 
         Args:
             session (Session): The accounting session to which the Account belongs.
@@ -247,7 +274,7 @@ class Account(IsolatingMixin, Recyclable):
                 amounts to be included in the balance.
 
         Returns:
-            Decimal: The total opening balance of the Account for the year.
+            Decimal: The closing balance of the Account as at the end date.
 
         """
 
@@ -293,9 +320,9 @@ class Account(IsolatingMixin, Recyclable):
                 - closing_balance (Decimal): The balance of the Account at the end of the statement period.
             Schedule.
                 - transactions (list): Outstanding clearable Transactions posted to the Account as at the end date.
-                - total_amount (Decimal): The total amount of the Transactions in the Schdeule.
-                - cleared_amount (Decimal): The amount of the Transactions in the Schdeule that has been cleared.
-                - uncleared_amount (Decimal): The amount of the Transactions in the Schdeule that is still outstanding.
+                - total_amount (Decimal): The total amount of the Transactions in the Schedule.
+                - cleared_amount (Decimal): The amount of the Transactions in the Schedule that has been cleared.
+                - uncleared_amount (Decimal): The amount of the Transactions in the Schedule that is still outstanding.
         """
         # pylint: enable=line-too-long
         from python_accounting.models import (  # pylint: disable=import-outside-toplevel
@@ -325,7 +352,9 @@ class Account(IsolatingMixin, Recyclable):
             }
             if schedule
             else {
-                "opening_balance": self.opening_balance(session, period_start.year),
+                "opening_balance": self._balance_before(
+                    session, start_date, period_start
+                ),
                 "transactions": [],
                 "closing_balance": 0,
             }
@@ -367,7 +396,7 @@ class Account(IsolatingMixin, Recyclable):
                 transactions = transactions.filter(
                     Transaction.transaction_date >= start_date
                 )
-                balance = statement["opening_balance"]
+                balance = statement["closing_balance"] = statement["opening_balance"]
 
             for transaction in list(balances) + list(
                 transactions.order_by(Transaction.transaction_date).distinct()

@@ -5,7 +5,7 @@ The Balance Sheet, also known as the Statement of Financial position shows the f
 - session (Session): The accounting session.
 - end_date (datetime): The latest transaction date for Transaction amounts to be included in the statement.
 
-**Returns** An `BalanceSheet` with:
+**Returns** A `BalanceSheet` with:
 - sections (StrEnum): The sections of the Balance Sheet.
 - results (StrEnum): The results of the Balance Sheet.
 - accounts (dict): The Accounts in the sections of the report, by Account category.
@@ -27,8 +27,8 @@ print(balance_sheet)
 
 Assets
     Non Current Asset                120.0000 
-    Receivables                       70.0000 
     Bank                              50.0000 
+    Receivable                        70.0000 
                               _______________
 Total Assets                         240.0000
 
@@ -44,7 +44,6 @@ Net Assets                           100.0000
                               ===============
 
 Equity
-    Income Statement                 100.0000
                               _______________
 Total Equity                         100.0000
                               ===============

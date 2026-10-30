@@ -35,6 +35,11 @@ class AccountingFunctionsMixin:
 
         if existing:
             self.entity.reporting_period_id = existing.id
+        elif self._year_period(year + 1):
+            # Earlier versions opened this period before it began. Back-dating one
+            # beside it would leave two open, so it is left for
+            # python_accounting.utils.reporting_period_repair to resolve.
+            return
         else:
             # transission the previous period to adjusting status if one exists
             previous_period = self._year_period(year - 1)

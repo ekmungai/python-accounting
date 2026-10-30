@@ -4,3 +4,4 @@ _pycache_
 *.sqlite
 .tox
 dist/
+docs/_build/

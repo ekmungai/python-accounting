@@ -5,9 +5,9 @@ The Trial Balance, compares the closing balances of all accounts in the chart, d
 - session (Session): The accounting session.
 - end_date (datetime): The latest transaction date for Transaction amounts to be included in the statement.
 
-**Returns** An `TrialBalance` with:
-- sections (StrEnum): The sections of the Balance Sheet.
-- results (StrEnum): The results of the Balance Sheet.
+**Returns** A `TrialBalance` with:
+- sections (StrEnum): The sections of the Trial Balance.
+- results (StrEnum): The results of the Trial Balance.
 - accounts (dict): The Accounts in the sections of the report, by Account category.
 - balances (dict): The total balances of the Accounts in the sections of the report, by Account category.
 - totals (dict): The Total balances of Accounts in the sections of the report.
@@ -20,7 +20,7 @@ trial_balance = TrialBalance(session)
 
 print(trial_balance)
 
-                 Test Entity
+               Example Company
                 Trial Balance
  For the period: 01, Jan 2024 to 24, Feb 2024
 
@@ -31,7 +31,7 @@ Income Statement
     Direct Expense                    65.0000
     Overhead Expense                  40.0000
                               _______________
- Total Income Statement             -265.0000
+Total Income Statement              -265.0000
 
 
 Balance Sheet
@@ -45,7 +45,7 @@ Balance Sheet
     Equity                           -77.0000
     Reconciliation                    70.0000
                               _______________
- Total Balance Sheet                 265.0000
+Total Balance Sheet                  265.0000
 
                               _______________
 Total Debits                         871.5000

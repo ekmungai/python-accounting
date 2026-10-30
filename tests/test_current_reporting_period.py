@@ -5,25 +5,11 @@ from python_accounting.models import Account, Currency, Entity, LineItem
 from python_accounting.transactions import CashSale
 
 
-def test_current_period_follows_the_year_start(session, monkeypatch):
+def test_current_period_follows_the_year_start(session, freeze_today):
     """Before the year start month, the current period is the one that began last year"""
 
     year = datetime.now().year
-
-    class FixedDateTime(datetime):
-        @classmethod
-        def now(cls, tz=None):
-            return cls(year, 3, 15, 12, tzinfo=tz)
-
-        @classmethod
-        def today(cls):
-            return cls.now()
-
-    for module in (
-        "python_accounting.database.accounting_functions",
-        "python_accounting.database.event_listeners",
-    ):
-        monkeypatch.setattr(f"{module}.datetime", FixedDateTime)
+    freeze_today(year, 3, 15)
 
     entity = Entity(name="July Year Start", year_start=7)
     session.add(entity)

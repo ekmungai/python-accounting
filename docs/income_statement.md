@@ -36,14 +36,13 @@ Gross Profit                         100.0000
 
 
 Non Operating Revenues
-    Non Operating Revenue              0.0000
                               _______________
 Total Revenue                        100.0000
 
 
 Non Operating Expenses
                               _______________
-Total Expenses                         0.0000
+Total Expenses                              0
 
                               _______________
 Net Profit                           100.0000

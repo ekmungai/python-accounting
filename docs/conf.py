@@ -6,10 +6,16 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import pathlib
+import tomllib
+
+with open(pathlib.Path(__file__).parent.parent / "pyproject.toml", "rb") as f:
+    pyproject = tomllib.load(f)
+
 project = "Python Accounting"
 copyright = "2024, Edward Mungai"
 author = "Edward Mungai"
-release = "0.1.0"
+release = pyproject["project"]["version"]
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -21,11 +21,11 @@ print(schedule.accounts)
 [...]
 print(schedule.balances)
 {
-    'current': Decimal('0'), 
-    '31 - 90 days': Decimal('0'), 
-    '91 - 180 days': Decimal('0'), 
-    '181 - 270 days': Decimal('0'), 
-    '271 - 365 days': Decimal('0'), 
-    '365+ Bad Debts': Decimal('0')
+    'current': 0, 
+    '31 - 90 days': 0, 
+    '91 - 180 days': 0, 
+    '181 - 270 days': 0, 
+    '271 - 365 days': 0, 
+    '365+ (bad debts)': 0
 }
 ```

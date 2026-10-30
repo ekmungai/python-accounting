@@ -9,8 +9,9 @@
 This module provides the configuration for python accounting. Its properties are populated from 
 `config.toml <https://github.com/ekmungai/python-accounting/blob/main/config.toml>`__ by default and 
 should be adequate for most settings, but there are a few methods for overriding the database, 
-hashing and dates configurations. For more extensive custom configurations, you can initialize 
-the class with a custom config.tml file.
+hashing and dates configurations. The library only reads the `config` object defined here, so 
+more extensive custom configurations should change its attributes before the models and reports 
+are imported, rather than create another instance of the class.
 
 """
 import os
