@@ -10,12 +10,20 @@ Represents the Base class for accounting models.
 
 """
 from datetime import datetime
+from sqlalchemy import DateTime
+from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
 
 # pylint: disable=too-few-public-methods
 class Base(DeclarativeBase):
     """The accounting model base class"""
+
+    # MySQL rounds DATETIME to the second by default, which changes the dates that
+    # Ledger hashes are verified against.
+    type_annotation_map = {
+        datetime: DateTime().with_variant(mysql.DATETIME(fsp=6), "mysql", "mariadb")
+    }
 
     id: Mapped[int] = mapped_column(primary_key=True)
     """
@@ -27,7 +35,7 @@ class Base(DeclarativeBase):
     """
     updated_at: Mapped[datetime] = mapped_column(default=datetime.now())
     """
-    update_at (datetime): The time the database record was last modified.
+    updated_at (datetime): The time the database record was last modified.
     """
 
     @declared_attr.directive

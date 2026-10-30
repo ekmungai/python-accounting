@@ -30,7 +30,7 @@ class AgingSchedule:
             91 - 180 days (int): Days in the half year bracket. Defaults to 180.
             181 - 270 days (int): Days in the three quarters bracket. Defaults to 270.
             271 - 365 days (int): Days in the whole year bracket. Defaults to 365.
-            365+ Bad Debts (int): Days in the year plus bracket. Defaults to 1000000000 (infinity).
+            365+ (bad debts) (int): Days in the year plus bracket. Defaults to 1000000000 (infinity).
         }
     
     """
@@ -39,12 +39,12 @@ class AgingSchedule:
     (dict): The total outstanding amounts per age bracket.
     ::
         {
-            current (Decimal): Balances not yet due.
+            current (Decimal): Balances outstanding for up to 30 days.
             31 - 90 days (Decimal): Balances outstanding for up to 90 days.
             91 - 180 days (Decimal): Balances outstanding for up to 180 days.
             181 - 270 days (Decimal): Balances outstanding for up to 270 days.
             271 - 365 days (Decimal): Balances outstanding for up to 365 days.
-            365+ Bad Debts (Decimal): Balances over a year old.
+            365+ (bad debts) (Decimal): Balances over a year old.
         }
     """
     accounts: list

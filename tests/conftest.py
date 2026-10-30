@@ -9,6 +9,31 @@ from python_accounting.config import config
 
 
 @pytest.fixture
+def freeze_today(monkeypatch):
+    """Returns a function that fixes the date the library takes to be today."""
+
+    def freeze(year, month, day):
+        class FixedDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return cls(year, month, day, 12, tzinfo=tz)
+
+            @classmethod
+            def today(cls):
+                return cls.now()
+
+        for module in (
+            "python_accounting.database.accounting_functions",
+            "python_accounting.database.event_listeners",
+            "python_accounting.models.reporting_period",
+            "python_accounting.utils.dates",
+        ):
+            monkeypatch.setattr(f"{module}.datetime", FixedDateTime)
+
+    return freeze
+
+
+@pytest.fixture
 def engine():
     database = config.database
     engine = create_engine(database["url"], echo=database["echo"])

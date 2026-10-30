@@ -67,19 +67,22 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         Args:
             date (`datetime`, optional): The date whose calendar year is
                 to be found. Defaults to the current date.
-            entity (`int`, optional): The Entity for whom the calendar year
-                is to be found. If absent, defaults to the calendar year.
+            entity (`Entity`, optional): The Entity for whom the calendar year
+                is to be found. If absent, the year of the date is returned.
 
         Returns:
             int: The calendar year.
         """
 
-        today = datetime.today()
+        date = date or datetime.today()
         if not entity:
-            return today.year
+            return date.year
 
-        month, year = (date.month, date.year) if date else (today.month, today.year)
-        return year if month >= entity.year_start else year - 1
+        month, year = date.month, date.year
+        # An Entity that has not been flushed yet has no year_start; the
+        # column default is January.
+        year_start = 1 if entity.year_start is None else entity.year_start
+        return year if month >= year_start else year - 1
 
     @staticmethod
     def get_period(session, date: datetime) -> "ReportingPeriod":
@@ -154,18 +157,11 @@ class ReportingPeriod(IsolatingMixin, Recyclable):
         Returns the start and end dates of the Reporting Period.
 
         Args:
-            session (Session): The accounting session to which the Reporting Period
-                 belongs.
-            date (datetime): The date for whose Reporting Period's interval is to
-                be found.
-
-        Raises:
-            MissingReportingPeriodError: If there no Reporting Period exists for the
-                given date.
-
+            date (`datetime`, optional): The date for whose Reporting Period's interval
+                is to be found. Defaults to this Reporting Period.
 
         Returns:
-            ReportingPeriod: The Reporting Period.
+            dict: The start and end datetimes of the Reporting Period.
 
         """
         year = (

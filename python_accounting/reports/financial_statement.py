@@ -22,7 +22,7 @@ class FinancialStatement:
     # pylint: disable=line-too-long
     """This class is an abstract representation of a Financial Statement as defined by IFRS and GAAP."""
 
-    config: dict
+    config: str
     """(str): The configuration section for the report."""
     end_date: datetime
     """(datetime): The latest transaction date for Transaction amounts to be included in the report."""
