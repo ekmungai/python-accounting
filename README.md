@@ -471,6 +471,16 @@ config.configure_hashing(salt="a secret salt")
 config.configure_dates(long="%d %B %Y")
 ```
 
+Amount and quantity columns hold 13 digits, 4 of them decimals, so amounts below one billion. For larger amounts set `amount_precision` (up to 38) in config.toml, or on the config object before importing the models, as the column types are fixed when they are imported. `create_all` does not alter existing tables, so widen their columns yourself:
+
+```python
+from python_accounting.config import config
+
+config.database["amount_precision"] = 28
+
+from python_accounting.models import Base  # import the models after setting it
+```
+
 Name the driver in PostgreSQL URLs, as SQLAlchemy takes a plain `postgresql://` URL to mean psycopg 3 rather than the psycopg2 driver that the library installs.
 
 ## Supported Databases

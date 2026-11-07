@@ -23,7 +23,6 @@ from sqlalchemy import (
     UniqueConstraint,
     inspect,
 )
-from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
 from python_accounting.exceptions import (
@@ -35,6 +34,7 @@ from python_accounting.exceptions import (
     PostedTransactionError,
     InvalidTransactionTypeError,
 )
+from python_accounting.models.base import amount_type
 from python_accounting.models import Recyclable, Account, ReportingPeriod, LineItem
 
 
@@ -67,7 +67,7 @@ class Transaction(IsolatingMixin, Recyclable):
     reference: Mapped[str] = mapped_column(String(255), nullable=True)
     """(`str`, optional): Identifying information about the Transaction."""
     main_account_amount: Mapped[Decimal] = mapped_column(
-        DECIMAL(precision=13, scale=4), default=0
+        amount_type(), default=0
     )
     """
     (`Decimal`, optional): The amount to be posted to the Transaction

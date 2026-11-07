@@ -14,8 +14,8 @@ from decimal import Decimal
 from typing import List, Any
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy import ForeignKey, Boolean, func, String
-from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
+from python_accounting.models.base import amount_type
 from python_accounting.models import Recyclable
 from python_accounting.exceptions import NegativeValueError, HangingTransactionsError
 
@@ -31,9 +31,9 @@ class LineItem(IsolatingMixin, Recyclable):
     """(int): The primary key of the Line Item database record."""
     narration: Mapped[str] = mapped_column(String(1000))
     """(str): A short description of the Line Item's contribution to the Transaction."""
-    quantity: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4), default=1)
+    quantity: Mapped[Decimal] = mapped_column(amount_type(), default=1)
     """(Decimal): The multiple of the Line Item amount to be posted to the Ledger."""
-    amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    amount: Mapped[Decimal] = mapped_column(amount_type())
     """(Decimal): The amount to be posted to the Line Item Account."""
     credited: Mapped[bool] = mapped_column(Boolean, default=False)
     """
