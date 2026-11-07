@@ -12,7 +12,6 @@ that are relevant to accounting.
 """
 from datetime import datetime
 
-from sqlalchemy.orm.session import Session
 from sqlalchemy import event, orm, and_, update
 
 from python_accounting.models import (
@@ -40,9 +39,11 @@ def _filter_options(execute_state, option) -> bool:
 class EventListenersMixin:
     """
     Event Listeners class.
+
+    The session listeners are registered on the accounting session class by
+    `register_listeners`, so that other sessions in the same application are not affected.
     """
 
-    @event.listens_for(Session, "do_orm_execute")
     def _add_filtering_criteria(  # pylint: disable=no-self-argument
         execute_state,
     ) -> None:
@@ -75,7 +76,6 @@ class EventListenersMixin:
                 )
             )
 
-    @event.listens_for(Session, "transient_to_pending")
     def _set_session_entity(self, object_) -> None:
         if not hasattr(self, "entity") or self.entity is None:
             if isinstance(object_, Entity):
@@ -92,7 +92,6 @@ class EventListenersMixin:
         ):
             self._set_reporting_period()
 
-    @event.listens_for(Session, "transient_to_pending")
     def _set_object_index(self, object_) -> None:
         if (isinstance(object_, (Account, Transaction))) and object_.id is None:
             object_.session_index = (
@@ -125,8 +124,30 @@ class EventListenersMixin:
             .values(hash=target.get_hash(connection))
         )
 
-    @event.listens_for(Session, "before_flush")
     def _validate_model(self, _, __) -> None:
         for model in list(self.new) + list(self.dirty):
             if hasattr(model, "validate"):
                 model.validate(self)
+
+
+def register_listeners(session_class) -> None:
+    """
+    Registers the accounting session listeners on the given session class only.
+
+    Args:
+        session_class: The accounting session class.
+
+    Returns:
+        None
+    """
+    # pylint: disable=protected-access
+    event.listen(
+        session_class, "do_orm_execute", EventListenersMixin._add_filtering_criteria
+    )
+    event.listen(
+        session_class, "transient_to_pending", EventListenersMixin._set_session_entity
+    )
+    event.listen(
+        session_class, "transient_to_pending", EventListenersMixin._set_object_index
+    )
+    event.listen(session_class, "before_flush", EventListenersMixin._validate_model)

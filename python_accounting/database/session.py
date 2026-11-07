@@ -14,7 +14,10 @@ from sqlalchemy.orm.session import Session
 from python_accounting.models import Entity
 from python_accounting.database.session_overrides import SessionOverridesMixin
 from python_accounting.database.accounting_functions import AccountingFunctionsMixin
-from python_accounting.database.event_listeners import EventListenersMixin
+from python_accounting.database.event_listeners import (
+    EventListenersMixin,
+    register_listeners,
+)
 
 
 class AccountingSession(
@@ -32,6 +35,9 @@ class AccountingSession(
 
     def __init__(self, bind=None, info=None) -> None:
         super().__init__(bind=bind, info=info)
+
+
+register_listeners(AccountingSession)
 
 
 def get_session(engine) -> Session:
