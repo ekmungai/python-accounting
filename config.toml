@@ -7,6 +7,7 @@ ignore_isolation = false
 [hashing]
 salt = "hashing salt"
 algorithm = "sha256"
+chain = "legacy" # or "entity": each Ledger record chains to the previous one of its Entity
 
 [dates]
 short = "%Y-%m-%d"

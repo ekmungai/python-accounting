@@ -46,6 +46,12 @@ class Config:
         {
             salt (str): The initial value for the ledger hashing. Defaults to 'hashing salt'.
             algorithm (str): The Algorithm to use for encoding the hashes. Defaults to 'sha256'.
+            chain (str): How each Ledger record's hash takes in the one before it. 'legacy' (the
+            default) uses the record whose id is one less, which can be another kind of record, so
+            the chain has gaps. 'entity' uses the previous Ledger record of the same Entity, so
+            changing any Ledger record breaks the verification of every later one. Records verify
+            only under the setting they were hashed with, so choose it before posting the first
+            Transaction and do not change it afterwards.
         }
     """
     dates: dict
@@ -121,16 +127,25 @@ class Config:
         self.database["include_deleted"] = include_deleted
         self.database["ignore_isolation"] = ignore_isolation
 
-    def configure_hashing(self, salt="hashing salt", algorithm="sha256") -> None:
+    def configure_hashing(
+        self, salt="hashing salt", algorithm="sha256", chain="legacy"
+    ) -> None:
         """
         Configures hashing.
 
         Args:
             salt (str): The initial value for the ledger hashing. Defaults to 'hashing salt'.
             algorithm (str): The Algorithm to use for encoding the hashes. Defaults to 'sha256'.
+            chain (str): 'legacy' or 'entity', see `hashing`. Defaults to 'legacy'.
+
+        Raises:
+            ValueError: If the chain is not 'legacy' or 'entity'.
         """
+        if chain not in ("legacy", "entity"):
+            raise ValueError(f"Unknown hashing chain {chain!r}, use 'legacy' or 'entity'.")
         self.hashing["salt"] = salt
         self.hashing["algorithm"] = algorithm
+        self.hashing["chain"] = chain
 
     def configure_dates(self, short="%Y-%m-%d", long="%d, %b %Y") -> None:
         """

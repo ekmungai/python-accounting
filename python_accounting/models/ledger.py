@@ -243,9 +243,19 @@ class Ledger(  # pylint: disable=too-many-instance-attributes
         Returns:
             None
         """
-        last = connection.execute(
-            select(Ledger).where(Ledger.id == self.id - 1)
-        ).fetchone()
+        if config.hashing.get("chain", "legacy") == "entity":
+            # The previous Ledger record of the same Entity.
+            last = connection.execute(
+                select(Ledger.hash)
+                .where(Ledger.entity_id == self.entity_id)
+                .where(Ledger.id < self.id)
+                .order_by(Ledger.id.desc())
+                .limit(1)
+            ).fetchone()
+        else:
+            last = connection.execute(
+                select(Ledger).where(Ledger.id == self.id - 1)
+            ).fetchone()
 
         return getattr(hashlib, config.hashing["algorithm"])(
             ",".join(

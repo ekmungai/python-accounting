@@ -467,9 +467,11 @@ The defaults come from [config.toml](https://github.com/ekmungai/python-accounti
 from python_accounting.config import config
 
 config.configure_database("postgresql+psycopg2://user:password@localhost/accounting")
-config.configure_hashing(salt="a secret salt")
+config.configure_hashing(salt="a secret salt", chain="entity")
 config.configure_dates(long="%d %B %Y")
 ```
+
+`chain="entity"` links each Ledger record's hash to the previous Ledger record of the same Entity, so changing any record breaks the verification of every later one. The default, `"legacy"`, keeps the hashes of earlier versions; records verify only under the setting they were hashed with, so choose it before posting.
 
 Name the driver in PostgreSQL URLs, as SQLAlchemy takes a plain `postgresql://` URL to mean psycopg 3 rather than the psycopg2 driver that the library installs.
 
