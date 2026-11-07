@@ -68,4 +68,4 @@ class AccountingFunctionsMixin:
             self.flush()
 
             self.entity.reporting_period = self._year_period(year)
-        self.commit()
+        self.flush()
