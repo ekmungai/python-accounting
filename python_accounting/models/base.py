@@ -10,7 +10,7 @@ Represents the Base class for accounting models.
 
 """
 from datetime import datetime
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, event
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
@@ -29,11 +29,11 @@ class Base(DeclarativeBase):
     """
     id (int): The primary key of the model database record.
     """
-    created_at: Mapped[datetime] = mapped_column(default=datetime.now())
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now)
     """
     created_at (datetime): The time the database record was created.
     """
-    updated_at: Mapped[datetime] = mapped_column(default=datetime.now())
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.now)
     """
     updated_at (datetime): The time the database record was last modified.
     """
@@ -41,3 +41,14 @@ class Base(DeclarativeBase):
     @declared_attr.directive
     def __tablename__(cls) -> str:  # pylint: disable=no-self-argument
         return cls.__name__.lower()
+
+
+@event.listens_for(Base, "before_update", propagate=True)
+def _set_updated_at(mapper, connection, target) -> None:  # pylint: disable=unused-argument
+    """
+    Records the modification time of an updated model.
+
+    A column `onupdate` is not enough: for models that inherit from Recyclable, `updated_at` is on
+    the recyclable table, which is not updated when only the model's own columns change.
+    """
+    target.updated_at = datetime.now()
