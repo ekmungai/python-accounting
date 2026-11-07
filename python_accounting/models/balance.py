@@ -14,7 +14,7 @@ from decimal import Decimal
 from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum, select
-from sqlalchemy.types import DECIMAL
+from python_accounting.models.base import amount_type
 from python_accounting.models import (
     Recyclable,
     Account,
@@ -61,7 +61,7 @@ class Balance(IsolatingMixin, ClearingMixin, Recyclable):
     """(str): The Transaction number of the Balance Transaction."""
     transaction_type: Mapped[StrEnum] = mapped_column(Enum(BalanceTransactions))
     """(TransactionType): The Transaction type of the Balance Transaction."""
-    amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    amount: Mapped[Decimal] = mapped_column(amount_type())
     """(Decimal): The amount outstanding on the Balance Transaction."""
     balance_type: Mapped[StrEnum] = mapped_column(Enum(BalanceType))
     """(BalanceType): The side of the double entry to post the Balance amount."""

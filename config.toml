@@ -3,6 +3,7 @@ url = "sqlite://"
 echo = false
 include_deleted = false
 ignore_isolation = false
+amount_precision = 13 # digits of amount and quantity columns (4 of them decimals); read when the models are imported
 
 [hashing]
 salt = "hashing salt"

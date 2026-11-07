@@ -16,9 +16,9 @@ from decimal import Decimal
 from enum import StrEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, Enum, select
-from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
 from python_accounting.config import config
+from python_accounting.models.base import amount_type
 from python_accounting.models import Recyclable, Balance, Transaction
 
 
@@ -35,7 +35,7 @@ class Ledger(  # pylint: disable=too-many-instance-attributes
     """(datetime): The date of the Transaction associated with the Ledger."""
     entry_type: Mapped[StrEnum] = mapped_column(Enum(Balance.BalanceType))
     """(BalanceType): The side of the double entry to which the Ledger is posted."""
-    amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    amount: Mapped[Decimal] = mapped_column(amount_type())
     """(Decimal): The amount posted to the Ledger by the entry."""
     hash: Mapped[str] = mapped_column(String(500), nullable=True)
     """(str): The encoded contents of the Ledger entry."""

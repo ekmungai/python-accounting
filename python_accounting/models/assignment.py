@@ -14,8 +14,8 @@ from decimal import Decimal
 from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey, func, String
-from sqlalchemy.types import DECIMAL
 from python_accounting.mixins import IsolatingMixin
+from python_accounting.models.base import amount_type
 from python_accounting.models import Balance, Transaction, Base
 from python_accounting.config import config
 from python_accounting.exceptions import (
@@ -66,7 +66,7 @@ class Assignment(IsolatingMixin, Base):
     """(str): The class name of the clearable Transaction|Balance in the Assignment."""
     assigned_no: Mapped[str] = mapped_column(String(255))
     """(str): The Transaction number of the clearable Transaction|Balance in the Assignment."""
-    amount: Mapped[Decimal] = mapped_column(DECIMAL(precision=13, scale=4))
+    amount: Mapped[Decimal] = mapped_column(amount_type())
     """(Decimal): The amount of the Assignment."""
 
     # relationships
